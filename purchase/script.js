@@ -52,25 +52,40 @@ $(document).ready(function () {
         }).format(amount);
     }
 
+    // Parse currency input
+    function parseCurrency(value) {
+        if (typeof value === 'string') {
+            return parseFloat(value.replace(/[$,]/g, ''));
+        }
+        return value;
+    }
+
     // Calculate mortgage payment
     function calculateMortgagePayment(principal, interestRate, years, months = 0) {
         const totalYears = years + (months / 12);
-        const monthlyRate = interestRate / 100 / 12;
+        // For semi-annual compounding (Canadian standard)
+        const semiAnnualRate = interestRate / 100 / 2;
+        const effectiveMonthlyRate = Math.pow(1 + semiAnnualRate, 2/12) - 1;
         const numberOfPayments = totalYears * 12;
         let monthlyPayment = 0;
 
         if (interestRate === 0) {
             monthlyPayment = principal / numberOfPayments;
         } else {
-            monthlyPayment = principal * monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments) / (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
+            // Using Canadian mortgage formula with semi-annual compounding
+            monthlyPayment = principal * 
+                (effectiveMonthlyRate * Math.pow(1 + effectiveMonthlyRate, numberOfPayments)) / 
+                (Math.pow(1 + effectiveMonthlyRate, numberOfPayments) - 1);
         }
 
-        return monthlyPayment;
+        // Round to 2 decimal places
+        return Math.round(monthlyPayment * 100) / 100;
     }
 
     // Calculate total interest paid over term
     function calculateTotalInterest(principal, interestRate, termYears) {
-        const monthlyRate = interestRate / 100 / 12;
+        const semiAnnualRate = interestRate / 100 / 2;
+        const effectiveMonthlyRate = Math.pow(1 + semiAnnualRate, 2/12) - 1;
         const numberOfPayments = termYears * 12;
         const amortizationYears = parseInt($('#amortization-years').val());
         const amortizationMonths = parseInt($('#amortization-months').val());
@@ -80,33 +95,34 @@ $(document).ready(function () {
         let remainingPrincipal = principal;
 
         for (let i = 0; i < numberOfPayments; i++) {
-            const interestPayment = remainingPrincipal * monthlyRate;
+            const interestPayment = remainingPrincipal * effectiveMonthlyRate;
             const principalPayment = monthlyPayment - interestPayment;
 
             totalInterest += interestPayment;
             remainingPrincipal -= principalPayment;
         }
 
-        return totalInterest;
+        // Round to 2 decimal places
+        return Math.round(totalInterest * 100) / 100;
     }
 
     // Calculate balance at end of term
     function calculateBalanceAtEndOfTerm(principal, interestRate, termYears, amortizationYears, amortizationMonths = 0) {
-        const totalAmortizationYears = amortizationYears + (amortizationMonths / 12);
-        const monthlyRate = interestRate / 100 / 12;
+        const semiAnnualRate = interestRate / 100 / 2;
+        const effectiveMonthlyRate = Math.pow(1 + semiAnnualRate, 2/12) - 1;
         const numberOfPayments = termYears * 12;
         const monthlyPayment = calculateMortgagePayment(principal, interestRate, amortizationYears, amortizationMonths);
 
         let remainingPrincipal = principal;
 
         for (let i = 0; i < numberOfPayments; i++) {
-            const interestPayment = remainingPrincipal * monthlyRate;
+            const interestPayment = remainingPrincipal * effectiveMonthlyRate;
             const principalPayment = monthlyPayment - interestPayment;
-
             remainingPrincipal -= principalPayment;
         }
 
-        return remainingPrincipal;
+        // Round to 2 decimal places
+        return Math.round(remainingPrincipal * 100) / 100;
     }
 
     // Calculate total home expenses
@@ -219,6 +235,40 @@ $(document).ready(function () {
         window.requestAnimationFrame(step);
     }
 
+    // Calculate required income based on GDS and TDS ratios
+    function calculateRequiredIncome() {
+        const mortgagePayment = parseFloat($('.payment-value:eq(0)').text().replace(/[^0-9.-]+/g, ''));
+        const propertyTaxMonthly = parseFloat($('#property-tax-monthly').val().replace(/[^0-9.-]+/g, ''));
+        const condoFees = parseFloat($('#condo-fees').val().replace(/[^0-9.-]+/g, ''));
+        const heatExpense = parseFloat($('#heat-expense').val().replace(/[^0-9.-]+/g, ''));
+        const otherMonthlyExpenses = parseFloat($('#other-monthly-expenses').val().replace(/[^0-9.-]+/g, ''));
+
+        // Calculate total monthly housing costs (PITH)
+        const totalMonthlyHousingCosts = mortgagePayment + propertyTaxMonthly + condoFees + heatExpense;
+
+        // Calculate total monthly debt payments
+        const totalMonthlyDebtPayments = otherMonthlyExpenses;
+
+        // GDS Ratio: PITH should not exceed 39% of gross monthly income
+        const requiredIncomeGDS = (totalMonthlyHousingCosts / 0.39) * 12;
+
+        // TDS Ratio: PITH + debt payments should not exceed 44% of gross monthly income
+        const requiredIncomeTDS = ((totalMonthlyHousingCosts + totalMonthlyDebtPayments) / 0.44) * 12;
+
+        // Use the higher of the two required incomes
+        const requiredIncome = Math.max(requiredIncomeGDS, requiredIncomeTDS);
+
+        // Update the display
+        $('.required-income .result-amount').text(formatCurrency(Math.round(requiredIncome)));
+
+        // Update GDS and TDS displays
+        const actualGDS = (totalMonthlyHousingCosts * 12 / requiredIncome) * 100;
+        const actualTDS = ((totalMonthlyHousingCosts + totalMonthlyDebtPayments) * 12 / requiredIncome) * 100;
+
+        $('.gds-value').text(actualGDS.toFixed(3) + '%');
+        $('.tds-value').text(actualTDS.toFixed(3) + '%');
+    }
+
     // Update calculator results with animations
     function updateCalculator() {
         const purchasePrice = parseFloat($('#purchase-price').val().replace(/[^0-9.-]+/g, ''));
@@ -229,24 +279,65 @@ $(document).ready(function () {
         const amortizationYears = parseInt($('#amortization-years').val());
         const amortizationMonths = parseInt($('#amortization-months').val());
         const homeExpenses = calculateTotalHomeExpenses();
+        const paymentFrequency = $('#payment-frequency').val();
 
         // Calculate mortgage amount (subtract down payment from purchase price)
         const mortgageAmount = purchasePrice - downPayment;
+        
+        // Calculate mortgage insurance if applicable (less than 20% down payment)
+        let insurancePremium = 0;
+        
+        if (downPaymentPercent < 20) {
+            if (downPaymentPercent >= 15) {
+                insurancePremium = mortgageAmount * 0.028;
+            } else if (downPaymentPercent >= 10) {
+                insurancePremium = mortgageAmount * 0.031;
+            } else if (downPaymentPercent >= 5) {
+                insurancePremium = mortgageAmount * 0.04;
+            }
+        }
+        
+        // Total mortgage including insurance
+        const totalMortgage = mortgageAmount + insurancePremium;
 
-        // Calculate monthly payment
-        const monthlyPayment = calculateMortgagePayment(mortgageAmount, interestRate, amortizationYears, amortizationMonths);
+        // Calculate monthly payment based on the total mortgage including insurance
+        let baseMonthlyPayment = calculateMortgagePayment(totalMortgage, interestRate, amortizationYears, amortizationMonths);
+        
+        // Adjust payment based on frequency
+        let paymentAmount = baseMonthlyPayment;
+        let paymentsPerYear = 12;
+        
+        if (paymentFrequency === 'biweekly') {
+            paymentAmount = (baseMonthlyPayment * 12) / 26;
+            paymentsPerYear = 26;
+        } else if (paymentFrequency === 'accelerated') {
+            paymentAmount = (baseMonthlyPayment * 12) / 24;
+            paymentsPerYear = 24;
+        }
 
-        // Calculate total monthly cost
-        const totalMonthlyCost = monthlyPayment + homeExpenses;
-
+        // Calculate total payments over term
+        const totalPayments = termYears * paymentsPerYear;
+        
         // Calculate total interest paid over term
         const totalInterest = calculateTotalInterest(mortgageAmount, interestRate, termYears);
+        
+        // Calculate total principal paid over term
+        const totalPrincipal = (paymentAmount * totalPayments) - totalInterest;
 
         // Calculate balance at end of term
         const balanceAtEndOfTerm = calculateBalanceAtEndOfTerm(mortgageAmount, interestRate, termYears, amortizationYears, amortizationMonths);
 
-        // Calculate closing costs (estimate at 5% of mortgage amount)
-        const closingCosts = mortgageAmount * 0.05;
+        // Calculate total monthly cost
+        const totalMonthlyCost = baseMonthlyPayment + homeExpenses;
+
+        // Calculate land transfer tax based on location and price
+        const currentLocation = $('#location').val();
+        const landTransferTax = calculateLandTransferTax(purchasePrice, currentLocation);
+        
+        // Calculate other closing costs
+        const legalFees = 2000; // Standard estimate
+        const titleInsurance = 300; // Standard estimate
+        const totalClosingCosts = landTransferTax + legalFees + titleInsurance;
 
         // Update UI with animated transitions
 
@@ -264,21 +355,45 @@ $(document).ready(function () {
         // Animate values with appropriate formatting
         // Main values
         animateValue($('.result-amount'), currentTotalCost, Math.round(totalMonthlyCost), animationDuration, false);
-        updateCostBar(monthlyPayment, homeExpenses);
+        updateCostBar(baseMonthlyPayment, homeExpenses);
 
         // Payment details - needs decimal formatting
-        animateValue($('.payment-value:eq(0)'), currentMortgagePayment, monthlyPayment, animationDuration, true);
+        animateValue($('.payment-value:eq(0)'), currentMortgagePayment, paymentAmount, animationDuration, true);
         animateValue($('.payment-value:eq(1)'), currentHomeExpenses, homeExpenses, animationDuration, true);
 
         // Mortgage amount - needs decimal formatting
         animateValue($('#mortgage-tab .totals-value'), currentMortgageAmount, mortgageAmount, animationDuration, true);
 
-        // Closing costs - needs decimal formatting
-        animateValue($('.closing-cost-value:last'), currentMortgageAmount * 0.05, closingCosts, animationDuration, true);
+        // Update mortgage insurance value in the UI if present
+        if ($('#insurance-premium').length) {
+            const currentInsurance = parseFloat($('#insurance-premium').text().replace(/[^0-9.-]+/g, '')) || 0;
+            animateValue($('#insurance-premium'), currentInsurance, insurancePremium, animationDuration, true);
+        } else if ($('.mortgage-insurance .details-value').length) {
+            const currentInsurance = parseFloat($('.mortgage-insurance .details-value').text().replace(/[^0-9.-]+/g, '')) || 0;
+            animateValue($('.mortgage-insurance .details-value'), currentInsurance, insurancePremium, animationDuration, true);
+        }
+
+        // Closing cost values - update all individually
+        const currentLTT = parseFloat($('.closing-cost-value:eq(0)').text().replace(/[^0-9.-]+/g, '')) || 0;
+        const currentLegalFees = parseFloat($('.closing-cost-value:eq(1)').text().replace(/[^0-9.-]+/g, '')) || 0;
+        const currentTitleInsurance = parseFloat($('.closing-cost-value:eq(2)').text().replace(/[^0-9.-]+/g, '')) || 0;
+        const currentClosingTotal = parseFloat($('.closing-cost-value:eq(3)').text().replace(/[^0-9.-]+/g, '')) || 0;
+        
+        animateValue($('.closing-cost-value:eq(0)'), currentLTT, landTransferTax, animationDuration, true);
+        animateValue($('.closing-cost-value:eq(1)'), currentLegalFees, legalFees, animationDuration, true);
+        animateValue($('.closing-cost-value:eq(2)'), currentTitleInsurance, titleInsurance, animationDuration, true);
+        animateValue($('.closing-cost-value:eq(3)'), currentClosingTotal, totalClosingCosts, animationDuration, true);
 
         // Details section - needs decimal formatting
-        animateValue($('.details-value:eq(0)'), currentMortgagePayment, monthlyPayment, animationDuration, true);
+        animateValue($('.details-value:eq(0)'), currentMortgagePayment, paymentAmount, animationDuration, true);
         animateValue($('.details-value:eq(1)'), currentMortgageAmount, mortgageAmount, animationDuration, true);
+        
+        // Update total mortgage including insurance if that field exists
+        if ($('#total-mortgage').length) {
+            const currentTotalMortgage = parseFloat($('#total-mortgage').text().replace(/[^0-9.-]+/g, '')) || 0;
+            animateValue($('#total-mortgage'), currentTotalMortgage, totalMortgage, animationDuration, true);
+        }
+        
         animateValue($('.details-value:eq(3)'), currentTotalInterest, totalInterest, animationDuration, true);
         animateValue($('.details-value:eq(4)'), currentBalance, balanceAtEndOfTerm, animationDuration, true);
 
@@ -289,6 +404,14 @@ $(document).ready(function () {
         setTimeout(function () {
             setupFixedResults();
         }, 1000); // 1 second delay to allow animations to complete
+
+        // Display current location in the UI if there's a location display element
+        if ($('.current-location').length) {
+            $('.current-location').text(currentLocation);
+        }
+
+        // After updating all calculations, calculate required income
+        calculateRequiredIncome();
     }
 
     // Initialize input values
@@ -868,7 +991,7 @@ $(document).ready(function () {
             // Update calculator
             updateCalculator();
         }
-    });
+    }).prop('readonly', false);
 
     // Down Payment Input
     $('#down-payment').on('input', function () {
@@ -913,10 +1036,15 @@ $(document).ready(function () {
         });
     });
 
-    // Handle location input
-    $('#location').on('blur', function () {
+    // Handle location as an input field rather than trying to replace it with a dropdown
+    $('#location').on('change blur', function() {
+        // Get the current value
+        const location = $(this).val();
+        // Store in case we need it for calculations
+        initialValues.location = location;
+        // Update calculator with new location
         updateCalculator();
-    });
+    }).prop('readonly', false);
 
     // Handle download report button
     $('.download-btn').on('click', function () {
@@ -1109,4 +1237,277 @@ $(document).ready(function () {
         // Update calculator
         updateCalculator();
     });
+
+    // Format heat expense input with currency and add monthly indicator
+    $('#heat-expense').closest('.input-group').find('label').text('Heat (Monthly)');
+    $('#heat-expense').on('blur', function () {
+        let value = parseFloat($(this).val().replace(/[^0-9.-]+/g, '')) || 0;
+        $(this).val(formatCurrency(value));
+        updateHeatSliderPosition(value);
+        updateCalculator();
+        calculateRequiredIncome();
+    });
+
+    // Enable manual input for home price and location selection
+    function initializePurchaseInputs() {
+        // We don't need to modify the purchase-price field as it already has event handlers
+        
+        // Handle location as an input field rather than trying to replace it with a dropdown
+        $('#location').val(initialValues.location).on('change blur', function() {
+            // Get the current value
+            const location = $(this).val();
+            // Store in case we need it for calculations
+            initialValues.location = location;
+            // Update calculator with new location
+            updateCalculator();
+        }).prop('readonly', false);
+    }
+
+    // Update minimum down payment based on purchase price
+    function updateDownPaymentMinimum(purchasePrice) {
+        let minDownPayment;
+        if (purchasePrice <= 500000) {
+            minDownPayment = purchasePrice * 0.05;
+        } else if (purchasePrice <= 999999.99) {
+            minDownPayment = (500000 * 0.05) + ((purchasePrice - 500000) * 0.10);
+        } else {
+            minDownPayment = purchasePrice * 0.20;
+        }
+
+        // Update minimum down payment display
+        $('#min-down-payment').text(formatCurrency(minDownPayment));
+        
+        // Adjust current down payment if it's below minimum
+        const currentDownPayment = parseCurrency($('#down-payment').val());
+        if (currentDownPayment < minDownPayment) {
+            $('#down-payment').val(formatCurrency(minDownPayment));
+        }
+        
+        // Update down payment percentage
+        updateDownPaymentPercentage();
+    }
+
+    // Update calculator display
+    function updatePurchaseCalculatorDisplay(results) {
+        $('#mortgage-amount').text(formatCurrency(results.mortgageAmount));
+        $('#insurance-premium').text(formatCurrency(results.insurancePremium));
+        $('#total-mortgage').text(formatCurrency(results.totalMortgage));
+        $('#monthly-payment').text(formatCurrency(results.monthlyPayment));
+        $('#down-payment-percentage').text(results.downPaymentPercentage.toFixed(2) + '%');
+    }
+
+    // Update down payment percentage based on current values
+    function updateDownPaymentPercentage() {
+        const purchasePrice = parseCurrency($('#purchase-price').val());
+        const downPayment = parseCurrency($('#down-payment').val());
+        
+        if (purchasePrice > 0) {
+            const percentage = (downPayment / purchasePrice) * 100;
+            $('#down-payment-percent').val(Math.round(percentage));
+            updateDownPaymentSliderPosition(percentage);
+        }
+    }
+
+    // Initialize calculator
+    $(document).ready(function() {
+        // Initialize inputs and update calculator
+        initializePurchaseInputs();
+        updateCalculator();
+        
+        // Trigger a manual update to ensure location events are properly bound
+        // This helps ensure the UI reflects the correct location-based calculations
+        $('#location').trigger('change');
+    });
+
+    // Calculate Land Transfer Tax based on location and purchase price
+    function calculateLandTransferTax(purchasePrice, location) {
+        let tax = 0;
+        
+        // Default to Ontario if no location specified
+        location = location || 'ON';
+        
+        // Check for Toronto for municipal tax
+        const isInToronto = location.toLowerCase().includes('toronto');
+        
+        // Extract province code if full name is used
+        let provinceCode = 'ON'; // Default
+        
+        if (location.length > 2) {
+            // Try to extract province code from location string
+            const provinces = {
+                'ontario': 'ON',
+                'british columbia': 'BC',
+                'alberta': 'AB',
+                'manitoba': 'MB',
+                'new brunswick': 'NB',
+                'newfoundland': 'NL',
+                'nova scotia': 'NS',
+                'prince edward': 'PE',
+                'quebec': 'QC',
+                'saskatchewan': 'SK',
+                'yukon': 'YT',
+                'northwest': 'NT',
+                'nunavut': 'NU'
+            };
+            
+            // Convert to lowercase for case-insensitive matching
+            const locationLower = location.toLowerCase();
+            
+            // Check for province names in the location string
+            for (const [provinceName, code] of Object.entries(provinces)) {
+                if (locationLower.includes(provinceName)) {
+                    provinceCode = code;
+                    break;
+                }
+            }
+            
+            // Also check for direct province codes at the end (e.g., "Toronto, ON")
+            const parts = location.split(',');
+            if (parts.length > 1) {
+                const potentialCode = parts[parts.length - 1].trim().toUpperCase();
+                if (potentialCode.length === 2 && Object.values(provinces).includes(potentialCode)) {
+                    provinceCode = potentialCode;
+                }
+            }
+        } else if (location.length === 2) {
+            // If it's already a 2-letter code, use it directly
+            provinceCode = location.toUpperCase();
+        }
+        
+        // Calculate based on province
+        switch(provinceCode) {
+            case 'ON': // Ontario
+                if (purchasePrice <= 55000) {
+                    tax = purchasePrice * 0.005;
+                } else if (purchasePrice <= 250000) {
+                    tax = 55000 * 0.005 + (purchasePrice - 55000) * 0.01;
+                } else if (purchasePrice <= 400000) {
+                    tax = 55000 * 0.005 + 195000 * 0.01 + (purchasePrice - 250000) * 0.015;
+                } else if (purchasePrice <= 2000000) {
+                    tax = 55000 * 0.005 + 195000 * 0.01 + 150000 * 0.015 + (purchasePrice - 400000) * 0.02;
+                } else {
+                    tax = 55000 * 0.005 + 195000 * 0.01 + 150000 * 0.015 + 1600000 * 0.02 + (purchasePrice - 2000000) * 0.025;
+                }
+                
+                // Add Toronto Municipal Land Transfer Tax if in Toronto
+                if (isInToronto) {
+                    let torontoTax = 0;
+                    if (purchasePrice <= 55000) {
+                        torontoTax = purchasePrice * 0.005;
+                    } else if (purchasePrice <= 250000) {
+                        torontoTax = 55000 * 0.005 + (purchasePrice - 55000) * 0.01;
+                    } else if (purchasePrice <= 400000) {
+                        torontoTax = 55000 * 0.005 + 195000 * 0.01 + (purchasePrice - 250000) * 0.015;
+                    } else if (purchasePrice <= 2000000) {
+                        torontoTax = 55000 * 0.005 + 195000 * 0.01 + 150000 * 0.015 + (purchasePrice - 400000) * 0.02;
+                    } else {
+                        torontoTax = 55000 * 0.005 + 195000 * 0.01 + 150000 * 0.015 + 1600000 * 0.02 + (purchasePrice - 2000000) * 0.025;
+                    }
+                    tax += torontoTax;
+                }
+                break;
+                
+            case 'BC': // British Columbia
+                if (purchasePrice <= 200000) {
+                    tax = purchasePrice * 0.01;
+                } else if (purchasePrice <= 2000000) {
+                    tax = 200000 * 0.01 + (purchasePrice - 200000) * 0.02;
+                } else if (purchasePrice <= 3000000) {
+                    tax = 200000 * 0.01 + 1800000 * 0.02 + (purchasePrice - 2000000) * 0.03;
+                } else {
+                    tax = 200000 * 0.01 + 1800000 * 0.02 + 1000000 * 0.03 + (purchasePrice - 3000000) * 0.05;
+                }
+                break;
+                
+            case 'AB': // Alberta - no provincial LTT
+                tax = 0;
+                break;
+                
+            case 'SK': // Saskatchewan - no provincial LTT
+                tax = 0;
+                break;
+                
+            case 'MB': // Manitoba - Land Transfer Tax
+                if (purchasePrice <= 30000) {
+                    tax = 0;
+                } else if (purchasePrice <= 90000) {
+                    tax = (purchasePrice - 30000) * 0.005;
+                } else if (purchasePrice <= 150000) {
+                    tax = 60000 * 0.005 + (purchasePrice - 90000) * 0.01;
+                } else if (purchasePrice <= 200000) {
+                    tax = 60000 * 0.005 + 60000 * 0.01 + (purchasePrice - 150000) * 0.015;
+                } else {
+                    tax = 60000 * 0.005 + 60000 * 0.01 + 50000 * 0.015 + (purchasePrice - 200000) * 0.02;
+                }
+                break;
+                
+            case 'QC': // Quebec
+                if (purchasePrice <= 50000) {
+                    tax = purchasePrice * 0.005;
+                } else if (purchasePrice <= 250000) {
+                    tax = 50000 * 0.005 + (purchasePrice - 50000) * 0.01;
+                } else {
+                    tax = 50000 * 0.005 + 200000 * 0.01 + (purchasePrice - 250000) * 0.015;
+                }
+                break;
+                
+            case 'NS': // Nova Scotia
+                tax = purchasePrice * 0.015; // Flat rate
+                break;
+                
+            case 'NB': // New Brunswick
+                tax = purchasePrice * 0.01; // Flat rate
+                break;
+                
+            case 'PE': // Prince Edward Island
+                if (purchasePrice <= 30000) {
+                    tax = 0;
+                } else {
+                    tax = Math.min(purchasePrice * 0.01, 2000);
+                }
+                break;
+                
+            case 'NL': // Newfoundland and Labrador
+                if (purchasePrice <= 500) {
+                    tax = 100;
+                } else if (purchasePrice <= 3000) {
+                    tax = 100;
+                } else if (purchasePrice <= 90000) {
+                    tax = 100 + (purchasePrice - 3000) * 0.004;
+                } else if (purchasePrice <= 255000) {
+                    tax = 100 + 87000 * 0.004 + (purchasePrice - 90000) * 0.006;
+                } else {
+                    tax = 100 + 87000 * 0.004 + 150000 * 0.006 + (purchasePrice - 255000) * 0.008;
+                }
+                break;
+                
+            case 'YT': // Yukon
+                tax = 0; // No land transfer tax
+                break;
+                
+            case 'NT': // Northwest Territories
+                tax = 0; // No land transfer tax
+                break;
+                
+            case 'NU': // Nunavut
+                tax = 0; // No land transfer tax
+                break;
+                
+            default: // Default to Ontario
+                if (purchasePrice <= 55000) {
+                    tax = purchasePrice * 0.005;
+                } else if (purchasePrice <= 250000) {
+                    tax = 55000 * 0.005 + (purchasePrice - 55000) * 0.01;
+                } else if (purchasePrice <= 400000) {
+                    tax = 55000 * 0.005 + 195000 * 0.01 + (purchasePrice - 250000) * 0.015;
+                } else if (purchasePrice <= 2000000) {
+                    tax = 55000 * 0.005 + 195000 * 0.01 + 150000 * 0.015 + (purchasePrice - 400000) * 0.02;
+                } else {
+                    tax = 55000 * 0.005 + 195000 * 0.01 + 150000 * 0.015 + 1600000 * 0.02 + (purchasePrice - 2000000) * 0.025;
+                }
+                break;
+        }
+        
+        return Math.round(tax); // Round to nearest dollar
+    }
 }); 

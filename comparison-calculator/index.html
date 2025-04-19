@@ -1,0 +1,450 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mortgage Comparison Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <a href="../index.html">WEB Calculators</a>
+            </div>
+            <nav class="calculator-tabs">
+                <ul>
+                    <li><a href="../maximum-mortgage/index.html">Maximum Mortgage</a></li>
+                    <li><a href="../closing-costs/index.html">Closing Costs</a></li>
+                    <li class="active"><a href="index.html">Compare Side by Side</a></li>
+                    <li><a href="../purchase/index.html">Purchase</a></li>
+                    <li><a href="../required-income/index.html">Required Income</a></li>
+                    <li><a href="../mortgage-calculator/index.html">Mortgage Calculator</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="calculator-container">
+        <h1>Compare side by side</h1>
+        <div class="create-report-button-top">
+            <button class="create-report">Create a Comparison Report</button>
+        </div>
+
+        <!-- Home Price Section -->
+        <div class="input-section home-price-section">
+            <label for="home-price">HOME PRICE</label>
+            <div class="input-field">
+                <input type="text" id="home-price" value="$500,000">
+            </div>
+        </div>
+
+        <!-- New Scenarios Layout Container -->
+        <div class="all-scenarios-layout">
+
+            <!-- Scenario 1 Panel -->
+            <div class="scenario-panel" data-scenario="1">
+                <!-- Scenario Info Box -->
+                <div class="scenario-box active" data-scenario="1">
+                    <div class="scenario-header">
+                        <div class="star-icon active">★</div>
+                        <h3>Scenario 1</h3>
+                    </div>
+                    <div class="scenario-options">
+                        <div class="option-checkbox">
+                            <input type="checkbox" id="first-time-1" checked>
+                            <label for="first-time-1">First Time Homebuyer</label>
+                        </div>
+                        <div class="option-checkbox">
+                            <input type="checkbox" id="newly-built-1">
+                            <label for="newly-built-1">Newly Built Home</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 1: Mortgage & Amortization -->
+                <div class="scenario-column">
+                    <div class="section-header"><h2>Mortgage</h2></div>
+            <div class="mortgage-box" data-scenario="1">
+                <div class="down-payment">
+                    <label>Down Payment</label>
+                    <div class="dropdown-field">
+                        <select id="down-payment-percentage-1">
+                            <option value="10">10%</option>
+                            <option value="5">5%</option>
+                            <option value="15">15%</option>
+                            <option value="20">20%</option>
+                            <option value="25">25%</option>
+                        </select>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" id="down-payment-1" value="$50,000">
+                    </div>
+                    <div class="apply-button">
+                        <button class="apply-all">Apply to all</button>
+                    </div>
+                </div>
+                <div class="mortgage-insurance">
+                    <span class="insurance-label">+ $13,950 Mortgage Insurance</span>
+                </div>
+                <div class="mortgage-amount">
+                    <label>Mortgage Amount</label>
+                    <span class="amount">$463,950</span>
+                </div>
+            </div>
+
+                    <div class="section-header"><h2>Amortization</h2></div>
+                     <div class="amortization-box" data-scenario="1">
+                        <div class="amortization-years">
+                            <label>Years</label>
+                            <select>
+                                <option value="25">25 Years</option>
+                                <option value="20">20 Years</option>
+                                <option value="30">30 Years</option>
+                            </select>
+                        </div>
+                        <div class="amortization-months">
+                             <label>Months</label>
+                            <select>
+                                <option value="0">0 Month</option>
+                                <option value="1">1 Month</option>
+                                <option value="2">2 Months</option>
+                                <option value="3">3 Months</option>
+                            </select>
+                        </div>
+                        <div class="apply-button">
+                            <button class="apply-all">Apply to all</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2: Term & Payment -->
+                <div class="scenario-column">
+                     <div class="section-header"><h2>Term</h2></div>
+                    <div class="term-box" data-scenario="1">
+                        <div class="rate-section">
+                            <div class="rate-header">
+                                <label>Rate</label>
+                            </div>
+                            <div class="rate-input">
+                                <input type="text" value="5.25%" data-scenario="1">
+                            </div>
+                            <div class="rate-type-selection">
+                                <div class="rate-type-toggle">
+                                    <button class="rate-type-btn active" data-rate-type="fixed" data-scenario="1">Fixed</button>
+                                    <button class="rate-type-btn" data-rate-type="variable" data-scenario="1">Variable</button>
+                                </div>
+                            </div>
+                            <div class="term-selection">
+                                 <label>Term Length</label>
+                                <select class="term-select" data-scenario="1">
+                                    <option value="1">1 Year</option>
+                                    <option value="2">2 Year</option>
+                                    <option value="3">3 Year</option>
+                                    <option value="4">4 Year</option>
+                                    <option value="5" selected>5 Year</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                     <div class="section-header"><h2>Payment</h2></div>
+                    <div class="payment-box" data-scenario="1">
+                        <div class="payment-frequency">
+                            <label>Payment Frequency</label>
+                            <div class="frequency-dropdown">
+                                <select>
+                                    <option value="monthly">Monthly</option>
+                                    <option value="biweekly">Bi-weekly</option>
+                                    <option value="accelerated">Accelerated Bi-weekly</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mortgage-payment">
+                            <div class="payment-header">
+                                <label>MORTGAGE PAYMENT</label>
+                            </div>
+                            <div class="payment-amount">
+                                <span>$2,764.76</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scenario 2 Panel -->
+             <div class="scenario-panel" data-scenario="2">
+                <!-- Scenario Info Box -->
+                 <div class="scenario-box" data-scenario="2">
+                    <div class="scenario-header">
+                        <div class="star-icon">☆</div>
+                        <h3>Scenario 2</h3>
+                    </div>
+                    <div class="scenario-options">
+                        <div class="option-checkbox">
+                            <input type="checkbox" id="first-time-2">
+                            <label for="first-time-2">First Time Homebuyer</label>
+                        </div>
+                        <div class="option-checkbox">
+                            <input type="checkbox" id="newly-built-2">
+                            <label for="newly-built-2">Newly Built Home</label>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Column 1: Mortgage & Amortization -->
+                 <div class="scenario-column">
+                    <div class="section-header"><h2>Mortgage</h2></div>
+            <div class="mortgage-box" data-scenario="2">
+                <div class="down-payment">
+                    <label>Down Payment</label>
+                    <div class="dropdown-field">
+                        <select id="down-payment-percentage-2">
+                            <option value="10">10%</option>
+                            <option value="5">5%</option>
+                            <option value="15">15%</option>
+                            <option value="20">20%</option>
+                            <option value="25">25%</option>
+                        </select>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" id="down-payment-2" value="$50,000">
+                    </div>
+                    <div class="apply-button">
+                        <button class="apply-all">Apply to all</button>
+                    </div>
+                </div>
+                <div class="mortgage-insurance">
+                    <span class="insurance-label">+ $13,950 Mortgage Insurance</span>
+                </div>
+                <div class="mortgage-amount">
+                    <label>Mortgage Amount</label>
+                    <span class="amount">$463,950</span>
+                </div>
+            </div>
+
+                    <div class="section-header"><h2>Amortization</h2></div>
+                     <div class="amortization-box" data-scenario="2">
+                        <div class="amortization-years">
+                             <label>Years</label>
+                            <select>
+                                <option value="25">25 Years</option>
+                                <option value="20">20 Years</option>
+                                <option value="30">30 Years</option>
+                            </select>
+                        </div>
+                        <div class="amortization-months">
+                             <label>Months</label>
+                            <select>
+                                <option value="0">0 Month</option>
+                                <option value="1">1 Month</option>
+                                <option value="2">2 Months</option>
+                                <option value="3">3 Months</option>
+                            </select>
+                        </div>
+                        <div class="apply-button">
+                            <button class="apply-all">Apply to all</button>
+                        </div>
+                    </div>
+                 </div>
+
+                 <!-- Column 2: Term & Payment -->
+                 <div class="scenario-column">
+                    <div class="section-header"><h2>Term</h2></div>
+                    <div class="term-box" data-scenario="2">
+                        <div class="rate-section">
+                            <div class="rate-header">
+                                <label>Rate</label>
+                            </div>
+                            <div class="rate-input">
+                                <input type="text" value="5.25%" data-scenario="2">
+                            </div>
+                            <div class="rate-type-selection">
+                                <div class="rate-type-toggle">
+                                    <button class="rate-type-btn active" data-rate-type="fixed" data-scenario="2">Fixed</button>
+                                    <button class="rate-type-btn" data-rate-type="variable" data-scenario="2">Variable</button>
+                                </div>
+                            </div>
+                            <div class="term-selection">
+                                 <label>Term Length</label>
+                                <select class="term-select" data-scenario="2">
+                                    <option value="1">1 Year</option>
+                                    <option value="2">2 Year</option>
+                                    <option value="3">3 Year</option>
+                                    <option value="4">4 Year</option>
+                                    <option value="5" selected>5 Year</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-header"><h2>Payment</h2></div>
+                    <div class="payment-box" data-scenario="2">
+                        <div class="payment-frequency">
+                            <label>Payment Frequency</label>
+                            <div class="frequency-dropdown">
+                                <select>
+                                    <option value="monthly">Monthly</option>
+                                    <option value="biweekly">Bi-weekly</option>
+                                    <option value="accelerated">Accelerated Bi-weekly</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mortgage-payment">
+                            <div class="payment-header">
+                                <label>MORTGAGE PAYMENT</label>
+                            </div>
+                            <div class="payment-amount">
+                                <span>$2,764.76</span>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+
+            <!-- Scenario 3 Panel -->
+             <div class="scenario-panel" data-scenario="3">
+                <!-- Scenario Info Box -->
+                 <div class="scenario-box" data-scenario="3">
+                    <div class="scenario-header">
+                        <div class="star-icon">☆</div>
+                        <h3>Scenario 3</h3>
+                    </div>
+                    <div class="scenario-options">
+                        <div class="option-checkbox">
+                            <input type="checkbox" id="first-time-3">
+                            <label for="first-time-3">First Time Homebuyer</label>
+                        </div>
+                        <div class="option-checkbox">
+                            <input type="checkbox" id="newly-built-3">
+                            <label for="newly-built-3">Newly Built Home</label>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Column 1: Mortgage & Amortization -->
+                 <div class="scenario-column">
+                    <div class="section-header"><h2>Mortgage</h2></div>
+            <div class="mortgage-box" data-scenario="3">
+                <div class="down-payment">
+                    <label>Down Payment</label>
+                    <div class="dropdown-field">
+                        <select id="down-payment-percentage-3">
+                            <option value="10">10%</option>
+                            <option value="5">5%</option>
+                            <option value="15">15%</option>
+                            <option value="20">20%</option>
+                            <option value="25">25%</option>
+                        </select>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" id="down-payment-3" value="$50,000">
+                    </div>
+                    <div class="apply-button">
+                        <button class="apply-all">Apply to all</button>
+                    </div>
+                </div>
+                <div class="mortgage-insurance">
+                    <span class="insurance-label">+ $13,950 Mortgage Insurance</span>
+                </div>
+                <div class="mortgage-amount">
+                    <label>Mortgage Amount</label>
+                    <span class="amount">$463,950</span>
+            </div>
+        </div>
+
+                    <div class="section-header"><h2>Amortization</h2></div>
+                     <div class="amortization-box" data-scenario="3">
+                    <div class="amortization-years">
+                             <label>Years</label>
+                        <select>
+                            <option value="25">25 Years</option>
+                            <option value="20">20 Years</option>
+                            <option value="30">30 Years</option>
+                        </select>
+                    </div>
+                    <div class="amortization-months">
+                             <label>Months</label>
+                        <select>
+                            <option value="0">0 Month</option>
+                            <option value="1">1 Month</option>
+                            <option value="2">2 Months</option>
+                            <option value="3">3 Months</option>
+                        </select>
+                    </div>
+                    <div class="apply-button">
+                        <button class="apply-all">Apply to all</button>
+                    </div>
+                </div>
+            </div>
+
+                 <!-- Column 2: Term & Payment -->
+                 <div class="scenario-column">
+                    <div class="section-header"><h2>Term</h2></div>
+            <div class="term-box" data-scenario="3">
+                <div class="rate-section">
+                    <div class="rate-header">
+                        <label>Rate</label>
+                    </div>
+                    <div class="rate-input">
+                        <input type="text" value="5.25%" data-scenario="3">
+                    </div>
+                    <div class="rate-type-selection">
+                        <div class="rate-type-toggle">
+                            <button class="rate-type-btn active" data-rate-type="fixed" data-scenario="3">Fixed</button>
+                            <button class="rate-type-btn" data-rate-type="variable" data-scenario="3">Variable</button>
+                        </div>
+                    </div>
+                    <div class="term-selection">
+                                 <label>Term Length</label>
+                        <select class="term-select" data-scenario="3">
+                            <option value="1">1 Year</option>
+                            <option value="2">2 Year</option>
+                            <option value="3">3 Year</option>
+                            <option value="4">4 Year</option>
+                            <option value="5" selected>5 Year</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+                    <div class="section-header"><h2>Payment</h2></div>
+            <div class="payment-box" data-scenario="3">
+                <div class="payment-frequency">
+                    <label>Payment Frequency</label>
+                    <div class="frequency-dropdown">
+                        <select>
+                            <option value="monthly">Monthly</option>
+                            <option value="biweekly">Bi-weekly</option>
+                            <option value="accelerated">Accelerated Bi-weekly</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mortgage-payment">
+                    <div class="payment-header">
+                        <label>MORTGAGE PAYMENT</label>
+                    </div>
+                    <div class="payment-amount">
+                        <span>$2,764.76</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+            </div>
+
+        </div> <!-- End all-scenarios-layout -->
+
+        <div class="create-report-button-bottom">
+            <button class="create-report">Create a Comparison Report</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html> 
