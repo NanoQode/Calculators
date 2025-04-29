@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Affordability Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .calculator-container {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .section {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .section-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        .input-group {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+        .input-label {
+            width: 200px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .input-field {
+            flex: 1;
+            min-width: 200px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .input-note {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+            width: 100%;
+        }
+        .result-section {
+            background-color: #e8f4f8;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            text-align: center;
+        }
+        .result-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .result-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2980b9;
+        }
+        .calculate-btn {
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto;
+            transition: background-color 0.3s;
+        }
+        .calculate-btn:hover {
+            background-color: #3498db;
+        }
+        @media (max-width: 768px) {
+            .input-label {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+            .input-field {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Home Affordability Calculator</h1>
+    
+    <div class="calculator-container">
+        <div class="section">
+            <div class="section-title">Pre-Tax Income</div>
+            
+            <div class="input-group">
+                <label class="input-label">Your Income:</label>
+                <input type="number" id="yourIncome" class="input-field" value="165000">
+                <div class="input-note">Enter your client's total documented income</div>
+            </div>
+            
+            <div class="input-group">
+                <label class="input-label">Co-Applicant Income:</label>
+                <input type="number" id="coApplicantIncome" class="input-field" value="0">
+                <div class="input-note">Enter your client's co-applicant's total documented income</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Credit Information</div>
+            
+            <div class="input-group">
+                <label class="input-label">Credit Score:</label>
+                <input type="number" id="creditScore" class="input-field" value="650">
+                <div class="input-note">Enter your client's beacon</div>
+            </div>
+            
+            <div class="input-group">
+                <label class="input-label">Down Payment:</label>
+                <input type="number" id="downPayment" class="input-field" value="150000">
+                <div class="input-note">Use the $ amount needed for program based qualification</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Mortgage Information</div>
+            
+            <div class="input-group">
+                <label class="input-label">Interest Rate (%):</label>
+                <input type="number" id="interestRate" class="input-field" step="0.0001" value="4.01">
+                <div class="input-note">Enter the normal interest rate (e.g. 4.01 for 4.01%). Calculator automatically stress tests.</div>
+            </div>
+            
+            <div class="input-group">
+                <label class="input-label">Amortization (years):</label>
+                <input type="number" id="amortization" class="input-field" value="25">
+                <div class="input-note">Choose 25 for insured or insurable and 30 for uninsured</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Property Taxes, Heating & Condo Fees</div>
+            
+            <div class="input-group">
+                <label class="input-label">Annual Property Taxes:</label>
+                <input type="number" id="propertyTaxes" class="input-field" value="3000">
+                <div class="input-note">Estimate 0.8% of the purchase price</div>
+            </div>
+            
+            <div class="input-group">
+                <label class="input-label">Heating Costs:</label>
+                <input type="number" id="heatingCosts" class="input-field" value="100">
+                <div class="input-note">Enter $100 for properties under 1,500 sq ft, and $125 for properties over 1,500 sq ft.</div>
+            </div>
+            
+            <div class="input-group">
+                <label class="input-label">Condo Fees:</label>
+                <input type="number" id="condoFees" class="input-field" value="137">
+                <div class="input-note">Enter monthly maintenance or condo fees</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Liability Information</div>
+            
+            <div class="input-group">
+                <label class="input-label">Car Loans:</label>
+                <input type="number" id="carLoans" class="input-field" value="0">
+                <div class="input-note">Per month payment, NOT total loan amount</div>
+            </div>
+            
+            <div class="input-group">
+                <label class="input-label">Student Loans:</label>
+                <input type="number" id="studentLoans" class="input-field" value="0">
+                <div class="input-note">Per month payment, deferral requires statement from OSAP</div>
+            </div>
+            
+            <div class="input-group">
+                <label class="input-label">Credit Card Debt:</label>
+                <input type="number" id="creditCardDebt" class="input-field" value="0">
+                <div class="input-note">Use 3% of balance as monthly payment</div>
+            </div>
+            
+            <div class="input-group">
+                <label class="input-label">Personal Loans/Lines of Credit:</label>
+                <input type="number" id="personalLoans" class="input-field" value="0">
+                <div class="input-note">Use 3% of balance as monthly payment</div>
+            </div>
+        </div>
+        
+        <button id="calculateBtn" class="calculate-btn">Calculate Affordability</button>
+        
+        <div class="result-section">
+            <div class="result-title">Your Home Affordability Is</div>
+            <div id="resultValue" class="result-value">$0</div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('calculateBtn').addEventListener('click', displayResults);
+
+  function calculateAffordability() {
+    // Get input values
+    const yourIncome = parseFloat(document.getElementById('yourIncome').value) || 0;
+    const coApplicantIncome = parseFloat(document.getElementById('coApplicantIncome').value) || 0;
+    const creditScore = parseFloat(document.getElementById('creditScore').value) || 0;
+    const downPayment = parseFloat(document.getElementById('downPayment').value) || 0;
+    const interestRate = parseFloat(document.getElementById('interestRate').value) / 100 || 0;
+    const amortization = parseFloat(document.getElementById('amortization').value) || 25;
+    const propertyTaxes = parseFloat(document.getElementById('propertyTaxes').value) || 0;
+    const heatingCosts = parseFloat(document.getElementById('heatingCosts').value) || 0;
+    const condoFees = parseFloat(document.getElementById('condoFees').value) || 0;
+    const carLoans = parseFloat(document.getElementById('carLoans').value) || 0;
+    const studentLoans = parseFloat(document.getElementById('studentLoans').value) || 0;
+    const creditCardDebt = parseFloat(document.getElementById('creditCardDebt').value) || 0;
+    const personalLoans = parseFloat(document.getElementById('personalLoans').value) || 0;
+
+    // Constants
+    const STRESS_TEST_BENCHMARK_RATE = 0.0525;
+    const amortizationMonths = amortization * 12;
+    
+    // CMHC Premium Rates
+    const cmhcPremiumRates = {
+        '5-9.99': 0.04,
+        '10-14.99': 0.031,
+        '15-19.99': 0.028,
+        '20+': 0
+    };
+
+    // Calculate monthly income
+    const householdMonthlyIncome = (yourIncome + coApplicantIncome) / 12;
+
+    // Calculate stress tested rate
+    const annualStressTestedRate = Math.max(interestRate + 0.02, STRESS_TEST_BENCHMARK_RATE);
+    const monthlyInterestRate = annualStressTestedRate / 12;
+
+    // Calculate maximum purchase price based on down payment
+    let maxPurchaseBasedOnDownPayment;
+    if (downPayment > 199999) {
+        maxPurchaseBasedOnDownPayment = downPayment / 0.2;
+    } else if (downPayment > 75000) {
+        maxPurchaseBasedOnDownPayment = 999999;
+    } else if (downPayment > 25000) {
+        maxPurchaseBasedOnDownPayment = (downPayment / 0.1) + 250000;
+    } else {
+        maxPurchaseBasedOnDownPayment = downPayment / 0.05;
+    }
+
+    // TDS Calculation
+    const tdsRatio = creditScore < 650 ? 0.42 : 0.44;
+    const totalMonthlyLiabilities = carLoans + studentLoans + creditCardDebt + personalLoans;
+    const monthlyPropertyTaxesAndFees = (propertyTaxes / 12) + (0.5 * condoFees);
+    const monthlyHeatingCost = heatingCosts;
+    
+    const maxAllowableTDSPayment = (tdsRatio * householdMonthlyIncome) - 
+                                 (totalMonthlyLiabilities + monthlyPropertyTaxesAndFees + monthlyHeatingCost);
+    
+    // Calculate maximum mortgage amount based on TDS
+    const maxMortgageAmountTDS = (maxAllowableTDSPayment * (1 - Math.pow(1 + monthlyInterestRate, -amortizationMonths))) / monthlyInterestRate;
+    const maxPurchasePriceTDS = maxMortgageAmountTDS + downPayment;
+
+
+    // GDS Calculation
+    const gdsRatio = creditScore < 650 ? 0.36 : 0.39;
+    const maxAllowableGDSPayment = (gdsRatio * householdMonthlyIncome) - 
+                                 (monthlyPropertyTaxesAndFees + monthlyHeatingCost);
+    
+    // Calculate maximum mortgage amount based on GDS
+    const maxMortgageAmountGDS = (maxAllowableGDSPayment * (1 - Math.pow(1 + monthlyInterestRate, -amortizationMonths))) / monthlyInterestRate;
+    const maxPurchasePriceGDS = maxMortgageAmountGDS + downPayment;
+
+    // CMHC Premium Calculations
+    const downPaymentPercentageTDS = downPayment / maxPurchasePriceTDS;
+    const downPaymentPercentageGDS = downPayment / maxPurchasePriceGDS;
+    
+    const getCMHCPremium = (downPaymentPercentage) => {
+        if (downPaymentPercentage >= 0.20) return cmhcPremiumRates['20+'];
+        if (downPaymentPercentage >= 0.15) return cmhcPremiumRates['15-19.99'];
+        if (downPaymentPercentage >= 0.10) return cmhcPremiumRates['10-14.99'];
+        return cmhcPremiumRates['5-9.99'];
+    };
+    
+    const cmhcPremiumRateTDS = getCMHCPremium(downPaymentPercentageTDS);
+    const cmhcPremiumRateGDS = getCMHCPremium(downPaymentPercentageGDS);
+    
+    const cmhcPremiumAmountTDS = cmhcPremiumRateTDS * maxMortgageAmountTDS;
+    const cmhcPremiumAmountGDS = cmhcPremiumRateGDS * maxMortgageAmountGDS;
+    
+    const mortgageWithCMHCTDS = maxMortgageAmountTDS + cmhcPremiumAmountTDS;
+    const mortgageWithCMHCGDS = maxMortgageAmountGDS + cmhcPremiumAmountGDS;
+
+    // Determine affordability limiters
+    const tdsAffordabilityLimiter = maxPurchaseBasedOnDownPayment < maxMortgageAmountTDS ? "Down Payment" : "Income";
+    const gdsAffordabilityLimiter = maxPurchaseBasedOnDownPayment < maxMortgageAmountGDS ? "Down Payment" : "Income";
+
+    // Estimated Home Affordability
+    const estimatedAffordabilityTDS = tdsAffordabilityLimiter === "Down Payment" ? 
+        maxPurchaseBasedOnDownPayment : 
+        ((maxMortgageAmountTDS - cmhcPremiumAmountTDS) + downPayment);
+        
+    const estimatedAffordabilityGDS = gdsAffordabilityLimiter === "Down Payment" ? 
+        maxPurchaseBasedOnDownPayment : 
+        ((maxMortgageAmountGDS - cmhcPremiumAmountGDS) + downPayment);
+
+    // TDS and GDS Home Affordability
+    const tdsHomeAffordability = Math.min(estimatedAffordabilityTDS, maxPurchaseBasedOnDownPayment);
+    const gdsHomeAffordability = Math.min(estimatedAffordabilityGDS, maxPurchaseBasedOnDownPayment);
+
+    // Final home affordability
+    const finalHomeAffordability = Math.min(tdsHomeAffordability, gdsHomeAffordability);
+
+
+
+    // Return all results
+    return {
+        // Basic calculations
+        householdMonthlyIncome,
+        annualStressTestedRate,
+        maxPurchaseBasedOnDownPayment,
+        
+        // TDS results
+        tdsRatio,
+        maxAllowableTDSPayment,
+        maxMortgageAmountTDS,
+        maxPurchasePriceTDS,
+        mortgageWithoutCMHCTDS: maxMortgageAmountTDS - cmhcPremiumAmountTDS,
+        estimatedAffordabilityTDS,
+        tdsHomeAffordability,
+        tdsAffordabilityLimiter,
+        
+        // GDS results
+        gdsRatio,
+        maxAllowableGDSPayment,
+        maxMortgageAmountGDS,
+        maxPurchasePriceGDS,
+        mortgageWithoutCMHCGDS: maxMortgageAmountGDS - cmhcPremiumAmountGDS,
+        estimatedAffordabilityGDS,
+        gdsHomeAffordability,
+        gdsAffordabilityLimiter,
+        
+        // CMHC results
+        downPaymentPercentageTDS,
+        downPaymentPercentageGDS,
+        cmhcPremiumRateTDS,
+        cmhcPremiumRateGDS,
+        cmhcPremiumAmountTDS,
+        cmhcPremiumAmountGDS,
+        mortgageWithCMHCTDS,
+        mortgageWithCMHCGDS,
+        
+        // Final result
+        finalHomeAffordability
+    };
+}
+
+
+function displayResults() {
+    const results = calculateAffordability();
+    console.log('results', results);
+    document.getElementById('resultValue').textContent = '$' + Math.round(results.finalHomeAffordability).toLocaleString();
+
+    
+}
+
+
+window.addEventListener('load', displayResults);
+// Example usage:
+
+
+    </script>
+</body>
+</html>
