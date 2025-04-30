@@ -389,13 +389,13 @@ const monthlyMortgagePayment = ((interestRate/12) * (maxMortgageAmountGDS - cmhc
 
         // Final home affordability
         const finalHomeAffordability = Math.min(tdsHomeAffordability, gdsHomeAffordability);
-document.getElementById('resultValue').textContent = '$' + Math.round(finalHomeAffordability).toLocaleString();
-    document.getElementById('gdsValue').textContent = gdsRatio*100+'% / '+tdsRatio*100+'%';
-    document.getElementById('tdsValue').textContent = tdsRatio*100+'%';
-    document.getElementById('stressValue').textContent = annualStressTestedRate*100+'%';
-    document.getElementById('monthtlyMortgageValue').textContent = '$'+Math.round(monthlyMortgagePayment);
-    document.getElementById('cashLeft').textContent = '$'+Math.round(cashLeft).toLocaleString();
-    document.getElementById('homeExpenses').textContent = '$'+Math.round(homeExpenses).toLocaleString();
+        document.getElementById('resultValue').textContent = '$' + Math.round(finalHomeAffordability).toLocaleString();
+        document.getElementById('gdsValue').textContent = gdsRatio*100+'% / '+tdsRatio*100+'%';
+        document.getElementById('tdsValue').textContent = tdsRatio*100+'%';
+        document.getElementById('stressValue').textContent = annualStressTestedRate*100+'%';
+        document.getElementById('monthtlyMortgageValue').textContent = '$'+Math.round(monthlyMortgagePayment);
+        document.getElementById('cashLeft').textContent = '$'+Math.round(cashLeft).toLocaleString();
+        document.getElementById('homeExpenses').textContent = '$'+Math.round(homeExpenses).toLocaleString();
 
 
         // Return all results
@@ -445,10 +445,14 @@ document.getElementById('resultValue').textContent = '$' + Math.round(finalHomeA
 function displayResults() {
     const results = updateCalculator();
     console.log('results', results);
-    document.getElementById('resultValue').textContent = '$' + Math.round(results.finalHomeAffordability).toLocaleString();
-    document.getElementById('gdsValue').textContent = results.gdsRatio*100+'%';
-    document.getElementById('tdsValue').textContent = results.tdsRatio*100+'%';
-    document.getElementById('stressValue').textContent = results.annualStressTestedRate;
+   
+     document.getElementById('resultValue').textContent = '$' + Math.round(results.finalHomeAffordability).toLocaleString();
+        document.getElementById('gdsValue').textContent = results.gdsRatio*100+'% / '+results.tdsRatio*100+'%';
+        document.getElementById('tdsValue').textContent = results.tdsRatio*100+'%';
+        document.getElementById('stressValue').textContent = results.annualStressTestedRate*100+'%';
+        document.getElementById('monthtlyMortgageValue').textContent = '$'+Math.round(results.monthlyMortgagePayment);
+        document.getElementById('cashLeft').textContent = '$'+Math.round(results.cashLeft).toLocaleString();
+        document.getElementById('homeExpenses').textContent = '$'+Math.round(results.homeExpenses).toLocaleString();
 
 }
 
