@@ -15,8 +15,8 @@ $(document).ready(function () {
 
     // Initial values
     const initialValues = {
-        grossIncome: 90000,
-        interestRate: 6.29,
+        grossIncome: 165000,
+        interestRate: 4.01,
         amortizationYears: 25,
         propertyTaxMonthly: 833.33,
         propertyTaxYearly: 10000,
@@ -33,7 +33,7 @@ $(document).ready(function () {
     };
 
     // Slider ranges
-    const minIncome = 30000;
+    const minIncome = 0;
     const maxIncome = 500000;
     const minInterestRate = 1;
     const maxInterestRate = 10;
@@ -131,11 +131,12 @@ $(document).ready(function () {
 
     // Calculate home expenses
     function calculateTotalHomeExpenses() {
-        const propertyTaxMonthly = parseFloat($('#property-tax-monthly').val().replace(/[^0-9.-]+/g, '')) || 0;
-        const condoFees = parseFloat($('#condo-fees').val().replace(/[^0-9.-]+/g, '')) || 0;
-        const heatExpense = parseFloat($('#heat-expense').val().replace(/[^0-9.-]+/g, '')) || 0;
+        const propertyTaxMonthly = parseFloat($('#propertyTaxes').val().replace(/[^0-9.-]+/g, '')) || 0;
+        const condoFees = parseFloat($('#condoFees').val().replace(/[^0-9.-]+/g, '')) || 0;
+        const heatExpense = parseFloat($('#heatingCosts').val().replace(/[^0-9.-]+/g, '')) || 0;
 
-        return propertyTaxMonthly + condoFees + heatExpense;
+        return (propertyTaxMonthly/12) + condoFees + heatExpense;
+
     }
 
     // Animation function for smooth transitions between values
@@ -245,72 +246,214 @@ $(document).ready(function () {
         // Update calculator
         updateCalculator();
     }
+        document.getElementById('calculateBtn').addEventListener('click', displayResults);
 
     // Update calculator with current values
     function updateCalculator() {
-        const grossIncome = parseFloat($('#gross-income').val().replace(/[^0-9.-]+/g, '')) || 0;
-        const interestRate = parseFloat($('#rate-input').val().replace(/[^0-9.-]+/g, '')) || 0;
-        const amortizationYears = parseInt($('#amortization-years').val()) || 25;
+
+    // Get input values
+        const yourIncome = parseFloat($('#yourIncome').val().replace(/[^0-9.-]+/g, '')) || 0;
+        const interestRate = parseFloat($('#interestRate').val().replace(/[^0-9.-]+/g, '')/100) || 0;
+        const amortization = parseInt($('#amortization').val()) || 25;
         const homeExpenses = calculateTotalHomeExpenses();
         const stressTestRate = interestRate + 2; // 2% higher for stress test
-        const affordabilityLevel = 0.5; // Default to standard affordability
+     
+      
+        const coApplicantIncome = parseFloat(document.getElementById('coApplicantIncome').value.replace(/[^0-9.-]+/g, '')) || 0;
+        const creditScore = parseFloat(document.getElementById('creditScore').value.replace(/[^0-9.-]+/g, '')) || 0;
+        const downPayment = parseFloat(document.getElementById('downPayment').value.replace(/[^0-9.-]+/g, '')) || 0;
+        const propertyTaxes = parseFloat(document.getElementById('propertyTaxes').value.replace(/[^0-9.-]+/g, '')) || 0;
+        const heatingCosts = parseFloat(document.getElementById('heatingCosts').value.replace(/[^0-9.-]+/g, '')) || 0;
+        const condoFees = parseFloat(document.getElementById('condoFees').value.replace(/[^0-9.-]+/g, '')) || 0;
+        const carLoans = parseFloat(document.getElementById('carLoans').value.replace(/[^0-9.-]+/g, '')) || 0;
+        const studentLoans = parseFloat(document.getElementById('studentLoans').value.replace(/[^0-9.-]+/g, '')) || 0;
+        const creditCardDebt = parseFloat(document.getElementById('creditCardDebt').value.replace(/[^0-9.-]+/g, '')) || 0;
+        const personalLoans = parseFloat(document.getElementById('personalLoans').value.replace(/[^0-9.-]+/g, '')) || 0;
 
-        // Calculate GDS/TDS ratios based on affordability level
-        const gdsLimit = cautiousGDSLimit + (affordabilityLevel * (standardGDSLimit - cautiousGDSLimit));
-        const tdsLimit = cautiousTDSLimit + (affordabilityLevel * (standardTDSLimit - cautiousTDSLimit));
+        const inputArray = [yourIncome,
+                            interestRate,
+                            amortization,
+                            homeExpenses,
+                            stressTestRate,
+                            coApplicantIncome,
+                            creditScore,
+                            downPayment,
+                            propertyTaxes,
+                            heatingCosts,
+                            condoFees,
+                            carLoans,
+                            studentLoans,
+                            creditCardDebt,
+                            personalLoans
+                        ];
+        console.log('inputArray', inputArray);
+        // Constants
+        const STRESS_TEST_BENCHMARK_RATE = 0.0525;
+        const amortizationMonths = amortization * 12;
+    
+    // CMHC Premium Rates
+        const cmhcPremiumRates = {
+            '5-9.99': 0.04,
+            '10-14.99': 0.031,
+            '15-19.99': 0.028,
+            '20+': 0
+        };
 
-        // Calculate maximum mortgage
-        const maxMortgage = calculateMaximumMortgage(
-            grossIncome, 
-            interestRate, 
-            amortizationYears, 
-            0, // No months anymore
-            homeExpenses, 
-            affordabilityLevel
-        );
+        // Calculate monthly income
+        const householdMonthlyIncome = (yourIncome + coApplicantIncome) / 12;
 
-        // Calculate monthly payment at regular interest rate
-        const monthlyPayment = calculateMortgagePayment(
-            maxMortgage, 
-            interestRate, 
-            amortizationYears, 
-            0 // No months anymore
-        );
+        // Calculate stress tested rate
+        const annualStressTestedRate = Math.max(interestRate + 0.02, STRESS_TEST_BENCHMARK_RATE);
+        const monthlyInterestRate = annualStressTestedRate / 12;
 
-        // Calculate cash left (after all expenses) - using regular payment instead of stress test
-        const monthlyIncome = grossIncome / 12;
-        const cashLeft = monthlyIncome - monthlyPayment - homeExpenses;
+        // Calculate maximum purchase price based on down payment
+        let maxPurchaseBasedOnDownPayment;
+        if (downPayment > 199999) {
+            maxPurchaseBasedOnDownPayment = downPayment / 0.2;
+        } else if (downPayment > 75000) {
+            maxPurchaseBasedOnDownPayment = 999999;
+        } else if (downPayment > 25000) {
+            maxPurchaseBasedOnDownPayment = (downPayment / 0.1) + 250000;
+        } else {
+            maxPurchaseBasedOnDownPayment = downPayment / 0.05;
+        }
 
-        // Get current values for animation
-        const currentMaxMortgage = parseFloat($('.result-amount').text().replace(/[^0-9.-]+/g, '')) || 0;
-        const currentMonthlyPayment = parseFloat($('.payment-value:eq(0)').text().replace(/[^0-9.-]+/g, '')) || 0;
-        const currentHomeExpenses = parseFloat($('.payment-value:eq(1)').text().replace(/[^0-9.-]+/g, '')) || 0;
-        const currentCashLeft = parseFloat($('.payment-value:eq(2)').text().replace(/[^0-9.-]+/g, '')) || 0;
+        // TDS Calculation
+        const tdsRatio = creditScore < 650 ? 0.42 : 0.44;
+        const totalMonthlyLiabilities = carLoans + studentLoans + creditCardDebt + personalLoans;
 
-        // Animation duration in milliseconds
-        const animationDuration = 800;
-
-        // Animate values with appropriate formatting
-        animateValue($('.result-amount'), currentMaxMortgage, maxMortgage, animationDuration, false);
-        animateValue($('.payment-value:eq(0)'), currentMonthlyPayment, monthlyPayment, animationDuration, true);
-        animateValue($('.payment-value:eq(1)'), currentHomeExpenses, homeExpenses, animationDuration, true);
-        animateValue($('.payment-value:eq(2)'), currentCashLeft, cashLeft, animationDuration, true);
-
-        // Update GDS/TDS ratio display
-        $('.ratio-value:eq(1)').text(gdsLimit.toFixed(2) + '% / ' + tdsLimit.toFixed(2) + '%');
+        const cashLeft = (yourIncome/12) - homeExpenses - totalMonthlyLiabilities;
+        const monthlyPropertyTaxesAndFees = (propertyTaxes / 12) + (0.5 * condoFees);
+        const monthlyHeatingCost = heatingCosts;
         
-        // Update stress test rate display
-        $('.ratio-value:eq(0)').text(stressTestRate.toFixed(2) + '%');
+        const maxAllowableTDSPayment = (tdsRatio * householdMonthlyIncome) - 
+                                     (totalMonthlyLiabilities + monthlyPropertyTaxesAndFees + monthlyHeatingCost);
         
-        // Update the colored bar
-        updateColoredBar(
-            Math.round(monthlyPayment), 
-            0, // No debt payments
-            Math.round(homeExpenses), 
-            Math.round(cashLeft)
-        );
+        // Calculate maximum mortgage amount based on TDS
+        const maxMortgageAmountTDS = (maxAllowableTDSPayment * (1 - Math.pow(1 + monthlyInterestRate, -amortizationMonths))) / monthlyInterestRate;
+        const maxPurchasePriceTDS = maxMortgageAmountTDS + downPayment;
+
+
+        // GDS Calculation
+        const gdsRatio = creditScore < 650 ? 0.36 : 0.39;
+        const maxAllowableGDSPayment = (gdsRatio * householdMonthlyIncome) - 
+                                     (monthlyPropertyTaxesAndFees + monthlyHeatingCost);
+        
+        // Calculate maximum mortgage amount based on GDS
+        const maxMortgageAmountGDS = (maxAllowableGDSPayment * (1 - Math.pow(1 + monthlyInterestRate, -amortizationMonths))) / monthlyInterestRate;
+        const maxPurchasePriceGDS = maxMortgageAmountGDS + downPayment;
+
+        // CMHC Premium Calculations
+        const downPaymentPercentageTDS = downPayment / maxPurchasePriceTDS;
+        const downPaymentPercentageGDS = downPayment / maxPurchasePriceGDS;
+        
+        const getCMHCPremium = (downPaymentPercentage) => {
+            if (downPaymentPercentage >= 0.20) return cmhcPremiumRates['20+'];
+            if (downPaymentPercentage >= 0.15) return cmhcPremiumRates['15-19.99'];
+            if (downPaymentPercentage >= 0.10) return cmhcPremiumRates['10-14.99'];
+            return cmhcPremiumRates['5-9.99'];
+        };
+        
+        const cmhcPremiumRateTDS = getCMHCPremium(downPaymentPercentageTDS);
+        const cmhcPremiumRateGDS = getCMHCPremium(downPaymentPercentageGDS);
+        
+        const cmhcPremiumAmountTDS = cmhcPremiumRateTDS * maxMortgageAmountTDS;
+        const cmhcPremiumAmountGDS = cmhcPremiumRateGDS * maxMortgageAmountGDS;
+        
+        const mortgageWithCMHCTDS = maxMortgageAmountTDS + cmhcPremiumAmountTDS;
+        const mortgageWithCMHCGDS = maxMortgageAmountGDS + cmhcPremiumAmountGDS;
+
+        // Determine affordability limiters
+        const tdsAffordabilityLimiter = maxPurchaseBasedOnDownPayment < maxMortgageAmountTDS ? "Down Payment" : "Income";
+        const gdsAffordabilityLimiter = maxPurchaseBasedOnDownPayment < maxMortgageAmountGDS ? "Down Payment" : "Income";
+
+        // Estimated Home Affordability
+        const estimatedAffordabilityTDS = tdsAffordabilityLimiter === "Down Payment" ? 
+            maxPurchaseBasedOnDownPayment : 
+            ((maxMortgageAmountTDS - cmhcPremiumAmountTDS) + downPayment);
+            
+        const estimatedAffordabilityGDS = gdsAffordabilityLimiter === "Down Payment" ? 
+            maxPurchaseBasedOnDownPayment : 
+            ((maxMortgageAmountGDS - cmhcPremiumAmountGDS) + downPayment);
+
+        // TDS and GDS Home Affordability
+        const tdsHomeAffordability = Math.min(estimatedAffordabilityTDS, maxPurchaseBasedOnDownPayment);
+        const gdsHomeAffordability = Math.min(estimatedAffordabilityGDS, maxPurchaseBasedOnDownPayment);
+
+        // Monthly mortgage payment using GDS max mortgage
+        // Use actual interest rate for monthly payment
+
+// Then calculate monthly mortgage payment correctly
+const monthlyMortgagePayment = ((interestRate/12) * (maxMortgageAmountGDS - cmhcPremiumAmountGDS)) /
+                               (1 - Math.pow(1 + (interestRate/12), -amortizationMonths));
+
+        // Final home affordability
+        const finalHomeAffordability = Math.min(tdsHomeAffordability, gdsHomeAffordability);
+document.getElementById('resultValue').textContent = '$' + Math.round(finalHomeAffordability).toLocaleString();
+    document.getElementById('gdsValue').textContent = gdsRatio*100+'% / '+tdsRatio*100+'%';
+    document.getElementById('tdsValue').textContent = tdsRatio*100+'%';
+    document.getElementById('stressValue').textContent = annualStressTestedRate*100+'%';
+    document.getElementById('monthtlyMortgageValue').textContent = '$'+Math.round(monthlyMortgagePayment);
+    document.getElementById('cashLeft').textContent = '$'+Math.round(cashLeft).toLocaleString();
+    document.getElementById('homeExpenses').textContent = '$'+Math.round(homeExpenses).toLocaleString();
+
+
+        // Return all results
+        return {
+            // Basic calculations
+            householdMonthlyIncome,
+            annualStressTestedRate,
+            maxPurchaseBasedOnDownPayment,
+            homeExpenses,
+            monthlyMortgagePayment: Math.round(monthlyMortgagePayment),
+            cashLeft,
+            // TDS results
+            tdsRatio,
+            maxAllowableTDSPayment,
+            maxMortgageAmountTDS,
+            maxPurchasePriceTDS,
+            mortgageWithoutCMHCTDS: maxMortgageAmountTDS - cmhcPremiumAmountTDS,
+            estimatedAffordabilityTDS,
+            tdsHomeAffordability,
+            tdsAffordabilityLimiter,
+            
+            // GDS results
+            gdsRatio,
+            maxAllowableGDSPayment,
+            maxMortgageAmountGDS,
+            maxPurchasePriceGDS,
+            mortgageWithoutCMHCGDS: maxMortgageAmountGDS - cmhcPremiumAmountGDS,
+            estimatedAffordabilityGDS,
+            gdsHomeAffordability,
+            gdsAffordabilityLimiter,
+            
+            // CMHC results
+            downPaymentPercentageTDS,
+            downPaymentPercentageGDS,
+            cmhcPremiumRateTDS,
+            cmhcPremiumRateGDS,
+            cmhcPremiumAmountTDS,
+            cmhcPremiumAmountGDS,
+            mortgageWithCMHCTDS,
+            mortgageWithCMHCGDS,
+      
+            // Final result
+            finalHomeAffordability
+        };
+
     }
+function displayResults() {
+    const results = updateCalculator();
+    console.log('results', results);
+    document.getElementById('resultValue').textContent = '$' + Math.round(results.finalHomeAffordability).toLocaleString();
+    document.getElementById('gdsValue').textContent = results.gdsRatio*100+'%';
+    document.getElementById('tdsValue').textContent = results.tdsRatio*100+'%';
+    document.getElementById('stressValue').textContent = results.annualStressTestedRate;
 
+}
+
+
+window.addEventListener('load', displayResults);
     // Update the colored bar in the results section
     function updateColoredBar(mortgage, debt, expenses, cash) {
         const total = mortgage + debt + expenses + cash;
@@ -324,8 +467,8 @@ $(document).ready(function () {
     // Initialize all inputs and sliders
     function initializeInputs() {
         // Set initial input values
-        $('#gross-income').val(formatCurrency(initialValues.grossIncome));
-        $('#rate-input').val(initialValues.interestRate.toFixed(2) + '%');
+        $('#yourIncome').val(formatCurrency(initialValues.grossIncome));
+        $('#coApplicantIncome').val('$'+0);
         $('#property-tax-monthly').val(formatCurrency(initialValues.propertyTaxMonthly));
         $('#property-tax-yearly').val(formatCurrency(initialValues.propertyTaxYearly));
         $('#condo-fees').val(formatCurrency(initialValues.condoFees));
@@ -337,7 +480,7 @@ $(document).ready(function () {
     function initializeSliders() {
         // Set initial slider positions based on starting values
         updateIncomeSliderPosition(initialValues.grossIncome);
-        updateRateSliderPosition(initialValues.interestRate);
+        updateRateSliderPosition(0);
         updatePropertyTaxSliderPosition(initialValues.propertyTaxYearly);
         updateCondoFeesSliderPosition(initialValues.condoFees);
         updateHeatSliderPosition(initialValues.heatExpense);
@@ -375,7 +518,7 @@ $(document).ready(function () {
         const newIncome = Math.round((minIncome + (maxIncome - minIncome) * percentage) / 1000) * 1000;
 
         // Update income input
-        $('#gross-income').val(formatCurrency(newIncome));
+        $('#yourIncome').val(formatCurrency(newIncome));
 
         // Update calculator
         updateCalculator();
@@ -384,7 +527,7 @@ $(document).ready(function () {
     // Interest Rate Slider Interaction
     function handleRateSliderInteraction(e) {
         const sliderElement = $('.rate-slider');
-        const sliderWidth = sliderElement.width();
+       const sliderWidth = sliderElement.width();
         let clickPosition = e.pageX - sliderElement.offset().left;
 
         // Constrain within the slider bounds
@@ -396,11 +539,11 @@ $(document).ready(function () {
         $('.rate-slider .slider-track').css('width', (percentage * 100) + '%');
         $('.rate-slider .slider-thumb').css('left', (percentage * 100) + '%');
 
-        // Calculate new rate based on slider position
-        const newRate = (minInterestRate + (maxInterestRate - minInterestRate) * percentage).toFixed(2);
+        // Calculate new income based on slider position
+        const newIncome = Math.round((minIncome + (maxIncome - minIncome) * percentage) / 1000) * 1000;
 
-        // Update rate input
-        $('#rate-input').val(newRate + '%');
+        // Update income input
+        $('#coApplicantIncome').val(formatCurrency(newIncome));
 
         // Update calculator
         updateCalculator();
@@ -543,26 +686,19 @@ $(document).ready(function () {
     });
 
     // Handle input changes
-    $('#gross-income').on('input', function() {
+    $('#downPayment, #heatingCosts, #propertyTaxes, #condoFees, #carLoans, #studentLoans, #creditCardDebt, #personalLoans').on('input', function() {
         let value = $(this).val().replace(/[^0-9]/g, '');
-        if (value) {
-            value = parseInt(value);
-            value = Math.max(minIncome, Math.min(value, maxIncome));
-            updateIncomeSliderPosition(value);
+         updateIncomeSliderPosition(value);
             $(this).val(formatCurrency(value));
             updateCalculator();
-        }
+       
     });
 
-    $('#rate-input').on('input', function() {
+    $('#interestRate').on('input', function() {
         let value = $(this).val().replace(/[^0-9.-]+/g, '');
-        if (value) {
-            value = parseFloat(value);
-            value = Math.max(minInterestRate, Math.min(value, maxInterestRate));
-            updateRateSliderPosition(value);
-            $(this).val(value.toFixed(2) + '%');
+        updateRateSliderPosition(value);
+            // $(this).val(value.toFixed(2) + '%');
             updateCalculator();
-        }
     });
 
     $('#property-tax-yearly').on('input', function() {

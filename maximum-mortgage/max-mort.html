@@ -207,9 +207,32 @@
         <button id="calculateBtn" class="calculate-btn">Calculate Affordability</button>
         
         <div class="result-section">
+
             <div class="result-title">Your Home Affordability Is</div>
             <div id="resultValue" class="result-value">$0</div>
+
+            <div class="result-title">GDS</div>
+            <div id="gdsValue" class="result-value">$0</div>
+
+            <div class="result-title">TDS</div>
+            <div id="tdsValue" class="result-value">$0</div>
+
+            <div class="result-title">Stress Test Rate</div>
+            <div id="stressValue" class="result-value">$0</div> 
+
+            <div class="result-title">Monthly Mortgage</div>
+            <div id="monthlyMortValue" class="result-value">$0</div>
+
+            <div class="result-title">Home Expenses</div>
+            <div id="homeExpValue" class="result-value">$0</div>
+
+            <div class="result-title">Cash Left (Stress)</div>
+            <div id="cashLeftExpValue" class="result-value">$0</div>
+
+
+
         </div>
+
     </div>
 
     <script>
@@ -230,6 +253,21 @@
     const studentLoans = parseFloat(document.getElementById('studentLoans').value) || 0;
     const creditCardDebt = parseFloat(document.getElementById('creditCardDebt').value) || 0;
     const personalLoans = parseFloat(document.getElementById('personalLoans').value) || 0;
+
+            const inputArray = [yourIncome,
+interestRate,
+amortization,
+coApplicantIncome,
+creditScore,
+downPayment,
+propertyTaxes,
+heatingCosts,
+condoFees,
+carLoans,
+studentLoans,
+creditCardDebt,
+personalLoans];
+console.log('inputArray', inputArray);
 
     // Constants
     const STRESS_TEST_BENCHMARK_RATE = 0.0525;
@@ -363,7 +401,7 @@
         cmhcPremiumAmountGDS,
         mortgageWithCMHCTDS,
         mortgageWithCMHCGDS,
-        
+  
         // Final result
         finalHomeAffordability
     };
@@ -374,13 +412,14 @@ function displayResults() {
     const results = calculateAffordability();
     console.log('results', results);
     document.getElementById('resultValue').textContent = '$' + Math.round(results.finalHomeAffordability).toLocaleString();
+    document.getElementById('gdsValue').textContent = results.gdsRatio*100+'%';
+    document.getElementById('tdsValue').textContent = results.tdsRatio*100+'%';
+    document.getElementById('stressValue').textContent = results.annualStressTestedRate;
 
-    
 }
 
 
 window.addEventListener('load', displayResults);
-// Example usage:
 
 
     </script>
