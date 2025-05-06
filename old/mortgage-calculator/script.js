@@ -3,12 +3,6 @@ $(document).ready(function() {
     initializeSliders();
     initializeInputs();
     setupEventListeners();
-
-      // Mobile menu toggle
-    $('.mobile-menu-toggle').on('click', function() {
-        $('.calculator-tabs').toggleClass('active');
-        $(this).toggleClass('active');
-    });
     
     // Hide results initially for animation
     $('.payment-amount .amount, .breakdown-value, .summary-value, .balance-value, .effective-value').css('opacity', '0');

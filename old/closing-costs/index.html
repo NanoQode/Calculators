@@ -14,7 +14,7 @@
     <header class="main-header">
         <div class="container">
             <div class="logo">
-                <a href="../index.html"><img src="../logo.webp" alt="" ></a>
+                <a href="../index.html">WEB Calculators</a>
             </div>
             <button class="menu-toggle" aria-label="Toggle menu">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -42,7 +42,77 @@
         <div class="calculator-form">
             <div class="main-content">
                 <div class="top-panels">
-                        <!-- Right Panel -->
+                    <!-- Left Panel -->
+                    <div class="left-panel">
+                        <!-- Purchase Price Section -->
+                        <div class="input-section">
+                            <label for="purchase-price">Purchase Price</label>
+                            <div class="input-field">
+                                <input type="text" id="purchase-price" value="$888,000">
+                            </div>
+                            <div class="price-slider purchase-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-thumb"></div>
+                            </div>
+                        </div>
+
+                        <!-- Down Payment Section -->
+                        <div class="input-section">
+                            <label for="down-payment">Down Payment</label>
+                            <div class="input-field">
+                                <input type="text" id="down-payment" value="$63,500">
+                            </div>
+                            <div class="price-slider down-payment-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-thumb"></div>
+                            </div>
+                            <div class="down-payment-percentage">
+                                <span class="percentage">7.15%</span>
+                                <div class="dropdown-wrapper">
+                                    <select id="down-payment-percentage-dropdown">
+                                        <option value="5">5%</option>
+                                        <option value="10">10%</option>
+                                        <option value="15">15%</option>
+                                        <option value="20">20%</option>
+                                        <option value="25">25%</option>
+                                        <option value="30">30%</option>
+                                    </select>
+                                    <div class="dropdown-arrow"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Amortization Section -->
+                        <div class="input-section">
+                            <label for="amortization">Amortization</label>
+                            <div class="amortization-years-months">
+                                <div class="amortization-years">
+                                    <input type="text" id="amortization-years" value="25" min="5" max="30">
+                                </div>
+                                <div class="amortization-months">
+                                    <input type="text" id="amortization-months" value="0" min="0" max="11">
+                                </div>
+                            </div>
+                            <div class="amortization-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-thumb"></div>
+                            </div>
+                        </div>
+
+                        <!-- Interest Rate Section -->
+                        <div class="input-section">
+                            <label for="interest-rate">Interest Rate</label>
+                            <div class="input-field">
+                                <input type="text" id="interest-rate" value="5.99%">
+                            </div>
+                            <div class="price-slider interest-rate-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-thumb"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Panel -->
                     <div class="right-panel">
                         <!-- Ancillary Cost Section -->
                         <div class="section">
@@ -179,77 +249,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Left Panel -->
-                    <div class="left-panel">
-                        <!-- Purchase Price Section -->
-                        <div class="input-section">
-                            <label for="purchase-price">Purchase Price</label>
-                            <div class="input-field">
-                                <input type="text" id="purchase-price" value="$888,000">
-                            </div>
-                            <div class="price-slider purchase-slider">
-                                <div class="slider-track"></div>
-                                <div class="slider-thumb"></div>
-                            </div>
-                        </div>
-
-                        <!-- Down Payment Section -->
-                        <div class="input-section">
-                            <label for="down-payment">Down Payment</label>
-                            <div class="input-field">
-                                <input type="text" id="down-payment" value="$63,500">
-                            </div>
-                            <div class="price-slider down-payment-slider">
-                                <div class="slider-track"></div>
-                                <div class="slider-thumb"></div>
-                            </div>
-                            <div class="down-payment-percentage">
-                                <span class="percentage">7.15%</span>
-                                <div class="dropdown-wrapper">
-                                    <select id="down-payment-percentage-dropdown">
-                                        <option value="5">5%</option>
-                                        <option value="10">10%</option>
-                                        <option value="15">15%</option>
-                                        <option value="20">20%</option>
-                                        <option value="25">25%</option>
-                                        <option value="30">30%</option>
-                                    </select>
-                                    <div class="dropdown-arrow"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Amortization Section -->
-                        <div class="input-section">
-                            <label for="amortization">Amortization</label>
-                            <div class="amortization-years-months">
-                                <div class="amortization-years">
-                                    <input type="text" id="amortization-years" value="25" min="5" max="30">
-                                </div>
-                                <div class="amortization-months">
-                                    <input type="text" id="amortization-months" value="0" min="0" max="11">
-                                </div>
-                            </div>
-                            <div class="amortization-slider">
-                                <div class="slider-track"></div>
-                                <div class="slider-thumb"></div>
-                            </div>
-                        </div>
-
-                        <!-- Interest Rate Section -->
-                        <div class="input-section">
-                            <label for="interest-rate">Interest Rate</label>
-                            <div class="input-field">
-                                <input type="text" id="interest-rate" value="5.99%">
-                            </div>
-                            <div class="price-slider interest-rate-slider">
-                                <div class="slider-track"></div>
-                                <div class="slider-thumb"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                
                 </div>
             </div>
 

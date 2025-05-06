@@ -1,39 +1,29 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 /* Global Styles */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-     font-family: "Poppins", sans-serif;
-}
-.logo img {
-    width: 145px;
+    font-family: Arial, sans-serif;
 }
 
 body {
     background-color: #f8f9fa;
     color: #333;
-    line-height: 1.6; 
-    padding: 0;
-    margin: 0;
+    line-height: 1.6;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 15px;
-}
-
-/* Header and Navigation */
+/* Header Styles */
 .main-header {
-    background-color: transparent;
+    background-color: #2c3e50;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     margin-bottom: 30px;
     padding: 15px 0;
-    border-bottom: 2px solid #130092;
 }
 
 .main-header .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -51,9 +41,12 @@ body {
     display: flex;
 }
 
+.calculator-tabs li {
+    margin-left: 10px;
+}
 
 .calculator-tabs a {
-    color: #130092;
+    color: rgba(255, 255, 255, 0.8);
     text-decoration: none;
     padding: 10px 8px;
     border-radius: 4px;
@@ -61,158 +54,27 @@ body {
 }
 
 .calculator-tabs a:hover {
-    color: #130092;
+    color: #fff;
     background-color: rgba(255, 255, 255, 0.1);
 }
 
 .calculator-tabs li.active a {
-    color: #130092;
+    color: #fff;
     background-color: rgba(255, 255, 255, 0.2);
     font-weight: 600;
 }
 
-/* Calculator Container */
 .calculator-container {
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 20px auto;
     padding: 20px;
 }
 
-/* Welcome Section */
-.welcome-section {
-    text-align: center;
-    margin-bottom: 50px;
-}
-
-.welcome-section h1 {
-    font-size: 1.5rem;
+h1 {
+    font-size: 1.75rem;
     margin-bottom: 1.5rem;
-    color: #130092;
+    color: #2c3e50;
     font-weight: 600;
-}
-
-.welcome-section p {
-    font-size: 18px;
-    color: #666;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-/* Calculator Grid */
-.calculator-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-}
-
-/* Calculator Card */
-.calculator-card {
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    padding: 30px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-
-.calculator-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-}
-
-.card-icon {
-    margin-bottom: 20px;
-    background-color: #1a009017;
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.calculator-card h2 {
-    color: #130092;
-    margin-bottom: 15px;
-    font-size: 22px;
-    font-weight: 600;
-}
-
-.calculator-card p {
-    color: #666;
-    margin-bottom: 25px;
-    flex-grow: 1;
-}
-
-.card-button {
-    display: inline-block;
-    background-color: #37ca37;
-    color: #fff;
-    text-decoration: none;
-    padding: 10px 20px;
-    border-radius: 6px;
-    font-weight: 600;
-    transition: background-color 0.3s ease;
-    text-align: center;
-}
-
-.card-button:hover {
-    background-color:#130092;
-}
-
-/* Footer */
-footer {
-    background-color: #130092;
-    color: #fff;
-    padding: 20px 0;
-    text-align: center;
-    margin-top: 50px;
-}
-
-footer p {
-    opacity: 0.8;
-}
-
-/* Media Queries for Responsive Design */
-@media (max-width: 992px) {
-    .main-header .container {
-        flex-direction: column;
-    }
-    
-    .logo {
-        margin-bottom: 15px;
-    }
-    
-    .calculator-tabs ul {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-    
-   
-    
-    .welcome-section h1 {
-        font-size: 30px;
-    }
-    
-    .welcome-section p {
-        font-size: 16px;
-    }
-}
-
-@media (max-width: 768px) {
-    .calculator-container {
-        padding: 15px;
-    }
-    
-    .calculator-grid {
-        gap: 20px;
-    }
-    
-    .calculator-card {
-        padding: 20px;
-    }
 }
 
 /* Calculator Form Layout */
@@ -1222,15 +1084,4 @@ footer p {
 .mortgage-bar,
 .expenses-bar {
     transition: flex 0.8s ease-out;
-}
-@media(max-width:991px){
-    .calculator-grid { 
-    grid-template-columns: repeat(2, 1fr); 
-}
-}
-
-@media(max-width:575px){
-    .calculator-grid { 
-    grid-template-columns: repeat(1, 1fr); 
-}
 }

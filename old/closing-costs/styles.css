@@ -1,13 +1,10 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 /* Global Styles */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-     font-family: "Poppins", sans-serif;
+    font-family: Arial, sans-serif;
 }
- 
 
 body {
     background-color: #f8f9fa;
@@ -41,7 +38,7 @@ body {
 }
 
 .logo {
-/*    margin-bottom: 10px;*/
+    margin-bottom: 10px;
 }
 
 .logo a {
@@ -49,12 +46,12 @@ body {
     text-decoration: none;
     font-size: 20px;
     font-weight: 700;
-/*    padding: 10px;*/
+    padding: 10px;
     display: inline-block;
 }
 
 .calculator-tabs {
-/*    width: 100%;*/
+    width: 100%;
 }
 
 .calculator-tabs ul {
@@ -856,205 +853,3 @@ h1 {
 .interest-rate-slider .slider-thumb {
     transition: all 0.3s ease;
 } 
-
-
-
-/*===============*/
-.main-header {
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin-bottom: 30px;
-    padding: 15px 0;
-    border-bottom: 2px solid #130092;
-}
-.calculator-tabs a {
-    color: #130092;
-    text-decoration: none;
-    padding: 10px 8px;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-}
-.calculator-tabs li.active a {
-    color: #fff;
-    background-color: rgb(26 0 144);
-    font-weight: 600;
-}
-h1{
-    color:  #130092;
-}
-.download-btn{
-    background-color: #37ca37;
-}
-.download-btn:hover{
-    color:  #130092;
-}
-.slider-track{
-    background-color: #37ca37;
-}
-.slider-thumb{
-    border-color:#130092 ;
-}
-.icon-circle svg path:not([fill="none"]){
-    fill: #130092;
-}
-button#calculateBtn{
-    display: none;
-}
-.calculator-form,
-.section,
-.input-section,
-.rate-section-content,
-.expense-item,
-.expense-input-field.monthly-field, .expense-input-field.yearly-field,
-.dropdown-select,
-.fixed-results-box{
-    border-radius: 0;
-    border: 1px solid #ccc;
-}
-.results-box{
-    box-shadow: none;
-}
-.download-btn:hover{
-    background-color: #1a0090;
-    color: #fff;
-}
-
-/*===============*/
-.main-header {
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin-bottom: 30px;
-    padding: 15px 0;
-    border-bottom: 2px solid #130092;
-}
-.calculator-tabs a {
-    color: #130092;
-    text-decoration: none;
-    padding: 10px 8px;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-}
-.calculator-tabs li.active a {
-    color: #fff;
-    background-color: rgb(26 0 144);
-    font-weight: 600;
-}
-h1{
-    color:  #130092;
-}
-.download-btn{
-    background-color: #37ca37;
-}
-.download-btn:hover,
-.calculator-tabs a:hover{
-    color:  #130092;
-}
-.slider-track{
-    background-color: #37ca37;
-}
-.slider-thumb{
-    border-color:#130092 ;
-}
-.icon-circle svg path:not([fill="none"]){
-    fill: #130092;
-}
-button#calculateBtn{
-    display: none;
-}
-.calculator-form,
-.section,
-.input-section,
-.rate-section-content,
-.expense-item,
-.expense-input-field.monthly-field, .expense-input-field.yearly-field,
-.dropdown-select,
-.fixed-results-box{
-    border-radius: 0;
-    border: 1px solid #ccc;
-}
-.results-box{
-    box-shadow: none;
-}
-.download-btn:hover{
-    background-color: #1a0090;
-    color: #fff;
-}
-.logo img {
-    width: 145px;
-}
-
-
-.download-btn:hover,.create-report:hover,.rate-type-btn.active{
-    background-color: #1a0090;
-    color: #fff;
-}
-.results-box{
-    border-top-color:#1a0090 ;
-}
-
-.logo img {
-    width: 145px;
-}
-.fixed-results-box{
-    border: none;
-}
-
-    button.mobile-menu-toggle{
-        display: none;
-    }
-
-@media(max-width:1200px){
-.main-header .container{
-    flex-direction: row !important;
-}
-.logo{
-    margin: 0;
-}
-    nav.calculator-tabs {
-        display: none;
-        position: absolute;
-        top: 100%;
-        background-color: #fff;
-        left: 0;
-        width: 100%;
-    }
-    header {
-        position: relative;
-        z-index: 9999;
-    }
-    button.mobile-menu-toggle{
-        display: block;
-    }
-    .mobile-menu-toggle {
-    display: none;
-    background: none;
-    border: none;
-    color: #1a0090;
-    font-size: 24px;
-    cursor: pointer;
-    padding: 5px;
-    margin-left: 10px;
-}
-button.mobile-menu-toggle.active  ~ nav.calculator-tabs{
-    display: block;
-}
-.calculator-tabs ul{
-    flex-direction: column;
-    padding: 15px;
-}
-.calculator-tabs a{
-    display: inline-block;
-}
-.calculator-container *{
-    max-width: 100%;
-    min-width: unset;
-}
-.amortization-inputs,.amortization-years-months input,
-.amortization-years-months{
-    width: 100%;
-}
-.logo button{
-    display: none;
-}
-
-}

@@ -5,12 +5,6 @@ $(document).ready(function() {
     setupEventListeners();
     setupMobileMenu();
     
-      // Mobile menu toggle
-    $('.mobile-menu-toggle').on('click', function() {
-        $('.calculator-tabs').toggleClass('active');
-        $(this).toggleClass('active');
-    });
-    
     // Hide results initially for animation
     $('.result-value, .result-amount, .detail-value').css('opacity', '0');
     
