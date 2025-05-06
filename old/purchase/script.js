@@ -43,11 +43,7 @@ $(document).ready(function () {
             maximumFractionDigits: 0
         }).format(amount);
     }
-   // Mobile menu toggle
-    $('.mobile-menu-toggle').on('click', function() {
-        $('.calculator-tabs').toggleClass('active');
-        $(this).toggleClass('active');
-    });
+
     // Format decimal with dollar sign preserved
     function formatDecimal(amount) {
         return '$' + new Intl.NumberFormat('en-US', {

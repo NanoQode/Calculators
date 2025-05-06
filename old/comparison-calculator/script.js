@@ -1,9 +1,4 @@
 $(document).ready(function () {
-      // Mobile menu toggle
-    $('.mobile-menu-toggle').on('click', function() {
-        $('.calculator-tabs').toggleClass('active');
-        $(this).toggleClass('active');
-    });
     // Initial values
     const initialValues = {
         homePrice: 500000,
