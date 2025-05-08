@@ -1051,9 +1051,9 @@ $(document).ready(function () {
     }).prop('readonly', false);
 
     // Handle download report button
-    $('.download-btn').on('click', function () {
-        alert('Report functionality would be implemented here.');
-    });
+    // $('.download-btn').on('click', function () {
+    //     alert('Report functionality would be implemented here.');
+    // });
 
     // Handle select changes for down payment percentage
     $('#down-payment-percent').on('change', function () {

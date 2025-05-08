@@ -810,9 +810,9 @@ $(document).ready(function () {
     });
 
     // Create Report button click
-    $('.create-report').on('click', function() {
-        alert('Report generation would be implemented here.');
-    });
+    // $('.create-report').on('click', function() {
+    //     alert('Report generation would be implemented here.');
+    // });
 
     // Add Scenario button click
     $('.add-scenario').on('click', function() {
@@ -1257,8 +1257,8 @@ $(document).ready(function () {
         });
         
         // Add event listeners for create report button
-        $('.create-report').on('click', function() {
-            alert('Report generation would be implemented here.');
-        });
+        // $('.create-report').on('click', function() {
+        //     alert('Report generation would be implemented here.');
+        // });
     });
 });

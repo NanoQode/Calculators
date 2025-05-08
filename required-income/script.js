@@ -355,9 +355,9 @@ function setupEventListeners() {
     });
     
     // Get report button
-    $('#get-report-btn').on('click', function() {
-        alert('Get Report functionality would be implemented here');
-    });
+    // $('#get-report-btn').on('click', function() {
+    //     alert('Get Report functionality would be implemented here');
+    // });
     
     // Download App link
     $('.app-note').on('click', function() {

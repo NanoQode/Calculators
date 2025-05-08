@@ -183,7 +183,7 @@ $(document).ready(function () {
     function updateRateSliderPosition(rate) {
         const percentage = (rate - minInterestRate) / (maxInterestRate - minInterestRate);
         $('.rate-slider .slider-track').css('width', (percentage * 100) + '%');
-        // $('.rate-slider .slider-thumb').css('left', (percentage * 100) + '%');
+        $('.rate-slider .slider-thumb').css('left', (percentage * 100) + '%');
     }
 
     // Update Property Tax slider position
@@ -393,7 +393,7 @@ const monthlyMortgagePayment = ((interestRate/12) * (maxMortgageAmountGDS - cmhc
         document.getElementById('gdsValue').textContent = gdsRatio*100+'% / '+tdsRatio*100+'%';
         document.getElementById('tdsValue').textContent = tdsRatio*100+'%';
         document.getElementById('stressValue').textContent = annualStressTestedRate*100+'%';
-        document.getElementById('monthtlyMortgageValue').textContent = '$'+Math.round(monthlyMortgagePayment).toLocaleString();
+        document.getElementById('monthtlyMortgageValue').textContent = '$'+Math.round(monthlyMortgagePayment);
         document.getElementById('cashLeft').textContent = '$'+Math.round(cashLeft).toLocaleString();
         document.getElementById('homeExpenses').textContent = '$'+Math.round(homeExpenses).toLocaleString();
 
@@ -450,7 +450,7 @@ function displayResults() {
         document.getElementById('gdsValue').textContent = results.gdsRatio*100+'% / '+results.tdsRatio*100+'%';
         document.getElementById('tdsValue').textContent = results.tdsRatio*100+'%';
         document.getElementById('stressValue').textContent = results.annualStressTestedRate*100+'%';
-        document.getElementById('monthtlyMortgageValue').textContent = '$'+Math.round(results.monthlyMortgagePayment).toLocaleString();
+        document.getElementById('monthtlyMortgageValue').textContent = '$'+Math.round(results.monthlyMortgagePayment);
         document.getElementById('cashLeft').textContent = '$'+Math.round(results.cashLeft).toLocaleString();
         document.getElementById('homeExpenses').textContent = '$'+Math.round(results.homeExpenses).toLocaleString();
 
