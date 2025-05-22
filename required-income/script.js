@@ -435,14 +435,16 @@ function calculateRequiredIncome() {
     const rate = parseFloat($('#rate').val()) || 5.5;
     const amortizationYears = parseInt($('#amortization-years').val()) || 25;
     const amortizationMonths = parseInt($('#amortization-months').val()) || 0;
-    const rentalIncome = parseCurrency($('#rental-income').val()) || 0;
+    const rentalIncome = parseCurrency($('#rental-income-monthly').val()) || 0;
     
     // Fixed GDS/TDS ratios at 39/44 as per CMHC guidelines
     const gdsRatio = 39;
     const tdsRatio = 44;
     
     // Calculate qualifying rate (stress test rate - the higher of contract rate + 2% or 5.25%)
-    const stressTestRate = Math.max(rate + 2, 5.25);
+    // const stressTestRateCustom = Math.max(rate + 2, rate);
+    const stressTestRate =  Math.max(rate + 2, 5.25);
+    console.log('stressTestRate', stressTestRate);
     
     // Calculate monthly mortgage payment using Canadian semi-annual compounding
     const totalAmortizationMonths = (amortizationYears * 12) + amortizationMonths;
@@ -451,9 +453,15 @@ function calculateRequiredIncome() {
     const semiAnnualRate = stressTestRate / 100 / 2;
     const effectiveMonthlyRate = Math.pow(1 + semiAnnualRate, 2/12) - 1;
     
-    const monthlyMortgagePayment = (mortgageAmount * 
-        (effectiveMonthlyRate * Math.pow(1 + effectiveMonthlyRate, totalAmortizationMonths))) / 
-        (Math.pow(1 + effectiveMonthlyRate, totalAmortizationMonths) - 1);
+    const monthlyMortgagePayment =  (mortgageAmount * 
+         (effectiveMonthlyRate * Math.pow(1 + effectiveMonthlyRate, totalAmortizationMonths))) / 
+         (Math.pow(1 + effectiveMonthlyRate, totalAmortizationMonths) - 1);
+// mortgageAmount * ((rate/1200) * Math.pow(1 + (rate/1200), (25 * 12))) / (Math.pow(1 + (rate/1200), (25 * 12)) - 1);
+
+
+    // (mortgageAmount * 
+    //     (effectiveMonthlyRate * Math.pow(1 + effectiveMonthlyRate, totalAmortizationMonths))) / 
+    //     (Math.pow(1 + effectiveMonthlyRate, totalAmortizationMonths) - 1);
     
     // Monthly expenses
     const monthlyPropertyTax = propertyTax / 12;
@@ -482,7 +490,7 @@ function calculateRequiredIncome() {
     
     // Update results
     $('.result-amount').text(formatCurrency(requiredIncome));
-    $('.stress-test-rate').text(stressTestRate.toFixed(2) + '%');
+    $('#stressTestRate').text(stressTestRate.toFixed(2) + '%');
     
     // Show fixed GDS/TDS ratios (39/44) instead of variable ones
     const ratiosText = '39.00% / 44.00%';
@@ -499,6 +507,7 @@ function calculateRequiredIncome() {
     $('.detail-item.home-expenses .detail-value').text(formatCurrency(monthlyHomeExpenses));
     
     // Calculate monthly cash left (remaining income after expenses)
+    console.log(requiredIncome);
     const monthlyCashLeft = (requiredIncome / 12) - (monthlyMortgagePayment + monthlyDebt + monthlyHomeExpenses);
     $('.detail-item.cash-left .detail-value').text(formatCurrency(monthlyCashLeft));
     

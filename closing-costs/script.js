@@ -363,6 +363,7 @@ $(document).ready(function () {
         const percentage = clickPosition / sliderWidth;
 
         // Update slider visually
+
         $('.purchase-slider .slider-track').css('width', (percentage * 100) + '%');
         $('.purchase-slider .slider-thumb').css('left', (percentage * 100) + '%');
 
@@ -371,6 +372,19 @@ $(document).ready(function () {
 
         // Update price input
         $('#purchase-price').val(formatCurrency(newPrice));
+
+        const percentages = parseFloat($('#down-payment-percentage-dropdown').val());
+        const purchasePrice = parseFloat($('#purchase-price').val().replace(/[^0-9.-]+/g, '')) || initialValues.purchasePrice;
+        
+        // Calculate down payment based on selected percentage
+        const downPayment = Math.round(purchasePrice * (percentages / 100));
+        
+        // Update displays
+        $('#down-payment').val(formatCurrency(downPayment));
+        $('.percentage').text(formatPercentage(percentages));
+        updateDownPaymentSlider(percentages);
+        
+
 
         // Update calculator
         updateCalculator();
@@ -540,8 +554,10 @@ $(document).ready(function () {
         // Calculate taxes
         const provincialTax = calculateProvincialTax(purchasePrice, isFirstTimeBuyer, isNewlyBuiltHome);
         const municipalTax = calculateMunicipalTax(purchasePrice, isFirstTimeBuyer);
-        const totalRebates = calculateTotalRebates(purchasePrice, isFirstTimeBuyer, isNewlyBuiltHome);
-        
+        const loc = $('#location').val();
+          
+        const totalRebates = calculateLTT(loc, purchasePrice, 0, isFirstTimeBuyer, true); //calculateTotalRebates(purchasePrice, isFirstTimeBuyer, isNewlyBuiltHome);
+     
         // Calculate mortgage insurance
         const mortgageInsurance = calculateMortgageInsurance(purchasePrice, downPaymentPercentage);
         
@@ -798,7 +814,7 @@ $(document).ready(function () {
 
     // Handle Down Payment Percentage Dropdown changes
     $('#down-payment-percentage-dropdown').on('change', function() {
-        const percentage = parseFloat($(this).val());
+        const percentage = parseFloat($('#down-payment-percentage-dropdown').val());
         const purchasePrice = parseFloat($('#purchase-price').val().replace(/[^0-9.-]+/g, '')) || initialValues.purchasePrice;
         
         // Calculate down payment based on selected percentage
@@ -906,6 +922,7 @@ $(document).ready(function () {
     $('#location').on('change', function() {
         const newLocation = $(this).val();
         changeLocation(newLocation);
+        updateCalculator();
     });
 
     // Handle Location dropdown in results box
@@ -1374,16 +1391,175 @@ $(document).ready(function () {
         $('#total-closing-costs').text(formatCurrency(totalClosingCosts));
     }
 
+    //Calculate Rebate
+
+    function calculateLTT(province, purchasePrice, mortgageAmount = 0, isFTHB = false, isToronto = false) {
+
+      let ltt = 0;
+      let fees = 0;
+      let rebate = 0;
+      // console.log(purchasePrice);
+      // console.log(isFTHB);
+      // console.log(isToronto);
+      switch (province) {
+        case "Alberta":
+
+          fees = 50 + 5 * Math.floor(purchasePrice / 5000);
+          fees += 50 + 5 * Math.floor(mortgageAmount / 5000);
+       
+          break;
+
+        case "British Columbia":
+          if (purchasePrice <= 200000) ltt = 0.01 * purchasePrice;
+          else if (purchasePrice <= 2000000)
+            ltt = 0.01 * 200000 + 0.02 * (purchasePrice - 200000);
+          else
+            ltt = 0.01 * 200000 + 0.02 * (2000000 - 200000) + 0.03 * (purchasePrice - 2000000);
+
+          if (isFTHB) {
+            if (purchasePrice <= 500000) rebate = ltt;
+            else if (purchasePrice <= 525000) rebate = ltt * (1 - (purchasePrice - 500000) / 25000);
+            else rebate = 0;
+          }
+          ltt -= rebate;
+          break;
+
+        case "Manitoba":
+          if (purchasePrice <= 30000) ltt = 0;
+          else if (purchasePrice <= 90000)
+            ltt = 0.005 * (purchasePrice - 30000);
+          else if (purchasePrice <= 150000)
+            ltt = 0.005 * 60000 + 0.01 * (purchasePrice - 90000);
+          else if (purchasePrice <= 200000)
+            ltt = 0.005 * 60000 + 0.01 * 60000 + 0.015 * (purchasePrice - 150000);
+          else
+            ltt = 0.005 * 60000 + 0.01 * 60000 + 0.015 * 50000 + 0.02 * (purchasePrice - 200000);
+          break;
+
+        case "New Brunswick":
+          ltt = 0.01 * purchasePrice;
+          break;
+
+        case "Newfoundland & Labrador":
+          ltt = 100 + 0.004 * (purchasePrice - 500);
+          break;
+
+        case "Nova Scotia":
+          // Assume Halifax 1.5%, else customize per city
+          ltt = 0.015 * purchasePrice;
+          break;
+
+        case "Ontario":
+          if (purchasePrice <= 55000) ltt = 0.005 * purchasePrice;
+          else if (purchasePrice <= 250000)
+            ltt = 0.005 * 55000 + 0.01 * (purchasePrice - 55000);
+          else if (purchasePrice <= 400000)
+            ltt = 0.005 * 55000 + 0.01 * 195000 + 0.015 * (purchasePrice - 250000);
+          else if (purchasePrice <= 2000000)
+            ltt = 0.005 * 55000 + 0.01 * 195000 + 0.015 * 150000 + 0.02 * (purchasePrice - 400000);
+          else
+            ltt = 0.005 * 55000 + 0.01 * 195000 + 0.015 * 150000 + 0.02 * 1600000 + 0.025 * (purchasePrice - 2000000);
+
+          if (isToronto) {
+            let torontoLTT = ltt; // Toronto mirrors provincial up to $2M
+            if (purchasePrice > 2000000)
+              torontoLTT += 0.005 * (purchasePrice - 2000000); // sample higher rate assumption
+            ltt += torontoLTT;
+          }
+
+          if (isFTHB) {
+            rebate = isToronto ? Math.min(4000 + 4475, ltt) : Math.min(4000, ltt);
+            ltt -= rebate;
+          }
+          break;
+
+        case "Prince Edward Island":
+          ltt = 0.01 * purchasePrice;
+          if (isFTHB) {
+            rebate = purchasePrice <= 200000 ? ltt : 0;
+            ltt -= rebate;
+          }
+          break;
+
+        case "Quebec":
+          if (purchasePrice <= 50900) ltt = 0.005 * purchasePrice;
+          else if (purchasePrice <= 254400)
+            ltt = 0.005 * 50900 + 0.01 * (purchasePrice - 50900);
+          else
+            ltt = 0.005 * 50900 + 0.01 * (254400 - 50900) + 0.015 * (purchasePrice - 254400);
+
+          // Montreal additional tax
+          if (purchasePrice > 508700 && purchasePrice <= 1017400)
+            ltt += 0.02 * (purchasePrice - 508700);
+          else if (purchasePrice > 1017400)
+            ltt += 0.02 * (1017400 - 508700) + 0.025 * (purchasePrice - 1017400);
+          break;
+
+        case "Saskatchewan":
+          if (purchasePrice < 6300 && purchasePrice >= 500) fees = 25;
+          else if (purchasePrice >= 6300) fees = 0.004 * purchasePrice;
+          break;
+
+        case "Northwest Territories":
+          fees = purchasePrice <= 1000000 ? Math.max(100, 1.5 * (purchasePrice / 1000)) : 1 * (purchasePrice / 1000);
+          fees += Math.max(80, 1 * (mortgageAmount / 1000));
+          break;
+
+        case "Nunavut":
+          if (purchasePrice <= 55000) ltt = 0.01 * purchasePrice;
+          else if (purchasePrice <= 250000)
+            ltt = 0.01 * 55000 + 0.02 * (purchasePrice - 55000);
+          else
+            ltt = 0.01 * 55000 + 0.02 * (250000 - 55000) + 0.03 * (purchasePrice - 250000);
+          break;
+
+        case "Yukon":
+          if (purchasePrice < 100000) fees = 50;
+          else if (purchasePrice >= 10000000) fees = 650;
+          else fees = 50 + Math.floor(purchasePrice / 1000000) * 60; // Approx.
+
+          if (mortgageAmount) {
+            if (mortgageAmount < 100000) fees += 50;
+            else if (mortgageAmount >= 10000000) fees += 650;
+            else fees += 50 + Math.floor(mortgageAmount / 1000000) * 60;
+          }
+          break;
+
+        default:
+          return { error: "Province not supported." };
+      }
+      return rebate;
+      // return {
+      //   province,
+      //   purchasePrice,
+      //   mortgageAmount,
+      //   ltt: Number(ltt.toFixed(2)),
+      //   fees: Number(fees.toFixed(2)),
+      //   rebate: Number(rebate.toFixed(2)),
+      //   total: Number((ltt + fees).toFixed(2))
+      // };
+    }
+
+    // console.log(calculateLTT('Ontario', 20000000, 0, true, true));
+
+
     // Initialize the calculator
     $(document).ready(function() {
         // Set up location dropdown with all required locations
         $('#location').html(`
-            <option value="Toronto, ON">Toronto, ON</option>
-            <option value="Vancouver, BC">Vancouver, BC</option>
-            <option value="Winnipeg, MB">Winnipeg, MB</option>
-            <option value="Halifax, NS">Halifax, NS</option>
-            <option value="Montréal, QC">Montréal, QC</option>
-            <option value="Edmonton, AB">Edmonton, AB</option>
+            <option value="Alberta">Alberta</option>
+            <option value="British Columbia">British Columbia</option>
+            <option value="Manitoba">Manitoba</option>
+            <option value="New Brunswick">New Brunswick</option>
+            <option value="Newfoundland & Labrador">Newfoundland & Labrador</option>
+            <option value="Nova Scotia">Nova Scotia</option>
+            <option value="Ontario">Ontario</option>
+            <option value="Prince Edward Island">Prince Edward Island</option>
+            <option value="Quebec">Quebec</option>
+            <option value="Saskatchewan">Saskatchewan</option>
+            <option value="Northwest Territories">Northwest Territories</option>
+            <option value="Nunavut">Nunavut</option>
+            <option value="Yukon">Yukon</option>
             <option value="Other">Other</option>
         `);
         
