@@ -323,13 +323,14 @@ $(document).ready(function () {
         const totalPayments = termYears * paymentsPerYear;
         
         // Calculate total interest paid over term
-        const totalInterest = calculateTotalInterest(mortgageAmount, interestRate, termYears);
+
+        const totalInterest = calculateTotalInterest(totalMortgage, interestRate, termYears);
         
         // Calculate total principal paid over term
         const totalPrincipal = (paymentAmount * totalPayments) - totalInterest;
 
         // Calculate balance at end of term
-        const balanceAtEndOfTerm = calculateBalanceAtEndOfTerm(mortgageAmount, interestRate, termYears, amortizationYears, amortizationMonths);
+        const balanceAtEndOfTerm = calculateBalanceAtEndOfTerm(totalMortgage, interestRate, termYears, amortizationYears, amortizationMonths);
 
         // Calculate total monthly cost
         const totalMonthlyCost = baseMonthlyPayment + homeExpenses;

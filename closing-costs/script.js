@@ -556,8 +556,9 @@ $(document).ready(function () {
         const municipalTax = calculateMunicipalTax(purchasePrice, isFirstTimeBuyer);
         const loc = $('#location').val();
           
-        const totalRebates = calculateLTT(loc, purchasePrice, 0, isFirstTimeBuyer, true); //calculateTotalRebates(purchasePrice, isFirstTimeBuyer, isNewlyBuiltHome);
-     
+        var totalRebates = calculateLTT(loc, purchasePrice, 0, isFirstTimeBuyer, true); //calculateTotalRebates(purchasePrice, isFirstTimeBuyer, isNewlyBuiltHome);
+   
+     totalRebates = totalRebates.rebate;
         // Calculate mortgage insurance
         const mortgageInsurance = calculateMortgageInsurance(purchasePrice, downPaymentPercentage);
         
@@ -1528,16 +1529,16 @@ $(document).ready(function () {
         default:
           return { error: "Province not supported." };
       }
-      return rebate;
-      // return {
-      //   province,
-      //   purchasePrice,
-      //   mortgageAmount,
-      //   ltt: Number(ltt.toFixed(2)),
-      //   fees: Number(fees.toFixed(2)),
-      //   rebate: Number(rebate.toFixed(2)),
-      //   total: Number((ltt + fees).toFixed(2))
-      // };
+
+      return {
+        province,
+        purchasePrice,
+        mortgageAmount,
+        ltt: Number(ltt.toFixed(2)),
+        fees: Number(fees.toFixed(2)),
+        rebate: Number(rebate.toFixed(2)),
+        total: Number((ltt + fees).toFixed(2))
+      };
     }
 
     // console.log(calculateLTT('Ontario', 20000000, 0, true, true));
