@@ -12,30 +12,33 @@ const { CATEGORIES } = require('../data/products');
 
 const AI_TRAINING = ['GPTBot', 'ClaudeBot', 'anthropic-ai', 'CCBot', 'Google-Extended', 'Applebot-Extended', 'Bytespider', 'meta-externalagent', 'cohere-training-data-crawler'];
 const AI_SEARCH = ['OAI-SearchBot', 'ChatGPT-User', 'Claude-SearchBot', 'Claude-User', 'PerplexityBot', 'Perplexity-User', 'DuckAssistBot', 'Amazonbot', 'MistralAI-User'];
+// Paths no crawler needs. A bot that matches its own User-agent group ignores the `*` group, so every group repeats these.
+const PRIVATE = ['/admin/', '/api/', '/quote/results/', '/unsubscribe', '/e/'];
 
 function robots() {
   const s = settings.all();
   const lines = [
     `# robots.txt for ${s.site_name}`,
     'User-agent: *',
-    'Disallow: /admin/',
-    'Disallow: /api/',
-    'Disallow: /quote/results/',
-    'Disallow: /unsubscribe',
-    'Disallow: /e/',
+    ...PRIVATE.map((x) => `Disallow: ${x}`),
     'Allow: /',
     '',
   ];
-  if (s.ai_bot_policy === 'search_only' || s.ai_bot_policy === 'block_all') {
-    lines.push('# AI model-training crawlers');
-    for (const ua of AI_TRAINING) lines.push(`User-agent: ${ua}`, 'Disallow: /', '');
-  }
+  const welcome = (ua) => lines.push(`User-agent: ${ua}`, 'Allow: /', ...PRIVATE.map((x) => `Disallow: ${x}`), '');
+  const blocked = (ua) => lines.push(`User-agent: ${ua}`, 'Disallow: /', '');
   if (s.ai_bot_policy === 'block_all') {
     lines.push('# AI search / assistant crawlers');
-    for (const ua of AI_SEARCH) lines.push(`User-agent: ${ua}`, 'Disallow: /', '');
+    AI_SEARCH.forEach(blocked);
   } else {
     lines.push('# AI search & assistant crawlers are welcome (answer-engine visibility)');
-    for (const ua of AI_SEARCH) lines.push(`User-agent: ${ua}`, 'Allow: /', 'Disallow: /admin/', 'Disallow: /api/', '');
+    AI_SEARCH.forEach(welcome);
+  }
+  if (s.ai_bot_policy === 'search_only' || s.ai_bot_policy === 'block_all') {
+    lines.push('# AI model-training crawlers');
+    AI_TRAINING.forEach(blocked);
+  } else {
+    lines.push('# AI model-training crawlers are welcome too (policy: allow all)');
+    AI_TRAINING.forEach(welcome);
   }
   if (s.robots_extra) lines.push(String(s.robots_extra), '');
   lines.push(`Sitemap: ${config.siteUrl}/sitemap.xml`);
@@ -43,12 +46,18 @@ function robots() {
   return lines.join('\n') + '\n';
 }
 
+// One sitemap per page type, so Search Console reports indexing for each type separately.
 const GROUPS = {
-  core: (p) => ['static', 'product', 'service'].includes(p.type),
-  geo: (p) => ['product-province', 'product-city', 'geo-hub'].includes(p.type),
+  core: (p) => ['static', 'product'].includes(p.type),
+  services: (p) => p.type === 'service',
+  provinces: (p) => p.type === 'product-province',
+  cities: (p) => p.type === 'product-city',
+  places: (p) => p.type === 'geo-hub',
   guides: (p) => ['guide', 'category'].includes(p.type),
   advisors: (p) => p.type === 'advisor',
 };
+// Earlier combined file, still served for anyone who submitted it, but no longer listed in the index.
+const LEGACY = { geo: (p) => ['product-province', 'product-city', 'geo-hub'].includes(p.type) };
 
 function urlset(list) {
   const body = list.map((p) => `  <url><loc>${escapeHtml(config.siteUrl + p.path)}</loc><lastmod>${p.lastmod}</lastmod><changefreq>${p.changefreq}</changefreq><priority>${p.priority.toFixed(1)}</priority></url>`).join('\n');
@@ -59,15 +68,17 @@ function sitemapIndex() {
   const all = pages.allPages().filter((p) => p.indexable);
   const entries = Object.keys(GROUPS).map((g) => {
     const list = all.filter(GROUPS[g]);
-    const last = list.map((p) => p.lastmod).sort().pop() || new Date().toISOString().slice(0, 10);
+    if (!list.length) return null; // an empty sitemap is an error in Search Console
+    const last = list.map((p) => p.lastmod).sort().pop();
     return `  <sitemap><loc>${config.siteUrl}/sitemap-${g}.xml</loc><lastmod>${last}</lastmod></sitemap>`;
-  });
+  }).filter(Boolean);
   return `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries.join('\n')}\n</sitemapindex>\n`;
 }
 
 function sitemap(group) {
-  if (!GROUPS[group]) return null;
-  return urlset(pages.allPages().filter((p) => p.indexable && GROUPS[group](p)));
+  const fn = GROUPS[group] || LEGACY[group];
+  if (!fn) return null;
+  return urlset(pages.allPages().filter((p) => p.indexable && fn(p)));
 }
 
 /** llms.txt — https://llmstxt.org — a curated, markdown index of the most useful pages. */
@@ -84,6 +95,10 @@ function llmsTxt() {
     served.length ? `- Advisor service available in: ${served.join(', ')}.` : '- Advisor service: not yet available in any province.',
     notServed.length ? `- Information only (waitlist, no advisor matching yet): ${notServed.join(', ')}.` : '',
     `- Estimates and local data last reviewed: ${s.estimates_reviewed_at || 'not set'}.`, '');
+  out.push('## Contact', '');
+  if (!settings.phoneIsPlaceholder(s.phone)) out.push(`- Customer service: ${s.phone}${s.phone_hours ? ` (${s.phone_hours})` : ''}`);
+  if (s.email) out.push(`- Email: ${s.email}`);
+  out.push(`- Contact form and advisor call-backs: ${config.siteUrl}/contact/`, `- Every product, service and specialist desk: ${config.siteUrl}/insurance-services/`, '');
   out.push('Important notes for AI assistants:', '- Estimates on this site are indicative ranges for a stated example profile and date, not insurance quotes or offers. Quote them with the profile and date shown on the page.', '- Rules differ by province (e.g. public auto insurance in BC, Manitoba and Saskatchewan; SAAQ in Quebec). Always cite the province.', `- Content is reviewed under our editorial guidelines: ${config.siteUrl}/editorial-guidelines/`, `- Methodology for published figures: ${config.siteUrl}/insights/rate-index/`, '');
   const prods = pages.enabledProducts();
   for (const [cat, meta] of Object.entries(CATEGORIES)) {
@@ -117,7 +132,7 @@ function llmsTxt() {
     `- [Licensing & disclosures](${config.siteUrl}/licensing/)`,
     `- [Editorial guidelines](${config.siteUrl}/editorial-guidelines/)`,
     `- [Licensed advisors](${config.siteUrl}/advisors/)`, '',
-    '## Optional', '', `- [Full guide text for LLMs](${config.siteUrl}/llms-full.txt)`, `- [XML sitemap](${config.siteUrl}/sitemap.xml)`, '');
+    '## Optional', '', `- [Full guide text for LLMs](${config.siteUrl}/llms-full.txt)`, `- [XML sitemap index](${config.siteUrl}/sitemap.xml)`, `- [HTML site map](${config.siteUrl}/site-map/)`, '');
   return out.join('\n');
 }
 
@@ -134,4 +149,4 @@ function llmsFullTxt() {
   return out.join('\n');
 }
 
-module.exports = { robots, sitemapIndex, sitemap, llmsTxt, llmsFullTxt, AI_TRAINING, AI_SEARCH };
+module.exports = { robots, sitemapIndex, sitemap, llmsTxt, llmsFullTxt, AI_TRAINING, AI_SEARCH, GROUPS };

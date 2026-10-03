@@ -252,7 +252,9 @@ test('service pages: hub, niche page with specialist desk form, plain service pa
   const condo = await (await req('/condo-insurance/')).text();
   assert.match(condo, /id="specialist"/, 'niche product shows its desk');
   const core = await (await req('/sitemap-core.xml')).text();
-  assert.ok(core.includes('/insurance-services/') && core.includes('/pet-insurance/') && core.includes('/contractor-insurance/roofing/'));
+  assert.ok(core.includes('/insurance-services/'));
+  const svcMap = await (await req('/sitemap-services.xml')).text();
+  assert.ok(svcMap.includes('/pet-insurance/') && svcMap.includes('/contractor-insurance/roofing/'));
   const llms = await (await req('/llms.txt')).text();
   assert.match(llms, /## Specialty coverage/);
 });
@@ -310,4 +312,57 @@ test('admin: phone placeholder is flagged, desks are editable, and desk leads sh
   assert.match(lead, /High-risk auto desk/);
   const list = await (await req('/admin/leads')).text();
   assert.match(list, /High-risk auto desk/);
+});
+
+test('sitemaps: one file per page type, no empty files in the index, legacy geo file still served', async () => {
+  const req = client();
+  const idx = await (await req('/sitemap.xml')).text();
+  const listed = [...idx.matchAll(/<loc>https:\/\/instasure\.test(\/sitemap-[a-z]+\.xml)<\/loc>/g)].map((m) => m[1]);
+  for (const f of ['/sitemap-core.xml', '/sitemap-services.xml', '/sitemap-provinces.xml', '/sitemap-cities.xml', '/sitemap-places.xml', '/sitemap-guides.xml']) assert.ok(listed.includes(f), `index lists ${f}`);
+  assert.ok(!listed.includes('/sitemap-geo.xml'), 'legacy combined file is not listed');
+  const seen = new Set();
+  for (const f of listed) {
+    const r = await req(f);
+    assert.equal(r.status, 200, f);
+    const urls = [...(await r.text()).matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+    assert.ok(urls.length > 0, `${f} is not empty`);
+    for (const u of urls) { assert.ok(!seen.has(u), `${u} listed once`); seen.add(u); }
+  }
+  assert.ok((await (await req('/sitemap-cities.xml')).text()).includes('/car-insurance/ontario/brampton/'));
+  assert.ok((await (await req('/sitemap-places.xml')).text()).includes('/insurance/alberta/calgary/'));
+  assert.equal((await req('/sitemap-geo.xml')).status, 200);
+  assert.equal((await req('/sitemap-nope.xml')).status, 404);
+});
+
+test('robots.txt: AI crawlers are named and kept out of private paths; llms.txt has contact details', async () => {
+  const req = client();
+  const t = await (await req('/robots.txt')).text();
+  for (const ua of ['GPTBot', 'OAI-SearchBot', 'ClaudeBot', 'Claude-SearchBot', 'PerplexityBot', 'Google-Extended']) {
+    const group = t.split(`User-agent: ${ua}\n`)[1].split('\n\n')[0];
+    assert.match(group, /Allow: \//, `${ua} allowed`);
+    assert.match(group, /Disallow: \/quote\/results\//, `${ua} kept out of quote results`);
+    assert.match(group, /Disallow: \/admin\//, `${ua} kept out of admin`);
+  }
+  const llms = await (await req('/llms.txt')).text();
+  assert.match(llms, /## Contact/);
+  assert.match(llms, /\/sitemap\.xml/);
+  assert.doesNotMatch(llms, /800-000-0000/, 'placeholder phone is not offered to AI assistants');
+});
+
+test('advisor profiles: indexed and marked up as a Person only with a licence on record', async () => {
+  const req = client();
+  const base = { languages: ['en'], provinces: ['on'], categories: ['life'], active: 1, accepting_leads: 1, is_demo: 0 };
+  db.insert('advisors', { ...base, slug: 'test-team-avatar', name: 'Test Advisor Team', title: 'Licensed advisor team', licences: [] });
+  db.insert('advisors', { ...base, slug: 'test-licensed-advisor', name: 'Test Licensed Advisor', licences: [{ province: 'on', regulator: 'FSRA', type: 'Life', number: 'TEST-1' }] });
+  require('../src/lib/cache').clear();
+  const team = await (await req('/advisors/test-team-avatar/')).text();
+  assert.match(team, /<meta name="robots" content="noindex,follow">/);
+  assert.ok(!jsonLd(team)['@graph'].some((n) => n['@type'] === 'Person'), 'no Person markup without a licence');
+  const real = await (await req('/advisors/test-licensed-advisor/')).text();
+  assert.doesNotMatch(real, /noindex/);
+  assert.ok(jsonLd(real)['@graph'].some((n) => n['@type'] === 'Person'));
+  const sm = await (await req('/sitemap-advisors.xml')).text();
+  assert.ok(sm.includes('/advisors/test-licensed-advisor/') && !sm.includes('/advisors/test-team-avatar/'));
+  db.run("DELETE FROM advisors WHERE slug IN ('test-team-avatar', 'test-licensed-advisor')");
+  require('../src/lib/cache').clear();
 });

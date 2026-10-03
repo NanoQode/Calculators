@@ -323,7 +323,7 @@ router.get('/advisors/', (req, res) => {
       description: 'Meet Instasure’s licensed insurance advisors. Every advisor is licensed in the provinces they serve and matched to you by province, product and language.',
       breadcrumbs: [HOME, { name: 'Advisors', url: '/advisors/' }],
       robots: prov || cat ? 'noindex,follow' : undefined,
-      jsonld: [seo.itemList(list.filter((a) => !a.is_demo).map((a) => ({ url: `/advisors/${a.slug}/`, name: a.name })), '/advisors/')],
+      jsonld: [seo.itemList(list.filter((a) => pages.advisorListed(a)).map((a) => ({ url: `/advisors/${a.slug}/`, name: a.name })), '/advisors/')],
     }),
   });
 });
@@ -338,9 +338,9 @@ router.get('/advisors/:slug/', (req, res, next) => {
     meta: seo.meta({
       path: p, title: `${a.name}${a.designations ? ', ' + a.designations : ''} — ${a.title || 'Licensed Insurance Advisor'}`,
       description: U.truncate(U.stripMd(a.bio_md) || `${a.name} is a licensed insurance advisor with ${settings.get('site_name')}.`, 160),
-      ogType: 'profile', image: a.photo || undefined, robots: a.is_demo ? 'noindex,follow' : undefined,
+      ogType: 'profile', image: a.photo || undefined, robots: pages.advisorListed(a) ? undefined : 'noindex,follow',
       breadcrumbs: [HOME, { name: 'Advisors', url: '/advisors/' }, { name: a.name, url: p }],
-      jsonld: [seo.webPage({ path: p, name: a.name, type: 'ProfilePage' }), seo.person(a)],
+      jsonld: [seo.webPage({ path: p, name: a.name, type: 'ProfilePage' }), ...(pages.advisorListed(a) ? [seo.person(a)] : [])],
     }),
   });
 });
