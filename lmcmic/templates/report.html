@@ -30,7 +30,7 @@ th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;verti
 <ul>{% for m in data.manual_checks %}<li class="man">{{ m }}</li>{% endfor %}</ul>
 <h2>Automated checks by article</h2>
 {% set cols = ['FORMAT','META_TITLE','META_DESC','K1_ANSWER_FIRST_120_WORDS','K2_HEADINGS','K7_PROHIBITED_LANGUAGE','K8_DISCLOSURES_IN_BODY','K11_INTERNAL_LINKS','SOURCES_ALLOWED','J2_SEVEN_AXES','E7_FAQ','E9_TAKEAWAYS','LENGTH'] %}
-<div class="wrap"><table><thead><tr><th>#</th><th>Article</th><th>P</th><th>Words</th><th>Status</th>{% for c in cols %}<th title="{{ c }}">{{ c.split('_')[0] }}</th>{% endfor %}</tr></thead><tbody>
+<div class="wrap"><table><thead><tr><th>#</th><th>Article</th><th>P</th><th>Words</th><th>Status</th>{% set short = {'META_TITLE':'TITLE','META_DESC':'DESC','K1_ANSWER_FIRST_120_WORDS':'K1 answer','K2_HEADINGS':'K2 H1/Hn','K7_PROHIBITED_LANGUAGE':'K7 language','K8_DISCLOSURES_IN_BODY':'K8 disclos.','K11_INTERNAL_LINKS':'K11 links','SOURCES_ALLOWED':'Sources','J2_SEVEN_AXES':'J2 7 axes','E7_FAQ':'E7 FAQ','E9_TAKEAWAYS':'E9 takeaways'} %}{% for c in cols %}<th title="{{ c }}">{{ short.get(c, c) }}</th>{% endfor %}</tr></thead><tbody>
 {% for r in arts %}<tr><td>{{ r.id }}</td><td><a href="https://lmcmic.ca{{ r.url }}">{{ r.title }}</a><br><code>{{ r.primary_keyword }}</code></td><td>{{ r.priority }}</td><td>{{ r.words }}</td>
 <td class="{{ 'ok' if r.status == 'PASS' else 'bad' }}">{{ r.status }}</td>
 {% for c in cols %}{% set ch = r.checks.get(c) %}<td class="c {{ 'ok' if ch and ch.ok else 'bad' if ch else '' }}" title="{{ ch.detail if ch else '' }}">{{ '✓' if ch and ch.ok else '✗' if ch else '–' }}</td>{% endfor %}</tr>{% endfor %}

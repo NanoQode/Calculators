@@ -241,6 +241,8 @@ class Md:
 
     def render(self, text):
         self.md.reset()
+        # Python-Markdown nests lists only at 4-space indents; writers often use 2–3.
+        text = re.sub(r"(?m)^ {1,3}([-*+]|\d+\.) ", r"    \1 ", text)
         out = self.md.convert(text)
         toc = [{"id": t["id"], "name": strip_tags(t["name"])} for t in self.md.toc_tokens]
         # Tables scroll inside their own box on phones.

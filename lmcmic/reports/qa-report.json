@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-03T15:39:11Z",
+ "generated": "2026-10-03T15:46:33Z",
  "articles": [
   {
    "id": 1,
@@ -31,7 +31,7 @@
     },
     "K2_HEADINGS": {
      "ok": true,
-     "detail": "12 subheadings; H1 in body: 0; jumps: []; generic: []"
+     "detail": "13 subheadings; H1 in body: 0; jumps: []; generic: []"
     },
     "K7_PROHIBITED_LANGUAGE": {
      "ok": true,
@@ -59,14 +59,14 @@
     },
     "LENGTH": {
      "ok": true,
-     "detail": "2639 words (body 2329); target 2200"
+     "detail": "2821 words (body 2511); target 2200"
     },
     "K8_DISCLOSURES_IN_BODY": {
      "ok": true,
      "detail": "present"
     }
    },
-   "words": 2329
+   "words": 2511
   },
   {
    "id": 2,
@@ -299,7 +299,7 @@
     },
     "K2_HEADINGS": {
      "ok": true,
-     "detail": "11 subheadings; H1 in body: 0; jumps: []; generic: []"
+     "detail": "12 subheadings; H1 in body: 0; jumps: []; generic: []"
     },
     "K7_PROHIBITED_LANGUAGE": {
      "ok": true,
@@ -327,14 +327,14 @@
     },
     "LENGTH": {
      "ok": true,
-     "detail": "2094 words (body 1758); target 2000"
+     "detail": "2246 words (body 1910); target 2000"
     },
     "K8_DISCLOSURES_IN_BODY": {
      "ok": true,
      "detail": "present"
     }
    },
-   "words": 1758
+   "words": 1910
   },
   {
    "id": 6,
@@ -394,22 +394,85 @@
     },
     "LENGTH": {
      "ok": true,
-     "detail": "2475 words (body 2143); target 2600"
+     "detail": "2474 words (body 2142); target 2600"
     },
     "K8_DISCLOSURES_IN_BODY": {
      "ok": true,
      "detail": "present"
     }
    },
-   "words": 2143
+   "words": 2142
   },
   {
    "id": 7,
-   "title": "Canadian Mortgage Investment Glossary: 120 Terms Defined",
+   "title": "Canadian Mortgage Investment Glossary: 121 Terms Defined",
    "url": "/glossary/",
-   "status": "NOT WRITTEN",
-   "checks": {},
-   "words": 0
+   "priority": 1,
+   "primary_keyword": "mortgage investment glossary Canada",
+   "status": "PASS",
+   "checks": {
+    "FORMAT": {
+     "ok": true,
+     "detail": "front matter complete"
+    },
+    "PLAN": {
+     "ok": true,
+     "detail": "matches plan id"
+    },
+    "META_TITLE": {
+     "ok": true,
+     "detail": "51 chars"
+    },
+    "META_DESC": {
+     "ok": true,
+     "detail": "147 chars"
+    },
+    "K1_ANSWER_FIRST_120_WORDS": {
+     "ok": true,
+     "detail": "answer box 78 words"
+    },
+    "K2_HEADINGS": {
+     "ok": true,
+     "detail": "4 subheadings; H1 in body: 0; jumps: []; generic: []"
+    },
+    "K7_PROHIBITED_LANGUAGE": {
+     "ok": true,
+     "detail": "clean"
+    },
+    "K11_INTERNAL_LINKS": {
+     "ok": true,
+     "detail": "57 distinct internal links; unknown: []"
+    },
+    "SOURCES_ALLOWED": {
+     "ok": true,
+     "detail": "6 external refs; not on allow-list: []"
+    },
+    "J2_SEVEN_AXES": {
+     "ok": true,
+     "detail": "all seven named"
+    },
+    "E7_FAQ": {
+     "ok": true,
+     "detail": "4 FAQs"
+    },
+    "E9_TAKEAWAYS": {
+     "ok": true,
+     "detail": "4 takeaways"
+    },
+    "LENGTH": {
+     "ok": true,
+     "detail": "4669 words (body 438); target 4000"
+    },
+    "GLOSSARY_TERMS": {
+     "ok": true,
+     "detail": "121 terms"
+    },
+    "K8_DISCLOSURES_IN_BODY": {
+     "ok": true,
+     "detail": "present"
+    }
+   },
+   "words": 438
   },
   {
    "id": 8,
@@ -469,7 +532,7 @@
     },
     "LENGTH": {
      "ok": true,
-     "detail": "1803 words (body 1475); target 1800"
+     "detail": "1802 words (body 1475); target 1800"
     },
     "K8_DISCLOSURES_IN_BODY": {
      "ok": true,
@@ -508,7 +571,7 @@
     },
     "K2_HEADINGS": {
      "ok": true,
-     "detail": "11 subheadings; H1 in body: 0; jumps: []; generic: []"
+     "detail": "12 subheadings; H1 in body: 0; jumps: []; generic: []"
     },
     "K7_PROHIBITED_LANGUAGE": {
      "ok": true,
@@ -536,14 +599,14 @@
     },
     "LENGTH": {
      "ok": true,
-     "detail": "2093 words (body 1744); target 2000"
+     "detail": "2254 words (body 1905); target 2000"
     },
     "K8_DISCLOSURES_IN_BODY": {
      "ok": true,
      "detail": "present"
     }
    },
-   "words": 1744
+   "words": 1905
   },
   {
    "id": 10,
@@ -1379,7 +1442,7 @@
     },
     "K2_HEADINGS": {
      "ok": true,
-     "detail": "14 subheadings; H1 in body: 0; jumps: []; generic: []"
+     "detail": "15 subheadings; H1 in body: 0; jumps: []; generic: []"
     },
     "K7_PROHIBITED_LANGUAGE": {
      "ok": true,
@@ -1407,14 +1470,14 @@
     },
     "LENGTH": {
      "ok": true,
-     "detail": "2336 words (body 1957); target 2600"
+     "detail": "2533 words (body 2154); target 2600"
     },
     "K8_DISCLOSURES_IN_BODY": {
      "ok": true,
      "detail": "present"
     }
    },
-   "words": 1957
+   "words": 2154
   },
   {
    "id": 23,
@@ -1513,7 +1576,7 @@
     },
     "K2_HEADINGS": {
      "ok": true,
-     "detail": "11 subheadings; H1 in body: 0; jumps: []; generic: []"
+     "detail": "12 subheadings; H1 in body: 0; jumps: []; generic: []"
     },
     "K7_PROHIBITED_LANGUAGE": {
      "ok": true,
@@ -1541,14 +1604,14 @@
     },
     "LENGTH": {
      "ok": true,
-     "detail": "2262 words (body 1893); target 2600"
+     "detail": "2417 words (body 2048); target 2600"
     },
     "K8_DISCLOSURES_IN_BODY": {
      "ok": true,
      "detail": "present"
     }
    },
-   "words": 1893
+   "words": 2048
   },
   {
    "id": 25,
@@ -1856,7 +1919,7 @@
     },
     "K2_HEADINGS": {
      "ok": true,
-     "detail": "10 subheadings; H1 in body: 0; jumps: []; generic: []"
+     "detail": "11 subheadings; H1 in body: 0; jumps: []; generic: []"
     },
     "K7_PROHIBITED_LANGUAGE": {
      "ok": true,
@@ -1884,14 +1947,14 @@
     },
     "LENGTH": {
      "ok": true,
-     "detail": "1928 words (body 1549); target 2000"
+     "detail": "2121 words (body 1742); target 2000"
     },
     "K8_DISCLOSURES_IN_BODY": {
      "ok": true,
      "detail": "present"
     }
    },
-   "words": 1549
+   "words": 1742
   },
   {
    "id": 30,
@@ -3752,7 +3815,7 @@
     },
     "E7_FAQ": {
      "ok": true,
-     "detail": "5 FAQs"
+     "detail": "4 FAQs"
     },
     "E9_TAKEAWAYS": {
      "ok": true,
@@ -3760,14 +3823,14 @@
     },
     "LENGTH": {
      "ok": true,
-     "detail": "2263 words (body 1913); target 1800"
+     "detail": "2205 words (body 1909); target 1800"
     },
     "K8_DISCLOSURES_IN_BODY": {
      "ok": true,
      "detail": "present"
     }
    },
-   "words": 1913
+   "words": 1909
   },
   {
    "id": 58,
@@ -3961,14 +4024,14 @@
     },
     "LENGTH": {
      "ok": true,
-     "detail": "2937 words (body 2611); target 3400"
+     "detail": "2940 words (body 2614); target 3400"
     },
     "K8_DISCLOSURES_IN_BODY": {
      "ok": true,
      "detail": "present"
     }
    },
-   "words": 2611
+   "words": 2614
   },
   {
    "id": 61,
@@ -4067,7 +4130,7 @@
     },
     "K2_HEADINGS": {
      "ok": true,
-     "detail": "10 subheadings; H1 in body: 0; jumps: []; generic: []"
+     "detail": "11 subheadings; H1 in body: 0; jumps: []; generic: []"
     },
     "K7_PROHIBITED_LANGUAGE": {
      "ok": true,
@@ -4087,7 +4150,7 @@
     },
     "E7_FAQ": {
      "ok": true,
-     "detail": "5 FAQs"
+     "detail": "6 FAQs"
     },
     "E9_TAKEAWAYS": {
      "ok": true,
@@ -4095,14 +4158,14 @@
     },
     "LENGTH": {
      "ok": true,
-     "detail": "2103 words (body 1755); target 2400"
+     "detail": "2352 words (body 1929); target 2400"
     },
     "K8_DISCLOSURES_IN_BODY": {
      "ok": true,
      "detail": "present"
     }
    },
-   "words": 1755
+   "words": 1929
   },
   {
    "id": 63,
@@ -5139,7 +5202,7 @@
     },
     "K2_HEADINGS": {
      "ok": true,
-     "detail": "11 subheadings; H1 in body: 0; jumps: []; generic: []"
+     "detail": "12 subheadings; H1 in body: 0; jumps: []; generic: []"
     },
     "K7_PROHIBITED_LANGUAGE": {
      "ok": true,
@@ -5147,7 +5210,7 @@
     },
     "K11_INTERNAL_LINKS": {
      "ok": true,
-     "detail": "7 distinct internal links; unknown: []"
+     "detail": "8 distinct internal links; unknown: []"
     },
     "SOURCES_ALLOWED": {
      "ok": true,
@@ -5167,14 +5230,14 @@
     },
     "LENGTH": {
      "ok": true,
-     "detail": "1952 words (body 1603); target 2200"
+     "detail": "2094 words (body 1745); target 2200"
     },
     "K8_DISCLOSURES_IN_BODY": {
      "ok": true,
      "detail": "present"
     }
    },
-   "words": 1603
+   "words": 1745
   },
   {
    "id": 79,
@@ -5703,14 +5766,14 @@
     },
     "LENGTH": {
      "ok": true,
-     "detail": "2591 words (body 2224); target 2400"
+     "detail": "2639 words (body 2272); target 2400"
     },
     "K8_DISCLOSURES_IN_BODY": {
      "ok": true,
      "detail": "present"
     }
    },
-   "words": 2224
+   "words": 2272
   },
   {
    "id": 87,
@@ -6122,7 +6185,7 @@
    "intent": "Educational",
    "target_page": "Pillar: Real estate debt investing",
    "url": "/learn/what-is-mortgage-investing/",
-   "on_page": false
+   "on_page": true
   },
   {
    "keyword": "debt investing vs equity investing real estate",
@@ -6689,7 +6752,7 @@
    "intent": "Comparison",
    "target_page": "Comparison: structures",
    "url": "/learn/mortgage-investment-structures-compared/",
-   "on_page": false
+   "on_page": true
   },
   {
    "keyword": "exempt market mortgage investment",
@@ -6770,7 +6833,7 @@
    "intent": "Risk / due diligence",
    "target_page": "Guide: How mortgages are secured",
    "url": "/learn/how-mortgage-investments-are-secured/",
-   "on_page": false
+   "on_page": true
   },
   {
    "keyword": "how is a mortgage investment secured",
@@ -6824,7 +6887,7 @@
    "intent": "Educational",
    "target_page": "Glossary",
    "url": "/glossary/",
-   "on_page": false
+   "on_page": true
   },
   {
    "keyword": "residential mortgage investing",
@@ -6914,7 +6977,7 @@
    "intent": "Educational",
    "target_page": "Guide: Second mortgage investing",
    "url": "/learn/second-mortgage-investments/",
-   "on_page": false
+   "on_page": true
   },
   {
    "keyword": "HELOC investment for investors",
@@ -7103,7 +7166,7 @@
    "intent": "Income / cash-flow intent",
    "target_page": "Guide: Gross vs net vs after-tax",
    "url": "/learn/gross-vs-net-vs-after-tax-yield/",
-   "on_page": false
+   "on_page": true
   },
   {
    "keyword": "mortgage investment fees Canada",
@@ -7787,7 +7850,7 @@
    "intent": "Educational",
    "target_page": "Glossary",
    "url": "/glossary/",
-   "on_page": false
+   "on_page": true
   },
   {
    "keyword": "do foreclosures affect MIC returns",
@@ -7814,7 +7877,7 @@
    "intent": "Risk / due diligence",
    "target_page": "Guide: Terms, renewals and exits",
    "url": "/learn/mortgage-investment-terms-renewals-and-exits/",
-   "on_page": false
+   "on_page": true
   },
   {
    "keyword": "mortgage investment regulations Canada",
@@ -7958,7 +8021,7 @@
    "intent": "Risk / due diligence",
    "target_page": "Guide: Investor eligibility",
    "url": "/learn/accredited-investor-canada/",
-   "on_page": false
+   "on_page": true
   },
   {
    "keyword": "MIC vs REIT",
@@ -8228,7 +8291,7 @@
    "intent": "Educational",
    "target_page": "Glossary",
    "url": "/glossary/",
-   "on_page": false
+   "on_page": true
   },
   {
    "keyword": "who should invest in mortgages",
@@ -8273,7 +8336,7 @@
    "intent": "Educational",
    "target_page": "Profile: Long-horizon investors",
    "url": "/learn/who-might-consider-mortgage-investing/",
-   "on_page": false
+   "on_page": true
   },
   {
    "keyword": "real estate exposure without owning property",
@@ -8309,7 +8372,7 @@
    "intent": "Risk / due diligence",
    "target_page": "Guide: Investor eligibility",
    "url": "/learn/accredited-investor-canada/",
-   "on_page": false
+   "on_page": true
   },
   {
    "keyword": "mortgage investing Ontario",
@@ -8561,7 +8624,7 @@
    "intent": "Comparison",
    "target_page": "Fold into BC hub",
    "url": "/learn/mortgage-investing-british-columbia/",
-   "on_page": false
+   "on_page": true
   },
   {
    "keyword": "mortgage investing Montreal",

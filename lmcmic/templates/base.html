@@ -50,7 +50,7 @@
   <div class="container-site h-16 md:h-20 flex items-center justify-between gap-4">
     <a href="/" class="flex items-center gap-3 shrink-0" aria-label="{{ site.site_name }} — home">
       <img src="/assets/brand/logo.png" alt="Lendmax Capital" width="533" height="112" class="h-8 md:h-9 w-auto">
-      <span class="hidden sm:flex lg:hidden xl:flex flex-col border-l border-border-hairline pl-3">
+      <span class="hidden sm:flex lg:hidden 2xl:flex flex-col border-l border-border-hairline pl-3">
         <span class="font-sans text-label-caps uppercase text-on-surface">Mortgage Investment Corp.</span>
         <span class="flex items-center gap-1 font-sans text-[10px] font-semibold text-on-surface-variant"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>FSRA Licence {{ site.fsra_licence }}</span>
       </span>
@@ -60,7 +60,7 @@
       {% endfor %}
     </nav>
     <div class="flex items-center gap-2">
-      <a href="tel:{{ site.phone_e164 }}" class="hidden xl:inline-flex items-center gap-1.5 font-sans text-label-lg text-on-surface hover:text-secondary whitespace-nowrap">{{ m.icon('call', 'text-[18px] text-secondary') }}{{ site.phone }}</a>
+      <a href="tel:{{ site.phone_e164 }}" class="hidden 2xl:inline-flex items-center gap-1.5 font-sans text-label-lg text-on-surface hover:text-secondary whitespace-nowrap">{{ m.icon('call', 'text-[18px] text-secondary') }}{{ site.phone }}</a>
       <a href="/contact/#intake" class="btn-red hidden md:inline-flex h-11 px-4 whitespace-nowrap">{{ m.icon('verified', 'text-[18px]') }}Request the OM</a>
       <button type="button" class="lg:hidden w-10 h-10 rounded-full bg-primary-container text-white flex items-center justify-center" data-menu-toggle aria-controls="mobile-menu" aria-expanded="false" aria-label="Open menu">{{ m.icon('menu', 'text-[22px]') }}</button>
     </div>

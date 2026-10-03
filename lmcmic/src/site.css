@@ -71,6 +71,9 @@
   .prose-lmc li.task-item { @apply flex items-start gap-3 bg-white rounded-xl border border-border-hairline px-4 py-3; }
   .prose-lmc li.task-item input { @apply mt-1 w-4 h-4 accent-secondary shrink-0; }
   .prose-lmc .worked { @apply bg-surface-container-low rounded-2xl p-5; }
+  /* Calculators sit inside articles but are not article tables. */
+  .prose-lmc .not-prose table { min-width: 0; }
+  .prose-lmc .not-prose td, .prose-lmc .not-prose th { padding-left: 0; padding-right: 0.5rem; }
 
   .faq-item summary { list-style: none; }
   .faq-item summary::-webkit-details-marker { display: none; }
