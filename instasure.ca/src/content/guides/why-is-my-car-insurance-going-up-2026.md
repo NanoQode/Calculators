@@ -2,6 +2,7 @@
 {
   "title": "Why Is My Car Insurance Going Up in 2026? Causes and 10 Ways to Save",
   "slug": "why-is-my-car-insurance-going-up-2026",
+  "author": "michael-le-chi",
   "seo_title": "Why Is My Car Insurance Going Up in 2026?",
   "meta_description": "Why is my car insurance going up? Repair costs, theft, claims and weather are pushing 2026 premiums higher. See what's driving it and 10 ways to lower it.",
   "excerpt": "Most 2026 car insurance increases come from industry-wide costs like repairs, theft and severe weather, plus province-specific rules. Here's what's behind your renewal and 10 practical ways to lower it.",

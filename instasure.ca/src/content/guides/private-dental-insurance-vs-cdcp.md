@@ -2,6 +2,7 @@
 {
   "title": "Private Dental Insurance vs the CDCP: Who Should Buy What?",
   "slug": "private-dental-insurance-vs-cdcp",
+  "author": "michael-le-chi",
   "seo_title": "Private Dental Insurance vs CDCP: Who Should Buy What",
   "meta_description": "Private dental insurance vs the Canadian Dental Care Plan: who qualifies for the CDCP, why private coverage can affect eligibility, and who should buy what.",
   "excerpt": "The Canadian Dental Care Plan covers eligible people with family income under $90,000 and no access to dental insurance. Private plans suit people who earn more or want broader health coverage, but buying one can affect CDCP eligibility.",

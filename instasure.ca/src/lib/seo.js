@@ -146,11 +146,21 @@ function personRef(a) {
   return { '@type': 'Person', '@id': abs(`/advisors/${a.slug}/`) + '#person', name: a.name, url: abs(`/advisors/${a.slug}/`) };
 }
 
+// Professional designations shown as credentials in Person markup (body that grants each one).
+const DESIGNATIONS = {
+  CFP: ['Certified Financial Planner (CFP)', 'FP Canada'], QAFP: ['Qualified Associate Financial Planner (QAFP)', 'FP Canada'],
+  CLU: ['Chartered Life Underwriter (CLU)', 'The Institute for Advanced Financial Education'], CHS: ['Certified Health Insurance Specialist (CHS)', 'The Institute for Advanced Financial Education'],
+  CIP: ['Chartered Insurance Professional (CIP)', 'Insurance Institute of Canada'], FCIP: ['Fellow Chartered Insurance Professional (FCIP)', 'Insurance Institute of Canada'],
+  CAIB: ['Canadian Accredited Insurance Broker (CAIB)', 'Insurance Brokers Association of Canada'],
+};
+
 function person(a) {
   const licences = Array.isArray(a.licences) ? a.licences : db.json(a.licences, []);
+  const designations = String(a.designations || '').split(/[,;/]/).map((d) => d.trim()).filter(Boolean);
   return {
     ...personRef(a),
     jobTitle: a.title || 'Licensed Insurance Advisor',
+    honorificSuffix: designations.length ? designations.join(', ') : undefined,
     image: a.photo ? abs(a.photo) : undefined,
     description: truncate((a.bio_md || '').replace(/[#*_>]/g, ''), 240),
     worksFor: { '@id': ORG_ID() },
@@ -161,6 +171,9 @@ function person(a) {
       name: `${l.type || 'Insurance licence'}${l.province ? ` (${String(l.province).toUpperCase()})` : ''}`,
       identifier: l.number || undefined,
       recognizedBy: l.regulator ? { '@type': 'Organization', name: l.regulator } : undefined,
+    })).concat(designations.map((d) => {
+      const [name, body] = DESIGNATIONS[d.toUpperCase()] || [d];
+      return { '@type': 'EducationalOccupationalCredential', credentialCategory: 'professional certification', name, recognizedBy: body ? { '@type': 'Organization', name: body } : undefined };
     })),
     areaServed: (db.json(a.provinces, []) || []).map((c) => geo.provinceByCode[c]).filter(Boolean).map((p) => ({ '@type': 'AdministrativeArea', name: p.name })),
   };

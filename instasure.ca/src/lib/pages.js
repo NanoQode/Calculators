@@ -187,8 +187,8 @@ function exampleTable(product, prov, c) {
 
 // ───────────────────────── Specialty services ─────────────────────────
 /** Services whose parent product is switched on (Admin → Products), in catalogue order. */
-/** An advisor profile is indexed and marked up as a Person only when it is not a sample and has a licence on record. */
-function advisorListed(a) { return !a.is_demo && db.json(a.licences, []).length > 0; }
+/** An advisor or author profile is indexed and marked up as a Person only when it is not a sample and has a licence or professional designation on record (so the team avatar is not). */
+function advisorListed(a) { return !a.is_demo && (db.json(a.licences, []).length > 0 || !!String(a.designations || '').trim()); }
 function enabledServices() { return servicesData.services.filter((sv) => isEnabled(sv.parent)); }
 function getService(slug) { const sv = servicesData.bySlug[slug]; return sv && isEnabled(sv.parent) ? sv : null; }
 function serviceByPath(p) { const sv = servicesData.byPath[p]; return sv && isEnabled(sv.parent) ? sv : null; }
@@ -262,7 +262,7 @@ function allPages() {
   }
   for (const cat of db.all('SELECT slug, name FROM categories ORDER BY sort')) pages.push({ path: `/guides/category/${cat.slug}/`, priority: 0.5, changefreq: 'weekly', lastmod: hubDate, type: 'category', indexable: true, title: cat.name });
   // Only a real advisor with a licence on record is offered to search engines (see advisorListed).
-  for (const a of db.all('SELECT slug, name, updated_at, is_demo, licences FROM advisors WHERE active = 1')) pages.push({ path: `/advisors/${a.slug}/`, priority: 0.5, changefreq: 'monthly', lastmod: String(a.updated_at).slice(0, 10), type: 'advisor', indexable: advisorListed(a), title: a.name });
+  for (const a of db.all('SELECT slug, name, updated_at, is_demo, licences, designations FROM advisors WHERE active = 1')) pages.push({ path: `/advisors/${a.slug}/`, priority: 0.5, changefreq: 'monthly', lastmod: String(a.updated_at).slice(0, 10), type: 'advisor', indexable: advisorListed(a), title: a.name });
   // Admin robots overrides apply to the sitemap too.
   const robotsOv = Object.fromEntries(db.all("SELECT path, robots FROM seo_overrides WHERE robots IS NOT NULL AND robots != ''").map((r) => [r.path, r.robots]));
   for (const pg of pages) if (robotsOv[pg.path]) pg.indexable = !/noindex/.test(robotsOv[pg.path]);

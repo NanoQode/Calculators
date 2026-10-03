@@ -2,6 +2,7 @@
 {
   "title": "Does Home Insurance Cover Water Damage in Canada?",
   "slug": "does-home-insurance-cover-water-damage-canada",
+  "author": "michael-le-chi",
   "seo_title": "Does Home Insurance Cover Water Damage in Canada?",
   "meta_description": "Does home insurance cover water damage? Sudden leaks usually are covered, but sewer backup and overland flood need add-ons. What's covered and what to ask.",
   "excerpt": "A standard Canadian home policy usually covers sudden, accidental water damage, but sewer backup, overland flooding and groundwater need optional coverage or are excluded. Here's how each type of water claim works.",

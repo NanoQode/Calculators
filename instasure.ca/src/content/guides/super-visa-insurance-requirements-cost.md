@@ -2,6 +2,7 @@
 {
   "title": "Super Visa Insurance: Requirements and Cost by Age",
   "slug": "super-visa-insurance-requirements-cost",
+  "author": "michael-le-chi",
   "seo_title": "Super Visa Insurance Requirements and Cost by Age",
   "meta_description": "Super Visa insurance requirements explained: $100,000 minimum, one-year validity and eligible insurers, plus illustrative costs by age, deductibles and refunds.",
   "excerpt": "IRCC requires Super Visa applicants to have private medical insurance with at least $100,000 of emergency coverage, valid for at least one year. Here's what qualifies, what it typically costs by age, and how deductibles, pre-existing conditions and refunds work.",

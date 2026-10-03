@@ -2,6 +2,7 @@
 {
   "title": "Ontario Auto Insurance Changes (July 2026): What's Optional Now",
   "slug": "ontario-auto-insurance-changes-july-2026",
+  "author": "michael-le-chi",
   "seo_title": "Ontario Auto Insurance Changes July 2026: What's Optional",
   "meta_description": "Ontario auto insurance changes took effect July 1, 2026. See which accident benefits are optional, who should keep income replacement and what to ask.",
   "excerpt": "Since July 1, 2026, only medical, rehabilitation and attendant care benefits are mandatory on Ontario auto policies. Here's what became optional and how to decide what to keep at renewal.",

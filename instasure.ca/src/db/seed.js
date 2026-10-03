@@ -17,6 +17,7 @@ const auth = require('../lib/auth');
 const scoring = require('../lib/scoring');
 const publisher = require('../lib/publisher');
 const { sqlNow } = require('../lib/util');
+const AUTHORS = require('../data/authors');
 
 const CATEGORIES = [
   ['life-insurance', 'Life insurance', 'Term, whole and no-medical life insurance explained for Canadians.', 'personal'],
@@ -127,6 +128,45 @@ function parseGuide(file) {
   return { meta: JSON.parse(m[1]), body: m[2].trim() };
 }
 
+const advisorId = (slug) => (slug ? (db.get('SELECT id FROM advisors WHERE slug = ?', [slug]) || {}).id || null : null);
+
+/** Post columns from a parsed guide file (front matter + body). `author`/`reviewer` are advisor slugs. */
+function guideRow(g, slug) {
+  const cat = db.get('SELECT id FROM categories WHERE slug = ?', [CATEGORY_FOR[g.meta.category] || 'claims-rules']);
+  const defaultAuthor = (AUTHORS.find((a) => a.default) || {}).slug;
+  return {
+    slug, title: g.meta.title, excerpt: g.meta.excerpt, body_md: g.body, content_type: g.meta.content_type || 'guide',
+    category_id: cat ? cat.id : null, tags: g.meta.keywords || [],
+    seo_title: g.meta.seo_title, meta_description: g.meta.meta_description,
+    focus_keyword: g.meta.focus_keyword, keywords: g.meta.keywords || [], faq: g.meta.faq || [], takeaways: g.meta.takeaways || [],
+    sources: g.meta.sources || [], products: g.meta.products || [], provinces: g.meta.provinces || [],
+    author_id: advisorId(g.meta.author || defaultAuthor), reviewer_id: advisorId(g.meta.reviewer),
+    featured_image: g.meta.featured_image || null, image_alt: g.meta.image_alt || null,
+  };
+}
+
+/**
+ * Publish guide files from a directory: each slug not yet in the database is inserted and published now
+ * (rendered, scored, cache purged, IndexNow pinged). Existing slugs are skipped unless `update` is set,
+ * so edits made in the admin are never overwritten by accident.
+ */
+async function publishGuideFiles(dir, { update = false, only = null } = {}) {
+  const out = [];
+  for (const f of fs.readdirSync(dir).filter((x) => x.endsWith('.md')).sort()) {
+    const g = parseGuide(path.join(dir, f));
+    const slug = g.meta.slug || f.replace(/\.md$/, '');
+    if (only && !only.includes(slug)) continue;
+    const existing = db.get('SELECT id FROM posts WHERE slug = ?', [slug]);
+    if (existing && !update) continue;
+    const row = guideRow(g, slug);
+    let id;
+    if (existing) { db.update('posts', existing.id, { ...row, updated_at: sqlNow() }); id = existing.id; } else id = db.insert('posts', { ...row, status: 'draft' });
+    const r = await publisher.publish(id);
+    out.push({ slug, url: `${config.siteUrl}/guides/${slug}/`, created: !existing, words: r.post.word_count, seo_score: r.post.seo_score, indexnow: r.ping });
+  }
+  return out;
+}
+
 function importGuides({ force = false } = {}) {
   const dir = path.join(config.ROOT, 'src', 'content', 'guides');
   if (!fs.existsSync(dir)) return 0;
@@ -138,16 +178,9 @@ function importGuides({ force = false } = {}) {
     const slug = g.meta.slug || f.replace(/\.md$/, '');
     const existing = db.get('SELECT id FROM posts WHERE slug = ?', [slug]);
     if (existing && !force) return;
-    const cat = db.get('SELECT id FROM categories WHERE slug = ?', [CATEGORY_FOR[g.meta.category] || 'claims-rules']);
     // Stagger publish dates so "latest" ordering looks natural.
     const published = sqlNow(-(files.length - idx) * 36 * 3600 * 1000);
-    const row = {
-      slug, title: g.meta.title, excerpt: g.meta.excerpt, body_md: g.body, content_type: g.meta.content_type || 'guide',
-      category_id: cat ? cat.id : null, tags: g.meta.keywords || [], status: 'published',
-      published_at: published, updated_at: sqlNow(), seo_title: g.meta.seo_title, meta_description: g.meta.meta_description,
-      focus_keyword: g.meta.focus_keyword, keywords: g.meta.keywords || [], faq: g.meta.faq || [], takeaways: g.meta.takeaways || [],
-      sources: g.meta.sources || [], products: g.meta.products || [], provinces: g.meta.provinces || [],
-    };
+    const row = { ...guideRow(g, slug), status: 'published', published_at: published, updated_at: sqlNow() };
     let id;
     if (existing) { db.update('posts', existing.id, row); id = existing.id; } else id = db.insert('posts', row);
     publisher.recompile(id);
@@ -183,6 +216,22 @@ function seed({ quiet = false } = {}) {
     }
     log(`${ADVISORS.length} SAMPLE advisors created (flagged is_demo — replace before launch)`);
   }
+  // Named authors (src/data/authors.js): insert if missing, never overwrite admin edits. The first time the
+  // default author is created, guides without an author are attributed to them.
+  for (const a of AUTHORS) {
+    if (db.get('SELECT id FROM advisors WHERE slug = ?', [a.slug])) continue;
+    const id = db.insert('advisors', {
+      slug: a.slug, name: a.name, title: a.title, designations: a.designations, photo: a.photo, bio_md: a.bio_md,
+      languages: a.languages, provinces: a.provinces, licences: a.licences || [], categories: a.categories, specialties: [],
+      years_experience: a.years_experience || null, active: 1, accepting_leads: a.accepting_leads ? 1 : 0, is_demo: 0,
+    });
+    log(`author ${a.name} created`);
+    if (a.default) {
+      const n = db.run('UPDATE posts SET author_id = ? WHERE author_id IS NULL', [id]).changes;
+      if (n) log(`${n} guides attributed to ${a.name}`);
+    }
+  }
+
   // Databases created before specialist desks existed: give the sample advisors their demo desks once.
   for (const a of ADVISORS) {
     db.run("UPDATE advisors SET specialties = ? WHERE slug = ? AND is_demo = 1 AND (specialties IS NULL OR specialties = '[]')", [JSON.stringify(a.specialties || []), a.slug]);
@@ -221,4 +270,4 @@ function seed({ quiet = false } = {}) {
   return true;
 }
 
-module.exports = { seed, importGuides, parseGuide, CAMPAIGNS, ADVISORS };
+module.exports = { seed, importGuides, publishGuideFiles, guideRow, parseGuide, CAMPAIGNS, ADVISORS, CATEGORY_FOR };

@@ -2,6 +2,7 @@
 {
   "title": "How Much Does Life Insurance Cost in Canada? Prices by Age",
   "slug": "how-much-does-life-insurance-cost-canada",
+  "author": "michael-le-chi",
   "seo_title": "How Much Does Life Insurance Cost in Canada? (2026)",
   "meta_description": "How much does life insurance cost in Canada? See example term life prices by age, smoker vs non-smoker rates, what insurers look at and how to pay less.",
   "excerpt": "Example term life prices by age, sex, smoking status, coverage amount and term length, from the Instasure estimate model, plus the factors that move your price and ways to lower it.",

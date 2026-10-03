@@ -2,6 +2,7 @@
 {
   "title": "Term vs Whole Life Insurance in Canada: Which Fits You?",
   "slug": "term-vs-whole-life-insurance-canada",
+  "author": "michael-le-chi",
   "seo_title": "Term vs Whole Life Insurance in Canada (2026)",
   "meta_description": "Term vs whole life insurance in Canada: compare cost, cash value and flexibility, see when each fits, and learn how laddering and conversion work.",
   "excerpt": "Term life gives the most coverage per dollar for a set period, while whole life covers you for life and builds cash value at a much higher price. Here is how to decide.",

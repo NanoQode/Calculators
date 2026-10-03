@@ -2,6 +2,7 @@
 {
   "title": "How Much Does Small Business Insurance Cost in Canada?",
   "slug": "small-business-insurance-cost-canada",
+  "author": "michael-le-chi",
   "seo_title": "Small Business Insurance Cost in Canada: What Drives It",
   "meta_description": "Small business insurance cost in Canada depends on your industry, revenue, limits and claims. See illustrative ranges by business type and ways to lower cost.",
   "excerpt": "Small business insurance in Canada can cost a few hundred dollars a year for a low-risk consultant or several thousand for a contractor or restaurant. Here's what drives the price, which coverages matter and how to lower your premium.",

@@ -2,6 +2,7 @@
 {
   "title": "Calgary Hail Insurance Guide: Home and Car Coverage Explained",
   "slug": "calgary-hail-insurance-guide",
+  "author": "michael-le-chi",
   "seo_title": "Calgary Hail Insurance Guide: Home and Car Coverage",
   "meta_description": "Calgary hail insurance guide: how comprehensive covers hail on your car, how home roof claims and deductibles work, and how to reduce future hail costs.",
   "excerpt": "One Calgary hailstorm can damage your car and your roof in minutes. Here's how comprehensive auto coverage and home insurance handle hail, what deductibles and roof terms to check, and how to file a claim.",

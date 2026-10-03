@@ -2,6 +2,7 @@
 {
   "title": "ICBC Optional Insurance Explained: What to Buy on Top of Basic",
   "slug": "icbc-optional-insurance-explained",
+  "author": "michael-le-chi",
   "seo_title": "ICBC Optional Insurance Explained: What to Buy in BC",
   "meta_description": "ICBC optional insurance explained: what Basic Autoplan covers, which optional coverage to add, private insurer options and the low-kilometre discount in BC.",
   "excerpt": "ICBC Basic is mandatory in BC, but it doesn't repair your own car or cover theft and hail. Here's how ICBC optional insurance works, where private insurers fit in and what to consider buying.",

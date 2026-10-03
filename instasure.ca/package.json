@@ -15,6 +15,9 @@
     "keywords:report": "node scripts/keyword-report.js",
     "indexnow:submit": "node --disable-warning=ExperimentalWarning scripts/indexnow-submit.js",
     "team-advisor": "node --disable-warning=ExperimentalWarning scripts/team-advisor.js",
+    "guides:check": "node --disable-warning=ExperimentalWarning scripts/check-guide.js",
+    "guides:publish": "node --disable-warning=ExperimentalWarning scripts/publish-guides.js",
+    "guides:next": "node scripts/next-topics.js",
     "start": "node --disable-warning=ExperimentalWarning server.js",
     "dev": "npm run build:css && NODE_ENV=development node --disable-warning=ExperimentalWarning --watch server.js",
     "test": "node --disable-warning=ExperimentalWarning --test --test-concurrency=1 test/*.test.js"

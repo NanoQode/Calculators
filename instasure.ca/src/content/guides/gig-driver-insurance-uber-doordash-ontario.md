@@ -2,6 +2,7 @@
 {
   "title": "Gig Driver Insurance in Ontario: Uber, Lyft, DoorDash and Skip",
   "slug": "gig-driver-insurance-uber-doordash-ontario",
+  "author": "michael-le-chi",
   "seo_title": "Gig Driver Insurance in Ontario: Uber and DoorDash",
   "meta_description": "Gig driver insurance in Ontario: how Uber and DoorDash coverage works, where gaps are, when you need OPCF 6A and which accident benefits to keep.",
   "excerpt": "A personal auto policy may not cover you while you drive for Uber, Lyft, DoorDash or Skip. Here's how to close the gaps in Ontario, from the OPCF 6A endorsement to your accident benefit choices after July 2026.",

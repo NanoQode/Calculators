@@ -2,6 +2,7 @@
 {
   "title": "Can a Landlord Require Tenant Insurance in Ontario?",
   "slug": "tenant-insurance-ontario-landlord-require",
+  "author": "michael-le-chi",
   "seo_title": "Tenant Insurance Ontario: Can a Landlord Require It?",
   "meta_description": "Tenant insurance Ontario guide: a landlord can require liability coverage through the standard lease. See what it covers, typical costs and tips for students.",
   "excerpt": "No Ontario law forces renters to buy tenant insurance, but a landlord can make liability coverage a condition of the lease. Here's what the standard lease says, what a policy covers and what it typically costs.",

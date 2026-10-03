@@ -2,6 +2,7 @@
 {
   "title": "Life Insurance for Newcomers to Canada: PR, Work Permits and Students",
   "slug": "life-insurance-for-newcomers-to-canada",
+  "author": "michael-le-chi",
   "seo_title": "Life Insurance for Newcomers to Canada (2026 Guide)",
   "meta_description": "Life insurance for newcomers to Canada: who qualifies on PR, work and study permits, coverage limits, underwriting abroad, group benefits and Super Visa tips.",
   "excerpt": "Permanent residents can usually buy life insurance much like citizens, and many work-permit holders and students can qualify too. Here is what insurers look at and how to prepare.",

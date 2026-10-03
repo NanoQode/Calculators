@@ -2,6 +2,7 @@
 {
   "title": "How Much Life Insurance Do I Need in Canada?",
   "slug": "how-much-life-insurance-do-i-need-canada",
+  "author": "michael-le-chi",
   "seo_title": "How Much Life Insurance Do I Need? Canada Guide (2026)",
   "meta_description": "How much life insurance do I need? Use the DIME method, a worked Canadian example, and your group and CPP benefits to size your coverage in minutes.",
   "excerpt": "Most Canadian families need enough life insurance to clear debts, pay off the mortgage, replace several years of income and fund education. Here is how to add it up with the DIME method.",

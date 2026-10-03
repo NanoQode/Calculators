@@ -2,6 +2,7 @@
 {
   "title": "Condo Insurance Deductible Assessment, Explained",
   "slug": "condo-insurance-deductible-assessment-explained",
+  "author": "michael-le-chi",
   "seo_title": "Condo Insurance Deductible Assessment, Explained",
   "meta_description": "How a condo insurance deductible assessment works in Ontario and BC: master vs unit policy, the standard unit, loss assessment and how to choose your limits.",
   "excerpt": "When your condo or strata corporation charges its master-policy deductible back to you, deductible-assessment coverage on your unit policy pays it. Here's how the two policies split the risk and how to choose a limit.",

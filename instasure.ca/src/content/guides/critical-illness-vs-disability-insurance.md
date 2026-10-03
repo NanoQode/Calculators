@@ -2,6 +2,7 @@
 {
   "title": "Critical Illness vs Disability Insurance: Which Do You Need?",
   "slug": "critical-illness-vs-disability-insurance",
+  "author": "michael-le-chi",
   "seo_title": "Critical Illness vs Disability Insurance in Canada",
   "meta_description": "Critical illness vs disability insurance in Canada: lump sum vs monthly income, who needs which, how they work together and how benefits are taxed.",
   "excerpt": "Critical illness insurance pays a lump sum after a covered diagnosis, while disability insurance replaces your income if you cannot work. Here is how to choose, or combine, the two.",

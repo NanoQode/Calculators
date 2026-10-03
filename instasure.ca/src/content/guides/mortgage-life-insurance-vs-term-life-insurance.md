@@ -2,6 +2,7 @@
 {
   "title": "Mortgage Life Insurance vs Term Life Insurance: What to Choose in 2026",
   "slug": "mortgage-life-insurance-vs-term-life-insurance",
+  "author": "michael-le-chi",
   "seo_title": "Mortgage Life Insurance vs Term Life Insurance (2026)",
   "meta_description": "Mortgage life insurance vs term life insurance: how bank creditor coverage, declining benefits and post-claim underwriting compare at your 2026 renewal.",
   "excerpt": "Bank mortgage insurance pays your lender a shrinking amount, while personal term life pays your family a level benefit and moves with you. Here is how to compare them at renewal.",

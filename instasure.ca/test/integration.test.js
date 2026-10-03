@@ -366,3 +366,41 @@ test('advisor profiles: indexed and marked up as a Person only with a licence on
   db.run("DELETE FROM advisors WHERE slug IN ('test-team-avatar', 'test-licensed-advisor')");
   require('../src/lib/cache').clear();
 });
+
+test('authors: Michael Le Chi is seeded, guides are attributed to him, and his byline carries CFP Person markup', async () => {
+  const req = client();
+  const m = db.get("SELECT * FROM advisors WHERE slug = 'michael-le-chi'");
+  assert.ok(m && m.active === 1 && m.accepting_leads === 0 && m.is_demo === 0, 'author profile, not a lead-taking advisor');
+  const files = require('node:fs').readdirSync(require('node:path').join(__dirname, '..', 'src', 'content', 'guides')).map((f) => f.replace(/\.md$/, ''));
+  for (const f of files) assert.ok(db.value('SELECT author_id FROM posts WHERE slug = ?', [f]), `${f} has an author`);
+  const slug = db.value("SELECT slug FROM posts WHERE status = 'published' AND author_id = ? ORDER BY id LIMIT 1", [m.id]);
+  const html = await (await req(`/guides/${slug}/`)).text();
+  assert.match(html, /href="\/advisors\/michael-le-chi\/"[^>]*rel="author"/);
+  const graph = jsonLd(html)['@graph'];
+  const art = graph.find((n) => n['@type'] === 'Article' || n['@type'] === 'NewsArticle');
+  assert.equal(art.author.name, 'Michael Le Chi');
+  const p = graph.find((n) => n['@type'] === 'Person' && n.name === 'Michael Le Chi');
+  assert.ok(p.hasCredential.some((c) => /Certified Financial Planner/.test(c.name) && c.recognizedBy.name === 'FP Canada'));
+  assert.match(p.image, /\/img\/team\/michael-le-chi\.webp$/);
+  const profile = await (await req('/advisors/michael-le-chi/')).text();
+  assert.doesNotMatch(profile, /noindex/, 'a credentialled author profile is indexable');
+  assert.ok((await (await req('/sitemap-advisors.xml')).text()).includes('/advisors/michael-le-chi/'));
+});
+
+test('guide files publish once: new slugs go live with the default author, existing ones are never overwritten', async () => {
+  const fs = require('node:fs'); const os = require('node:os'); const path = require('node:path');
+  const { publishGuideFiles } = require('../src/db/seed');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-'));
+  const meta = { title: 'Test Pipeline Guide', slug: 'test-pipeline-guide', seo_title: 'Test Pipeline Guide for Canada', meta_description: 'x'.repeat(130), excerpt: 'A test guide.', category: 'auto', content_type: 'guide', focus_keyword: 'test pipeline guide', products: ['car-insurance'] };
+  fs.writeFileSync(path.join(dir, 'test-pipeline-guide.md'), `---\n${JSON.stringify(meta)}\n---\n## What is a test pipeline guide?\n\nBody text.`);
+  const first = await publishGuideFiles(dir);
+  assert.equal(first.length, 1);
+  const row = db.get("SELECT p.status, a.slug AS author FROM posts p JOIN advisors a ON a.id = p.author_id WHERE p.slug = 'test-pipeline-guide'");
+  assert.deepEqual({ ...row }, { status: 'published', author: 'michael-le-chi' });
+  db.run("UPDATE posts SET title = 'Edited in admin' WHERE slug = 'test-pipeline-guide'");
+  assert.equal((await publishGuideFiles(dir)).length, 0, 'second run publishes nothing');
+  assert.equal(db.value("SELECT title FROM posts WHERE slug = 'test-pipeline-guide'"), 'Edited in admin');
+  require('../src/lib/cache').clear();
+  assert.equal((await client()('/guides/test-pipeline-guide/')).status, 200);
+  db.run("DELETE FROM posts WHERE slug = 'test-pipeline-guide'");
+});

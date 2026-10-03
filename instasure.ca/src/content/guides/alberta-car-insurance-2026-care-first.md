@@ -2,6 +2,7 @@
 {
   "title": "Alberta Car Insurance 2026: Rate Cap, Care-First and How to Shop",
   "slug": "alberta-car-insurance-2026-care-first",
+  "author": "michael-le-chi",
   "seo_title": "Alberta Car Insurance 2026: Rate Cap and Care-First",
   "meta_description": "Alberta car insurance in 2026: how the 7.5% good-driver rate cap works, what Care-First changes from January 1, 2027, and how to shop your renewal now.",
   "excerpt": "Alberta's 2026 good-driver rate cap is 7.5%, and the province moves to a Care-First injury model on January 1, 2027. Here's what that means for your renewal, your claims and how you shop.",
