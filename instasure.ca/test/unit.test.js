@@ -1,0 +1,88 @@
+'use strict';
+require('./helpers');
+require('../src/db').open();
+const test = require('node:test');
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+
+const quote = require('../src/lib/quote-engine');
+const scoring = require('../src/lib/scoring');
+const { audit } = require('../public/js/seo-audit');
+const media = require('../src/lib/media');
+const geo = require('../src/data/geo');
+const { products } = require('../src/data/products');
+const md = require('../src/lib/markdown');
+const { parseGuide } = require('../src/db/seed');
+const U = require('../src/lib/util');
+
+test('estimate engine: every product returns a sane range with an example profile', () => {
+  for (const p of products) {
+    const e = quote.estimate(p.slug, quote.DEFAULT_PROFILES[p.quoteFlow]);
+    assert.ok(e.low > 0 && e.low <= e.mid && e.mid <= e.high, `${p.slug} ordered range`);
+    assert.ok(e.example && e.example.length > 10, `${p.slug} example profile`);
+    assert.equal(e.tiers.length, 3, `${p.slug} three tiers`);
+    assert.ok(e.asOf, `${p.slug} dated`);
+  }
+});
+
+test('estimate engine: life premiums rise with age and smoking', () => {
+  const p = (age, smoker) => quote.estimate('term-life-insurance', { age, smoker, coverage: 500000, term: 20, sex: 'male' }).mid;
+  assert.ok(p(30, 'no') < p(45, 'no') && p(45, 'no') < p(55, 'no'));
+  assert.ok(p(35, 'yes') > p(35, 'no') * 2);
+});
+
+test('estimate engine: Brampton auto costs more than Ottawa auto', () => {
+  const b = quote.estimate('car-insurance', { province: 'on', city: 'brampton', age: 35 }).mid;
+  const o = quote.estimate('car-insurance', { province: 'on', city: 'ottawa', age: 35 }).mid;
+  assert.ok(b > o);
+});
+
+test('postal code → province', () => {
+  assert.equal(geo.provinceFromPostal('M5V 2T6'), 'on');
+  assert.equal(geo.provinceFromPostal('t2p1j9'), 'ab');
+  assert.equal(geo.provinceFromPostal('H3Z 2Y7'), 'qc');
+  assert.equal(geo.provinceFromPostal('nope'), null);
+});
+
+test('scoring: a complete, consented, phone-verified life quote is grade A; junk is D', () => {
+  const rules = scoring.DEFAULT_RULES.map(([name, category, field, operator, value, points], id) => ({ id, name, category, field, operator, value, points }));
+  const hot = scoring.evaluate({ lead_type: 'quote', lead_value: 450, coverage: 750000, age: 38, serviceable: true, timeframe: '30d', has_phone: true, has_name: true, email_valid: true, wants_call: true }, rules);
+  assert.equal(hot.grade, 'A');
+  const junk = scoring.evaluate({ lead_type: 'newsletter', lead_value: 40, serviceable: false, email_valid: false, email_disposable: true }, rules);
+  assert.equal(junk.grade, 'D');
+  assert.ok(junk.score >= 0 && hot.score <= 100);
+});
+
+test('util: phone/email/postal normalisation and CSV injection guard', () => {
+  assert.equal(U.normPhone('(416) 555-0199'), '+14165550199');
+  assert.equal(U.normPhone('123'), null);
+  assert.equal(U.normPostal('m5v2t6'), 'M5V 2T6');
+  assert.ok(U.isEmail('a@b.ca') && !U.isEmail('a@b'));
+  assert.equal(U.csvCell('=HYPERLINK("x")'), '"\'=HYPERLINK(""x"")"');
+});
+
+test('markdown: strips scripts and event handlers, builds a TOC', () => {
+  const r = md.render('## How much?\n\n<script>alert(1)</script><img src=x onerror=alert(1)>\n\n[x](javascript:alert(1))');
+  assert.ok(!/script|onerror|javascript:/i.test(r.html));
+  assert.equal(r.toc[0].id, 'how-much');
+});
+
+test('media: magic-byte sniffing refuses SVG and HTML disguised as images', () => {
+  assert.equal(media.sniff(Buffer.from('89504e470d0a1a0a0000000d49484452', 'hex')), 'png');
+  assert.equal(media.sniff(Buffer.from('<svg xmlns="http://www.w3.org/2000/svg"><script/></svg>')), null);
+  assert.equal(media.sniff(Buffer.from('<!doctype html><html><body>hi</body></html>')), null);
+  assert.throws(() => media.save(Buffer.from('<svg onload=alert(1)></svg>   ')), /PNG, JPEG, WebP or GIF/);
+});
+
+test('every launch guide parses and scores ≥ 85 on the SEO/AEO audit', () => {
+  const dir = path.join(__dirname, '..', 'src', 'content', 'guides');
+  const files = fs.readdirSync(dir).filter((f) => f.endsWith('.md'));
+  assert.ok(files.length >= 18);
+  for (const f of files) {
+    const { meta, body } = parseGuide(path.join(dir, f));
+    const r = audit({ title: meta.title, seoTitle: meta.seo_title, metaDescription: meta.meta_description, slug: meta.slug, bodyMd: body, focusKeyword: meta.focus_keyword, faq: meta.faq, takeaways: meta.takeaways, sources: meta.sources, products: meta.products, contentType: meta.content_type, siteHost: 'instasure.test' });
+    assert.ok(r.score >= 85, `${f} scored ${r.score}: ${r.checks.filter((c) => !c.ok).map((c) => c.id).join(', ')}`);
+    for (const p of meta.products) assert.ok(products.some((x) => x.slug === p), `${f}: unknown product ${p}`);
+  }
+});

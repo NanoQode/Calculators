@@ -1,0 +1,29 @@
+<%- include('partials-head', { h: 'Media library', sub: 'PNG, JPEG, WebP or GIF up to 5 MB. SVG is refused for security. Files are renamed on upload; alt text is reused wherever the image appears.', actions: '<a class="btn-soft !py-2 !px-4" href="/admin/media?adopt=1">Find untracked files</a>' }) %>
+<% if (adopted) { %><p class="mb-3 font-label-md text-label-md text-secondary"><%= adopted %> untracked image(s) added to the library.</p><% } %>
+<% if (refs) { %><div class="mb-4 card p-4"><p class="font-label-md text-label-md mb-2">This image is still referenced:</p><ul class="font-body-sm text-body-sm"><% Object.keys(refs).forEach(function(k){ if (refs[k]) { %><li><%= k.replace(/_/g,' ') %>: <%= refs[k] %></li><% } }) %></ul>
+  <form method="post" action="/admin/media/<%= refId %>/delete" class="mt-2"><input type="hidden" name="_csrf" value="<%= csrf %>"><input type="hidden" name="force" value="1"><button class="font-label-md text-label-md text-error hover:underline">Delete anyway</button></form></div><% } %>
+<form method="post" action="/admin/media?_csrf=<%= encodeURIComponent(csrf) %>" enctype="multipart/form-data" class="card p-5 mb-4 flex flex-col md:flex-row gap-3 items-stretch md:items-end" data-dropzone>
+  <label class="flex-1 border-2 border-dashed border-outline-variant rounded-xl p-6 text-center cursor-pointer hover:border-secondary" data-drop-target>
+    <span class="material-symbols-outlined text-[32px] text-secondary">upload</span>
+    <span class="block font-label-md text-label-md">Drop an image here or click to choose</span>
+    <input type="file" name="file" accept="image/png,image/jpeg,image/webp,image/gif" class="sr-only" required data-file>
+    <span class="block font-body-sm text-body-sm text-on-surface-variant mt-1" data-file-name></span>
+  </label>
+  <label class="md:w-72"><span class="admin-label">Alt text</span><input class="admin-input" name="alt" placeholder="Describe the image for screen readers"></label>
+  <button class="btn-primary !py-2.5">Upload</button>
+  <p class="hidden text-error font-label-md text-label-md" data-upload-error></p>
+</form>
+<div class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-3">
+  <% list.forEach(function(m){ %>
+  <div class="card overflow-hidden flex flex-col">
+    <div class="h-32 bg-[length:16px_16px] bg-[linear-gradient(45deg,#eef_25%,transparent_25%,transparent_75%,#eef_75%),linear-gradient(45deg,#eef_25%,transparent_25%,transparent_75%,#eef_75%)] bg-[position:0_0,8px_8px]"><img src="/uploads/<%= m.filename %>" alt="<%= m.alt || '' %>" class="w-full h-full object-contain" loading="lazy" data-dim></div>
+    <div class="p-2 flex flex-col gap-1">
+      <p class="font-body-sm text-body-sm truncate" title="<%= m.original_name %>"><%= m.original_name || m.filename %></p>
+      <p class="font-label-sm text-label-sm text-on-surface-variant"><%= Math.round(m.size / 1024) %> KB · <span data-dim-out></span></p>
+      <button type="button" class="link font-label-sm text-label-sm text-left" data-copy="/uploads/<%= m.filename %>">Copy URL</button>
+      <form method="post" action="/admin/media/<%= m.id %>/alt" class="flex gap-1"><input type="hidden" name="_csrf" value="<%= csrf %>"><input class="admin-input !py-1 text-body-sm" name="alt" value="<%= m.alt || '' %>" placeholder="Alt text"><button class="btn-soft !py-1 !px-2 text-body-sm">Save</button></form>
+      <form method="post" action="/admin/media/<%= m.id %>/delete" data-confirm="Delete this image?"><input type="hidden" name="_csrf" value="<%= csrf %>"><button class="font-label-sm text-label-sm text-error hover:underline">Delete</button></form>
+    </div>
+  </div>
+  <% }) %>
+</div>

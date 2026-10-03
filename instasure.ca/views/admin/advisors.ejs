@@ -1,0 +1,12 @@
+<%- include('partials-head', { h: 'Advisors', sub: 'Licensed advisors are your E-E-A-T authors and your lead-routing pool. Leads only route to active advisors licensed in the lead’s province for that product category.', actions: '<a class="btn-primary !py-2 !px-4" href="/admin/advisors/new"><span class="material-symbols-outlined text-[18px]">person_add</span>Add advisor</a>' }) %>
+<section class="card p-5 mb-4"><h2 class="font-headline-sm text-headline-sm mb-2">Licensed coverage by province (real advisors)</h2>
+  <div class="flex flex-wrap gap-2"><% coverage.forEach(function(c){ %><span class="badge !py-1.5 !px-3 <%= c.n ? 'bg-secondary-container text-on-secondary-container' : 'bg-error-container text-on-error-container' %>"><%= c.p.abbr %> · <%= c.n %></span><% }) %></div></section>
+<div class="card overflow-x-auto"><table class="w-full">
+  <thead><tr><th class="admin-th">Advisor</th><th class="admin-th">Provinces</th><th class="admin-th">Categories</th><th class="admin-th">Open leads</th><th class="admin-th">Won</th><th class="admin-th">Routing</th></tr></thead>
+  <tbody><% rows.forEach(function(a){ %><tr class="hover:bg-surface-container-low <%= a.active ? '' : 'opacity-50' %>">
+    <td class="admin-td"><a class="link" href="/admin/advisors/<%= a.id %>"><%= a.name %></a><% if (a.is_demo) { %> <span class="badge bg-error-container text-on-error-container">sample</span><% } %><div class="text-body-sm text-on-surface-variant"><%= a.title || '' %><%= a.has_login ? ' · has login' : '' %></div></td>
+    <td class="admin-td text-body-sm uppercase"><%= db_json(a.provinces, []).join(', ') %></td>
+    <td class="admin-td text-body-sm"><%= db_json(a.categories, []).join(', ') %></td>
+    <td class="admin-td text-body-sm"><%= a.open_leads %><%= a.max_open_leads ? ' / ' + a.max_open_leads : '' %></td><td class="admin-td text-body-sm"><%= a.won %></td>
+    <td class="admin-td text-body-sm"><%= a.active && a.accepting_leads ? 'on · weight ' + a.weight : 'paused' %></td></tr><% }) %>
+  </tbody></table></div>

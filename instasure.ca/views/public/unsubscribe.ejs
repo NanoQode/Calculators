@@ -1,0 +1,16 @@
+<section class="container-site py-space-xl">
+  <div class="max-w-lg mx-auto card p-space-lg flex flex-col gap-space-md text-center">
+    <% if (done) { %>
+    <span class="material-symbols-outlined text-secondary text-[40px] mx-auto">mark_email_read</span>
+    <h1 class="font-headline-md text-headline-md text-primary-container">You’re unsubscribed</h1>
+    <p class="font-body-md text-body-md text-on-surface-variant">We won’t send you marketing emails anymore. You may still receive a reply if you contact us directly.</p>
+    <% } else if (lead) { %>
+    <h1 class="font-headline-md text-headline-md text-primary-container">Unsubscribe from <%= s.site_name %> emails?</h1>
+    <p class="font-body-md text-body-md text-on-surface-variant"><%= lead.email.replace(/^(.).*(@.*)$/, '$1•••$2') %> will stop receiving reminders and insurance tips.</p>
+    <form method="post" action="/unsubscribe"><input type="hidden" name="l" value="<%= l %>"><input type="hidden" name="s" value="<%= sig %>"><button class="btn-dark w-full">Unsubscribe</button></form>
+    <% } else { %>
+    <h1 class="font-headline-md text-headline-md text-primary-container">Link expired or invalid</h1>
+    <p class="font-body-md text-body-md text-on-surface-variant">Email <a class="link" href="mailto:<%= s.email %>"><%= s.email %></a> and we’ll unsubscribe you right away.</p>
+    <% } %>
+  </div>
+</section>

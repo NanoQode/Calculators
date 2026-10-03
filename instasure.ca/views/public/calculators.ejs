@@ -1,0 +1,16 @@
+<section class="container-site pt-space-md pb-space-xl">
+  <div class="max-w-3xl">
+    <p class="eyebrow">Free tools</p>
+    <h1 class="font-display-lg-mobile text-display-lg-mobile lg:font-display-lg lg:text-display-lg text-primary-container tracking-tight">Insurance calculators for Canadians</h1>
+    <p class="mt-space-sm font-body-lg text-body-lg text-on-surface-variant">Work out how much coverage you need and what it might cost — instantly, privately, and without giving us your email.</p>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-space-lg mt-space-xl">
+    <% Object.keys(calcs).forEach(function(k){ var c = calcs[k]; %>
+    <a href="/calculators/<%= k %>/" class="group card card-hover p-space-lg flex items-start gap-space-md">
+      <span class="w-12 h-12 rounded-2xl bg-secondary-container/40 text-on-secondary-container flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-[26px]"><%= c.icon %></span></span>
+      <span class="flex flex-col gap-1"><span class="font-headline-sm text-headline-sm text-on-surface group-hover:text-secondary"><%= c.h1 %></span><span class="font-body-sm text-body-sm text-on-surface-variant"><%= c.desc %></span><span class="mt-2 font-label-md text-label-md text-secondary">Open calculator →</span></span>
+    </a>
+    <% }) %>
+  </div>
+</section>
+<%- include('partials/advisor-banner', { bannerTitle: 'Rather have an expert run the numbers?' }) %>

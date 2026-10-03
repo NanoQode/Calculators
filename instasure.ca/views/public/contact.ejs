@@ -1,0 +1,33 @@
+<section class="container-site pt-space-md pb-space-xl">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+    <div class="lg:col-span-5 flex flex-col gap-space-md">
+      <p class="eyebrow">Free, no obligation</p>
+      <h1 class="font-display-lg-mobile text-display-lg-mobile lg:font-display-lg lg:text-display-lg text-primary-container tracking-tight">Talk to a licensed advisor</h1>
+      <p class="font-body-lg text-body-lg text-on-surface-variant">Tell us what you need and an advisor licensed in your province will reach out — usually within <%= s.advisor_response_hours || 2 %> business hours. Prefer to explore first? <a class="link" href="/quote/">Get an instant estimate</a>.</p>
+      <ul class="space-y-2">
+        <li class="flex gap-2 font-body-md text-body-md"><span class="tick mt-0.5"><span class="material-symbols-outlined text-[12px]">check</span></span>Matched by province, product and language</li>
+        <li class="flex gap-2 font-body-md text-body-md"><span class="tick mt-0.5"><span class="material-symbols-outlined text-[12px]">check</span></span>Compare multiple Canadian insurers</li>
+        <li class="flex gap-2 font-body-md text-body-md"><span class="tick mt-0.5"><span class="material-symbols-outlined text-[12px]">check</span></span>No cost to you, no pressure to buy</li>
+      </ul>
+      <% if (s.phone || s.email) { %><div class="card p-space-md font-body-md text-body-md"><% if (s.phone) { %><p><span class="material-symbols-outlined text-[18px] text-secondary">call</span> <a class="link" href="tel:<%= s.phone.replace(/[^0-9+]/g,'') %>"><%= s.phone %></a></p><% } %><% if (s.email) { %><p><span class="material-symbols-outlined text-[18px] text-secondary">mail</span> <a class="link" href="mailto:<%= s.email %>"><%= s.email %></a></p><% } %></div><% } %>
+    </div>
+    <form class="lg:col-span-7 card p-space-lg grid sm:grid-cols-2 gap-space-md" action="/api/leads" method="post" data-lead-form>
+      <% if (flash && flash.type === 'err') { %><div class="sm:col-span-2 p-space-sm rounded-xl bg-error-container text-on-error-container" role="alert"><%= flash.msg %></div><% } %>
+      <input type="hidden" name="lead_type" value="consult">
+      <input type="hidden" name="_ts" value="0" data-ts>
+      <div class="hidden" aria-hidden="true"><input type="text" name="website" tabindex="-1" autocomplete="off"></div>
+      <label class="flex flex-col gap-1.5"><span class="field-label">First name</span><input class="field" name="first_name" required autocomplete="given-name"></label>
+      <label class="flex flex-col gap-1.5"><span class="field-label">Last name</span><input class="field" name="last_name" autocomplete="family-name"></label>
+      <label class="flex flex-col gap-1.5"><span class="field-label">Email</span><input class="field" type="email" name="email" required autocomplete="email"></label>
+      <label class="flex flex-col gap-1.5"><span class="field-label">Phone</span><input class="field" type="tel" name="phone" autocomplete="tel"></label>
+      <label class="flex flex-col gap-1.5"><span class="field-label">Coverage</span><select class="field" name="product"><option value="">Not sure / multiple</option><% allProducts.forEach(function(p){ %><option value="<%= p.slug %>" <%= product && product.slug === p.slug ? 'selected' : '' %>><%= p.name %></option><% }) %></select></label>
+      <label class="flex flex-col gap-1.5"><span class="field-label">Province</span><select class="field" name="province" required><option value="">Select…</option><% geoData.provinces.forEach(function(p){ %><option value="<%= p.code %>"><%= p.name %></option><% }) %></select></label>
+      <label class="flex flex-col gap-1.5"><span class="field-label">Best time to call</span><select class="field" name="best_time"><option value="">Any time</option><option>Morning (9–12)</option><option>Afternoon (12–5)</option><option>Evening (5–8)</option></select></label>
+      <label class="flex flex-col gap-1.5"><span class="field-label">Timeframe</span><select class="field" name="timeframe"><option value="now">As soon as possible</option><option value="30d" selected>Within 30 days</option><option value="90d">Within 3 months</option><option value="researching">Just researching</option></select></label>
+      <label class="sm:col-span-2 flex flex-col gap-1.5"><span class="field-label">How can we help?</span><textarea class="field min-h-[120px]" name="message" maxlength="2000" placeholder="e.g. My mortgage renews in March and I want to compare protection options."></textarea></label>
+      <label class="sm:col-span-2 flex items-start gap-3 cursor-pointer"><input type="checkbox" name="consent_marketing" value="yes" class="mt-1 w-5 h-5 accent-secondary"><span class="font-body-sm text-body-sm"><%= s.consent_text.replace('{site_name}', s.site_name) %></span></label>
+      <p class="sm:col-span-2 font-body-sm text-body-sm text-on-surface-variant">We’ll share your request with an advisor licensed in your province, as described in our <a class="link" href="/privacy/">privacy policy</a>.</p>
+      <button class="sm:col-span-2 btn-primary" data-track="cta_click" data-label="contact_submit">Request my free review <span class="material-symbols-outlined text-[18px]">send</span></button>
+    </form>
+  </div>
+</section>

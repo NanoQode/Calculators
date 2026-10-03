@@ -1,0 +1,77 @@
+<% var f = c.filters || {}; var stop = db_json(c.stop_on_statuses, []); var has = function(list, v){ return (list || []).indexOf(v) > -1; }; %>
+<a href="/admin/campaigns" class="font-label-md text-label-md text-on-surface-variant hover:text-secondary">← Campaigns</a>
+<%- include('partials-head', { h: c.id ? c.name : 'New campaign', sub: c.id ? (stats ? (stats.enrolled + ' enrolled · ' + stats.sent + ' emails sent') : '') : 'Define who enters this sequence, then add steps.' }) %>
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-4">
+  <form method="post" action="/admin/campaigns<%= c.id ? '/' + c.id : '' %>" class="card p-5 flex flex-col gap-3 xl:col-span-1 self-start">
+    <input type="hidden" name="_csrf" value="<%= csrf %>">
+    <label><span class="admin-label">Name</span><input class="admin-input" name="name" value="<%= c.name %>" required></label>
+    <label><span class="admin-label">Description</span><textarea class="admin-input" name="description" rows="2"><%= c.description || '' %></textarea></label>
+    <label><span class="admin-label">Trigger</span><select class="admin-input" name="trigger"><% Object.keys(TRIGGERS).forEach(function(t){ %><option value="<%= t %>" <%= c.trigger === t ? 'selected' : '' %>><%= TRIGGERS[t] %></option><% }) %></select></label>
+    <fieldset><legend class="admin-label">Product categories (empty = all)</legend><div class="flex flex-wrap gap-2"><% Object.keys(CATEGORIES).forEach(function(k){ %><label class="badge bg-surface-container-low !py-1.5"><input type="checkbox" name="product_categories" value="<%= k %>" <%= has(f.product_categories, k) ? 'checked' : '' %>> <%= CATEGORIES[k].name %></label><% }) %></div></fieldset>
+    <fieldset><legend class="admin-label">Lead types (empty = all)</legend><div class="flex flex-wrap gap-2"><% LEAD_TYPES.forEach(function(t){ %><label class="badge bg-surface-container-low !py-1.5"><input type="checkbox" name="lead_types" value="<%= t %>" <%= has(f.lead_types, t) ? 'checked' : '' %>> <%= t %></label><% }) %></div></fieldset>
+    <fieldset><legend class="admin-label">Provinces (empty = all)</legend><div class="flex flex-wrap gap-1"><% provinces.forEach(function(p){ %><label class="badge bg-surface-container-low !py-1"><input type="checkbox" name="provinces" value="<%= p.code %>" <%= has(f.provinces, p.code) ? 'checked' : '' %>> <%= p.abbr %></label><% }) %></div></fieldset>
+    <fieldset><legend class="admin-label">Statuses (for “status changed” trigger)</legend><div class="flex flex-wrap gap-1"><% STATUSES.forEach(function(s){ %><label class="badge bg-surface-container-low !py-1"><input type="checkbox" name="statuses" value="<%= s %>" <%= has(f.statuses, s) ? 'checked' : '' %>> <%= s %></label><% }) %></div></fieldset>
+    <label><span class="admin-label">Minimum lead score</span><input class="admin-input" type="number" name="min_score" value="<%= f.min_score || '' %>" min="0" max="100"></label>
+    <fieldset><legend class="admin-label">Stop the sequence when status becomes</legend><div class="flex flex-wrap gap-1"><% STATUSES.forEach(function(s){ %><label class="badge bg-surface-container-low !py-1"><input type="checkbox" name="stop_on_statuses" value="<%= s %>" <%= has(stop, s) ? 'checked' : '' %>> <%= s %></label><% }) %></div></fieldset>
+    <label class="flex items-start gap-2 font-body-sm text-body-sm"><input type="checkbox" name="require_express_consent" value="1" <%= c.require_express_consent ? 'checked' : '' %>> Require express consent (recommended — CASL). If unticked, implied consent from an inquiry is used for up to 6 months only when Settings → CASL mode allows it.</label>
+    <div class="flex gap-4"><label class="flex items-center gap-2 font-label-md text-label-md"><input type="checkbox" name="active" value="1" <%= c.active ? 'checked' : '' %>> Active</label><label class="flex items-center gap-2 font-label-md text-label-md">Priority <input class="admin-input !w-20" type="number" name="priority" value="<%= c.priority || 0 %>"></label></div>
+    <button class="btn-dark !py-2"><%= c.id ? 'Save campaign' : 'Create campaign' %></button>
+  </form>
+  <% if (c.id) { %>
+  <div class="xl:col-span-2 flex flex-col gap-4" id="steps">
+    <% steps.forEach(function(st, i){ %>
+    <details class="card p-5" <%= !steps.length ? 'open' : '' %>>
+      <summary class="flex items-center justify-between gap-2 cursor-pointer">
+        <span><span class="badge bg-primary-container text-on-primary mr-2">Step <%= i + 1 %></span><span class="font-label-lg text-label-lg"><%= st.subject %></span><span class="block font-body-sm text-body-sm text-on-surface-variant mt-1">+<%= st.delay_hours >= 24 && st.delay_hours % 24 === 0 ? (st.delay_hours / 24) + ' day(s)' : st.delay_hours + ' hour(s)' %> after <%= i ? 'previous step' : 'enrolment' %> · sent <%= st.sent %> · opened <%= st.opened %> · clicked <%= st.clicked %><%= st.active ? '' : ' · PAUSED' %></span></span>
+        <span class="material-symbols-outlined">expand_more</span>
+      </summary>
+      <form method="post" action="/admin/campaigns/<%= c.id %>/steps" class="grid md:grid-cols-2 gap-3 mt-4">
+        <input type="hidden" name="_csrf" value="<%= csrf %>"><input type="hidden" name="step_id" value="<%= st.id %>">
+        <label><span class="admin-label">Delay</span><div class="flex gap-2"><input class="admin-input" type="number" step="0.5" min="0" name="delay_value" value="<%= st.delay_hours >= 24 && st.delay_hours % 24 === 0 ? st.delay_hours / 24 : st.delay_hours %>"><select class="admin-input !w-28" name="delay_unit"><option value="hours" <%= !(st.delay_hours >= 24 && st.delay_hours % 24 === 0) ? 'selected' : '' %>>hours</option><option value="days" <%= st.delay_hours >= 24 && st.delay_hours % 24 === 0 ? 'selected' : '' %>>days</option></select></div></label>
+        <label class="flex items-center gap-2 font-label-md text-label-md mt-5"><input type="checkbox" name="active" value="1" <%= st.active ? 'checked' : '' %>> Active</label>
+        <label class="md:col-span-2"><span class="admin-label">Subject</span><input class="admin-input" name="subject" value="<%= st.subject %>" required></label>
+        <label class="md:col-span-2"><span class="admin-label">Preheader (inbox preview text)</span><input class="admin-input" name="preheader" value="<%= st.preheader || '' %>"></label>
+        <label class="md:col-span-2"><span class="admin-label">Body (Markdown + merge tags)</span><textarea class="admin-input font-mono text-body-sm min-h-[200px]" name="body_md" required><%= st.body_md %></textarea></label>
+        <label><span class="admin-label">Button label</span><input class="admin-input" name="cta_label" value="<%= st.cta_label || '' %>"></label>
+        <label><span class="admin-label">Button URL</span><input class="admin-input" name="cta_url" value="<%= st.cta_url || '' %>"></label>
+        <div class="md:col-span-2 flex flex-wrap gap-2"><button class="btn-dark !py-2 !px-4">Save step</button><a class="btn-soft !py-2 !px-4" href="/admin/campaigns/<%= c.id %>/steps/<%= st.id %>/preview" target="_blank">Preview</a></div>
+      </form>
+      <div class="flex flex-wrap gap-3 mt-3 border-t border-surface-container pt-3">
+        <form method="post" action="/admin/campaigns/<%= c.id %>/steps/<%= st.id %>/test"><input type="hidden" name="_csrf" value="<%= csrf %>"><button class="link font-label-md text-label-md">Send test to <%= user.email %></button></form>
+        <form method="post" action="/admin/campaigns/<%= c.id %>/steps/<%= st.id %>/move"><input type="hidden" name="_csrf" value="<%= csrf %>"><input type="hidden" name="dir" value="up"><button class="link font-label-md text-label-md">Move up</button></form>
+        <form method="post" action="/admin/campaigns/<%= c.id %>/steps/<%= st.id %>/move"><input type="hidden" name="_csrf" value="<%= csrf %>"><input type="hidden" name="dir" value="down"><button class="link font-label-md text-label-md">Move down</button></form>
+        <form method="post" action="/admin/campaigns/<%= c.id %>/steps/<%= st.id %>/delete" data-confirm="Delete this step?"><input type="hidden" name="_csrf" value="<%= csrf %>"><button class="font-label-md text-label-md text-error hover:underline">Delete</button></form>
+      </div>
+    </details>
+    <% }) %>
+    <details class="card p-5" <%= steps.length ? '' : 'open' %>>
+      <summary class="font-label-lg text-label-lg text-secondary cursor-pointer">+ Add a step</summary>
+      <form method="post" action="/admin/campaigns/<%= c.id %>/steps" class="grid md:grid-cols-2 gap-3 mt-4">
+        <input type="hidden" name="_csrf" value="<%= csrf %>">
+        <label><span class="admin-label">Delay</span><div class="flex gap-2"><input class="admin-input" type="number" step="0.5" min="0" name="delay_value" value="2"><select class="admin-input !w-28" name="delay_unit"><option value="hours">hours</option><option value="days" selected>days</option></select></div></label>
+        <label class="flex items-center gap-2 font-label-md text-label-md mt-5"><input type="checkbox" name="active" value="1" checked> Active</label>
+        <label class="md:col-span-2"><span class="admin-label">Subject</span><input class="admin-input" name="subject" required placeholder="{{first_name}}, …"></label>
+        <label class="md:col-span-2"><span class="admin-label">Preheader</span><input class="admin-input" name="preheader"></label>
+        <label class="md:col-span-2"><span class="admin-label">Body</span><textarea class="admin-input font-mono text-body-sm min-h-[180px]" name="body_md" required>Hi {{first_name}},
+
+</textarea></label>
+        <label><span class="admin-label">Button label</span><input class="admin-input" name="cta_label"></label>
+        <label><span class="admin-label">Button URL</span><input class="admin-input" name="cta_url" placeholder="{{quote_url}}"></label>
+        <button class="btn-primary !py-2 md:col-span-2 justify-self-start">Add step</button>
+      </form>
+    </details>
+    <div class="card p-5">
+      <h2 class="font-headline-sm text-headline-sm mb-2">Merge tags</h2>
+      <p class="font-body-sm text-body-sm text-on-surface-variant"><code>{{first_name}} {{name}} {{ref}} {{product_name}} {{product_short}} {{product_url}} {{calculator_url}} {{province_name}} {{city_name}} {{advisor_name}} {{advisor_first_name}} {{advisor_phone}} {{advisor_booking_url}} {{quote_url}} {{estimate_low}} {{estimate_high}} {{estimate_period}} {{site_name}} {{site_url}} {{unsubscribe_url}}</code></p>
+      <p class="font-body-sm text-body-sm text-on-surface-variant mt-2">Sender identification, mailing address and a one-click unsubscribe are added to every email automatically.</p>
+    </div>
+    <% if (recent && recent.length) { %>
+    <div class="card p-5"><h2 class="font-headline-sm text-headline-sm mb-2">Recent enrolments</h2>
+      <table class="w-full"><thead><tr><th class="admin-th">Lead</th><th class="admin-th">Status</th><th class="admin-th">Step</th><th class="admin-th">Next send</th></tr></thead><tbody>
+      <% recent.forEach(function(e){ %><tr><td class="admin-td"><a class="link" href="/admin/leads/<%= e.lead_id %>"><%= e.ref %></a></td><td class="admin-td text-body-sm"><%= e.status %><%= e.stop_reason ? ' · ' + e.stop_reason : '' %></td><td class="admin-td text-body-sm"><%= e.current_position %></td><td class="admin-td text-body-sm"><%= e.status === 'active' ? e.next_run_at : '—' %></td></tr><% }) %>
+      </tbody></table></div>
+    <% } %>
+    <% if (can('admin')) { %><form method="post" action="/admin/campaigns/<%= c.id %>/delete" data-confirm="Delete this campaign and all its enrolments?"><input type="hidden" name="_csrf" value="<%= csrf %>"><button class="font-label-md text-label-md text-error hover:underline">Delete campaign</button></form><% } %>
+  </div>
+  <% } %>
+</div>

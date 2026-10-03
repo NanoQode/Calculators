@@ -1,0 +1,158 @@
+<div class="relative w-full overflow-hidden">
+  <div class="absolute -top-40 right-1/4 w-[600px] h-[600px] rounded-full bg-secondary-container/20 blur-[130px] pointer-events-none"></div>
+  <div class="absolute top-1/3 -left-32 w-[500px] h-[500px] rounded-full bg-surface-container-high/60 blur-[120px] pointer-events-none"></div>
+  <section class="container-site pt-space-lg pb-space-xl relative">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-center">
+      <div class="lg:col-span-6 flex flex-col gap-space-md">
+        <div class="flex flex-wrap items-center gap-space-xs">
+          <span class="chip bg-secondary-container/40 text-on-secondary-container"><span class="material-symbols-outlined text-[15px] icon-fill">bolt</span> Instant estimates</span>
+          <span class="chip bg-surface-container text-on-surface"><span class="text-on-tertiary-container text-[13px]" aria-hidden="true">✿</span> All 10 provinces &amp; 3 territories</span>
+          <% if (s.rating_value && s.rating_count) { %><span class="chip bg-surface-container-lowest shadow-sm text-on-surface"><span class="material-symbols-outlined text-[15px] text-secondary icon-fill">star</span> <%= s.rating_value %>/5 from <%= s.rating_count %> reviews<%= s.rating_source ? ' on ' + s.rating_source : '' %></span><% } %>
+        </div>
+        <h1 class="font-display-lg-mobile text-display-lg-mobile lg:font-display-lg lg:text-display-lg text-primary-container tracking-tight text-balance">Compare Canadian insurance quotes. <span class="text-secondary">Instant estimates in 60 seconds.</span></h1>
+        <p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">Life, critical illness, home, tenant, car, travel and business coverage — see a realistic price for your profile now, learn exactly what you’re buying, then let an advisor licensed in your province compare insurers for you. No paperwork, no pressure.</p>
+        <div class="hidden sm:grid grid-cols-3 gap-space-sm sm:gap-space-md pt-space-sm">
+          <div class="flex flex-col bg-surface-container-lowest/80 p-space-sm rounded-xl shadow-sm"><span class="font-headline-md text-headline-md text-primary-container">60s</span><span class="font-label-sm text-label-sm text-on-surface-variant">Instant estimate</span></div>
+          <div class="flex flex-col bg-surface-container-lowest/80 p-space-sm rounded-xl shadow-sm"><span class="font-headline-md text-headline-md text-secondary"><%= allProducts.length %></span><span class="font-label-sm text-label-sm text-on-surface-variant">Coverage types</span></div>
+          <div class="flex flex-col bg-surface-container-lowest/80 p-space-sm rounded-xl shadow-sm"><span class="font-headline-md text-headline-md text-primary-container">$0</span><span class="font-label-sm text-label-sm text-on-surface-variant">Cost to compare</span></div>
+        </div>
+        <div class="hidden sm:flex items-center gap-space-sm bg-surface-container-lowest/70 backdrop-blur-md p-space-sm rounded-2xl shadow-sm max-w-md">
+          <span class="w-11 h-11 rounded-full bg-secondary-container/50 flex items-center justify-center text-on-secondary-container shrink-0"><span class="material-symbols-outlined">route</span></span>
+          <div class="flex flex-col"><span class="font-label-md text-label-md text-on-surface">Instant info → instant estimate → licensed advisor</span><span class="font-body-sm text-body-sm text-on-surface-variant">Instant digital policies are coming for eligible products.</span></div>
+        </div>
+      </div>
+      <div class="lg:col-span-6"><%- include('partials/quote-widget') %></div>
+    </div>
+  </section>
+</div>
+
+<!-- What do you need to protect? -->
+<section class="w-full bg-surface-container-lowest py-space-xl shadow-sm" aria-labelledby="products-h">
+  <div class="container-site">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-space-sm mb-space-lg">
+      <div><p class="eyebrow">Find the right coverage</p><h2 id="products-h" class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container">What do you need to protect?</h2></div>
+      <a href="/quote/" class="link font-label-lg text-label-lg inline-flex items-center gap-1">Start a quote <span class="material-symbols-outlined text-[18px]">chevron_right</span></a>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-space-sm sm:gap-space-md">
+      <% productCards.forEach(function(p){ %>
+      <a href="/<%= p.slug %>/" class="group card card-hover p-space-md flex flex-col gap-2">
+        <span class="w-11 h-11 rounded-xl bg-secondary-container/40 flex items-center justify-center text-on-secondary-container"><span class="material-symbols-outlined"><%= p.icon %></span></span>
+        <span class="font-headline-sm text-headline-sm text-on-surface group-hover:text-secondary transition-colors"><%= p.name %></span>
+        <span class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 hidden sm:block"><%= p.tagline %></span>
+        <% if (p.from) { %><span class="mt-auto font-label-sm text-label-sm text-secondary">Est. from <%= U.money(p.from.amount, { cents: p.from.amount < 100 }) %><%= p.from.periodLabel %><sup>†</sup></span><% } %>
+      </a>
+      <% }) %>
+    </div>
+    <p class="font-body-sm text-body-sm text-on-surface-variant mt-space-md">† Lowest modelled estimate for an example profile as of <%= asOf %> (e.g. life: 35-year-old female non-smoker, $500,000 Term 20, Ontario). Estimates are not quotes; your price depends on your details and the insurer.</p>
+  </div>
+</section>
+
+<!-- How it works / brand promise -->
+<section class="container-site py-space-xl" aria-labelledby="how-h">
+  <div class="text-center max-w-2xl mx-auto mb-space-lg flex flex-col gap-2">
+    <p class="eyebrow">The Instasure way</p>
+    <h2 id="how-h" class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container">Instant answers. Instant estimates. A licensed human when it matters.</h2>
+    <p class="font-body-md text-body-md text-on-surface-variant">We built Instasure so Canadians can understand coverage and price in minutes — and get expert help without a sales script.</p>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
+    <% [
+      ['menu_book', 'Instant information', 'Plain-language guides, calculators and province-specific rules — written for Canadians and reviewed against regulator and insurer sources.', 'Guides & tools', '/guides/', 'bg-secondary-container/40 text-on-secondary-container'],
+      ['bolt', 'Instant estimates', 'See a realistic premium range for your age, province and coverage in seconds — no email, no phone calls, no credit check.', 'Get an estimate', '/quote/', 'bg-surface-container-high text-primary-container'],
+      ['support_agent', 'Your dedicated advisor', 'When you’re ready, we match you with an advisor licensed in your province who compares insurers, explains the fine print and handles the application.', 'Meet the advisors', '/advisors/', 'bg-secondary-container/40 text-on-secondary-container']
+    ].forEach(function(c){ %>
+    <div class="card p-space-lg flex flex-col justify-between card-hover">
+      <div class="flex flex-col gap-space-sm">
+        <div class="w-12 h-12 rounded-2xl flex items-center justify-center <%= c[5] %>"><span class="material-symbols-outlined text-[26px]"><%= c[0] %></span></div>
+        <h3 class="font-headline-md text-headline-md text-primary-container"><%= c[1] %></h3>
+        <p class="font-body-md text-body-md text-on-surface-variant"><%= c[2] %></p>
+      </div>
+      <a href="<%= c[4] %>" class="mt-space-md bg-surface-container-low p-space-sm rounded-xl flex items-center justify-between font-label-md text-label-md text-secondary hover:bg-surface-container"><span><%= c[3] %></span><span class="material-symbols-outlined text-[20px]">arrow_forward</span></a>
+    </div>
+    <% }) %>
+  </div>
+</section>
+
+<% if (s.carriers_confirmed && s.carriers && s.carriers.length) { %>
+<section class="w-full bg-surface-container-lowest py-space-lg shadow-sm">
+  <div class="container-site flex flex-col gap-space-md">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-space-sm">
+      <div><p class="eyebrow">Canadian insurers</p><h2 class="font-headline-sm text-headline-sm text-primary-container">Our advisors compare leading Canadian insurers</h2></div>
+      <span class="chip bg-surface-container text-on-surface"><span class="material-symbols-outlined text-[16px] text-secondary">lock</span> Encrypted &amp; private</span>
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-space-sm">
+      <% s.carriers.slice(0, 12).forEach(function(c){ %><div class="flex items-center justify-center p-space-md rounded-2xl bg-surface-container-low text-center"><span class="font-label-lg text-label-lg text-primary-container font-extrabold tracking-tight"><%= c %></span></div><% }) %>
+    </div>
+  </div>
+</section>
+<% } %>
+
+<%- include('partials/advisor-banner', { bannerTitle: 'Prefer a human review before you buy?' }) %>
+
+<!-- Tools & guides -->
+<section class="container-site pb-space-xl" aria-labelledby="tools-h">
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-space-sm mb-space-lg">
+    <div><p class="eyebrow">Educational hub &amp; tools</p><h2 id="tools-h" class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container">Canadian insurance intelligence</h2></div>
+    <a href="/guides/" class="link font-label-lg text-label-lg inline-flex items-center gap-1">Browse all <%= guideCount %> guides <span class="material-symbols-outlined text-[18px]">chevron_right</span></a>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
+    <a href="/calculators/life-insurance-needs/" class="group flex flex-col card overflow-hidden hover:shadow-xl transition-all">
+      <div class="h-44 bg-surface-container-high/60 relative p-space-md flex flex-col justify-between overflow-hidden">
+        <span class="chip bg-surface-container-lowest/90 text-primary-container w-fit"><span class="material-symbols-outlined text-[14px] text-secondary">calculate</span> Interactive calculator</span>
+        <div class="w-full flex items-end gap-2 h-16 pt-2" aria-hidden="true">
+          <div class="w-1/5 bg-secondary/30 rounded-t-lg h-6 group-hover:h-10 transition-all duration-300"></div><div class="w-1/5 bg-secondary/50 rounded-t-lg h-9 group-hover:h-12 transition-all duration-300"></div><div class="w-1/5 bg-secondary/70 rounded-t-lg h-12 group-hover:h-14 transition-all duration-300"></div><div class="w-1/5 bg-secondary rounded-t-lg h-16"></div><div class="w-1/5 bg-primary-container rounded-t-lg h-14 group-hover:h-16 transition-all duration-300"></div>
+        </div>
+      </div>
+      <div class="p-space-md flex flex-col flex-1 gap-space-sm">
+        <span class="font-label-sm text-label-sm text-on-surface-variant">DIME method · 2 minutes</span>
+        <h3 class="font-headline-sm text-headline-sm text-primary-container group-hover:text-secondary transition-colors">How much life insurance do you need?</h3>
+        <p class="font-body-sm text-body-sm text-on-surface-variant">Work out your coverage from your mortgage, debts, income, children’s education and existing group coverage.</p>
+        <span class="mt-auto pt-space-xs flex items-center justify-between font-label-md text-label-md text-secondary">Calculate coverage <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span></span>
+      </div>
+    </a>
+    <% latestGuides.slice(0, 2).forEach(function(g){ %>
+    <a href="/guides/<%= g.slug %>/" class="group flex flex-col card overflow-hidden hover:shadow-xl transition-all">
+      <div class="h-44 relative overflow-hidden bg-gradient-to-br from-primary-container to-on-primary-fixed-variant p-space-md flex flex-col justify-between">
+        <% if (g.featured_image) { %><img src="<%= g.featured_image %>" alt="<%= g.image_alt || '' %>" class="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500" loading="lazy"><% } %>
+        <span class="relative chip bg-surface-container-lowest/90 text-primary-container w-fit"><span class="material-symbols-outlined text-[14px] text-secondary">menu_book</span> <%= g.category_name || 'Guide' %></span>
+        <span class="relative font-label-sm text-label-sm text-primary-fixed"><%= g.reading_minutes || 5 %> min read · Updated <%= U.fmtDate(g.updated_at, 'short') %></span>
+      </div>
+      <div class="p-space-md flex flex-col flex-1 gap-space-sm">
+        <h3 class="font-headline-sm text-headline-sm text-primary-container group-hover:text-secondary transition-colors"><%= g.title %></h3>
+        <p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-3"><%= g.excerpt %></p>
+        <span class="mt-auto pt-space-xs flex items-center justify-between font-label-md text-label-md text-secondary">Read the guide <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span></span>
+      </div>
+    </a>
+    <% }) %>
+  </div>
+</section>
+
+<!-- Provinces -->
+<section class="w-full bg-surface-container-low/60 py-space-xl" aria-labelledby="prov-h">
+  <div class="container-site">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-space-sm mb-space-lg">
+      <div><p class="eyebrow">Local rules, local advisors</p><h2 id="prov-h" class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container">Insurance in your province</h2></div>
+      <p class="font-body-md text-body-md text-on-surface-variant max-w-md">Auto systems, regulators and local risks differ across Canada. Start with your province.</p>
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-space-sm">
+      <% geoData.provinces.forEach(function(p){ %>
+      <a href="/insurance/<%= p.slug %>/" class="card card-hover p-space-md flex flex-col gap-1">
+        <span class="font-label-sm text-label-sm text-secondary"><%= p.abbr %></span>
+        <span class="font-label-lg text-label-lg text-on-surface"><%= p.name %></span>
+        <span class="font-body-sm text-body-sm text-on-surface-variant"><%= p.auto.system === 'public' ? 'Public auto (' + p.auto.publicInsurer + ')' : p.auto.system === 'hybrid' ? 'SAAQ + private auto' : 'Private auto market' %></span>
+      </a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/faq', { items: faq, faqHeading: 'Questions Canadians ask us' }) %>
+
+<section class="container-site pb-space-xl">
+  <div class="bg-surface-container-low rounded-2xl p-space-md flex flex-col sm:flex-row items-center justify-between gap-space-md">
+    <div class="flex items-center gap-space-sm">
+      <div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-primary-container shrink-0"><span class="material-symbols-outlined text-[20px]">policy</span></div>
+      <div class="flex flex-col"><span class="font-label-md text-label-md text-on-surface">Privacy-first by design</span><span class="font-body-sm text-body-sm text-on-surface-variant">Your details are encrypted in transit and shared only with the licensed advisor handling your request. We never sell your information.</span></div>
+    </div>
+    <a class="shrink-0 font-label-md text-label-md text-primary-container hover:text-secondary underline" href="/privacy/">Read our privacy policy</a>
+  </div>
+</section>

@@ -1,0 +1,38 @@
+<%- include('partials-head', { h: 'Good to see you, ' + user.name.split(' ')[0], sub: 'Last 30 days · ' + (user.role === 'advisor' ? 'your assigned leads' : 'all leads (test leads excluded)'), actions: '<a class="btn-soft !py-2 !px-4" href="/admin/leads?status=new">New leads</a><a class="btn-primary !py-2 !px-4" href="/admin/posts/new">Write a guide</a>' }) %>
+<div class="grid grid-cols-2 lg:grid-cols-6 gap-3 mb-6">
+  <% [['Leads (30d)', num(k.total || 0), 'group'], ['Today', num(k.today || 0), 'bolt'], ['Hot (grade A)', num(k.hot || 0), 'local_fire_department'], ['Avg score', (k.avg_score || 0) + '/100', 'speed'], ['Visit→lead', cvr.toFixed(1) + '%', 'trending_up'], ['Pipeline value', money(k.pipeline || 0), 'savings']].forEach(function(t){ %>
+  <div class="card p-4"><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-secondary"><%= t[2] %></span><%= t[0] %></span><p class="font-headline-md text-headline-md text-primary-container mt-1"><%= t[1] %></p></div>
+  <% }) %>
+</div>
+<% if (unassigned) { %><div class="mb-4 rounded-xl px-4 py-3 bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-md text-label-md flex items-center gap-2"><span class="material-symbols-outlined">warning</span><%= unassigned %> new lead(s) have no licensed advisor for their province/product. <a class="underline" href="/admin/leads?advisor=none&status=new">Review</a> or add advisor coverage.</div><% } %>
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-4">
+  <section class="card p-5 xl:col-span-2">
+    <div class="flex items-center justify-between mb-3"><h2 class="font-headline-sm text-headline-sm">Leads per day</h2><a class="link font-label-md text-label-md" href="/admin/analytics">Full analytics →</a></div>
+    <%- leadsChart %>
+    <details class="mt-2"><summary class="font-label-sm text-label-sm text-on-surface-variant cursor-pointer">Table view</summary><div class="max-h-48 overflow-y-auto mt-2"><table class="w-full text-body-sm"><% leadsByDay.forEach(function(d){ %><tr><td class="py-0.5"><%= d.label %></td><td class="text-right"><%= d.value %></td></tr><% }) %></table></div></details>
+  </section>
+  <section class="card p-5">
+    <h2 class="font-headline-sm text-headline-sm mb-1">Launch checklist</h2>
+    <p class="font-body-sm text-body-sm text-on-surface-variant mb-3"><%= checklist.done %> of <%= checklist.items.length %> done — complete before going live.</p>
+    <ul class="space-y-2">
+      <% checklist.items.forEach(function(i){ %><li><a href="<%= i.href %>" class="flex items-start gap-2 font-body-sm text-body-sm <%= i.ok ? 'text-on-surface-variant line-through' : 'text-on-surface hover:text-secondary' %>"><span class="material-symbols-outlined text-[18px] <%= i.ok ? 'text-secondary' : 'text-on-tertiary-container' %>"><%= i.ok ? 'check_circle' : 'radio_button_unchecked' %></span><%= i.label %></a></li><% }) %>
+    </ul>
+  </section>
+  <section class="card p-5 xl:col-span-2">
+    <div class="flex items-center justify-between mb-3"><h2 class="font-headline-sm text-headline-sm">Hottest open leads</h2><a class="link font-label-md text-label-md" href="/admin/leads?sort=score">All →</a></div>
+    <div class="overflow-x-auto"><table class="w-full">
+      <thead><tr><th class="admin-th">Lead</th><th class="admin-th">Product</th><th class="admin-th">Prov.</th><th class="admin-th">Score</th><th class="admin-th">Advisor</th><th class="admin-th">Age</th></tr></thead>
+      <tbody><% hot.forEach(function(l){ %><tr class="hover:bg-surface-container-low">
+        <td class="admin-td"><a class="link" href="/admin/leads/<%= l.id %>"><%= (l.first_name || '') + ' ' + (l.last_name || '') %></a><div class="text-body-sm text-on-surface-variant"><%= l.ref %> · <%= l.lead_type %></div></td>
+        <td class="admin-td text-body-sm"><%= l.product || '—' %></td><td class="admin-td uppercase text-body-sm"><%= l.province || '—' %></td>
+        <td class="admin-td"><%- include('grade', { l: l }) %></td><td class="admin-td text-body-sm"><%= l.advisor_name || 'Unassigned' %></td><td class="admin-td text-body-sm"><%= U.timeAgo(l.created_at) %></td></tr><% }) %>
+        <% if (!hot.length) { %><tr><td class="admin-td text-on-surface-variant" colspan="6">No open leads yet. They’ll appear here the moment a quote is submitted.</td></tr><% } %>
+      </tbody></table></div>
+  </section>
+  <section class="card p-5 flex flex-col gap-5">
+    <div><h2 class="font-headline-sm text-headline-sm mb-2">Leads by product</h2><%- productBars %></div>
+    <div><h2 class="font-headline-sm text-headline-sm mb-2">Leads by source</h2><%- sourceBars %></div>
+    <div><h2 class="font-headline-sm text-headline-sm mb-2 flex items-center gap-1"><span class="material-symbols-outlined text-[18px] text-secondary">smart_toy</span>AI crawler fetches</h2><%- crawlerBars || '' %><p class="font-body-sm text-body-sm text-on-surface-variant mt-1"><a class="link" href="/admin/seo/crawlers">Which pages AI bots read →</a></p></div>
+    <p class="font-body-sm text-body-sm text-on-surface-variant"><%= dripDue %> active drip enrolment(s) · <%= num(pv) %> page views · <%= num(sessions) %> sessions</p>
+  </section>
+</div>

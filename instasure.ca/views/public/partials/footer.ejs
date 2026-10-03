@@ -1,0 +1,80 @@
+<%
+  var fp = (typeof allProducts !== 'undefined' ? allProducts : []);
+  var topCities = [['car-insurance','ontario','toronto','Car insurance Toronto'],['car-insurance','ontario','brampton','Car insurance Brampton'],['home-insurance','alberta','calgary','Home insurance Calgary'],['life-insurance','ontario','toronto','Life insurance Toronto'],['tenant-insurance','ontario','ottawa','Tenant insurance Ottawa'],['condo-insurance','british-columbia','vancouver','Condo insurance Vancouver'],['super-visa-insurance','ontario','brampton','Super Visa insurance Brampton'],['business-insurance','ontario','mississauga','Business insurance Mississauga'],['home-insurance','ontario','hamilton','Home insurance Hamilton'],['car-insurance','alberta','edmonton','Car insurance Edmonton'],['life-insurance','british-columbia','vancouver','Life insurance Vancouver'],['home-insurance','nova-scotia','halifax','Home insurance Halifax']];
+  var provincesList = geoData.provinces;
+%>
+<footer class="w-full bg-surface-container-lowest shadow-[0_-1px_12px_rgba(0,0,0,0.03)] mt-space-xl">
+  <div class="container-site pt-space-xl pb-28 lg:pb-space-lg">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-space-lg pb-space-xl">
+      <div class="lg:col-span-2 flex flex-col gap-space-sm pr-space-md">
+        <a href="/" class="flex items-center gap-2"><img src="/img/logo-mark.svg" alt="" width="28" height="28" class="h-7 w-7"><span class="font-headline-sm text-headline-sm text-primary-container tracking-tight">Instasure<span class="text-secondary">.ca</span></span></a>
+        <p class="font-body-sm text-body-sm text-on-surface-variant max-w-sm">Instant insurance answers, instant estimates and licensed advisors in your province — life, living benefits, home, auto, travel and business coverage for Canadians coast to coast.</p>
+        <div class="flex flex-wrap items-center gap-space-xs pt-space-xs">
+          <span class="chip bg-surface-container-low text-on-surface"><span class="text-on-tertiary-container" aria-hidden="true">✿</span> Built for Canadians</span>
+          <span class="chip bg-surface-container-low text-secondary"><span class="material-symbols-outlined text-[14px]">verified_user</span> Licensed advisors only</span>
+        </div>
+      </div>
+      <div>
+        <h2 class="font-label-lg text-label-lg text-on-surface mb-space-sm">Insurance</h2>
+        <ul class="flex flex-col gap-2 font-body-sm text-body-sm text-on-surface-variant">
+          <% fp.slice(0, 9).forEach(function(p){ %><li><a class="hover:text-on-surface" href="/<%= p.slug %>/"><%= p.name %></a></li><% }) %>
+        </ul>
+      </div>
+      <div>
+        <h2 class="font-label-lg text-label-lg text-on-surface mb-space-sm">More coverage</h2>
+        <ul class="flex flex-col gap-2 font-body-sm text-body-sm text-on-surface-variant">
+          <% fp.slice(9).forEach(function(p){ %><li><a class="hover:text-on-surface" href="/<%= p.slug %>/"><%= p.name %></a></li><% }) %>
+        </ul>
+      </div>
+      <div>
+        <h2 class="font-label-lg text-label-lg text-on-surface mb-space-sm">Tools &amp; trust</h2>
+        <ul class="flex flex-col gap-2 font-body-sm text-body-sm text-on-surface-variant">
+          <li><a class="hover:text-on-surface" href="/calculators/life-insurance-needs/">Life insurance needs calculator</a></li>
+          <li><a class="hover:text-on-surface" href="/calculators/mortgage-protection/">Mortgage protection calculator</a></li>
+          <li><a class="hover:text-on-surface" href="/guides/">Knowledge &amp; guides</a></li>
+          <li><a class="hover:text-on-surface" href="/glossary/">Insurance glossary</a></li>
+          <li><a class="hover:text-on-surface" href="/advisors/">Our licensed advisors</a></li>
+          <li><a class="hover:text-on-surface" href="/how-we-make-money/">How we make money</a></li>
+          <li><a class="hover:text-on-surface" href="/editorial-guidelines/">Editorial guidelines</a></li>
+          <li><a class="hover:text-on-surface" href="/licensing/">Licensing &amp; disclosures</a></li>
+          <li><a class="hover:text-on-surface" href="/contact/">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="border-t border-surface-container pt-space-lg pb-space-md grid gap-space-md lg:grid-cols-2">
+      <div>
+        <h2 class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant mb-2">Insurance by province</h2>
+        <ul class="flex flex-wrap gap-x-4 gap-y-1 font-body-sm text-body-sm">
+          <% provincesList.forEach(function(p){ %><li><a class="text-on-surface-variant hover:text-secondary" href="/insurance/<%= p.slug %>/"><%= p.name %></a></li><% }) %>
+        </ul>
+      </div>
+      <div>
+        <h2 class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant mb-2">Popular local pages</h2>
+        <ul class="flex flex-wrap gap-x-4 gap-y-1 font-body-sm text-body-sm">
+          <% topCities.forEach(function(t){ %><li><a class="text-on-surface-variant hover:text-secondary" href="/<%= t[0] %>/<%= t[1] %>/<%= t[2] %>/"><%= t[3] %></a></li><% }) %>
+        </ul>
+      </div>
+    </div>
+
+    <% if (s.carriers_confirmed && s.carriers && s.carriers.length) { %>
+    <div class="bg-surface-container-low/60 rounded-xl p-space-md mb-space-lg flex flex-col md:flex-row md:items-center justify-between gap-space-sm">
+      <div class="flex items-center gap-space-md flex-wrap">
+        <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Insurers our advisors work with:</span>
+        <% s.carriers.forEach(function(c, i){ %><span class="font-label-md text-label-md text-on-surface"><%= c %></span><% if (i < s.carriers.length - 1) { %><span class="text-outline-variant">•</span><% } %><% }) %>
+      </div>
+      <span class="flex items-center gap-1 text-on-surface-variant font-label-sm text-label-sm"><span class="material-symbols-outlined text-[16px] text-secondary">lock</span> Encrypted &amp; PIPEDA-aligned</span>
+    </div>
+    <% } %>
+
+    <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-space-sm text-on-surface-variant font-body-sm text-body-sm pt-space-sm">
+      <p class="max-w-3xl">© <%= year %> <%= s.legal_name || s.site_name %>. <%= s.licence_disclosure %></p>
+      <div class="flex items-center gap-space-md shrink-0">
+        <a class="hover:text-on-surface" href="/privacy/">Privacy</a>
+        <a class="hover:text-on-surface" href="/terms/">Terms</a>
+        <a class="hover:text-on-surface" href="/accessibility/">Accessibility</a>
+        <a class="hover:text-on-surface" href="/site-map/">Site map</a>
+      </div>
+    </div>
+  </div>
+</footer>

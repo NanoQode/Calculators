@@ -1,0 +1,34 @@
+<%
+  var adv = (typeof advisors !== 'undefined' && advisors && advisors.length) ? advisors[0] : null;
+  var heading = typeof bannerTitle !== 'undefined' ? bannerTitle : 'Prefer a human review before you buy?';
+  var where = typeof bannerWhere !== 'undefined' ? bannerWhere : '';
+%>
+<section class="container-site pb-space-xl">
+  <div class="relative bg-primary-container text-on-primary rounded-3xl p-space-lg lg:p-space-xl overflow-hidden shadow-xl">
+    <div class="absolute -right-20 -bottom-20 w-80 h-80 rounded-full bg-secondary/20 blur-3xl pointer-events-none"></div>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-center relative z-10">
+      <div class="lg:col-span-4 flex items-center gap-space-md">
+        <%- include('avatar', { a: adv, size: 'w-20 h-20 sm:w-24 sm:h-24', ring: true }) %>
+        <div class="flex flex-col min-w-0">
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-secondary-container/20 text-secondary-fixed font-label-sm text-label-sm w-fit mb-1"><span class="w-1.5 h-1.5 rounded-full bg-secondary-fixed"></span> Licensed<%= where ? ' in ' + where : '' %></span>
+          <% if (adv) { %>
+          <a href="/advisors/<%= adv.slug %>/" class="font-headline-sm text-headline-sm text-surface-container-lowest hover:underline"><%= adv.name %><%= adv.designations ? ', ' + adv.designations : '' %></a>
+          <span class="font-body-sm text-body-sm text-primary-fixed-dim"><%= adv.title || 'Licensed Insurance Advisor' %></span>
+          <% } else { %>
+          <span class="font-headline-sm text-headline-sm text-surface-container-lowest">Your dedicated advisor</span>
+          <span class="font-body-sm text-body-sm text-primary-fixed-dim">Matched by province, product &amp; language</span>
+          <% } %>
+        </div>
+      </div>
+      <div class="lg:col-span-5 flex flex-col gap-space-xs">
+        <h2 class="font-headline-md text-headline-md text-surface-container-lowest"><%= heading %></h2>
+        <p class="font-body-md text-body-md text-primary-fixed-dim">Every request is matched with an advisor licensed in your province who compares insurers for you, explains the fine print and handles the application. No cost to you and no obligation to buy.</p>
+      </div>
+      <div class="lg:col-span-3 flex flex-col gap-space-sm">
+        <a href="/contact/?type=consult<%= typeof bannerProduct !== 'undefined' && bannerProduct ? '&product=' + bannerProduct : '' %>" class="btn-primary w-full" data-track="cta_click" data-label="advisor_banner_consult"><span class="material-symbols-outlined text-[18px]">calendar_month</span> Book a free review</a>
+        <% if (adv && adv.booking_url) { %><a href="<%= adv.booking_url %>" rel="noopener" target="_blank" class="btn-ghost-light w-full" data-track="booking_click"><span class="material-symbols-outlined text-[18px]">schedule</span> Pick a time</a><% } else { %>
+        <a href="/advisors/" class="btn-ghost-light w-full"><span class="material-symbols-outlined text-[18px]">groups</span> Meet our advisors</a><% } %>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,18 @@
+<section class="container-site pt-space-md pb-space-lg">
+  <p class="eyebrow">Canada-wide</p>
+  <h1 class="font-display-lg-mobile text-display-lg-mobile lg:font-display-lg lg:text-display-lg text-primary-container tracking-tight max-w-3xl">Insurance in Canada, province by province</h1>
+  <p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl mt-space-sm">Insurance is regulated provincially. Car insurance alone works three ways: private markets (Ontario, Alberta, Atlantic Canada), public basic coverage (BC, Manitoba, Saskatchewan) and a hybrid in Quebec. Pick your province for local rules, risks and licensed advisors.</p>
+</section>
+<section class="container-site pb-space-xl">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-md">
+    <% geoData.provinces.forEach(function(p){ %>
+    <a href="/insurance/<%= p.slug %>/" class="card card-hover p-space-lg flex flex-col gap-2">
+      <div class="flex items-center justify-between"><span class="font-headline-md text-headline-md text-primary-container"><%= p.name %></span><span class="badge bg-surface-container text-on-surface"><%= p.abbr %></span></div>
+      <span class="font-body-sm text-body-sm text-on-surface-variant"><span class="font-semibold text-on-surface">Regulator:</span> <%= p.regulator.short %></span>
+      <span class="font-body-sm text-body-sm text-on-surface-variant"><span class="font-semibold text-on-surface">Auto:</span> <%= p.auto.label %></span>
+      <span class="font-body-sm text-body-sm text-on-surface-variant"><span class="font-semibold text-on-surface">Top risks:</span> <%= p.risks.slice(0,2).join('; ') %></span>
+      <span class="mt-auto pt-2 font-label-md text-label-md text-secondary">Explore <%= p.name %> →</span>
+    </a>
+    <% }) %>
+  </div>
+</section>

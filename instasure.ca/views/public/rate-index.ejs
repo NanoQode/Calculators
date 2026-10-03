@@ -1,0 +1,15 @@
+<section class="container-site pt-space-md pb-space-xl">
+  <p class="eyebrow">Instasure data</p>
+  <h1 class="font-display-lg-mobile text-display-lg-mobile lg:font-display-lg lg:text-display-lg text-primary-container tracking-tight">Instasure Rate Index</h1>
+  <p class="mt-space-sm font-body-lg text-body-lg text-on-surface-variant max-w-3xl">Median modelled monthly estimates by product and province, from anonymised quote requests in the last 90 days. Cells appear only once they reach <%= MIN %> requests.</p>
+  <% if (rows.length) { %>
+  <div class="card overflow-hidden mt-space-lg"><div class="overflow-x-auto"><table class="w-full text-left font-body-sm text-body-sm">
+    <thead><tr class="bg-surface-container-low"><th class="py-3 px-4">Product</th><th class="py-3 px-4">Province</th><th class="py-3 px-4">Requests</th><th class="py-3 px-4">Average estimate</th></tr></thead>
+    <tbody><% rows.forEach(function(r){ var P = geoData.provinceByCode[r.province]; %><tr class="border-t border-surface-container"><td class="py-3 px-4"><a class="link" href="/<%= r.product %>/"><%= r.product %></a></td><td class="py-3 px-4"><%= P ? P.name : r.province %></td><td class="py-3 px-4"><%= r.n %></td><td class="py-3 px-4 font-semibold"><%= U.money(r.mid, { cents: r.mid < 100 }) %>/mo</td></tr><% }) %></tbody>
+  </table></div></div>
+  <% } else { %>
+  <div class="card p-space-lg mt-space-lg"><p class="font-body-md text-body-md text-on-surface-variant">We’re collecting data. The index publishes automatically once each product and province reaches the minimum sample size.</p></div>
+  <% } %>
+  <h2 class="mt-space-xl font-headline-md text-headline-md text-primary-container">Methodology</h2>
+  <p class="mt-2 font-body-md text-body-md text-on-surface-variant max-w-3xl">Each value is the average of the “typical” estimate shown to users with that product and province. Test submissions and duplicates are excluded. Estimates are model outputs, not insurer quotes; use them to compare trends between provinces and over time.</p>
+</section>

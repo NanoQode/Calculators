@@ -1,0 +1,103 @@
+<%
+  var J = function(v, d){ return db_json(v, d); };
+  var faq = J(post.faq, []).map(function(f){ return 'Q: ' + f.q + '\nA: ' + f.a; }).join('\n\n');
+  var takeaways = J(post.takeaways, []).join('\n');
+  var sources = J(post.sources, []).map(function(s){ return [s.title, s.url, s.publisher].filter(Boolean).join(' | '); }).join('\n');
+  var kws = J(post.keywords, []).join(', ');
+  var pp = J(post.products, []); var pv = J(post.provinces, []);
+%>
+<a href="/admin/posts" class="font-label-md text-label-md text-on-surface-variant hover:text-secondary">← Guides</a>
+<form method="post" action="/admin/posts" class="mt-2" data-post-editor data-site-host="<%= siteHost %>">
+<input type="hidden" name="_csrf" value="<%= csrf %>"><input type="hidden" name="id" value="<%= post.id || '' %>">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 mb-4">
+  <div class="flex items-center gap-2"><h1 class="font-headline-md text-headline-md text-primary-container"><%= post.id ? 'Edit guide' : 'New guide' %></h1><span class="badge bg-surface-container"><%= post.status %></span>
+    <% if (post.id && post.status === 'published') { %><a class="link font-label-md text-label-md" href="/guides/<%= post.slug %>/" target="_blank">View live ↗</a><% } else if (post.id) { %><a class="link font-label-md text-label-md" href="/guides/<%= post.slug %>/?preview=1" target="_blank">Preview ↗</a><% } %></div>
+  <div class="flex flex-wrap gap-2">
+    <button name="action" value="save" class="btn-soft !py-2 !px-4">Save draft</button>
+    <% if (post.status === 'published') { %><button name="action" value="unpublish" class="btn-soft !py-2 !px-4">Unpublish</button><% } %>
+    <button name="action" value="publish" class="btn-primary !py-2 !px-4"><span class="material-symbols-outlined text-[18px]">bolt</span><%= post.status === 'published' ? 'Update live' : 'Publish now' %></button>
+  </div>
+</div>
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-4">
+  <div class="xl:col-span-2 flex flex-col gap-4">
+    <section class="card p-5 flex flex-col gap-3">
+      <label><span class="admin-label">Title (H1)</span><input class="admin-input text-headline-sm font-semibold" name="title" value="<%= post.title %>" required data-audit></label>
+      <div class="grid md:grid-cols-2 gap-3">
+        <label><span class="admin-label">URL slug</span><div class="flex items-center gap-1"><span class="text-body-sm text-on-surface-variant">/guides/</span><input class="admin-input" name="slug" value="<%= post.slug %>" data-audit></div></label>
+        <label><span class="admin-label">Focus keyword</span><input class="admin-input" name="focus_keyword" value="<%= post.focus_keyword || '' %>" data-audit placeholder="e.g. term life insurance canada"></label>
+      </div>
+      <label><span class="admin-label">Excerpt (shown on cards &amp; as fallback description)</span><textarea class="admin-input" name="excerpt" rows="2" data-audit><%= post.excerpt || '' %></textarea></label>
+    </section>
+    <section class="card p-5 flex flex-col gap-2">
+      <div class="flex items-center justify-between"><span class="admin-label !mb-0">Body (Markdown)</span><div class="flex gap-1" role="tablist"><button type="button" class="badge bg-primary-container text-on-primary !py-1.5" data-tab="write">Write</button><button type="button" class="badge bg-surface-container !py-1.5" data-tab="preview">Preview</button></div></div>
+      <textarea class="admin-input font-mono text-body-sm min-h-[520px]" name="body_md" data-audit data-body><%= post.body_md %></textarea>
+      <div class="hidden article-body border border-surface-container rounded-xl p-5 min-h-[520px] overflow-auto" data-preview></div>
+      <p class="font-body-sm text-body-sm text-on-surface-variant">Use <code>## Question-style headings?</code>, link to products like <code>[term life](/term-life-insurance/)</code>, calculators and other guides, and cite regulators. <code>&gt; **Tip:**</code> renders as a callout.</p>
+    </section>
+    <section class="card p-5 grid md:grid-cols-2 gap-4">
+      <label class="md:col-span-2"><span class="admin-label">Key takeaways — one per line (answer-first summary for AI Overviews &amp; featured snippets)</span><textarea class="admin-input" name="takeaways" rows="4" data-audit><%= takeaways %></textarea></label>
+      <label class="md:col-span-2"><span class="admin-label">FAQ — “Q: …” then “A: …”, blank line between (rendered + FAQPage schema)</span><textarea class="admin-input font-mono text-body-sm" name="faq" rows="8" data-audit><%= faq %></textarea></label>
+      <label class="md:col-span-2"><span class="admin-label">Sources — one per line: Title | https://url | Publisher</span><textarea class="admin-input font-mono text-body-sm" name="sources" rows="4" data-audit><%= sources %></textarea></label>
+    </section>
+  </div>
+  <aside class="flex flex-col gap-4">
+    <section class="card p-5" data-audit-panel>
+      <div class="flex items-center justify-between"><h2 class="font-headline-sm text-headline-sm">SEO &amp; AI score</h2><span class="font-price-hero-mobile text-price-hero-mobile text-primary-container" data-score><%= post.seo_score || 0 %></span></div>
+      <div class="h-2 rounded-full bg-surface-container mt-2"><div class="h-2 rounded-full bg-secondary" style="width:<%= post.seo_score || 0 %>%" data-score-bar></div></div>
+      <ul class="mt-3 space-y-1" data-checks></ul>
+      <div class="mt-3 border-t border-surface-container pt-3">
+        <p class="admin-label">Google preview</p>
+        <div class="rounded-lg bg-surface-container-lowest border border-surface-container p-3">
+          <p class="text-[12px] text-on-surface-variant truncate" data-serp-url></p>
+          <p class="text-[17px] leading-tight text-[#1a0dab] truncate" data-serp-title></p>
+          <p class="text-[13px] text-on-surface-variant line-clamp-2" data-serp-desc></p>
+        </div>
+      </div>
+    </section>
+    <section class="card p-5 flex flex-col gap-3">
+      <h2 class="font-headline-sm text-headline-sm">Search appearance</h2>
+      <label><span class="admin-label flex justify-between">SEO title <span data-count="seo_title"></span></span><input class="admin-input" name="seo_title" value="<%= post.seo_title || '' %>" data-audit maxlength="120"></label>
+      <label><span class="admin-label flex justify-between">Meta description <span data-count="meta_description"></span></span><textarea class="admin-input" name="meta_description" rows="3" data-audit maxlength="320"><%= post.meta_description || '' %></textarea></label>
+      <label><span class="admin-label">Secondary keywords (comma separated)</span><input class="admin-input" name="keywords" value="<%= kws %>"></label>
+      <label><span class="admin-label">Canonical override</span><input class="admin-input" name="canonical" value="<%= post.canonical || '' %>" placeholder="Leave blank (self-canonical)"></label>
+      <label><span class="admin-label">Robots</span><select class="admin-input" name="robots"><option value="">Index (default)</option><option value="noindex,follow" <%= post.robots === 'noindex,follow' ? 'selected' : '' %>>noindex, follow</option><option value="noindex,nofollow" <%= post.robots === 'noindex,nofollow' ? 'selected' : '' %>>noindex, nofollow</option></select></label>
+    </section>
+    <section class="card p-5 flex flex-col gap-3">
+      <h2 class="font-headline-sm text-headline-sm">Organisation</h2>
+      <label><span class="admin-label">Type</span><select class="admin-input" name="content_type" data-audit><% ['guide','comparison','data','news','checklist'].forEach(function(t){ %><option <%= post.content_type === t ? 'selected' : '' %>><%= t %></option><% }) %></select></label>
+      <label><span class="admin-label">Category</span><select class="admin-input" name="category_id"><option value="">—</option><% cats.forEach(function(c){ %><option value="<%= c.id %>" <%= post.category_id === c.id ? 'selected' : '' %>><%= c.name %></option><% }) %></select></label>
+      <label><span class="admin-label">Author</span><select class="admin-input" name="author_id"><option value="">Editorial team</option><% advisors.forEach(function(a){ %><option value="<%= a.id %>" <%= post.author_id === a.id ? 'selected' : '' %>><%= a.name %><%= a.is_demo ? ' (sample)' : '' %></option><% }) %></select></label>
+      <label><span class="admin-label">Reviewed by (licensed advisor — E-E-A-T)</span><select class="admin-input" name="reviewer_id"><option value="">Not yet reviewed</option><% advisors.forEach(function(a){ %><option value="<%= a.id %>" <%= post.reviewer_id === a.id ? 'selected' : '' %>><%= a.name %><%= a.designations ? ', ' + a.designations : '' %><%= a.is_demo ? ' (sample)' : '' %></option><% }) %></select></label>
+      <label class="flex items-center gap-2 font-body-sm text-body-sm"><input type="checkbox" name="mark_reviewed" value="1"> Stamp “reviewed today”</label>
+      <fieldset><legend class="admin-label">Related products (CTAs + internal links)</legend><div class="flex flex-wrap gap-1 max-h-40 overflow-y-auto"><% products.forEach(function(p){ %><label class="badge bg-surface-container-low !py-1"><input type="checkbox" name="products" value="<%= p.slug %>" <%= pp.indexOf(p.slug) > -1 ? 'checked' : '' %> data-audit> <%= p.short %></label><% }) %></div></fieldset>
+      <fieldset><legend class="admin-label">Provinces</legend><div class="flex flex-wrap gap-1"><% provinces.forEach(function(p){ %><label class="badge bg-surface-container-low !py-1"><input type="checkbox" name="provinces" value="<%= p.code %>" <%= pv.indexOf(p.code) > -1 ? 'checked' : '' %>> <%= p.abbr %></label><% }) %></div></fieldset>
+    </section>
+    <section class="card p-5 flex flex-col gap-3">
+      <h2 class="font-headline-sm text-headline-sm">Featured image</h2>
+      <input class="admin-input" name="featured_image" value="<%= post.featured_image || '' %>" placeholder="/uploads/…" data-audit data-image-field>
+      <input class="admin-input" name="image_alt" value="<%= post.image_alt || '' %>" placeholder="Alt text (describe the image)" data-audit>
+      <details><summary class="link font-label-md text-label-md cursor-pointer">Pick from library</summary>
+        <div class="grid grid-cols-3 gap-2 mt-2 max-h-60 overflow-y-auto"><% mediaList.forEach(function(m){ %><button type="button" class="rounded-lg overflow-hidden border border-surface-container hover:ring-2 ring-secondary" data-pick="/uploads/<%= m.filename %>" data-alt="<%= m.alt || '' %>"><img src="/uploads/<%= m.filename %>" alt="" class="w-full h-16 object-cover" loading="lazy"></button><% }) %></div>
+        <a class="link font-label-md text-label-md" href="/admin/media" target="_blank">Upload new image ↗</a>
+      </details>
+    </section>
+    <section class="card p-5 flex flex-col gap-2">
+      <h2 class="font-headline-sm text-headline-sm">Schedule</h2>
+      <input class="admin-input" type="datetime-local" name="scheduled_at" value="<%= post.scheduled_at ? String(post.scheduled_at).replace(' ', 'T').slice(0,16) : '' %>">
+      <button name="action" value="schedule" class="btn-soft !py-2">Schedule publish</button>
+      <p class="font-body-sm text-body-sm text-on-surface-variant">Times are UTC. The scheduler publishes and pings IndexNow automatically.</p>
+    </section>
+    <% if (revisions.length) { %>
+    <section class="card p-5"><h2 class="font-headline-sm text-headline-sm mb-2">Revisions</h2>
+      <ul class="space-y-1"><% revisions.forEach(function(r){ %><li class="flex items-center justify-between gap-2 font-body-sm text-body-sm"><span><%= String(r.created_at).slice(0,16) %> · <%= r.user_name || 'system' %></span><button class="link font-label-sm text-label-sm" formaction="/admin/posts/<%= post.id %>/restore/<%= r.id %>" formnovalidate>Restore</button></li><% }) %></ul></section>
+    <% } %>
+    <% if (post.id && can('admin')) { %>
+    <section class="card p-5"><h2 class="font-headline-sm text-headline-sm mb-2 text-error">Delete</h2>
+      <input class="admin-input mb-2" name="redirect_to" placeholder="301 old URL to (e.g. /guides/)" form="delete-post">
+    </section>
+    <% } %>
+  </aside>
+</div>
+</form>
+<% if (post.id && can('admin')) { %><form id="delete-post" method="post" action="/admin/posts/<%= post.id %>/delete" data-confirm="Delete this guide permanently?"><input type="hidden" name="_csrf" value="<%= csrf %>"><button class="mt-2 font-label-md text-label-md text-error hover:underline">Delete guide</button></form><% } %>
+<script src="/js/seo-audit.js?v=<%= v %>" defer></script>

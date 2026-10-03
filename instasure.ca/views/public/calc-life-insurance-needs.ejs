@@ -1,0 +1,52 @@
+<%- include('partials/calc-shell-top') %>
+<section class="container-site pb-space-xl" data-calc="life-needs">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+    <form class="lg:col-span-7 flex flex-col gap-space-lg" data-calc-inputs>
+      <div class="card p-space-lg grid sm:grid-cols-2 gap-space-md">
+        <h2 class="sm:col-span-2 font-headline-md text-headline-md text-primary-container">1. Income to replace</h2>
+        <label class="flex flex-col gap-1.5"><span class="field-label">Your annual income (before tax)</span><input class="field" type="number" name="income" value="90000" step="1000" min="0"></label>
+        <label class="flex flex-col gap-1.5"><span class="field-label">Years your family needs income</span><input class="field" type="number" name="years" value="15" min="1" max="40"></label>
+        <label class="flex flex-col gap-1.5 sm:col-span-2"><span class="field-label flex justify-between">Share of income to replace <output data-out="pct">70%</output></span><input type="range" name="pct" min="40" max="100" step="5" value="70"><span class="font-body-sm text-body-sm text-on-surface-variant">Many planners use 60–75% because your own living costs and taxes stop.</span></label>
+      </div>
+      <div class="card p-space-lg grid sm:grid-cols-2 gap-space-md">
+        <h2 class="sm:col-span-2 font-headline-md text-headline-md text-primary-container">2. Debts &amp; future costs</h2>
+        <label class="flex flex-col gap-1.5"><span class="field-label">Mortgage balance</span><input class="field" type="number" name="mortgage" value="450000" step="5000" min="0"></label>
+        <label class="flex flex-col gap-1.5"><span class="field-label">Other debts (car, lines of credit)</span><input class="field" type="number" name="debts" value="20000" step="1000" min="0"></label>
+        <label class="flex flex-col gap-1.5"><span class="field-label">Children to fund education for</span><input class="field" type="number" name="kids" value="2" min="0" max="10"></label>
+        <label class="flex flex-col gap-1.5"><span class="field-label">Education fund per child</span><input class="field" type="number" name="edu" value="60000" step="5000" min="0"></label>
+        <label class="flex flex-col gap-1.5"><span class="field-label">Final expenses &amp; estate costs</span><input class="field" type="number" name="final" value="25000" step="1000" min="0"></label>
+      </div>
+      <div class="card p-space-lg grid sm:grid-cols-2 gap-space-md">
+        <h2 class="sm:col-span-2 font-headline-md text-headline-md text-primary-container">3. What you already have</h2>
+        <label class="flex flex-col gap-1.5"><span class="field-label">Savings &amp; investments (non-retirement)</span><input class="field" type="number" name="savings" value="40000" step="1000" min="0"></label>
+        <label class="flex flex-col gap-1.5"><span class="field-label">Existing life insurance (incl. work)</span><input class="field" type="number" name="existing" value="100000" step="5000" min="0"></label>
+      </div>
+      <div class="card p-space-lg grid sm:grid-cols-3 gap-space-md">
+        <h2 class="sm:col-span-3 font-headline-md text-headline-md text-primary-container">4. Estimate the cost</h2>
+        <label class="flex flex-col gap-1.5"><span class="field-label">Your age</span><input class="field" type="number" name="age" value="35" min="18" max="75"></label>
+        <label class="flex flex-col gap-1.5"><span class="field-label">Sex at birth</span><select class="field" name="sex"><option value="female">Female</option><option value="male">Male</option></select></label>
+        <label class="flex flex-col gap-1.5"><span class="field-label">Tobacco / vaping</span><select class="field" name="smoker"><option value="no">No</option><option value="yes">Yes</option></select></label>
+      </div>
+    </form>
+    <aside class="lg:col-span-5 lg:sticky lg:top-24 flex flex-col gap-space-md">
+      <div class="rounded-3xl bg-primary-container text-on-primary p-space-lg shadow-xl relative overflow-hidden">
+        <div class="absolute -right-10 -bottom-10 w-52 h-52 rounded-full bg-secondary/20 blur-3xl"></div>
+        <p class="font-label-sm text-label-sm uppercase tracking-wider text-secondary-fixed">Recommended coverage</p>
+        <p class="font-display-lg-mobile text-display-lg-mobile lg:font-display-lg lg:text-display-lg" data-result="total" aria-live="polite">$0</p>
+        <p class="font-body-sm text-body-sm text-primary-fixed-dim">Rounded up to the nearest $50,000.</p>
+        <div class="mt-space-md space-y-2 relative" data-result="bars"></div>
+        <div class="mt-space-md bg-surface-container-lowest/10 rounded-xl p-space-sm relative">
+          <p class="font-label-sm text-label-sm text-primary-fixed-dim">Estimated Term 20 premium</p>
+          <p class="font-headline-md text-headline-md" data-result="premium">—</p>
+          <p class="font-body-sm text-body-sm text-primary-fixed-dim" data-result="example"></p>
+        </div>
+        <a href="/quote/term-life-insurance/" class="btn-primary w-full mt-space-md relative" data-result="cta" data-track="quote_start" data-label="calc_life">Get quotes for this amount <span class="material-symbols-outlined text-[18px]">arrow_forward</span></a>
+      </div>
+      <div class="card p-space-md font-body-sm text-body-sm text-on-surface-variant">
+        <p class="font-label-md text-label-md text-on-surface mb-1">How this works</p>
+        <p>Coverage = (income × replacement % × years) + mortgage + debts + education + final expenses − savings − existing coverage. It’s a starting point; an advisor can refine it for taxes, CPP survivor benefits and your spouse’s income.</p>
+      </div>
+    </aside>
+  </div>
+</section>
+<%- include('partials/calc-shell-bottom') %>

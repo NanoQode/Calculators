@@ -1,0 +1,106 @@
+<div class="relative w-full overflow-hidden">
+  <div class="absolute -top-40 right-1/4 w-[520px] h-[520px] rounded-full bg-secondary-container/20 blur-[130px] pointer-events-none"></div>
+  <section class="container-site pt-space-md pb-space-xl relative">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+      <div class="lg:col-span-6 flex flex-col gap-space-md lg:pt-space-md">
+        <span class="chip bg-secondary-container/40 text-on-secondary-container w-fit"><span class="material-symbols-outlined text-[15px]"><%= product.icon %></span> <%= CATEGORIES[product.category].name %></span>
+        <h1 class="font-display-lg-mobile text-display-lg-mobile lg:font-display-lg lg:text-display-lg text-primary-container tracking-tight text-balance"><%= h1 %></h1>
+        <p class="font-body-lg text-body-lg text-on-surface-variant"><%= product.tagline %></p>
+        <div class="article-body"><p><%= product.intro %></p><% if (intro) { %><%- intro %><% } %></div>
+        <ul class="grid sm:grid-cols-2 gap-2">
+          <% product.benefits.forEach(function(b){ %>
+          <li class="flex items-start gap-2 font-body-md text-body-md text-on-surface"><span class="tick mt-0.5"><span class="material-symbols-outlined text-[12px]">check</span></span><span><%= b %></span></li>
+          <% }) %>
+        </ul>
+        <% if (product.calculator) { %>
+        <a href="<%= product.calculator %>" class="flex items-center gap-space-sm bg-surface-container-lowest/80 p-space-sm rounded-2xl shadow-sm max-w-md hover:shadow-md transition-shadow">
+          <span class="w-11 h-11 rounded-xl bg-surface-container flex items-center justify-center text-primary-container"><span class="material-symbols-outlined">calculate</span></span>
+          <span class="flex flex-col"><span class="font-label-md text-label-md text-on-surface">Not sure how much you need?</span><span class="font-body-sm text-body-sm text-secondary">Use the free calculator →</span></span>
+        </a>
+        <% } %>
+      </div>
+      <div class="lg:col-span-6 lg:sticky lg:top-24"><%- include('partials/quote-widget') %></div>
+    </div>
+  </section>
+</div>
+
+<section class="w-full bg-surface-container-lowest py-space-xl shadow-sm" aria-labelledby="cov-h">
+  <div class="container-site">
+    <p class="eyebrow">Coverage options</p>
+    <h2 id="cov-h" class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container mb-space-lg">Types of <%= product.name.toLowerCase() %> in Canada</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 <%= product.coverages.length > 4 ? 'lg:grid-cols-3' : 'lg:grid-cols-2' %> gap-space-md">
+      <% product.coverages.forEach(function(c){ %>
+      <div class="bg-surface-container-low rounded-2xl p-space-md flex flex-col gap-2">
+        <h3 class="font-headline-sm text-headline-sm text-on-surface"><%= c.name %></h3>
+        <p class="font-body-md text-body-md text-on-surface-variant"><%= c.desc %></p>
+        <% if (c.link) { %><a href="<%= c.link %>" class="link font-label-md text-label-md mt-auto">Learn more →</a><% } %>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="container-site py-space-xl grid grid-cols-1 lg:grid-cols-2 gap-space-lg" aria-label="Pricing factors">
+  <div class="card p-space-lg">
+    <div class="flex items-center gap-2 mb-space-sm"><span class="material-symbols-outlined text-secondary">tune</span><h2 class="font-headline-md text-headline-md text-primary-container">What affects your price</h2></div>
+    <ol class="space-y-3">
+      <% product.factors.forEach(function(f, i){ %><li class="flex items-start gap-3"><span class="w-7 h-7 rounded-full bg-surface-container flex items-center justify-center font-label-md text-label-md text-primary-container shrink-0"><%= i + 1 %></span><span class="font-body-md text-body-md text-on-surface pt-0.5"><%= f %></span></li><% }) %>
+    </ol>
+  </div>
+  <div class="card p-space-lg flex flex-col gap-space-sm">
+    <div class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary">bolt</span><h2 class="font-headline-md text-headline-md text-primary-container">Your instant estimate</h2></div>
+    <% if (from) { %>
+    <p class="font-body-md text-body-md text-on-surface-variant">Estimates start from about</p>
+    <p class="font-price-hero text-price-hero text-primary-container"><%= U.money(from.amount, { cents: from.amount < 100 }) %><span class="font-body-md text-body-md text-on-surface-variant"><%= from.periodLabel %></span></p>
+    <p class="font-body-sm text-body-sm text-on-surface-variant">Example: <%= from.example %> · as of <%= from.asOf %>. Not a quote — your price depends on your details and the insurer.</p>
+    <% } %>
+    <a href="/quote/<%= product.slug %>/" class="btn-primary mt-auto" data-track="quote_start" data-label="product_estimate_card">Personalise my estimate <span class="material-symbols-outlined text-[18px]">arrow_forward</span></a>
+  </div>
+</section>
+
+<% if (product.geo !== 'none') { %>
+<section class="w-full bg-surface-container-low/60 py-space-xl" aria-labelledby="prov-h">
+  <div class="container-site">
+    <p class="eyebrow">Local rules &amp; pricing</p>
+    <h2 id="prov-h" class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container mb-space-lg"><%= product.name %> by province</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-space-sm">
+      <% geoData.provinces.forEach(function(p){ %>
+      <a href="/<%= product.slug %>/<%= p.slug %>/" class="card card-hover p-space-md flex flex-col gap-1">
+        <span class="font-label-sm text-label-sm text-secondary"><%= p.abbr %></span>
+        <span class="font-label-lg text-label-lg text-on-surface"><%= product.short %> in <%= p.name %></span>
+        <% if (product.category === 'auto') { %><span class="font-body-sm text-body-sm text-on-surface-variant"><%= p.auto.system === 'public' ? p.auto.publicInsurer + ' basic' : p.auto.system === 'hybrid' ? 'SAAQ + private' : 'Private market' %></span><% } %>
+      </a>
+      <% }) %>
+    </div>
+    <% if (topCities.length) { %>
+    <h3 class="font-headline-sm text-headline-sm text-on-surface mt-space-xl mb-space-sm">Popular cities</h3>
+    <ul class="flex flex-wrap gap-2">
+      <% topCities.forEach(function(c){ var p = geoData.provinceByCode[c.prov]; %>
+      <li><a href="/<%= product.slug %>/<%= p.slug %>/<%= c.slug %>/" class="chip bg-surface-container-lowest text-on-surface shadow-sm hover:text-secondary !py-2 !px-3 font-label-md text-label-md"><%= product.short %> insurance <%= c.name %></a></li>
+      <% }) %>
+    </ul>
+    <% } %>
+  </div>
+</section>
+<% } %>
+
+<% if (guides.length) { %>
+<section class="container-site py-space-xl" aria-labelledby="g-h">
+  <div class="flex items-end justify-between mb-space-lg gap-space-sm"><div><p class="eyebrow">Learn before you buy</p><h2 id="g-h" class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container"><%= product.short %> guides</h2></div><a class="link font-label-lg text-label-lg" href="/guides/">All guides →</a></div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg"><% guides.forEach(function(g){ %><%- include('partials/guide-card', { g: g }) %><% }) %></div>
+</section>
+<% } %>
+
+<%- include('partials/faq', { items: faq, faqHeading: product.name + ' FAQ' }) %>
+<%- include('partials/advisor-banner', { bannerTitle: 'Talk it through with a licensed ' + product.short.toLowerCase() + ' advisor', bannerProduct: product.slug }) %>
+
+<% if (related.length) { %>
+<section class="container-site pb-space-xl" aria-labelledby="rel-h">
+  <h2 id="rel-h" class="font-headline-md text-headline-md text-primary-container mb-space-md">Often considered together</h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+    <% related.forEach(function(r){ %>
+    <a href="/<%= r.slug %>/" class="card card-hover p-space-md flex items-center gap-3"><span class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-primary-container"><span class="material-symbols-outlined"><%= r.icon %></span></span><span class="font-label-lg text-label-lg text-on-surface"><%= r.name %></span></a>
+    <% }) %>
+  </div>
+</section>
+<% } %>

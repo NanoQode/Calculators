@@ -1,0 +1,17 @@
+<section class="container-site pt-space-md pb-space-xl">
+  <p class="eyebrow">Plain language</p>
+  <h1 class="font-display-lg-mobile text-display-lg-mobile lg:font-display-lg lg:text-display-lg text-primary-container tracking-tight">Canadian insurance glossary</h1>
+  <p class="mt-space-sm font-body-lg text-body-lg text-on-surface-variant max-w-3xl">Insurance jargon, explained the way you’d explain it to a friend.</p>
+  <nav class="flex flex-wrap gap-1 mt-space-lg" aria-label="Jump to letter">
+    <% var letters = []; terms.forEach(function(t){ var L = t.term[0].toUpperCase(); if (letters.indexOf(L) < 0) letters.push(L); }); letters.forEach(function(L){ %><a href="#letter-<%= L %>" class="w-9 h-9 rounded-lg bg-surface-container-lowest shadow-sm flex items-center justify-center font-label-md text-label-md hover:text-secondary"><%= L %></a><% }) %>
+  </nav>
+  <dl class="mt-space-lg grid grid-cols-1 md:grid-cols-2 gap-space-md">
+    <% var seen = {}; terms.forEach(function(t){ var L = t.term[0].toUpperCase(); var first = !seen[L]; seen[L] = 1; %>
+    <div class="card p-space-md" id="<%= U.slugify(t.term) %>" <%- first ? 'data-letter="' + L + '"' : '' %>>
+      <% if (first) { %><span id="letter-<%= L %>"></span><% } %>
+      <dt class="font-headline-sm text-headline-sm text-on-surface flex items-center justify-between gap-2"><%= t.term %> <span class="badge bg-surface-container text-on-surface-variant"><%= t.cat %></span></dt>
+      <dd class="mt-1 font-body-md text-body-md text-on-surface-variant"><%= t.def %></dd>
+    </div>
+    <% }) %>
+  </dl>
+</section>

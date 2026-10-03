@@ -1,0 +1,310 @@
+<%
+  var f = product.quoteFlow;
+  var pv = function(k, d){ return prefill[k] !== undefined ? prefill[k] : d; };
+  var fmt = function(n){ return U.money(n, { cents: n < 100 }); };
+  var showSexSmoker = f === 'life' || (f === 'health' && product.slug !== 'health-dental-insurance');
+  var showAge = f !== 'business' && f !== 'property' && product.slug !== 'super-visa-insurance';
+  var adv = advisors[0];
+%>
+<form action="/api/leads" method="post" data-quote-flow data-product="<%= product.slug %>" data-flow="<%= f %>" novalidate>
+<input type="hidden" name="product" value="<%= product.slug %>">
+<input type="hidden" name="lead_type" value="quote">
+<input type="hidden" name="_ts" value="0" data-ts>
+<div class="hidden" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+
+<!-- Sticky progress + live rate -->
+<div class="sticky top-16 lg:top-20 z-40 w-full bg-surface-container-lowest shadow-sm">
+  <div class="container-site py-space-sm flex flex-col md:flex-row items-stretch md:items-center justify-between gap-space-sm">
+    <div class="flex flex-col gap-1">
+      <div class="flex items-center gap-space-sm">
+        <span class="badge bg-secondary-container text-on-secondary-container" data-stage-label>STAGE 01/04</span>
+        <span class="font-label-lg text-label-lg md:font-headline-sm md:text-headline-sm text-on-surface" data-stage-title>Coverage</span>
+      </div>
+      <div class="flex items-center gap-space-sm">
+        <div class="w-full md:w-64 h-1.5 rounded-full bg-surface-container overflow-hidden"><div class="h-full bg-secondary rounded-full transition-all duration-500" style="width:25%" data-progress></div></div>
+        <span class="font-label-sm text-label-sm text-on-surface-variant whitespace-nowrap" data-progress-label>25% complete</span>
+      </div>
+    </div>
+    <div class="flex items-center justify-between md:justify-end gap-space-md bg-primary md:bg-surface-container-low text-on-primary md:text-on-surface -mx-margin md:mx-0 px-margin md:px-space-md py-space-xs rounded-none md:rounded-xl">
+      <div class="flex flex-col md:text-right">
+        <span class="font-label-sm text-label-sm text-secondary-fixed md:text-on-surface-variant uppercase tracking-wider flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-secondary-container animate-pulse md:hidden"></span>Live estimate</span>
+        <div class="flex items-baseline md:justify-end gap-1" aria-live="polite">
+          <span class="font-price-hero-mobile text-price-hero-mobile md:font-price-hero md:text-price-hero leading-none" data-live-price data-monthly="<%= initial.low %>"><%= fmt(initial.low) %></span>
+          <span class="font-body-sm text-body-sm opacity-80" data-live-period><%= initial.periodLabel %></span>
+        </div>
+      </div>
+      <% if (initial.period === 'month') { %>
+      <div class="flex items-center bg-primary-container md:bg-surface-container p-0.5 rounded-full" role="group" aria-label="Billing frequency">
+        <button type="button" class="px-3 py-1 rounded-full font-label-sm text-label-sm bg-secondary text-on-secondary md:bg-surface-container-lowest md:text-on-surface shadow-sm" data-billing="monthly" aria-pressed="true">Monthly</button>
+        <button type="button" class="px-3 py-1 rounded-full font-label-sm text-label-sm opacity-80 flex items-center gap-1" data-billing="annual" aria-pressed="false">Annual <span class="bg-secondary-fixed text-on-secondary-fixed px-1 rounded-full text-[9px] font-bold">-~8%</span></button>
+      </div>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<div class="container-site py-space-lg lg:py-space-xl">
+  <% if (flash && flash.type === 'err') { %><div class="mb-space-md p-space-md rounded-xl bg-error-container text-on-error-container font-body-md text-body-md" role="alert"><%= flash.msg %></div><% } %>
+  <% if (resume) { %><div class="mb-space-md p-space-md rounded-xl bg-secondary-container/30 text-on-secondary-fixed font-body-md text-body-md">Welcome back<%= resume.first_name ? ', ' + resume.first_name : '' %> — your saved answers are filled in (ref <%= resume.ref %>).</div><% } %>
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg lg:gap-space-xl items-start">
+    <div class="lg:col-span-7 flex flex-col gap-space-lg">
+
+      <!-- STEP 1: coverage -->
+      <fieldset class="flex flex-col gap-space-lg" data-step="1" data-title="<%= f === 'auto' ? 'Your vehicle & coverage' : f === 'property' ? 'Your property' : f === 'business' ? 'Your business' : 'Coverage' %>">
+        <legend class="sr-only">Coverage</legend>
+        <div class="card p-space-lg flex items-center justify-between gap-space-md">
+          <div class="flex items-center gap-space-sm">
+            <div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-primary-container"><span class="material-symbols-outlined"><%= product.icon %></span></div>
+            <div class="flex flex-col"><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Product</span><h1 class="font-headline-sm text-headline-sm text-on-surface font-bold"><%= product.name %> quote</h1></div>
+          </div>
+          <a href="/quote/" class="chip bg-surface-container-low text-on-surface hover:bg-surface-container !py-1.5"><span class="material-symbols-outlined text-[15px]">tune</span> Change</a>
+        </div>
+
+        <% if (f === 'life' || product.slug === 'critical-illness-insurance') {
+             var isCI = product.slug === 'critical-illness-insurance';
+             var cmin = isCI ? 25000 : 100000, cmax = isCI ? 500000 : (product.slug === 'no-medical-life-insurance' ? 1000000 : 3000000), cstep = isCI ? 5000 : 25000;
+             var cdef = pv('coverage', isCI ? 100000 : 500000);
+             var presets = isCI ? [50000, 100000, 150000, 250000] : [250000, 500000, 750000, 1000000];
+        %>
+        <div class="card p-space-lg flex flex-col gap-space-lg">
+          <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-space-sm">
+            <div><span class="eyebrow">Amount</span><h2 class="font-headline-md text-headline-md text-on-surface"><%= isCI ? 'Lump-sum benefit' : 'Coverage amount' %></h2>
+              <p class="font-body-sm text-body-sm text-on-surface-variant"><%= isCI ? 'Paid tax-free after a covered diagnosis.' : 'Tax-free lump sum for your family or mortgage.' %> <a class="link" href="/calculators/life-insurance-needs/">Not sure?</a></p></div>
+            <output class="bg-surface-container-high px-space-md py-1.5 rounded-xl font-headline-lg text-headline-lg text-primary-container" data-coverage-out><%= U.money(cdef) %></output>
+          </div>
+          <input type="range" name="qi[coverage]" min="<%= cmin %>" max="<%= cmax %>" step="<%= cstep %>" value="<%= cdef %>" class="w-full h-2.5 bg-surface-container-high rounded-full appearance-none cursor-pointer" aria-label="Coverage amount" data-coverage>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-space-xs">
+            <% presets.forEach(function(v){ %><button type="button" class="py-2 px-3 rounded-xl font-label-md text-label-md text-center transition-all <%= Number(cdef) === v ? 'bg-primary text-on-primary shadow-sm' : 'bg-surface-container-low text-on-surface hover:bg-surface-container' %>" data-preset="<%= v %>"><%= U.money(v) %></button><% }) %>
+          </div>
+        </div>
+        <% if (f === 'life' && product.slug !== 'whole-life-insurance') { var tdef = String(pv('term', '20')); %>
+        <div class="card p-space-lg flex flex-col gap-space-md">
+          <div><span class="eyebrow">Policy horizon</span><h2 class="font-headline-md text-headline-md text-on-surface">Term length</h2><p class="font-body-sm text-body-sm text-on-surface-variant">How long your premium stays level.</p></div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md" role="radiogroup" aria-label="Term length">
+            <% [['10','10 years','Short-term debts or kids finishing school.'],['20','20 years','Matches a typical mortgage and child-raising years.'],['30','30 years','Young families who want one policy to retirement.'],['65','To age 65','Level coverage to your expected retirement.']].forEach(function(t){ var on = tdef === t[0]; %>
+            <label class="opt-card <%= on ? 'is-active' : '' %>" data-opt-card>
+              <input class="sr-only" type="radio" name="qi[term]" value="<%= t[0] %>" <%= on ? 'checked' : '' %>>
+              <% if (t[0] === '20') { %><span class="absolute -top-3 right-4 px-2.5 py-0.5 rounded-full bg-secondary text-on-secondary font-label-sm text-[10px] uppercase tracking-wide shadow-sm">Most popular</span><% } %>
+              <span class="flex items-center justify-between mb-1"><span class="font-headline-sm text-headline-sm text-on-surface font-bold"><%= t[1] %></span><span class="material-symbols-outlined <%= on ? 'text-secondary' : 'text-outline-variant' %>" data-check><%= on ? 'check_circle' : 'radio_button_unchecked' %></span></span>
+              <span class="font-body-sm text-body-sm text-on-surface-variant"><%= t[2] %></span>
+            </label>
+            <% }) %>
+          </div>
+        </div>
+        <% } %>
+        <% } else if (product.slug === 'disability-insurance') { %>
+        <div class="card p-space-lg flex flex-col gap-space-md">
+          <div class="flex items-end justify-between"><div><span class="eyebrow">Income</span><h2 class="font-headline-md text-headline-md text-on-surface">Annual earned income</h2></div><output class="font-headline-lg text-headline-lg text-primary-container" data-money-out="income"><%= U.money(pv('income', 80000)) %></output></div>
+          <input type="range" name="qi[income]" min="20000" max="300000" step="5000" value="<%= pv('income', 80000) %>" class="w-full" data-money-in="income" aria-label="Annual income">
+          <label class="field-label" for="occ">Occupation type</label>
+          <select id="occ" name="qi[occupation]" class="field"><option value="office">Office / desk-based</option><option value="professional" selected>Professional (medical, legal, finance, tech)</option><option value="light">Light manual / retail</option><option value="trades">Skilled trades</option><option value="heavy">Heavy manual</option></select>
+        </div>
+        <% } else if (product.slug === 'health-dental-insurance') { %>
+        <div class="card p-space-lg flex flex-col gap-space-md">
+          <span class="eyebrow">Who’s covered</span>
+          <div class="seg grid-cols-3" data-seg="household"><% ['single','couple','family'].forEach(function(h, i){ %><button type="button" class="seg-btn" aria-pressed="<%= i === 0 %>" data-val="<%= h %>"><%= h[0].toUpperCase() + h.slice(1) %></button><% }) %></div>
+          <input type="hidden" name="qi[household]" value="single">
+        </div>
+        <% } else if (product.slug === 'super-visa-insurance') { %>
+        <div class="card p-space-lg grid sm:grid-cols-2 gap-space-md">
+          <div class="flex flex-col gap-1.5"><label class="field-label" for="va">Visitor’s age</label><input id="va" class="field" type="number" name="qi[visitor_age]" min="40" max="89" value="<%= pv('visitor_age', 62) %>"></div>
+          <div class="flex flex-col gap-1.5"><label class="field-label" for="svc">Coverage</label><select id="svc" class="field" name="qi[coverage]"><option value="100000">$100,000 (IRCC minimum)</option><option value="150000">$150,000</option><option value="200000">$200,000</option><option value="300000">$300,000</option></select></div>
+          <div class="flex flex-col gap-1.5"><label class="field-label" for="svd">Deductible</label><select id="svd" class="field" name="qi[deductible]"><option value="0">$0</option><option value="500">$500</option><option value="1000">$1,000</option><option value="2500">$2,500</option></select></div>
+          <div class="flex flex-col gap-1.5"><span class="field-label">Cover stable pre-existing conditions?</span><div class="seg grid-cols-2" data-seg="preexisting"><button type="button" class="seg-btn" aria-pressed="true" data-val="no">No</button><button type="button" class="seg-btn" aria-pressed="false" data-val="yes">Yes</button></div><input type="hidden" name="qi[preexisting]" value="no"></div>
+        </div>
+        <% } else if (f === 'travel') { %>
+        <div class="card p-space-lg grid sm:grid-cols-2 gap-space-md">
+          <div class="flex flex-col gap-1.5"><label class="field-label" for="days">Trip length (days)</label><input id="days" class="field" type="number" name="qi[days]" min="1" max="365" value="<%= pv('days', 14) %>"></div>
+          <div class="flex flex-col gap-1.5"><label class="field-label" for="dest">Destination</label><select id="dest" class="field" name="qi[destination]"><option value="worldwide">USA / worldwide</option><option value="canada-excluded-usa">Worldwide excluding USA</option></select></div>
+        </div>
+        <% } else if (f === 'auto') { %>
+        <div class="card p-space-lg flex flex-col gap-space-md">
+          <div class="flex flex-col gap-1.5"><label class="field-label" for="veh">Vehicle type</label>
+            <select id="veh" class="field" name="qi[vehicle_class]"><option value="economy">Economy car</option><option value="standard" selected>Standard sedan / hatchback</option><option value="suv">SUV / minivan / pickup</option><option value="luxury">Luxury / performance</option><option value="high-theft">Frequently stolen model (e.g. Lexus RX, Highlander, CR-V)</option><option value="ev">Electric vehicle</option></select></div>
+          <span class="field-label">Coverage level</span>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-space-sm" role="radiogroup">
+            <% [['liability','Mandatory + liability','Lowest price'],['full','Full coverage','Recommended'],['premium','Full + extras','Most protection']].forEach(function(c){ var on = c[0] === 'full'; %>
+            <label class="opt-card <%= on ? 'is-active' : '' %>" data-opt-card><input class="sr-only" type="radio" name="qi[coverage_level]" value="<%= c[0] %>" <%= on ? 'checked' : '' %>><span class="font-label-sm text-label-sm text-secondary"><%= c[2] %></span><span class="font-label-lg text-label-lg text-on-surface"><%= c[1] %></span><span class="material-symbols-outlined absolute top-3 right-3 <%= on ? 'text-secondary' : 'text-outline-variant' %>" data-check><%= on ? 'check_circle' : 'radio_button_unchecked' %></span></label>
+            <% }) %>
+          </div>
+        </div>
+        <% } else if (f === 'property') { %>
+        <div class="card p-space-lg flex flex-col gap-space-md">
+          <% if (product.slug === 'home-insurance') { %>
+          <div class="flex items-end justify-between"><div><span class="eyebrow">Dwelling</span><h2 class="font-headline-md text-headline-md text-on-surface">Estimated rebuild cost</h2><p class="font-body-sm text-body-sm text-on-surface-variant">Cost to rebuild — not market value.</p></div><output class="font-headline-lg text-headline-lg text-primary-container" data-money-out="rebuild"><%= U.money(pv('rebuild', 500000)) %></output></div>
+          <input type="range" name="qi[rebuild]" min="150000" max="2000000" step="25000" value="<%= pv('rebuild', 500000) %>" data-money-in="rebuild" aria-label="Rebuild cost">
+          <div class="grid sm:grid-cols-3 gap-space-md">
+            <div class="flex flex-col gap-1.5"><label class="field-label" for="yb">Year built</label><input id="yb" class="field" type="number" name="qi[year_built]" min="1850" max="<%= year %>" value="<%= pv('year_built', 1995) %>"></div>
+            <div class="flex flex-col gap-1.5"><label class="field-label" for="ded">Deductible</label><select id="ded" class="field" name="qi[deductible]"><option value="1000">$1,000</option><option value="2500">$2,500</option><option value="5000">$5,000</option></select></div>
+            <div class="flex flex-col gap-1.5"><span class="field-label">Water endorsements</span><div class="seg grid-cols-2" data-seg="water"><button type="button" class="seg-btn" aria-pressed="true" data-val="yes">Yes</button><button type="button" class="seg-btn" aria-pressed="false" data-val="no">No</button></div><input type="hidden" name="qi[water]" value="yes"></div>
+          </div>
+          <% } else { %>
+          <div class="flex items-end justify-between"><div><span class="eyebrow">Belongings</span><h2 class="font-headline-md text-headline-md text-on-surface">Contents value</h2><p class="font-body-sm text-body-sm text-on-surface-variant">Cost to replace everything new. <a class="link" href="/calculators/tenant-condo-coverage/">Estimate it</a></p></div><output class="font-headline-lg text-headline-lg text-primary-container" data-money-out="contents"><%= U.money(pv('contents', product.slug === 'condo-insurance' ? 50000 : 30000)) %></output></div>
+          <input type="range" name="qi[contents]" min="10000" max="250000" step="5000" value="<%= pv('contents', product.slug === 'condo-insurance' ? 50000 : 30000) %>" data-money-in="contents" aria-label="Contents value">
+          <% if (product.slug === 'condo-insurance') { %>
+          <div class="flex items-end justify-between"><div><h3 class="font-headline-sm text-headline-sm text-on-surface">Unit improvements</h3><p class="font-body-sm text-body-sm text-on-surface-variant">Upgrades beyond the standard unit.</p></div><output class="font-headline-md text-headline-md text-primary-container" data-money-out="improvements"><%= U.money(pv('improvements', 25000)) %></output></div>
+          <input type="range" name="qi[improvements]" min="0" max="250000" step="5000" value="<%= pv('improvements', 25000) %>" data-money-in="improvements" aria-label="Improvements value">
+          <% } %>
+          <% } %>
+        </div>
+        <% } else if (product.slug === 'group-benefits') { %>
+        <div class="card p-space-lg grid sm:grid-cols-2 gap-space-md">
+          <div class="flex flex-col gap-1.5"><label class="field-label" for="emp">Number of employees</label><input id="emp" class="field" type="number" name="qi[employees]" min="1" max="500" value="<%= pv('employees', 5) %>"></div>
+          <div class="flex flex-col gap-1.5"><label class="field-label" for="plan">Plan style</label><select id="plan" class="field" name="qi[plan]"><option value="hsa">Health spending account</option><option value="standard" selected>Core health &amp; dental</option><option value="comprehensive">Comprehensive + LTD</option></select></div>
+        </div>
+        <% } else if (f === 'business') { %>
+        <div class="card p-space-lg grid sm:grid-cols-2 gap-space-md">
+          <div class="flex flex-col gap-1.5 sm:col-span-2"><label class="field-label" for="ind">Business type</label><select id="ind" class="field" name="qi[industry]"><% Object.keys(industries).forEach(function(k){ %><option value="<%= k %>" <%= pv('industry', product.slug === 'contractor-insurance' ? 'trades' : 'consulting') === k ? 'selected' : '' %>><%= industries[k].label %></option><% }) %></select></div>
+          <div class="flex flex-col gap-1.5"><label class="field-label" for="rev">Annual revenue</label><select id="rev" class="field" name="qi[revenue]"><option value="50000">Under $100k</option><option value="150000" selected>$100k–$250k</option><option value="400000">$250k–$750k</option><option value="1000000">$750k–$2M</option><option value="3000000">$2M+</option></select></div>
+          <div class="flex flex-col gap-1.5"><label class="field-label" for="empb">Employees</label><input id="empb" class="field" type="number" name="qi[employees]" min="0" max="1000" value="<%= pv('employees', 1) %>"></div>
+          <div class="flex flex-col gap-1.5"><label class="field-label" for="lim">Liability limit needed</label><select id="lim" class="field" name="qi[cgl_limit]"><option value="1m">$1 million</option><option value="2m" selected>$2 million</option><option value="5m">$5 million</option></select></div>
+          <div class="flex flex-col gap-1.5"><span class="field-label">Do you give professional advice?</span><div class="seg grid-cols-2" data-seg="need_eo"><button type="button" class="seg-btn" aria-pressed="<%= product.slug === 'professional-liability-insurance' %>" data-val="yes">Yes</button><button type="button" class="seg-btn" aria-pressed="<%= product.slug !== 'professional-liability-insurance' %>" data-val="no">No</button></div><input type="hidden" name="qi[need_eo]" value="<%= product.slug === 'professional-liability-insurance' ? 'yes' : 'no' %>"></div>
+        </div>
+        <% } %>
+        <div class="flex items-center justify-between gap-space-sm" data-step-nav>
+          <span></span>
+          <button type="button" class="btn-primary" data-next>Continue <span class="material-symbols-outlined text-[18px]">arrow_forward</span></button>
+        </div>
+      </fieldset>
+
+      <!-- STEP 2: about you -->
+      <fieldset class="flex flex-col gap-space-lg" data-step="2" data-title="About you">
+        <legend class="sr-only">About you</legend>
+        <div class="card p-space-lg flex flex-col gap-space-lg">
+          <div><span class="eyebrow">Profile</span><h2 class="font-headline-md text-headline-md text-on-surface">About you</h2><p class="font-body-sm text-body-sm text-on-surface-variant">Used only to calculate your estimate and match a licensed advisor.</p></div>
+          <div class="grid sm:grid-cols-2 gap-space-md">
+            <% if (showAge) { %>
+            <div class="flex flex-col gap-1.5"><label class="field-label" for="age"><%= f === 'auto' ? 'Principal driver’s age' : 'Your age' %></label><input id="age" class="field" type="number" inputmode="numeric" name="qi[age]" min="16" max="85" value="<%= pv('age', f === 'auto' ? 40 : 35) %>" required></div>
+            <% } %>
+            <div class="flex flex-col gap-1.5"><label class="field-label" for="prov">Province / territory</label>
+              <select id="prov" class="field" name="province" required data-province>
+                <option value="">Select…</option>
+                <% geoData.provinces.forEach(function(p){ %><option value="<%= p.code %>" <%= p.code === province ? 'selected' : '' %>><%= p.name %></option><% }) %>
+              </select></div>
+            <div class="flex flex-col gap-1.5"><label class="field-label" for="city">City <span class="font-normal text-on-surface-variant">(optional)</span></label>
+              <select id="city" class="field" name="city" data-city>
+                <option value="">Other / not listed</option>
+                <% geoData.provinces.forEach(function(p){ %><optgroup label="<%= p.name %>" data-prov="<%= p.code %>"><% (geoData.citiesByProv[p.code] || []).forEach(function(c){ %><option value="<%= c.slug %>" data-prov="<%= p.code %>" <%= c.slug === prefill.city && p.code === province ? 'selected' : '' %>><%= c.name %></option><% }) %></optgroup><% }) %>
+              </select></div>
+            <div class="flex flex-col gap-1.5"><label class="field-label" for="postal">Postal code <span class="font-normal text-on-surface-variant">(optional)</span></label><input id="postal" class="field uppercase tracking-wider" type="text" name="postal_code" maxlength="7" placeholder="A1A 1A1" autocomplete="postal-code" data-postal></div>
+          </div>
+          <% if (showSexSmoker) { %>
+          <div class="grid sm:grid-cols-2 gap-space-md">
+            <div class="flex flex-col gap-1.5"><span class="field-label">Sex at birth <span class="font-normal text-on-surface-variant">(insurer pricing tables)</span></span>
+              <div class="seg grid-cols-2" data-seg="sex"><button type="button" class="seg-btn" aria-pressed="<%= pv('sex','female') === 'female' %>" data-val="female"><span class="material-symbols-outlined text-base">female</span> Female</button><button type="button" class="seg-btn" aria-pressed="<%= pv('sex','female') === 'male' %>" data-val="male"><span class="material-symbols-outlined text-base">male</span> Male</button></div>
+              <input type="hidden" name="qi[sex]" value="<%= pv('sex','female') %>"></div>
+            <div class="flex flex-col gap-1.5"><span class="field-label">Nicotine, tobacco or vaping (12 months)</span>
+              <div class="seg grid-cols-2" data-seg="smoker"><button type="button" class="seg-btn is-active-green" aria-pressed="<%= pv('smoker','no') === 'no' %>" data-val="no"><span class="material-symbols-outlined text-base">smoke_free</span> No</button><button type="button" class="seg-btn" aria-pressed="<%= pv('smoker','no') === 'yes' %>" data-val="yes"><span class="material-symbols-outlined text-base">smoking_rooms</span> Yes</button></div>
+              <input type="hidden" name="qi[smoker]" value="<%= pv('smoker','no') %>"></div>
+          </div>
+          <% } %>
+          <% if (f === 'auto') { %>
+          <div class="grid sm:grid-cols-3 gap-space-md">
+            <div class="flex flex-col gap-1.5"><label class="field-label" for="yl">Years licensed</label><input id="yl" class="field" type="number" name="qi[years_licensed]" min="0" max="70" value="<%= pv('years_licensed', 10) %>"></div>
+            <div class="flex flex-col gap-1.5"><label class="field-label" for="tk">Tickets (3 yrs)</label><input id="tk" class="field" type="number" name="qi[tickets]" min="0" max="10" value="0"></div>
+            <div class="flex flex-col gap-1.5"><label class="field-label" for="cl">At-fault claims (6 yrs)</label><input id="cl" class="field" type="number" name="qi[claims]" min="0" max="10" value="0"></div>
+          </div>
+          <% } else if (f === 'property') { %>
+          <div class="flex flex-col gap-1.5 sm:w-1/2"><label class="field-label" for="pcl">Claims in the last 5 years</label><input id="pcl" class="field" type="number" name="qi[claims]" min="0" max="10" value="0"></div>
+          <% } %>
+          <div class="flex flex-col gap-1.5">
+            <span class="field-label">When do you need coverage?</span>
+            <div class="flex flex-wrap gap-2" role="radiogroup" aria-label="Timeframe">
+              <% [['now','As soon as possible'],['30d','Within 30 days'],['90d','Within 3 months'],['researching','Just researching']].forEach(function(t, i){ %>
+              <label class="cursor-pointer"><input class="peer sr-only" type="radio" name="timeframe" value="<%= t[0] %>" <%= i === 1 ? 'checked' : '' %>><span class="chip !py-2 !px-3 font-label-md text-label-md bg-surface-container-low text-on-surface-variant peer-checked:bg-primary-container peer-checked:text-on-primary peer-focus-visible:ring-2 peer-focus-visible:ring-secondary"><%= t[1] %></span></label>
+              <% }) %>
+            </div>
+          </div>
+          <div class="hidden p-space-md rounded-xl bg-tertiary-fixed/60 text-on-tertiary-fixed-variant font-body-sm text-body-sm" data-waitlist-note data-serviceable="<%= JSON.stringify(s.serviceable_provinces) %>"><strong>We’re not licensed in this province yet.</strong> You’ll still get your estimate, and we’ll add you to the waitlist.</div>
+        </div>
+        <div class="flex items-center justify-between gap-space-sm" data-step-nav>
+          <button type="button" class="btn-soft" data-prev><span class="material-symbols-outlined text-[18px]">arrow_back</span> Back</button>
+          <button type="button" class="btn-primary" data-next>See my estimate <span class="material-symbols-outlined text-[18px]">arrow_forward</span></button>
+        </div>
+      </fieldset>
+
+      <!-- STEP 3: contact -->
+      <fieldset class="flex flex-col gap-space-lg" data-step="3" data-title="Where should we send your quotes?">
+        <legend class="sr-only">Contact details</legend>
+        <div class="card p-space-lg flex flex-col gap-space-lg">
+          <div class="flex flex-col gap-1">
+            <span class="eyebrow">Almost done</span>
+            <h2 class="font-headline-md text-headline-md text-on-surface">Where should we send your quotes?</h2>
+            <p class="font-body-sm text-body-sm text-on-surface-variant">Your estimate range: <strong class="text-on-surface" data-range-inline><%= fmt(initial.low) %>–<%= fmt(initial.high) %><%= initial.periodLabel %></strong>. We’ll email your results and an advisor licensed in your province will confirm real insurer quotes.</p>
+          </div>
+          <div class="grid sm:grid-cols-2 gap-space-md">
+            <div class="flex flex-col gap-1.5"><label class="field-label" for="fn">First name</label><input id="fn" class="field" name="first_name" autocomplete="given-name" required></div>
+            <div class="flex flex-col gap-1.5"><label class="field-label" for="ln">Last name</label><input id="ln" class="field" name="last_name" autocomplete="family-name"></div>
+            <div class="flex flex-col gap-1.5"><label class="field-label" for="em">Email</label><input id="em" class="field" type="email" name="email" autocomplete="email" required value="<%= resume ? resume.email : '' %>"></div>
+            <div class="flex flex-col gap-1.5"><label class="field-label" for="ph">Phone <span class="font-normal text-on-surface-variant">(recommended)</span></label><input id="ph" class="field" type="tel" name="phone" autocomplete="tel" placeholder="(416) 555-0123"></div>
+            <div class="flex flex-col gap-1.5"><label class="field-label" for="bt">Best time to reach you</label><select id="bt" class="field" name="best_time"><option value="">Any time</option><option>Morning (9–12)</option><option>Afternoon (12–5)</option><option>Evening (5–8)</option><option>Email only, please</option></select></div>
+            <div class="flex flex-col gap-1.5"><label class="field-label" for="lang">Preferred language</label><select id="lang" class="field" name="language"><option value="en">English</option><option value="fr">Français</option><option value="pa">ਪੰਜਾਬੀ (Punjabi)</option><option value="hi">हिन्दी (Hindi)</option><option value="zh">中文 (Chinese)</option><option value="tl">Tagalog</option><option value="ar">العربية (Arabic)</option><option value="ur">اردو (Urdu)</option><option value="es">Español</option></select></div>
+          </div>
+          <label class="flex items-start gap-3 p-space-sm rounded-xl bg-surface-container-low cursor-pointer">
+            <input type="checkbox" name="consent_marketing" value="yes" class="mt-1 w-5 h-5 accent-secondary shrink-0">
+            <span class="font-body-sm text-body-sm text-on-surface"><%= s.consent_text.replace('{site_name}', s.site_name) %> <span class="text-on-surface-variant">(Optional — your estimate is sent either way.)</span></span>
+          </label>
+          <p class="font-body-sm text-body-sm text-on-surface-variant">By submitting, you agree we may share your details with an advisor licensed in your province to respond to your request, as described in our <a class="link" href="/privacy/">privacy policy</a>. Estimates are not offers of insurance.</p>
+          <div class="hidden p-space-sm rounded-xl bg-error-container text-on-error-container font-body-sm text-body-sm" role="alert" data-form-error></div>
+        </div>
+        <div class="flex items-center justify-between gap-space-sm" data-step-nav>
+          <button type="button" class="btn-soft" data-prev><span class="material-symbols-outlined text-[18px]">arrow_back</span> Back</button>
+          <button type="submit" class="btn-primary" data-submit data-track="quote_complete">View my quotes <span class="material-symbols-outlined text-[18px]">arrow_forward</span></button>
+        </div>
+      </fieldset>
+      <button type="button" class="self-center font-label-md text-label-md text-on-surface-variant hover:text-on-surface flex items-center gap-1" data-save-later><span class="material-symbols-outlined text-base">bookmark_border</span> Save &amp; continue later</button>
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <aside class="lg:col-span-5 flex flex-col gap-space-lg lg:sticky lg:top-44">
+      <div class="bg-surface-container rounded-2xl p-space-md shadow-sm flex flex-col gap-space-xs" data-eligibility>
+        <div class="flex items-start gap-space-sm">
+          <div class="w-8 h-8 rounded-full bg-secondary text-on-secondary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-lg">bolt</span></div>
+          <div>
+            <span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Fast-track options</span>
+            <h3 class="font-headline-sm text-headline-sm text-on-surface" data-elig-title><%= f === 'life' || f === 'health' ? 'You may qualify for no-exam approval' : 'Instant estimate, real quotes fast' %></h3>
+            <p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5" data-elig-body><%= f === 'life' || f === 'health' ? 'Many healthy applicants under 50 can be approved on health questions alone — no blood tests or nurse visit.' : 'Your advisor shops multiple insurers using the details you enter here, so you only answer once.' %></p>
+          </div>
+        </div>
+        <div class="flex flex-wrap items-center gap-space-xs pt-space-xs">
+          <span class="chip bg-surface-container-lowest/80 text-on-surface !rounded-md"><span class="material-symbols-outlined text-secondary text-[14px]">check</span> No credit check</span>
+          <span class="chip bg-surface-container-lowest/80 text-on-surface !rounded-md"><span class="material-symbols-outlined text-secondary text-[14px]">check</span> No obligation</span>
+        </div>
+      </div>
+      <div class="card p-space-md flex flex-col gap-space-sm" data-tiers-preview>
+        <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Options you’ll compare</span>
+        <% initial.tiers.forEach(function(t, i){ %>
+        <div class="flex items-center justify-between gap-2 p-space-sm rounded-xl <%= t.featured ? 'bg-secondary-container/30' : 'bg-surface-container-low' %>" data-tier="<%= i %>">
+          <div class="min-w-0"><span class="block font-label-sm text-label-sm text-secondary"><%= t.label %></span><span class="block font-label-lg text-label-lg text-on-surface truncate" data-tier-name><%= t.name %></span></div>
+          <span class="font-headline-sm text-headline-sm text-primary-container whitespace-nowrap" data-tier-price><%= fmt(t.monthly) %><span class="font-body-sm text-body-sm text-on-surface-variant"><%= initial.periodLabel %></span></span>
+        </div>
+        <% }) %>
+        <p class="font-body-sm text-body-sm text-on-surface-variant" data-example>Example: <%= initial.example %> · <%= initial.asOf %></p>
+      </div>
+      <div class="bg-surface-container-low/60 rounded-xl p-space-sm flex flex-col gap-1">
+        <div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm"><span class="material-symbols-outlined text-base text-secondary">lock</span><span>Encrypted in transit · PIPEDA-aligned</span></div>
+        <p class="font-body-sm text-[11px] text-on-surface-variant leading-tight">We never sell your information. It goes only to the licensed advisor handling your request.</p>
+      </div>
+      <div class="card p-space-md flex items-center justify-between gap-space-md">
+        <div class="flex items-center gap-space-sm">
+          <%- include('partials/avatar', { a: adv, size: 'w-10 h-10' }) %>
+          <div class="flex flex-col"><span class="font-label-md text-label-md text-on-surface">Complex health history or questions?</span><span class="font-body-sm text-body-sm text-on-surface-variant">Talk to a licensed advisor</span></div>
+        </div>
+        <a href="/contact/?type=consult&product=<%= product.slug %>" class="chip bg-surface-container-low hover:bg-surface-container text-on-surface !py-1.5 whitespace-nowrap">Book a call</a>
+      </div>
+    </aside>
+  </div>
+</div>
+</form>
+
+<!-- Save & continue later dialog -->
+<dialog class="rounded-3xl p-0 backdrop:bg-primary-container/50 w-[92%] max-w-md" data-save-dialog>
+  <form class="p-space-lg flex flex-col gap-space-md" method="dialog" data-save-form>
+    <div class="flex items-center justify-between"><h2 class="font-headline-md text-headline-md text-primary-container">Save your quote</h2><button value="cancel" class="w-9 h-9 rounded-full hover:bg-surface-container flex items-center justify-center" aria-label="Close"><span class="material-symbols-outlined">close</span></button></div>
+    <p class="font-body-sm text-body-sm text-on-surface-variant">We’ll email you a link to pick up exactly where you left off.</p>
+    <label class="flex flex-col gap-1.5"><span class="field-label">Email</span><input type="email" class="field" name="email" required autocomplete="email"></label>
+    <label class="flex items-start gap-3 cursor-pointer"><input type="checkbox" name="consent_marketing" value="yes" class="mt-1 w-5 h-5 accent-secondary"><span class="font-body-sm text-body-sm"><%= s.consent_text.replace('{site_name}', s.site_name) %></span></label>
+    <p class="hidden font-body-sm text-body-sm" data-save-msg></p>
+    <button type="submit" class="btn-primary" value="default">Email me my link</button>
+  </form>
+</dialog>

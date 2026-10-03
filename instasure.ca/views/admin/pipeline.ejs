@@ -1,0 +1,23 @@
+<%- include('partials-head', { h: 'Pipeline', sub: 'Open leads by stage, hottest first. Move a lead with the stage menu on its card.', actions: '<a class="btn-soft !py-2 !px-4" href="/admin/leads">List view</a>' }) %>
+<div class="flex gap-3 overflow-x-auto pb-4">
+  <% cols.forEach(function(st){ %>
+  <section class="min-w-[270px] w-[270px] shrink-0 bg-surface-container rounded-2xl p-2">
+    <h2 class="flex items-center justify-between px-2 py-1 font-label-lg text-label-lg capitalize"><%= st %><span class="badge bg-surface-container-lowest"><%= totals[st] %></span></h2>
+    <div class="flex flex-col gap-2 mt-1">
+      <% board[st].forEach(function(l){ %>
+      <article class="bg-surface-container-lowest rounded-xl p-3 shadow-sm">
+        <div class="flex items-start justify-between gap-2"><a href="/admin/leads/<%= l.id %>" class="font-label-md text-label-md text-on-surface hover:text-secondary"><%= ((l.first_name || '') + ' ' + (l.last_name || '')).trim() || l.email %></a><%- include('grade', { l: l }) %></div>
+        <p class="text-body-sm text-on-surface-variant mt-1"><%= l.product ? (bySlug[l.product] || {}).short : '—' %> · <span class="uppercase"><%= l.province || '' %></span> · <%= U.timeAgo(l.created_at) %></p>
+        <p class="text-body-sm text-on-surface-variant"><%= l.advisor_name || 'Unassigned' %></p>
+        <form method="post" action="/admin/leads/<%= l.id %>/status" class="mt-2 flex gap-1">
+          <input type="hidden" name="_csrf" value="<%= csrf %>"><input type="hidden" name="return" value="pipeline">
+          <select name="status" class="admin-input !py-1 text-body-sm"><% ['new','contacted','quoted','application','won','lost','nurture','junk'].forEach(function(s){ %><option <%= s === st ? 'selected' : '' %>><%= s %></option><% }) %></select>
+          <button class="btn-soft !py-1 !px-2 text-body-sm">Move</button>
+        </form>
+      </article>
+      <% }) %>
+      <% if (!board[st].length) { %><p class="px-2 py-4 text-body-sm text-on-surface-variant">Nothing here.</p><% } %>
+    </div>
+  </section>
+  <% }) %>
+</div>

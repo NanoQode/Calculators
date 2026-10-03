@@ -1,0 +1,16 @@
+<section class="container-site pt-space-md pb-space-xl">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl">
+    <div class="lg:col-span-8">
+      <h1 class="font-display-lg-mobile text-display-lg-mobile lg:font-display-lg lg:text-display-lg text-primary-container tracking-tight"><%= page.title %></h1>
+      <% if (page.updated) { %><p class="mt-2 font-label-md text-label-md text-on-surface-variant">Last updated <%= U.fmtDate(page.updated) %></p><% } %>
+      <div class="article-body mt-space-lg"><%- page.html %></div>
+    </div>
+    <aside class="lg:col-span-4 flex flex-col gap-space-md lg:sticky lg:top-24 self-start">
+      <div class="card p-space-lg flex flex-col gap-2">
+        <p class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Trust &amp; transparency</p>
+        <a class="link" href="/about/">About us</a><a class="link" href="/how-we-make-money/">How we make money</a><a class="link" href="/editorial-guidelines/">Editorial guidelines</a><a class="link" href="/licensing/">Licensing &amp; disclosures</a><a class="link" href="/privacy/">Privacy policy</a><a class="link" href="/advisors/">Our advisors</a>
+      </div>
+      <a href="/quote/" class="btn-primary">Get an instant estimate <span class="material-symbols-outlined text-[18px]">bolt</span></a>
+    </aside>
+  </div>
+</section>

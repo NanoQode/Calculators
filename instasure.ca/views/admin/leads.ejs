@@ -1,0 +1,50 @@
+<% var qs = function(extra){ var o = Object.assign({}, q, extra); return Object.keys(o).filter(function(k){ return o[k] !== '' && o[k] !== undefined && k !== '_ok' && k !== '_err'; }).map(function(k){ return encodeURIComponent(k) + '=' + encodeURIComponent(o[k]); }).join('&'); }; %>
+<%- include('partials-head', { h: 'Leads', sub: U.num(total) + ' matching · scored 0–100 · grade A = hot', actions: (can('editor') ? '<a class="btn-soft !py-2 !px-4" href="/admin/leads.csv?' + qs({}) + '"><span class="material-symbols-outlined text-[18px]">download</span>Export CSV</a>' : '') + '<a class="btn-soft !py-2 !px-4" href="/admin/pipeline"><span class="material-symbols-outlined text-[18px]">view_kanban</span>Pipeline</a>' }) %>
+<div class="flex flex-wrap gap-2 mb-3">
+  <a href="/admin/leads?<%= qs({ status: '', page: '' }) %>" class="badge !py-1.5 !px-3 <%= !q.status ? 'bg-primary-container text-on-primary' : 'bg-surface-container-lowest text-on-surface' %>">All</a>
+  <% STATUSES.forEach(function(st){ var c = (statusCounts.find(function(x){ return x.status === st; }) || {}).n || 0; %><a href="/admin/leads?<%= qs({ status: st, page: '' }) %>" class="badge !py-1.5 !px-3 <%= q.status === st ? 'bg-primary-container text-on-primary' : 'bg-surface-container-lowest text-on-surface' %>"><%= st %> <span class="opacity-70"><%= c %></span></a><% }) %>
+</div>
+<form method="get" class="card p-3 mb-4 grid grid-cols-2 md:grid-cols-4 xl:grid-cols-8 gap-2 items-end">
+  <input type="hidden" name="status" value="<%= q.status || '' %>">
+  <label class="col-span-2"><span class="admin-label">Search</span><input class="admin-input" name="q" value="<%= q.q || '' %>" placeholder="Name, email, phone, ref"></label>
+  <label><span class="admin-label">Grade</span><select class="admin-input" name="grade"><option value="">Any</option><% ['A','B','C','D'].forEach(function(g){ %><option <%= q.grade === g ? 'selected' : '' %>><%= g %></option><% }) %></select></label>
+  <label><span class="admin-label">Product</span><select class="admin-input" name="product"><option value="">Any</option><% products.forEach(function(p){ %><option value="<%= p.slug %>" <%= q.product === p.slug ? 'selected' : '' %>><%= p.short %></option><% }) %></select></label>
+  <label><span class="admin-label">Province</span><select class="admin-input" name="province"><option value="">Any</option><% provinces.forEach(function(p){ %><option value="<%= p.code %>" <%= q.province === p.code ? 'selected' : '' %>><%= p.abbr %></option><% }) %></select></label>
+  <label><span class="admin-label">Advisor</span><select class="admin-input" name="advisor"><option value="">Any</option><option value="none" <%= q.advisor === 'none' ? 'selected' : '' %>>Unassigned</option><% advisors.forEach(function(a){ %><option value="<%= a.id %>" <%= String(q.advisor) === String(a.id) ? 'selected' : '' %>><%= a.name %></option><% }) %></select></label>
+  <label><span class="admin-label">Source</span><select class="admin-input" name="source"><option value="">Any</option><% ['organic','paid','direct','referral','social','email','ai'].forEach(function(s){ %><option <%= q.source === s ? 'selected' : '' %>><%= s %></option><% }) %></select></label>
+  <label><span class="admin-label">Sort</span><select class="admin-input" name="sort"><option value="newest">Newest</option><option value="score" <%= q.sort === 'score' ? 'selected' : '' %>>Score</option><option value="value" <%= q.sort === 'value' ? 'selected' : '' %>>Value</option><option value="oldest" <%= q.sort === 'oldest' ? 'selected' : '' %>>Oldest</option></select></label>
+  <label><span class="admin-label">From</span><input class="admin-input" type="date" name="from" value="<%= q.from || '' %>"></label>
+  <label><span class="admin-label">To</span><input class="admin-input" type="date" name="to" value="<%= q.to || '' %>"></label>
+  <label class="flex items-center gap-2 font-label-md text-label-md"><input type="checkbox" name="tests" value="1" <%= q.tests ? 'checked' : '' %>> Include tests</label>
+  <button class="btn-dark !py-2">Filter</button>
+</form>
+<form method="post" action="/admin/leads/bulk" class="card overflow-hidden">
+  <input type="hidden" name="_csrf" value="<%= csrf %>">
+  <% if (can('editor')) { %>
+  <div class="flex flex-wrap items-center gap-2 p-3 border-b border-surface-container">
+    <span class="font-label-md text-label-md text-on-surface-variant">With selected:</span>
+    <select name="action" class="admin-input !w-auto"><option value="auto-assign">Auto-assign advisor</option><option value="rescore">Re-score</option><% STATUSES.forEach(function(s){ %><option value="status:<%= s %>">Set status: <%= s %></option><% }) %></select>
+    <button class="btn-soft !py-1.5 !px-3">Apply</button>
+  </div>
+  <% } %>
+  <div class="overflow-x-auto"><table class="w-full">
+    <thead><tr><th class="admin-th w-8"><input type="checkbox" data-check-all aria-label="Select all"></th><th class="admin-th">Lead</th><th class="admin-th">Product</th><th class="admin-th">Where</th><th class="admin-th">Score</th><th class="admin-th">Status</th><th class="admin-th">Advisor</th><th class="admin-th">Source</th><th class="admin-th">Created</th></tr></thead>
+    <tbody>
+      <% rows.forEach(function(l){ %>
+      <tr class="hover:bg-surface-container-low <%= l.is_test ? 'opacity-60' : '' %>">
+        <td class="admin-td"><input type="checkbox" name="ids" value="<%= l.id %>" aria-label="Select <%= l.ref %>"></td>
+        <td class="admin-td"><a class="link" href="/admin/leads/<%= l.id %>"><%= ((l.first_name || '') + ' ' + (l.last_name || '')).trim() || l.email %></a><div class="text-body-sm text-on-surface-variant"><%= l.ref %> · <%= l.email %><%= l.phone ? ' · ' + U.fmtPhone(l.phone) : '' %></div></td>
+        <td class="admin-td text-body-sm"><%= l.product ? (bySlug[l.product] || {}).short : '—' %><div class="text-on-surface-variant"><%= l.lead_type %></div></td>
+        <td class="admin-td text-body-sm"><%= l.city || '' %> <span class="uppercase"><%= l.province || '' %></span></td>
+        <td class="admin-td"><%- include('grade', { l: l }) %></td>
+        <td class="admin-td text-body-sm"><%= l.status %><% if (!l.consent_marketing) { %><div class="text-on-surface-variant" title="No express marketing consent (CASL)">no consent</div><% } %></td>
+        <td class="admin-td text-body-sm"><%= l.advisor_name || '—' %></td>
+        <td class="admin-td text-body-sm"><%= l.source || '—' %><div class="text-on-surface-variant truncate max-w-[140px]"><%= l.landing_page || '' %></div></td>
+        <td class="admin-td text-body-sm whitespace-nowrap"><%= U.timeAgo(l.created_at) %></td>
+      </tr>
+      <% }) %>
+      <% if (!rows.length) { %><tr><td class="admin-td text-on-surface-variant" colspan="9">No leads match these filters.</td></tr><% } %>
+    </tbody>
+  </table></div>
+</form>
+<% if (pages > 1) { %><nav class="flex justify-center gap-2 mt-4"><% for (var i = 1; i <= Math.min(pages, 20); i++) { %><a href="/admin/leads?<%= qs({ page: i }) %>" class="badge !py-1.5 !px-3 <%= i === page ? 'bg-primary-container text-on-primary' : 'bg-surface-container-lowest' %>"><%= i %></a><% } %></nav><% } %>

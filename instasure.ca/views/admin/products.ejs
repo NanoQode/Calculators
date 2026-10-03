@@ -1,0 +1,14 @@
+<%- include('partials-head', { h: 'Products', sub: 'Turn product lines on or off (disabled products disappear from navigation, sitemaps and quote flows) and tune the lead value used in scoring and pipeline value.' }) %>
+<form method="post" action="/admin/products" class="card overflow-x-auto">
+  <input type="hidden" name="_csrf" value="<%= csrf %>">
+  <table class="w-full"><thead><tr><th class="admin-th">On</th><th class="admin-th">Product</th><th class="admin-th">Category</th><th class="admin-th">Pages</th><th class="admin-th">Lead value ($)</th><th class="admin-th">Leads</th><th class="admin-th">Won</th></tr></thead>
+  <tbody><% products.forEach(function(p){ var o = ov[p.slug]; var on = !o || o.enabled; var st = stats[p.slug] || {}; %><tr>
+    <td class="admin-td"><input type="checkbox" name="enabled" value="<%= p.slug %>" <%= on ? 'checked' : '' %>></td>
+    <td class="admin-td"><a class="link" href="/<%= p.slug %>/" target="_blank"><%= p.name %></a></td>
+    <td class="admin-td text-body-sm"><%= CATEGORIES[p.category].name %></td>
+    <td class="admin-td text-body-sm"><%= p.geo === 'city' ? 'hub + provinces + cities' : p.geo === 'province' ? 'hub + provinces' : 'hub' %></td>
+    <td class="admin-td"><input class="admin-input !w-24 !py-1" type="number" name="lv_<%= p.slug %>" value="<%= o && o.lead_value ? o.lead_value : p.leadValue %>"></td>
+    <td class="admin-td text-body-sm"><%= st.n || 0 %></td><td class="admin-td text-body-sm"><%= st.won || 0 %></td></tr><% }) %>
+  </tbody></table>
+  <div class="p-4"><button class="btn-primary !py-2">Save products</button></div>
+</form>

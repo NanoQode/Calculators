@@ -1,0 +1,21 @@
+<%- include('partials-head', { h: 'Drip campaigns', sub: 'Automated, CASL-compliant email sequences. Sends respect express consent, unsubscribes, stop-statuses and quiet hours (' + (s.quiet_hours ? s.quiet_hours.start + ':00–' + s.quiet_hours.end + ':00' : '8:00–20:00') + ' local time).', actions: '<a class="btn-primary !py-2 !px-4" href="/admin/campaigns/new"><span class="material-symbols-outlined text-[18px]">add</span>New campaign</a>' }) %>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+  <% list.forEach(function(c){ var st = c.stats || {}; var sent = st.sent || 0; %>
+  <a href="/admin/campaigns/<%= c.id %>" class="card p-5 hover:shadow-md transition-shadow flex flex-col gap-3">
+    <div class="flex items-start justify-between gap-2">
+      <div><h2 class="font-headline-sm text-headline-sm text-on-surface"><%= c.name %></h2><p class="font-body-sm text-body-sm text-on-surface-variant"><%= TRIGGERS[c.trigger] %> · <%= c.steps %> steps<%= c.require_express_consent ? ' · express consent only' : '' %></p></div>
+      <span class="badge <%= c.active ? 'bg-secondary-container text-on-secondary-container' : 'bg-surface-container text-on-surface-variant' %>"><%= c.active ? 'Active' : 'Paused' %></span>
+    </div>
+    <p class="font-body-sm text-body-sm text-on-surface-variant"><%= c.description || '' %></p>
+    <div class="grid grid-cols-5 gap-2 text-center">
+      <% [['Enrolled', st.enrolled || 0], ['Active', st.active || 0], ['Sent', sent], ['Open rate', sent ? Math.round((st.opened || 0) / sent * 100) + '%' : '—'], ['Click rate', sent ? Math.round((st.clicked || 0) / sent * 100) + '%' : '—']].forEach(function(m){ %>
+      <div class="bg-surface-container-low rounded-lg py-2"><p class="font-label-sm text-label-sm text-on-surface-variant"><%= m[0] %></p><p class="font-label-lg text-label-lg"><%= m[1] %></p></div>
+      <% }) %>
+    </div>
+  </a>
+  <% }) %>
+</div>
+<div class="card p-5 mt-4 flex flex-col md:flex-row md:items-center justify-between gap-3">
+  <div><h2 class="font-headline-sm text-headline-sm">Scheduler</h2><p class="font-body-sm text-body-sm text-on-surface-variant">Runs every minute automatically. <%= unsub %> suppressed address(es). Use “Run now” to process due emails immediately (e.g. after editing).</p></div>
+  <% if (can('admin')) { %><form method="post" action="/admin/campaigns/run" class="flex items-center gap-2"><input type="hidden" name="_csrf" value="<%= csrf %>"><label class="flex items-center gap-1 font-label-md text-label-md"><input type="checkbox" name="ignore_quiet" value="1"> ignore quiet hours</label><button class="btn-dark !py-2 !px-4"><span class="material-symbols-outlined text-[18px]">play_arrow</span>Run now</button></form><% } %>
+</div>

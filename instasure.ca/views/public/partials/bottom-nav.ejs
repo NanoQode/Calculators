@@ -1,0 +1,14 @@
+<%
+  var tabs = [['/', 'shield', 'Home'], ['/quote/', 'bolt', 'Get Quote'], ['/compare/', 'layers', 'Compare'], ['/guides/', 'menu_book', 'Resources']];
+  var isActive = function(h){ return h === '/' ? currentPath === '/' : currentPath.indexOf(h) === 0; };
+%>
+<nav class="lg:hidden fixed bottom-0 inset-x-0 z-50 pb-safe bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_-4px_20px_rgba(10,30,51,0.06)] no-print" aria-label="Quick">
+  <div class="flex justify-around items-center h-16 px-space-xs">
+    <% tabs.forEach(function(t){ var a = isActive(t[0]); %>
+    <a href="<%= t[0] %>" class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] gap-0.5 transition-colors <%= a ? 'text-secondary font-semibold' : 'text-on-surface-variant hover:text-on-surface' %>" <%- a ? 'aria-current="page"' : '' %>>
+      <span class="material-symbols-outlined text-[22px] <%= a ? 'icon-fill' : '' %>"><%= t[1] %></span>
+      <span class="font-label-sm text-label-sm"><%= t[2] %></span>
+    </a>
+    <% }) %>
+  </div>
+</nav>

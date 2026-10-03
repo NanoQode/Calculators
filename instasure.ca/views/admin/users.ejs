@@ -1,0 +1,15 @@
+<%- include('partials-head', { h: 'Users & roles', sub: '<strong>admin</strong>: everything · <strong>editor</strong>: content, SEO, campaigns, all leads · <strong>advisor</strong>: only their assigned leads · <strong>viewer</strong>: dashboards only.' }) %>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+  <% rows.concat([{ id: '', name: '', email: '', role: 'editor', active: 1, advisor_id: null }]).forEach(function(u){ %>
+  <form method="post" action="/admin/users" class="card p-4 grid grid-cols-2 gap-2"><input type="hidden" name="_csrf" value="<%= csrf %>"><input type="hidden" name="id" value="<%= u.id %>">
+    <h2 class="col-span-2 font-label-lg text-label-lg"><%= u.id ? u.name : 'Invite a new user' %><% if (u.last_login_at) { %> <span class="font-normal text-on-surface-variant text-body-sm">· last login <%= U.timeAgo(u.last_login_at) %></span><% } %></h2>
+    <label><span class="admin-label">Name</span><input class="admin-input" name="name" value="<%= u.name %>"></label>
+    <label><span class="admin-label">Email</span><input class="admin-input" type="email" name="email" value="<%= u.email %>"></label>
+    <label><span class="admin-label">Role</span><select class="admin-input" name="role"><% ROLES.forEach(function(r){ %><option <%= u.role === r ? 'selected' : '' %>><%= r %></option><% }) %></select></label>
+    <label><span class="admin-label">Linked advisor (for advisor role)</span><select class="admin-input" name="advisor_id"><option value="">—</option><% advisors.forEach(function(a){ %><option value="<%= a.id %>" <%= u.advisor_id === a.id ? 'selected' : '' %>><%= a.name %></option><% }) %></select></label>
+    <label><span class="admin-label"><%= u.id ? 'New password (optional)' : 'Password (12+ chars)' %></span><input class="admin-input" type="password" name="password" autocomplete="new-password"></label>
+    <label class="flex items-center gap-2 font-label-md text-label-md mt-5"><input type="checkbox" name="active" value="1" <%= u.active ? 'checked' : '' %>> Active</label>
+    <button class="btn-soft !py-1.5 !px-3 col-span-2 justify-self-start"><%= u.id ? 'Save' : 'Create user' %></button>
+  </form>
+  <% }) %>
+</div>

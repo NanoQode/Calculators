@@ -1,0 +1,67 @@
+<% var chk = function(b){ return b ? 'checked' : ''; }; %>
+<%- include('partials-head', { h: 'Site settings', sub: 'Identity, compliance, trust claims, crawler policy and lead handling. Secrets (SMTP, session keys) live in the .env file, not here.' }) %>
+<form method="post" action="/admin/settings" class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+  <input type="hidden" name="_csrf" value="<%= csrf %>">
+  <section class="card p-5 grid grid-cols-2 gap-3" id="identity">
+    <h2 class="col-span-2 font-headline-sm text-headline-sm">Identity &amp; contact (CASL sender ID)</h2>
+    <label><span class="admin-label">Site name</span><input class="admin-input" name="site_name" value="<%= st.site_name %>"></label>
+    <label><span class="admin-label">Legal entity name</span><input class="admin-input" name="legal_name" value="<%= st.legal_name %>" placeholder="Instasure Technologies Canada Inc."></label>
+    <label class="col-span-2"><span class="admin-label">Tagline</span><input class="admin-input" name="tagline" value="<%= st.tagline %>"></label>
+    <label><span class="admin-label">Public phone</span><input class="admin-input" name="phone" value="<%= st.phone %>" placeholder="1-8XX-XXX-XXXX"></label>
+    <label><span class="admin-label">Public email</span><input class="admin-input" name="email" value="<%= st.email %>"></label>
+    <label class="col-span-2"><span class="admin-label">Mailing address (required in every commercial email)</span><input class="admin-input" name="mailing_address" value="<%= st.mailing_address %>"></label>
+    <label><span class="admin-label">Privacy officer (name &amp; email)</span><input class="admin-input" name="privacy_officer" value="<%= st.privacy_officer %>"></label>
+    <label><span class="admin-label">Founded</span><input class="admin-input" name="founded_year" value="<%= st.founded_year %>"></label>
+    <label class="col-span-2"><span class="admin-label">Licensing disclosure (footer &amp; emails)</span><textarea class="admin-input" name="licence_disclosure" rows="3"><%= st.licence_disclosure %></textarea></label>
+    <label class="col-span-2"><span class="admin-label">Estimate disclaimer</span><textarea class="admin-input" name="quote_disclaimer" rows="2"><%= st.quote_disclaimer %></textarea></label>
+    <label class="col-span-2"><span class="admin-label">Announcement bar (optional)</span><input class="admin-input" name="announcement" value="<%= st.announcement %>"></label>
+  </section>
+  <section class="card p-5 flex flex-col gap-3" id="provinces">
+    <h2 class="font-headline-sm text-headline-sm">Where you can serve leads</h2>
+    <p class="font-body-sm text-body-sm text-on-surface-variant">Only tick provinces where your advisors/brokerage are licensed. Others still get guides and estimates, but leads go to a waitlist (no advice, no routing). Quebec requires an AMF-registered firm for online insurance offers.</p>
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2"><% provinces.forEach(function(p){ %><label class="flex items-center gap-2 font-body-md text-body-md"><input type="checkbox" name="serviceable_provinces" value="<%= p.code %>" <%= chk((st.serviceable_provinces || []).indexOf(p.code) > -1) %>> <%= p.name %></label><% }) %></div>
+    <label><span class="admin-label">Waitlist message</span><textarea class="admin-input" name="waitlist_message" rows="2"><%= st.waitlist_message %></textarea></label>
+    <label><span class="admin-label">Advisor response promise (business hours, 0 = hide)</span><input class="admin-input" type="number" name="advisor_response_hours" value="<%= st.advisor_response_hours %>"></label>
+  </section>
+  <section class="card p-5 grid grid-cols-2 gap-3" id="trust">
+    <h2 class="col-span-2 font-headline-sm text-headline-sm">Trust claims (shown only when filled in and true)</h2>
+    <p class="col-span-2 font-body-sm text-body-sm text-on-surface-variant">Advertising rules and the Competition Act prohibit unverifiable ratings, testimonials or “partner” claims. Leave blank until you can prove them.</p>
+    <label><span class="admin-label">Average rating (e.g. 4.8)</span><input class="admin-input" name="rating_value" value="<%= st.rating_value %>"></label>
+    <label><span class="admin-label">Number of reviews</span><input class="admin-input" name="rating_count" value="<%= st.rating_count %>"></label>
+    <label class="col-span-2"><span class="admin-label">Rating source (required with a rating)</span><input class="admin-input" name="rating_source" value="<%= st.rating_source %>" placeholder="Google"></label>
+    <label class="col-span-2"><span class="admin-label">Insurers your advisors are contracted with — one per line</span><textarea class="admin-input" name="carriers" rows="5"><%= (st.carriers || []).join('\n') %></textarea></label>
+    <label class="col-span-2 flex items-start gap-2 font-body-sm text-body-sm"><input type="checkbox" name="carriers_confirmed" <%= chk(st.carriers_confirmed) %>> I confirm we hold active contracts with these insurers — show them on the site.</label>
+    <label class="col-span-2"><span class="admin-label">Official social profiles (https://, one per line — used in Organization schema sameAs)</span><textarea class="admin-input" name="social_links" rows="3"><%= (st.social_links || []).join('\n') %></textarea></label>
+    <label class="col-span-2"><span class="admin-label">Default social share image</span><input class="admin-input" name="default_og_image" value="<%= st.default_og_image %>"></label>
+  </section>
+  <section class="card p-5 grid grid-cols-2 gap-3" id="email">
+    <h2 class="col-span-2 font-headline-sm text-headline-sm">Email &amp; consent (CASL)</h2>
+    <label class="col-span-2"><span class="admin-label">CASL mode</span><select class="admin-input" name="casl_mode"><option value="express_only" <%= st.casl_mode === 'express_only' ? 'selected' : '' %>>Express consent only (recommended)</option><option value="express_or_implied" <%= st.casl_mode === 'express_or_implied' ? 'selected' : '' %>>Express, or implied (inquiry) for 6 months — campaigns opt in individually</option></select></label>
+    <label class="col-span-2"><span class="admin-label">Consent checkbox wording (unchecked by default)</span><textarea class="admin-input" name="consent_text" rows="2"><%= st.consent_text %></textarea></label>
+    <label><span class="admin-label">From name</span><input class="admin-input" name="from_name" value="<%= st.from_name %>"></label>
+    <label><span class="admin-label">From email</span><input class="admin-input" name="from_email" value="<%= st.from_email %>"></label>
+    <label><span class="admin-label">Reply-to</span><input class="admin-input" name="reply_to" value="<%= st.reply_to %>"></label>
+    <label><span class="admin-label">New-lead alert recipients</span><input class="admin-input" name="notify_emails" value="<%= (st.notify_emails || []).join(', ') %>"></label>
+    <label><span class="admin-label">Quiet hours start (local time)</span><input class="admin-input" type="number" name="quiet_start" value="<%= st.quiet_hours.start %>" min="0" max="23"></label>
+    <label><span class="admin-label">Quiet hours end</span><input class="admin-input" type="number" name="quiet_end" value="<%= st.quiet_hours.end %>" min="1" max="24"></label>
+    <label><span class="admin-label">Hot-lead threshold (score)</span><input class="admin-input" type="number" name="hot_lead_threshold" value="<%= st.hot_lead_threshold %>"></label>
+    <label><span class="admin-label">Duplicate window (hours)</span><input class="admin-input" type="number" name="lead_dedupe_hours" value="<%= st.lead_dedupe_hours %>"></label>
+    <p class="col-span-2 font-body-sm text-body-sm text-on-surface-variant">SMTP: <strong><%= config.smtp ? config.smtp.host : 'not configured' %></strong> (set in .env).</p>
+  </section>
+  <section class="card p-5 grid grid-cols-2 gap-3" id="analytics">
+    <h2 class="col-span-2 font-headline-sm text-headline-sm">Search consoles &amp; analytics</h2>
+    <label><span class="admin-label">Google Search Console verification code</span><input class="admin-input" name="gsc_verification" value="<%= st.gsc_verification %>"></label>
+    <label><span class="admin-label">Bing Webmaster verification code</span><input class="admin-input" name="bing_verification" value="<%= st.bing_verification %>"></label>
+    <label><span class="admin-label">GA4 measurement ID (optional, consent-mode)</span><input class="admin-input" name="ga4_id" value="<%= st.ga4_id %>" placeholder="G-XXXXXXX"></label>
+    <label class="flex items-center gap-2 font-body-sm text-body-sm mt-5"><input type="checkbox" name="analytics_cookie_banner" <%= chk(st.analytics_cookie_banner) %>> Show cookie consent banner (Quebec Law 25)</label>
+  </section>
+  <section class="card p-5 flex flex-col gap-3" id="crawlers">
+    <h2 class="font-headline-sm text-headline-sm">Crawler policy</h2>
+    <label><span class="admin-label">AI crawlers</span><select class="admin-input" name="ai_bot_policy">
+      <option value="allow_all" <%= st.ai_bot_policy === 'allow_all' ? 'selected' : '' %>>Allow all (maximum AI-answer visibility)</option>
+      <option value="search_only" <%= st.ai_bot_policy === 'search_only' ? 'selected' : '' %>>Allow AI search/assistants, block model-training bots</option>
+      <option value="block_all" <%= st.ai_bot_policy === 'block_all' ? 'selected' : '' %>>Block all AI crawlers</option></select></label>
+    <label><span class="admin-label">Extra robots.txt rules</span><textarea class="admin-input font-mono text-body-sm" name="robots_extra" rows="4"><%= st.robots_extra %></textarea></label>
+  </section>
+  <div class="xl:col-span-2"><button class="btn-primary !py-2.5 !px-6">Save settings</button></div>
+</form>

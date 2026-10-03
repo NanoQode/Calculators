@@ -1,0 +1,28 @@
+<%- include('partials/calc-shell-top') %>
+<section class="container-site pb-space-xl" data-calc="business">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+    <form class="lg:col-span-7 card p-space-lg flex flex-col gap-space-md" data-calc-inputs>
+      <label class="flex flex-col gap-1.5"><span class="field-label">Type of business</span><select class="field" name="industry"><option value="consulting">Consulting / IT / professional services</option><option value="trades">Skilled trade / contractor</option><option value="retail">Retail / studio / clinic</option><option value="food">Restaurant / food service</option><option value="ecommerce">E-commerce / online</option><option value="realestate">Real estate services</option><option value="health">Health &amp; wellness practitioner</option></select></label>
+      <div class="grid sm:grid-cols-3 gap-space-md">
+        <label class="flex flex-col gap-1.5"><span class="field-label">Annual revenue</span><select class="field" name="revenue"><option value="50000">Under $100k</option><option value="150000" selected>$100k–$250k</option><option value="400000">$250k–$750k</option><option value="1000000">$750k–$2M</option><option value="3000000">$2M+</option></select></label>
+        <label class="flex flex-col gap-1.5"><span class="field-label">Employees</span><input class="field" type="number" name="employees" value="1" min="0" max="500"></label>
+        <label class="flex flex-col gap-1.5"><span class="field-label">Province</span><select class="field" name="province"><% geoData.provinces.forEach(function(p){ %><option value="<%= p.code %>"><%= p.name %></option><% }) %></select></label>
+      </div>
+      <fieldset class="flex flex-col gap-2"><legend class="field-label mb-1">Do any of these apply?</legend>
+        <% [['clients','You work at client sites or have customers visit you'],['advice','You give advice, design, or professional services'],['data','You store customer data or take payments online'],['equipment','You own equipment, tools or inventory'],['vehicles','You use vehicles for work'],['contract','Contracts or landlords require proof of insurance']].forEach(function(q){ %>
+        <label class="flex items-center gap-3 p-space-sm rounded-xl bg-surface-container-low cursor-pointer"><input type="checkbox" name="<%= q[0] %>" class="w-5 h-5 accent-secondary" <%= q[0] === 'clients' || q[0] === 'contract' ? 'checked' : '' %>><span class="font-body-md text-body-md"><%= q[1] %></span></label>
+        <% }) %>
+      </fieldset>
+      <label class="flex flex-col gap-1.5"><span class="field-label">Liability limit your contracts require</span><select class="field" name="cgl_limit"><option value="1m">$1 million</option><option value="2m" selected>$2 million</option><option value="5m">$5 million</option></select></label>
+    </form>
+    <aside class="lg:col-span-5 lg:sticky lg:top-24 flex flex-col gap-space-md">
+      <div class="rounded-3xl bg-primary-container text-on-primary p-space-lg shadow-xl">
+        <p class="font-label-sm text-label-sm uppercase tracking-wider text-secondary-fixed">Recommended coverage</p>
+        <ul class="mt-space-sm space-y-3" data-result="list" aria-live="polite"></ul>
+        <div class="mt-space-md bg-surface-container-lowest/10 rounded-xl p-space-sm"><p class="font-label-sm text-label-sm text-primary-fixed-dim">Estimated package cost</p><p class="font-headline-md text-headline-md" data-result="premium">—</p><p class="font-body-sm text-body-sm text-primary-fixed-dim" data-result="example"></p></div>
+        <a href="/quote/business-insurance/" class="btn-primary w-full mt-space-md" data-result="cta" data-track="quote_start" data-label="calc_business">Get business quotes <span class="material-symbols-outlined text-[18px]">arrow_forward</span></a>
+      </div>
+    </aside>
+  </div>
+</section>
+<%- include('partials/calc-shell-bottom') %>

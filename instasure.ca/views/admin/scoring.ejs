@@ -1,0 +1,27 @@
+<%- include('partials-head', { h: 'Lead scoring', sub: 'Every lead is scored 0–100 from fit, intent, data quality and engagement. Grade A (≥ ' + threshold + ') triggers a hot-lead alert. Rules apply on creation, email clicks and edits.' }) %>
+<div class="flex flex-wrap gap-2 mb-4"><% dist.forEach(function(d){ %><span class="badge !py-1.5 !px-3 bg-surface-container-lowest">Grade <%= d.grade || '—' %>: <%= d.n %></span><% }) %>
+  <form method="post" action="/admin/scoring/rescore" class="ml-auto"><input type="hidden" name="_csrf" value="<%= csrf %>"><button class="btn-soft !py-1.5 !px-3">Re-score last 180 days</button></form></div>
+<div class="card overflow-x-auto mb-4"><table class="w-full">
+  <thead><tr><th class="admin-th">Rule</th><th class="admin-th">Category</th><th class="admin-th">Condition</th><th class="admin-th">Points</th><th class="admin-th">On</th><th class="admin-th"></th></tr></thead>
+  <tbody><% rules.forEach(function(r){ %><tr>
+    <td class="admin-td" colspan="6"><form method="post" action="/admin/scoring" class="grid grid-cols-12 gap-2 items-center"><input type="hidden" name="_csrf" value="<%= csrf %>"><input type="hidden" name="id" value="<%= r.id %>">
+      <input class="admin-input col-span-12 md:col-span-3 !py-1" name="name" value="<%= r.name %>">
+      <select class="admin-input col-span-4 md:col-span-1 !py-1" name="category"><% ['fit','intent','quality','engagement'].forEach(function(c){ %><option <%= r.category === c ? 'selected' : '' %>><%= c %></option><% }) %></select>
+      <select class="admin-input col-span-8 md:col-span-3 !py-1" name="field"><% FIELDS.forEach(function(f){ %><option value="<%= f[0] %>" <%= r.field === f[0] ? 'selected' : '' %> title="<%= f[1] %>"><%= f[0] %></option><% }) %></select>
+      <select class="admin-input col-span-4 md:col-span-1 !py-1" name="operator"><% OPS.forEach(function(o){ %><option <%= r.operator === o ? 'selected' : '' %>><%= o %></option><% }) %></select>
+      <input class="admin-input col-span-4 md:col-span-2 !py-1" name="value" value="<%= r.value %>">
+      <input class="admin-input col-span-2 md:col-span-1 !py-1" type="number" name="points" value="<%= r.points %>">
+      <label class="col-span-1 flex items-center"><input type="checkbox" name="active" value="1" <%= r.active ? 'checked' : '' %>></label>
+      <div class="col-span-12 md:col-span-12 flex gap-3 -mt-1"><button class="link font-label-sm text-label-sm">Save</button><button class="font-label-sm text-label-sm text-error hover:underline" formaction="/admin/scoring/<%= r.id %>/delete">Delete</button></div>
+    </form></td></tr><% }) %>
+  </tbody></table></div>
+<form method="post" action="/admin/scoring" class="card p-5 grid grid-cols-2 md:grid-cols-6 gap-2 items-end"><input type="hidden" name="_csrf" value="<%= csrf %>">
+  <h2 class="col-span-2 md:col-span-6 font-headline-sm text-headline-sm">Add rule</h2>
+  <label class="col-span-2"><span class="admin-label">Name</span><input class="admin-input" name="name" required></label>
+  <label><span class="admin-label">Field</span><select class="admin-input" name="field"><% FIELDS.forEach(function(f){ %><option value="<%= f[0] %>"><%= f[0] %></option><% }) %></select></label>
+  <label><span class="admin-label">Operator</span><select class="admin-input" name="operator"><% OPS.forEach(function(o){ %><option><%= o %></option><% }) %></select></label>
+  <label><span class="admin-label">Value</span><input class="admin-input" name="value" placeholder="e.g. 300 or on,bc"></label>
+  <label><span class="admin-label">Points</span><input class="admin-input" type="number" name="points" value="5"></label>
+  <input type="hidden" name="active" value="1"><button class="btn-dark !py-2">Add rule</button>
+</form>
+<details class="card p-5 mt-4"><summary class="font-label-lg text-label-lg cursor-pointer">Field reference</summary><ul class="mt-2 grid md:grid-cols-2 gap-1"><% FIELDS.forEach(function(f){ %><li class="font-body-sm text-body-sm"><code><%= f[0] %></code> — <%= f[1] %></li><% }) %></ul></details>

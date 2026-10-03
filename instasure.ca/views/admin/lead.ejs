@@ -1,0 +1,128 @@
+<% var fmt = function(n){ return U.money(n, { cents: n < 100 }); }; var csrfField = '<input type="hidden" name="_csrf" value="' + csrf + '">'; %>
+<div class="flex flex-col md:flex-row md:items-start justify-between gap-3 mb-6">
+  <div>
+    <a href="/admin/leads" class="font-label-md text-label-md text-on-surface-variant hover:text-secondary">← Leads</a>
+    <h1 class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container mt-1"><%= ((lead.first_name || '') + ' ' + (lead.last_name || '')).trim() || lead.email %></h1>
+    <p class="font-body-md text-body-md text-on-surface-variant"><span class="font-mono"><%= lead.ref %></span> · <%= lead.lead_type %> · <%= product ? product.name : 'No product' %> · created <%= U.fmtDate(lead.created_at, 'short') %> (<%= U.timeAgo(lead.created_at) %>)</p>
+    <div class="flex flex-wrap gap-2 mt-2">
+      <%- include('grade', { l: lead }) %>
+      <span class="badge bg-surface-container"><%= lead.status %></span>
+      <% if (lead.consent_marketing) { %><span class="badge bg-secondary-container text-on-secondary-container" title="<%= lead.consent_text %>">Express consent <%= U.fmtDate(lead.consent_at, 'short') %></span><% } else { %><span class="badge bg-surface-container-high text-on-surface-variant">No marketing consent</span><% } %>
+      <% if (lead.unsubscribed_at) { %><span class="badge bg-error-container text-on-error-container">Unsubscribed</span><% } %>
+      <% if (lead.is_test) { %><span class="badge bg-tertiary-fixed text-on-tertiary-fixed-variant">Test</span><% } %>
+      <% if (lead.duplicate_of) { %><a class="badge bg-tertiary-fixed text-on-tertiary-fixed-variant" href="/admin/leads/<%= lead.duplicate_of %>">Duplicate of #<%= lead.duplicate_of %></a><% } %>
+    </div>
+  </div>
+  <div class="flex flex-wrap gap-2">
+    <% if (lead.phone) { %><a class="btn-primary !py-2 !px-4" href="tel:<%= lead.phone %>"><span class="material-symbols-outlined text-[18px]">call</span><%= U.fmtPhone(lead.phone) %></a><% } %>
+    <a class="btn-soft !py-2 !px-4" href="mailto:<%= lead.email %>"><span class="material-symbols-outlined text-[18px]">mail</span>Email</a>
+    <a class="btn-soft !py-2 !px-4" href="/quote/results/<%= lead.ref %>/" target="_blank">Results page</a>
+  </div>
+</div>
+
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-4">
+  <div class="xl:col-span-2 flex flex-col gap-4">
+    <section class="card p-5 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <% [['Email', lead.email], ['Phone', lead.phone ? U.fmtPhone(lead.phone) : '—'], ['Location', [lead.city, (lead.province || '').toUpperCase(), lead.postal_code].filter(Boolean).join(', ') || '—'], ['Language', lead.language], ['Timeframe', lead.timeframe || '—'], ['Best time', lead.best_time || '—'], ['Source', lead.source + (lead.utm_campaign ? ' · ' + lead.utm_campaign : '')], ['Landing page', lead.landing_page || '—'], ['Submitted on', lead.page_path || '—']].forEach(function(f){ %>
+      <div><p class="admin-label"><%= f[0] %></p><p class="font-body-md text-body-md break-words"><%= f[1] %></p></div>
+      <% }) %>
+      <% if (lead.message) { %><div class="sm:col-span-2 lg:col-span-3"><p class="admin-label">Message</p><p class="font-body-md text-body-md whitespace-pre-line bg-surface-container-low rounded-lg p-3"><%= lead.message %></p></div><% } %>
+    </section>
+
+    <section class="card p-5">
+      <h2 class="font-headline-sm text-headline-sm mb-3">Quote request</h2>
+      <% if (estimate && estimate.low !== undefined) { %>
+      <div class="flex flex-wrap items-end gap-4 mb-3"><div><p class="admin-label">Instant estimate</p><p class="font-headline-md text-headline-md text-primary-container"><%= fmt(estimate.low) %>–<%= fmt(estimate.high) %><%= estimate.periodLabel %></p></div><p class="font-body-sm text-body-sm text-on-surface-variant max-w-md"><%= estimate.example %> · <%= estimate.asOf %></p></div>
+      <% } %>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-2"><% Object.keys(inputs).forEach(function(k){ %><div class="bg-surface-container-low rounded-lg px-3 py-2"><p class="font-label-sm text-label-sm text-on-surface-variant"><%= k.replace(/_/g, ' ') %></p><p class="font-label-md text-label-md"><%= inputs[k] %></p></div><% }) %></div>
+    </section>
+
+    <section class="card p-5">
+      <h2 class="font-headline-sm text-headline-sm mb-3">Log activity</h2>
+      <div class="grid md:grid-cols-2 gap-4">
+        <form method="post" action="/admin/leads/<%= lead.id %>/note" class="flex flex-col gap-2"><%- csrfField %><label class="admin-label">Note</label><textarea class="admin-input min-h-[90px]" name="note" placeholder="What did you learn?"></textarea><button class="btn-soft !py-2 self-start">Add note</button></form>
+        <form method="post" action="/admin/leads/<%= lead.id %>/call" class="flex flex-col gap-2"><%- csrfField %><label class="admin-label">Call outcome</label>
+          <select class="admin-input" name="outcome"><option>Connected</option><option>Left voicemail</option><option>No answer</option><option>Wrong number</option><option>Booked appointment</option></select>
+          <input class="admin-input" name="note" placeholder="Quick note (optional)"><button class="btn-soft !py-2 self-start">Log call</button></form>
+      </div>
+      <details class="mt-4"><summary class="font-label-md text-label-md text-secondary cursor-pointer">Send a one-off email</summary>
+        <form method="post" action="/admin/leads/<%= lead.id %>/email" class="flex flex-col gap-2 mt-2"><%- csrfField %>
+          <input class="admin-input" name="subject" placeholder="Subject" required>
+          <textarea class="admin-input min-h-[140px]" name="body" placeholder="Markdown supported. Merge tags: {{first_name}}, {{advisor_name}}, {{quote_url}}…" required></textarea>
+          <p class="font-body-sm text-body-sm text-on-surface-variant">Sent with your sender identification and unsubscribe link (CASL). Use only to respond to this person’s request.</p>
+          <button class="btn-dark !py-2 self-start">Send</button></form></details>
+    </section>
+
+    <section class="card p-5">
+      <h2 class="font-headline-sm text-headline-sm mb-3">Timeline</h2>
+      <ol class="relative border-l-2 border-surface-container ml-2 space-y-4">
+        <% events.forEach(function(e){ var d = db_json(e.data); %>
+        <li class="ml-4">
+          <span class="absolute -left-[7px] mt-1.5 w-3 h-3 rounded-full <%= /email_click|assigned|status_change/.test(e.type) ? 'bg-secondary' : 'bg-outline-variant' %>"></span>
+          <p class="font-label-md text-label-md"><%= e.type.replace(/_/g, ' ') %> <span class="font-normal text-on-surface-variant">· <%= U.fmtDate(e.created_at, 'short') %> <%= String(e.created_at).slice(11,16) %><%= e.user_name ? ' · ' + e.user_name : '' %></span></p>
+          <p class="font-body-sm text-body-sm text-on-surface-variant break-words"><%= d.note || d.subject || d.reason || (d.from !== undefined && d.to !== undefined ? d.from + ' → ' + d.to : '') || d.advisor || d.campaign || d.outcome || d.url || '' %><%= d.status ? ' (' + d.status + ')' : '' %></p>
+        </li>
+        <% }) %>
+      </ol>
+    </section>
+  </div>
+
+  <div class="flex flex-col gap-4">
+    <section class="card p-5">
+      <h2 class="font-headline-sm text-headline-sm mb-3">Status</h2>
+      <form method="post" action="/admin/leads/<%= lead.id %>/status" class="flex flex-col gap-2"><%- csrfField %>
+        <select class="admin-input" name="status"><% STATUSES.forEach(function(s){ %><option <%= s === lead.status ? 'selected' : '' %>><%= s %></option><% }) %></select>
+        <input class="admin-input" name="reason" placeholder="Reason (for lost/junk)">
+        <button class="btn-dark !py-2">Update status</button>
+      </form>
+    </section>
+    <section class="card p-5">
+      <h2 class="font-headline-sm text-headline-sm mb-1">Advisor</h2>
+      <p class="font-body-md text-body-md mb-3"><%= advisor ? advisor.name : 'Unassigned' %><% if (advisor && advisor.is_demo) { %> <span class="badge bg-error-container text-on-error-container">sample</span><% } %></p>
+      <% if (can('editor')) { %>
+      <form method="post" action="/admin/leads/<%= lead.id %>/assign" class="flex gap-2"><%- csrfField %>
+        <select class="admin-input" name="advisor_id"><option value="auto">Auto-route (licensed match)</option><% advisors.forEach(function(a){ %><option value="<%= a.id %>" <%= lead.advisor_id === a.id ? 'selected' : '' %>><%= a.name %><%= candidates.indexOf(a.id) > -1 ? ' ✓ licensed match' : '' %></option><% }) %></select>
+        <button class="btn-soft !py-2 !px-3">Assign</button>
+      </form>
+      <p class="font-body-sm text-body-sm text-on-surface-variant mt-2">✓ = licensed in <%= (lead.province || '').toUpperCase() %> for this product category.</p>
+      <% } %>
+    </section>
+    <section class="card p-5">
+      <div class="flex items-center justify-between mb-2"><h2 class="font-headline-sm text-headline-sm">Score breakdown</h2><form method="post" action="/admin/leads/<%= lead.id %>/rescore"><%- csrfField %><button class="link font-label-md text-label-md">Re-score</button></form></div>
+      <ul class="space-y-1">
+        <% breakdown.forEach(function(r){ %><li class="flex justify-between font-body-sm text-body-sm"><span><%= r.name %> <span class="text-on-surface-variant">(<%= r.category %>)</span></span><span class="font-semibold <%= r.points < 0 ? 'text-error' : 'text-secondary' %>"><%= r.points > 0 ? '+' : '' %><%= r.points %></span></li><% }) %>
+        <li class="flex justify-between font-label-md text-label-md border-t border-surface-container pt-1 mt-1"><span>Total (clamped 0–100)</span><span><%= lead.score %></span></li>
+      </ul>
+      <details class="mt-2"><summary class="font-label-sm text-label-sm text-on-surface-variant cursor-pointer">Scoring facts</summary><pre class="text-[11px] bg-surface-container-low rounded p-2 mt-1 overflow-x-auto"><%= JSON.stringify(facts, null, 1) %></pre></details>
+    </section>
+    <section class="card p-5">
+      <h2 class="font-headline-sm text-headline-sm mb-2">Email &amp; drips</h2>
+      <% enrollments.forEach(function(e){ %><p class="font-body-sm text-body-sm"><span class="font-semibold"><%= e.name %></span> — <%= e.status %> (step <%= e.current_position %>)<%= e.stop_reason ? ' · ' + e.stop_reason : '' %><%= e.status === 'active' ? ' · next ' + U.timeAgo(e.next_run_at).replace(' ago', '') : '' %></p><% }) %>
+      <% if (!enrollments.length) { %><p class="font-body-sm text-body-sm text-on-surface-variant">Not enrolled in any campaign.</p><% } %>
+      <ul class="mt-2 space-y-1"><% emails.slice(0, 8).forEach(function(m){ %><li class="font-body-sm text-body-sm"><a class="link font-normal" href="/admin/emails/<%= m.id %>" target="_blank"><%= m.subject %></a> <span class="text-on-surface-variant">· <%= m.status %> · <%= m.open_count %> opens · <%= m.click_count %> clicks</span></li><% }) %></ul>
+      <% if (can('editor')) { %>
+      <form method="post" action="/admin/leads/<%= lead.id %>/enroll" class="flex gap-2 mt-3"><%- csrfField %><select class="admin-input" name="campaign_id"><% campaigns.forEach(function(c){ %><option value="<%= c.id %>"><%= c.name %></option><% }) %></select><button class="btn-soft !py-2 !px-3">Enrol</button></form>
+      <% } %>
+      <div class="flex flex-wrap gap-2 mt-3">
+        <form method="post" action="/admin/leads/<%= lead.id %>/stop-drips"><%- csrfField %><button class="link font-label-md text-label-md">Stop all drips</button></form>
+        <form method="post" action="/admin/leads/<%= lead.id %>/unsubscribe" data-confirm="Unsubscribe this email from all marketing?"><%- csrfField %><button class="link font-label-md text-label-md">Unsubscribe</button></form>
+      </div>
+    </section>
+    <% if (pageviews.length) { %>
+    <section class="card p-5"><h2 class="font-headline-sm text-headline-sm mb-2">Pages viewed</h2><ul class="space-y-0.5 max-h-60 overflow-y-auto"><% pageviews.forEach(function(p){ %><li class="font-body-sm text-body-sm flex justify-between gap-2"><span class="truncate"><%= p.path %></span><span class="text-on-surface-variant whitespace-nowrap"><%= U.timeAgo(p.ts) %></span></li><% }) %></ul></section>
+    <% } %>
+    <% if (related.length) { %>
+    <section class="card p-5"><h2 class="font-headline-sm text-headline-sm mb-2">Other requests</h2><% related.forEach(function(r){ %><a class="block link font-normal font-body-sm text-body-sm" href="/admin/leads/<%= r.id %>"><%= r.ref %> · <%= r.product || '—' %> · <%= r.status %></a><% }) %></section>
+    <% } %>
+    <section class="card p-5">
+      <h2 class="font-headline-sm text-headline-sm mb-2">Data &amp; privacy</h2>
+      <div class="flex flex-col gap-2">
+        <% if (can('editor')) { %><form method="post" action="/admin/leads/<%= lead.id %>/test"><%- csrfField %><button class="link font-label-md text-label-md"><%= lead.is_test ? 'Unmark test' : 'Mark as test lead' %></button></form><% } %>
+        <% if (can('admin')) { %>
+        <form method="post" action="/admin/leads/<%= lead.id %>/delete" data-confirm="Remove this person’s personal data? The anonymised record is kept for counts."><%- csrfField %><input type="hidden" name="mode" value="anonymise"><button class="link font-label-md text-label-md">Anonymise (privacy request)</button></form>
+        <form method="post" action="/admin/leads/<%= lead.id %>/delete" data-confirm="Permanently delete this lead and its emails?"><%- csrfField %><button class="font-label-md text-label-md text-error hover:underline">Delete permanently</button></form>
+        <% } %>
+      </div>
+    </section>
+  </div>
+</div>

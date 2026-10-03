@@ -1,0 +1,9 @@
+<nav aria-label="Breadcrumb" class="container-site pt-space-md">
+  <ol class="flex flex-wrap items-center gap-1 font-label-md text-label-md text-on-surface-variant">
+    <% crumbs.forEach(function(c, i){ var last = i === crumbs.length - 1; %>
+    <li class="flex items-center gap-1">
+      <% if (!last) { %><a href="<%= c.url %>" class="hover:text-secondary"><%= c.name %></a><span class="material-symbols-outlined text-[16px] text-outline" aria-hidden="true">chevron_right</span><% } else { %><span aria-current="page" class="text-on-surface"><%= c.name %></span><% } %>
+    </li>
+    <% }) %>
+  </ol>
+</nav>

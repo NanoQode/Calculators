@@ -1,0 +1,89 @@
+<%
+  var navProducts = (typeof allProducts !== 'undefined' ? allProducts : []);
+  var groups = {};
+  navProducts.forEach(function(p){ (groups[p.category] = groups[p.category] || []).push(p); });
+  var activeNav = function(prefix){ return currentPath === prefix || (prefix !== '/' && currentPath.indexOf(prefix) === 0); };
+%>
+<header class="fixed top-0 inset-x-0 z-50 pt-safe bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(10,30,51,0.05)]">
+  <div class="h-16 lg:h-20 container-site flex items-center justify-between gap-space-md">
+    <div class="flex items-center gap-space-lg min-w-0">
+      <a href="/" class="flex items-center gap-2 min-w-0" aria-label="<%= s.site_name %> home">
+        <img src="/img/logo-mark.svg" alt="" width="32" height="32" class="h-8 w-8">
+        <span class="flex flex-col min-w-0">
+          <span class="font-headline-sm text-headline-sm text-primary-container tracking-tight leading-none">Instasure<span class="text-secondary">.ca</span></span>
+          <span class="lg:hidden font-label-sm text-label-sm text-on-surface-variant truncate"><%= typeof sectionLabel !== 'undefined' ? sectionLabel : 'Insurance, instantly' %></span>
+        </span>
+      </a>
+      <nav class="hidden xl:flex items-center gap-1" aria-label="Primary">
+        <details class="relative group" data-menu>
+          <summary class="cursor-pointer whitespace-nowrap px-2.5 py-2 rounded-full font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors flex items-center gap-1">Insurance <span class="material-symbols-outlined text-[18px]">expand_more</span></summary>
+          <div class="absolute left-0 top-full mt-2 w-[760px] card shadow-xl p-space-lg grid grid-cols-3 gap-space-lg">
+            <% Object.keys(groups).forEach(function(cat){ %>
+            <div>
+              <p class="eyebrow mb-2"><%= CATEGORIES[cat].name %></p>
+              <ul class="space-y-1">
+                <% groups[cat].forEach(function(p){ %>
+                <li><a href="/<%= p.slug %>/" class="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-surface-container-low font-body-md text-body-md"><span class="material-symbols-outlined text-[18px] text-secondary"><%= p.icon %></span><%= p.name %></a></li>
+                <% }) %>
+              </ul>
+            </div>
+            <% }) %>
+            <div class="col-span-3 flex items-center justify-between bg-surface-container-low rounded-xl px-4 py-3">
+              <span class="font-body-sm text-body-sm text-on-surface-variant">Looking for your province or city?</span>
+              <a href="/insurance/" class="link font-label-md text-label-md">Insurance by province →</a>
+            </div>
+          </div>
+        </details>
+        <a href="/quote/" class="px-2.5 py-2 rounded-full font-label-md text-label-md whitespace-nowrap transition-colors <%= activeNav('/quote/') ? 'bg-surface-container text-on-surface' : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low' %>">Get a Quote</a>
+        <a href="/compare/" class="px-2.5 py-2 rounded-full font-label-md text-label-md whitespace-nowrap transition-colors <%= activeNav('/compare/') ? 'bg-surface-container text-on-surface' : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low' %>">Compare Plans</a>
+        <a href="/guides/" class="px-2.5 py-2 rounded-full font-label-md text-label-md whitespace-nowrap transition-colors <%= activeNav('/guides/') ? 'bg-surface-container text-on-surface' : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low' %>">Knowledge &amp; Guides</a>
+        <a href="/calculators/" class="px-2.5 py-2 rounded-full font-label-md text-label-md whitespace-nowrap transition-colors <%= activeNav('/calculators/') ? 'bg-surface-container text-on-surface' : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low' %>">Calculators</a>
+        <a href="/about/" class="px-2.5 py-2 rounded-full font-label-md text-label-md whitespace-nowrap transition-colors <%= activeNav('/about/') ? 'bg-surface-container text-on-surface' : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low' %>">About Us</a>
+      </nav>
+    </div>
+    <div class="flex items-center gap-space-sm shrink-0">
+      <% if (s.phone) { %>
+      <div class="hidden lg:flex flex-col text-right pr-1">
+        <span class="font-label-sm text-label-sm text-on-surface-variant tracking-wider uppercase">Licensed advisors</span>
+        <a class="font-label-md text-label-md text-on-surface hover:text-secondary" href="tel:<%= s.phone.replace(/[^0-9+]/g,'') %>" data-track="phone_click"><%= s.phone %></a>
+      </div>
+      <div class="hidden lg:block h-7 w-px bg-surface-container-high"></div>
+      <% } %>
+      <a href="/advisors/" class="hidden 2xl:flex items-center gap-2 py-1 px-2 rounded-full hover:bg-surface-container-low transition-all">
+        <span class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-primary-container"><span class="material-symbols-outlined text-[18px]">support_agent</span></span>
+        <span class="flex flex-col text-left">
+          <span class="font-label-sm text-label-sm text-secondary flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-secondary inline-block"></span>Licensed in your province</span>
+          <span class="font-label-md text-label-md text-on-surface">Talk to an Advisor</span>
+        </span>
+      </a>
+      <span class="lg:hidden inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-low"><span class="text-[11px] leading-none" aria-hidden="true">🇨🇦</span><span class="font-label-sm text-label-sm text-on-secondary-fixed-variant">Canada-wide</span></span>
+      <a href="/quote/" class="hidden md:inline-flex whitespace-nowrap btn-primary !py-2.5 !px-5 shadow-[0_4px_12px_rgba(0,108,70,0.18)]" data-track="cta_click" data-label="header_get_rate">Get Instant Rate</a>
+      <button type="button" class="xl:hidden w-11 h-11 rounded-full flex items-center justify-center hover:bg-surface-container" aria-label="Open menu" aria-controls="drawer" aria-expanded="false" data-drawer-open><span class="material-symbols-outlined">menu</span></button>
+    </div>
+  </div>
+</header>
+<div id="drawer" class="hidden fixed inset-0 z-[70]" aria-modal="true" role="dialog" aria-label="Menu">
+  <div class="absolute inset-0 bg-primary-container/40 backdrop-blur-sm" data-drawer-close></div>
+  <nav class="absolute right-0 top-0 bottom-0 w-[86%] max-w-sm bg-surface-container-lowest shadow-2xl overflow-y-auto p-space-lg pt-safe" aria-label="Mobile">
+    <div class="flex items-center justify-between mb-space-md">
+      <span class="font-headline-sm text-headline-sm text-primary-container">Menu</span>
+      <button type="button" class="w-11 h-11 rounded-full flex items-center justify-center hover:bg-surface-container" aria-label="Close menu" data-drawer-close><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <a href="/quote/" class="btn-primary w-full mb-space-lg">Get an instant quote <span class="material-symbols-outlined text-[18px]">bolt</span></a>
+    <% Object.keys(groups).forEach(function(cat){ %>
+    <p class="eyebrow mt-space-md mb-1"><%= CATEGORIES[cat].name %></p>
+    <ul>
+      <% groups[cat].forEach(function(p){ %><li><a href="/<%= p.slug %>/" class="flex items-center gap-2 py-2 font-body-md text-body-md"><span class="material-symbols-outlined text-[18px] text-secondary"><%= p.icon %></span><%= p.name %></a></li><% }) %>
+    </ul>
+    <% }) %>
+    <hr class="my-space-md border-surface-container">
+    <ul class="space-y-1 font-label-lg text-label-lg">
+      <li><a class="block py-2" href="/compare/">Compare plans</a></li>
+      <li><a class="block py-2" href="/guides/">Knowledge &amp; guides</a></li>
+      <li><a class="block py-2" href="/calculators/">Calculators</a></li>
+      <li><a class="block py-2" href="/insurance/">Insurance by province</a></li>
+      <li><a class="block py-2" href="/advisors/">Licensed advisors</a></li>
+      <li><a class="block py-2" href="/about/">About us</a></li>
+    </ul>
+  </nav>
+</div>

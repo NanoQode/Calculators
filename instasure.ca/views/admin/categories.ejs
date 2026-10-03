@@ -1,0 +1,14 @@
+<%- include('partials-head', { h: 'Categories', sub: 'Categories group guides into hubs on the Knowledge Center (Personal, Residential, Auto, Commercial, Claims).' }) %>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+  <% cats.concat([{ id: '', name: '', slug: '', description: '', hub: 'personal', sort: cats.length, n: 0 }]).forEach(function(c){ %>
+  <form method="post" action="/admin/categories" class="card p-4 grid grid-cols-2 gap-2">
+    <input type="hidden" name="_csrf" value="<%= csrf %>"><input type="hidden" name="id" value="<%= c.id %>">
+    <label><span class="admin-label">Name</span><input class="admin-input" name="name" value="<%= c.name %>" placeholder="New category"></label>
+    <label><span class="admin-label">Slug</span><input class="admin-input" name="slug" value="<%= c.slug %>"></label>
+    <label class="col-span-2"><span class="admin-label">Description</span><input class="admin-input" name="description" value="<%= c.description || '' %>"></label>
+    <label><span class="admin-label">Hub</span><select class="admin-input" name="hub"><% ['personal','residential','auto','commercial','claims'].forEach(function(h){ %><option <%= c.hub === h ? 'selected' : '' %>><%= h %></option><% }) %></select></label>
+    <label><span class="admin-label">Order</span><input class="admin-input" type="number" name="sort" value="<%= c.sort %>"></label>
+    <div class="col-span-2 flex items-center justify-between"><span class="font-body-sm text-body-sm text-on-surface-variant"><%= c.id ? c.n + ' guide(s)' : '' %></span><button class="btn-soft !py-1.5 !px-3"><%= c.id ? 'Save' : 'Add category' %></button></div>
+  </form>
+  <% }) %>
+</div>

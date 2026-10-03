@@ -1,0 +1,70 @@
+<% var fmt = function(n){ return U.money(n, { cents: n < 100 }); }; var tiers = estimate.tiers; var adv = advisors[0]; %>
+<section class="container-site pt-space-md pb-space-md">
+  <div class="card p-space-md lg:p-space-lg flex flex-col lg:flex-row lg:items-center justify-between gap-space-lg">
+    <div class="flex flex-col gap-1">
+      <span class="badge bg-secondary-container text-on-secondary-container w-fit">Independent comparison · <%= estimate.asOf %></span>
+      <h1 class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-on-surface tracking-tight"><%= t.h %></h1>
+      <p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">How the main options differ on price, underwriting speed and features — for an example profile (<%= estimate.example %>). <a class="link" href="/quote/<%= product.slug %>/">Personalise it</a>.</p>
+    </div>
+    <% if (estimate.period === 'month') { %>
+    <div class="flex items-center bg-surface-container-low p-1 rounded-lg shadow-sm self-start" role="group" aria-label="Billing">
+      <button type="button" class="px-4 py-2 rounded-md font-label-md text-label-md bg-primary-container text-on-primary" data-results-billing="monthly" aria-pressed="true">Monthly</button>
+      <button type="button" class="px-4 py-2 rounded-md font-label-md text-label-md text-on-surface-variant" data-results-billing="annual" aria-pressed="false">Yearly</button>
+    </div>
+    <% } %>
+  </div>
+  <nav class="flex items-center gap-2 overflow-x-auto no-scrollbar pt-space-md -mx-margin px-margin" aria-label="Compare type">
+    <% Object.keys(types).forEach(function(k){ var on = k === typeKey; %>
+    <a href="/compare/<%= k === 'life' ? '' : '?type=' + k %>" class="shrink-0 px-4 py-1.5 rounded-full font-label-md text-label-md shadow-sm transition-all <%= on ? 'bg-primary-container text-on-primary' : 'bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container' %>" <%- on ? 'aria-current="page"' : '' %>><%= types[k].label %></a>
+    <% }) %>
+  </nav>
+</section>
+
+<section class="container-site py-space-md">
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-space-lg items-stretch">
+    <% tiers.forEach(function(tr, i){ %>
+    <article class="relative flex flex-col justify-between bg-surface-container-lowest rounded-2xl p-space-lg <%= tr.featured ? 'shadow-xl ring-2 ring-secondary/30 mt-3 lg:mt-0' : 'shadow-sm' %>">
+      <% if (tr.featured) { %><div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-secondary text-on-secondary px-4 py-1 rounded-full font-label-sm text-label-sm uppercase tracking-wider shadow-md whitespace-nowrap">Most chosen</div><% } %>
+      <div>
+        <span class="font-label-sm text-label-sm <%= tr.featured ? 'text-secondary' : 'text-on-surface-variant' %> uppercase tracking-wider"><%= tr.label %></span>
+        <h2 class="font-headline-md text-headline-md text-on-surface"><%= tr.name %></h2>
+        <div class="bg-surface-container-low rounded-xl p-space-md my-space-md"><div class="flex items-baseline gap-1"><span class="font-price-hero-mobile text-price-hero-mobile lg:font-price-hero lg:text-price-hero" data-price data-monthly="<%= tr.monthly %>"><%= fmt(tr.monthly) %></span><span class="font-body-sm text-body-sm text-on-surface-variant" data-period><%= estimate.periodLabel %></span></div><span class="font-label-sm text-label-sm text-on-surface-variant"><%= tr.underwriting %></span></div>
+        <ul class="space-y-3 font-body-sm text-body-sm mb-space-lg"><% tr.features.forEach(function(ft){ %><li class="flex items-start gap-2.5"><span class="material-symbols-outlined text-secondary text-[18px] mt-0.5">check_circle</span><span><%= ft %></span></li><% }) %></ul>
+      </div>
+      <a href="/quote/<%= product.slug %>/" class="<%= tr.featured ? 'btn-primary' : 'btn-soft' %> w-full" data-track="quote_start" data-label="compare_<%= tr.key %>">Get my price <span class="material-symbols-outlined text-[18px]">arrow_forward</span></a>
+    </article>
+    <% }) %>
+  </div>
+</section>
+
+<section class="container-site py-space-xl">
+  <p class="eyebrow">Breakdown</p>
+  <h2 class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-on-surface tracking-tight mb-space-md">Full feature matrix</h2>
+  <div class="card overflow-hidden"><div class="overflow-x-auto">
+    <table class="w-full text-left font-body-sm text-body-sm min-w-[640px]">
+      <thead><tr class="bg-surface-container-low"><th class="py-4 px-6 font-label-lg text-label-lg w-1/4">Feature</th><% tiers.forEach(function(tr){ %><th class="py-4 px-6 font-label-lg text-label-lg w-1/4 <%= tr.featured ? 'bg-surface-container' : '' %>"><%= tr.name %></th><% }) %></tr></thead>
+      <tbody>
+        <tr><td class="py-4 px-6 font-semibold">Estimated price</td><% tiers.forEach(function(tr){ %><td class="py-4 px-6 font-bold <%= tr.featured ? 'bg-surface-container/30 text-secondary' : '' %>"><span data-table-price data-monthly="<%= tr.monthly %>"><%= fmt(tr.monthly) %><%= estimate.periodLabel %></span></td><% }) %></tr>
+        <tr class="bg-surface-container-low/20"><td class="py-4 px-6 font-semibold">Underwriting</td><% tiers.forEach(function(tr){ %><td class="py-4 px-6 <%= tr.featured ? 'bg-surface-container/30' : '' %>"><%= tr.underwriting %></td><% }) %></tr>
+        <% [0,1,2].forEach(function(r){ %><tr class="<%= r % 2 ? 'bg-surface-container-low/20' : '' %>"><td class="py-4 px-6 font-semibold"><%= ['Core benefit','Key feature','Watch out for'][r] %></td><% tiers.forEach(function(tr){ %><td class="py-4 px-6 <%= tr.featured ? 'bg-surface-container/30' : '' %>"><%= tr.features[r] || '—' %></td><% }) %></tr><% }) %>
+        <tr class="bg-surface-container-low/50"><td class="py-4 px-6 font-semibold">Ready?</td><% tiers.forEach(function(tr){ %><td class="py-4 px-6"><a href="/quote/<%= product.slug %>/" class="<%= tr.featured ? 'btn-primary' : 'btn-dark' %> !py-2 !px-4 w-full font-label-md text-label-md">Start</a></td><% }) %></tr>
+      </tbody>
+    </table>
+  </div></div>
+  <p class="mt-space-sm font-body-sm text-body-sm text-on-surface-variant"><%= s.quote_disclaimer %></p>
+</section>
+
+<section class="container-site pb-space-xl grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+  <div class="lg:col-span-8 card p-space-lg flex flex-col md:flex-row items-center gap-space-lg">
+    <%- include('partials/avatar', { a: adv, size: 'w-24 h-24' }) %>
+    <div class="flex flex-col gap-space-xs flex-1 text-center md:text-left">
+      <span class="font-headline-sm text-headline-sm text-on-surface"><%= adv ? adv.name : 'A licensed advisor in your province' %></span>
+      <p class="font-body-md text-body-md text-on-surface-variant">Not sure which option fits? An advisor licensed in your province will compare real insurer prices across all three approaches — free, with no obligation.</p>
+      <div class="flex flex-wrap gap-space-sm justify-center md:justify-start pt-space-xs"><a href="/contact/?type=consult&product=<%= product.slug %>" class="btn-dark !py-2.5"><span class="material-symbols-outlined text-[18px]">forum</span> Ask an advisor</a><a href="/quote/<%= product.slug %>/" class="btn-soft !py-2.5"><span class="material-symbols-outlined text-[18px]">bolt</span> Instant estimate</a></div>
+    </div>
+  </div>
+  <div class="lg:col-span-4 bg-surface-container-low rounded-2xl p-space-lg flex flex-col gap-2">
+    <div class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-[28px]">verified_user</span><h3 class="font-headline-sm text-headline-sm text-on-surface">How we compare</h3></div>
+    <p class="font-body-sm text-body-sm text-on-surface-variant">Comparisons use Instasure’s pricing model and published product features. Insurers can’t pay to change rankings. Read our <a class="link" href="/editorial-guidelines/">editorial guidelines</a> and <a class="link" href="/how-we-make-money/">how we make money</a>.</p>
+  </div>
+</section>

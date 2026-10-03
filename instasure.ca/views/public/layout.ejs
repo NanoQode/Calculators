@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title><%= meta.title %></title>
+<meta name="description" content="<%= meta.description %>">
+<link rel="canonical" href="<%= meta.canonical %>">
+<meta name="robots" content="<%= meta.robots %>">
+<% (meta.alternates || []).forEach(function(a){ %><link rel="alternate" hreflang="<%= a.hreflang %>" href="<%= a.href %>">
+<% }) %>
+<meta property="og:type" content="<%= meta.ogType %>">
+<meta property="og:site_name" content="<%= s.site_name %>">
+<meta property="og:title" content="<%= meta.rawTitle || meta.title %>">
+<meta property="og:description" content="<%= meta.description %>">
+<meta property="og:url" content="<%= meta.canonical %>">
+<meta property="og:image" content="<%= meta.image %>">
+<meta property="og:locale" content="en_CA">
+<% if (meta.published) { %><meta property="article:published_time" content="<%= meta.published %>"><% } %>
+<% if (meta.modified) { %><meta property="article:modified_time" content="<%= meta.modified %>"><% } %>
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0a1e33">
+<% if (s.gsc_verification) { %><meta name="google-site-verification" content="<%= s.gsc_verification %>"><% } %>
+<% if (s.bing_verification) { %><meta name="msvalidate.01" content="<%= s.bing_verification %>"><% } %>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="<%= fontUrl %>">
+<link rel="stylesheet" href="/assets/site.css?v=<%= v %>">
+<link rel="alternate" type="text/markdown" title="LLM index" href="/llms.txt">
+<script type="application/ld+json"><%- meta.jsonld %></script>
+<% if (s.ga4_id) { %>
+<script async src="https://www.googletagmanager.com/gtag/js?id=<%= s.ga4_id %>" nonce="<%= nonce %>"></script>
+<script nonce="<%= nonce %>">window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{analytics_storage:(document.cookie.indexOf('is_consent=1')>-1?'granted':'denied'),ad_storage:'denied'});gtag('js',new Date());gtag('config','<%= s.ga4_id %>');</script>
+<% } %>
+</head>
+<body class="bg-surface text-on-surface font-body-md text-body-md min-h-screen flex flex-col" data-page="<%= typeof pageType !== 'undefined' ? pageType : '' %>">
+<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] btn-dark">Skip to content</a>
+<%- include('partials/header') %>
+<main id="main" class="flex-1 w-full pt-16 lg:pt-20 pb-24 lg:pb-0">
+<% if (s.announcement) { %>
+<div class="bg-primary-container text-on-primary text-center font-label-md text-label-md px-margin py-2"><%- U.escapeHtml(s.announcement) %></div>
+<% } %>
+<% if (meta.breadcrumbs && meta.breadcrumbs.length > 1) { %><%- include('partials/breadcrumbs', { crumbs: meta.breadcrumbs }) %><% } %>
+<%- body %>
+</main>
+<%- include('partials/footer') %>
+<%- include('partials/bottom-nav') %>
+<% if (s.analytics_cookie_banner) { %>
+<div id="consent" class="hidden fixed z-[60] bottom-20 lg:bottom-6 inset-x-3 lg:inset-x-auto lg:right-6 lg:max-w-sm card p-4 shadow-xl" role="dialog" aria-live="polite" aria-label="Cookie preferences">
+  <p class="font-body-sm text-body-sm text-on-surface-variant">We use first-party analytics cookies to understand which guides help Canadians most. No ads, no selling data. <a class="link" href="/privacy/#cookies">Privacy</a></p>
+  <div class="flex gap-2 mt-3">
+    <button type="button" class="btn-primary !py-2 !px-4 flex-1" data-consent="1">Accept</button>
+    <button type="button" class="btn-soft !py-2 !px-4 flex-1" data-consent="0">Decline</button>
+  </div>
+</div>
+<% } %>
+<script src="/js/site.js?v=<%= v %>" defer></script>
+</body>
+</html>

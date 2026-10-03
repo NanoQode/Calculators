@@ -1,0 +1,93 @@
+<%
+  var w = widget; // { tabs:[{product,label,flow}], active, estimate, provinces }
+  var provs = geoData.provinces;
+  var defProv = (typeof widgetProvince !== 'undefined' && widgetProvince) || 'on';
+%>
+<div class="relative bg-surface-container-lowest rounded-3xl p-space-md sm:p-space-lg shadow-xl" data-quote-widget data-product="<%= w.active %>">
+  <div class="flex items-center justify-between pb-space-sm">
+    <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-secondary animate-pulse"></span><span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Instant estimate</span></div>
+    <span class="font-label-sm text-label-sm text-on-surface-variant">No email needed</span>
+  </div>
+  <% if (w.single) { %>
+  <div class="flex items-center gap-2 mb-space-md"><span class="material-symbols-outlined text-secondary"><%= (allProducts.find(function(p){return p.slug===w.active;})||{}).icon %></span><span class="font-headline-sm text-headline-sm text-primary-container"><%= (allProducts.find(function(p){return p.slug===w.active;})||{}).name %> estimate</span></div>
+  <input type="hidden" name="city" value="<%= w.city || '' %>" form="qw-form-<%= w.active %>" data-qw-input>
+  <% } else { %>
+  <div class="flex lg:grid lg:grid-cols-5 gap-1 p-1 bg-surface-container-low rounded-xl mb-space-md overflow-x-auto no-scrollbar" role="tablist" aria-label="Coverage type">
+    <% w.tabs.forEach(function(t){ var on = t.product === w.active; %>
+    <button type="button" role="tab" aria-selected="<%= on %>" data-qw-tab="<%= t.product %>" data-flow="<%= t.flow %>" class="shrink-0 px-3 py-2 text-center rounded-lg font-label-md text-label-md transition-all <%= on ? 'bg-surface-container-lowest text-primary-container shadow-sm' : 'text-on-surface-variant hover:text-on-surface' %>"><%= t.label %></button>
+    <% }) %>
+  </div>
+  <% } %>
+  <form id="qw-form-<%= w.active %>" class="flex flex-col gap-space-md" action="/quote/<%= w.active %>/" method="get" data-qw-form>
+    <!-- life & living benefits -->
+    <div class="flex flex-col gap-2" data-qw-fields="life health">
+      <div class="flex items-center justify-between">
+        <label class="font-label-md text-label-md text-on-surface-variant" for="qw-coverage">Coverage amount</label>
+        <output class="font-headline-md text-headline-md text-primary-container" data-qw-coverage-label for="qw-coverage">$500,000</output>
+      </div>
+      <input id="qw-coverage" name="coverage" type="range" min="100000" max="2000000" step="50000" value="500000" class="w-full h-2 bg-surface-container rounded-lg appearance-none cursor-pointer" data-qw-input>
+      <div class="flex justify-between font-label-sm text-label-sm text-on-surface-variant" data-qw-range-labels><span>$100k</span><span>$1M</span><span>$2M</span></div>
+    </div>
+    <!-- property -->
+    <div class="hidden flex-col gap-2" data-qw-fields="<%= w.single ? 'none' : 'property' %>">
+      <span class="font-label-md text-label-md text-on-surface-variant">I’m insuring a</span>
+      <div class="seg grid-cols-3">
+        <button type="button" class="seg-btn" aria-pressed="true" data-qw-product="tenant-insurance">Rental</button>
+        <button type="button" class="seg-btn" aria-pressed="false" data-qw-product="condo-insurance">Condo</button>
+        <button type="button" class="seg-btn" aria-pressed="false" data-qw-product="home-insurance">House</button>
+      </div>
+    </div>
+    <!-- business -->
+    <div class="hidden flex-col gap-1.5" data-qw-fields="business">
+      <label class="font-label-md text-label-md text-on-surface-variant" for="qw-industry">Business type</label>
+      <select id="qw-industry" name="industry" class="field font-label-lg text-label-lg" data-qw-input>
+        <option value="consulting">Consulting / IT / professional</option>
+        <option value="trades">Skilled trade / contractor</option>
+        <option value="retail">Retail / studio / clinic</option>
+        <option value="food">Restaurant / food service</option>
+        <option value="ecommerce">E-commerce / online</option>
+        <option value="realestate">Real estate services</option>
+        <option value="health">Health &amp; wellness practitioner</option>
+      </select>
+    </div>
+    <div class="grid grid-cols-2 gap-space-md">
+      <div class="flex flex-col gap-1.5" data-qw-fields="life health auto travel">
+        <label class="font-label-md text-label-md text-on-surface-variant" for="qw-age">Your age</label>
+        <div class="relative flex items-center">
+          <input id="qw-age" name="age" type="number" inputmode="numeric" min="18" max="85" value="35" class="field !py-3 font-headline-sm text-headline-sm pr-14" data-qw-input>
+          <span class="absolute right-4 font-label-sm text-label-sm text-on-surface-variant pointer-events-none">YRS</span>
+        </div>
+      </div>
+      <div class="flex flex-col gap-1.5" data-qw-fields="life health auto property business travel">
+        <label class="font-label-md text-label-md text-on-surface-variant" for="qw-prov">Province / territory</label>
+        <select id="qw-prov" name="province" class="field !py-3 font-label-lg text-label-lg cursor-pointer" data-qw-input>
+          <% provs.forEach(function(p){ %><option value="<%= p.code %>" <%= p.code === defProv ? 'selected' : '' %>><%= p.name %> (<%= p.abbr %>)</option><% }) %>
+        </select>
+      </div>
+    </div>
+    <div class="flex items-center justify-between p-space-sm bg-surface-container-low/70 rounded-xl" data-qw-fields="life health">
+      <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-on-surface-variant">smoke_free</span><span class="font-label-md text-label-md text-on-surface">Tobacco / vaping in past 12 months?</span></div>
+      <div class="flex gap-1 p-0.5 bg-surface-container rounded-lg" role="group" aria-label="Tobacco use">
+        <button type="button" class="seg-btn !py-1 !px-3" aria-pressed="true" data-qw-smoker="no">No</button>
+        <button type="button" class="seg-btn !py-1 !px-3" aria-pressed="false" data-qw-smoker="yes">Yes</button>
+      </div>
+      <input type="hidden" name="smoker" value="no" data-qw-input>
+    </div>
+    <div class="bg-surface-container-high/50 p-space-md rounded-2xl flex items-center justify-between gap-3">
+      <div class="flex flex-col min-w-0">
+        <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Estimated premium</span>
+        <div class="flex items-baseline gap-1" aria-live="polite">
+          <span class="font-price-hero-mobile text-price-hero-mobile sm:font-price-hero sm:text-price-hero text-primary-container" data-qw-price><%= U.money(w.estimate.low, { cents: w.estimate.low < 100 }) %></span>
+          <span class="font-body-sm text-body-sm text-on-surface-variant" data-qw-period><%= w.estimate.periodLabel %></span>
+        </div>
+        <span class="font-label-sm text-label-sm text-secondary" data-qw-range>Typical range <%= U.money(w.estimate.low, { cents: w.estimate.low < 100 }) %>–<%= U.money(w.estimate.high, { cents: w.estimate.high < 100 }) %></span>
+      </div>
+      <div class="hidden sm:flex flex-col text-right">
+        <span class="font-label-sm text-label-sm text-on-surface-variant">Most applicants</span>
+        <span class="inline-flex items-center justify-end gap-1 font-label-md text-label-md text-on-secondary-container"><span class="material-symbols-outlined text-[16px]">bolt</span> No exam options</span>
+      </div>
+    </div>
+    <button type="submit" class="btn-primary w-full !py-4 shadow-lg shadow-secondary/25" data-qw-cta data-track="quote_start" data-label="home_widget">Get my instant quote <span class="material-symbols-outlined text-[20px]">arrow_forward</span></button>
+    <p class="font-label-sm text-label-sm text-center text-on-surface-variant" data-qw-example>Example: <%= w.estimate.example %> · as of <%= w.estimate.asOf %>. Estimate, not an offer.</p>
+  </form>
+</div>
