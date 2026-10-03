@@ -55,6 +55,7 @@
 - [Loan-to-Value in Mortgage Investing: How to Read It and Where It Misleads](https://lmcmic.ca/learn/loan-to-value-for-mortgage-investors/): loan to value mortgage investing
 - [What Happens When a Borrower Defaults on Your Mortgage Investment](https://lmcmic.ca/learn/borrower-default-mortgage-investment/): borrower default mortgage investment
 - [The Foreclosure Process for Mortgage Investors: Power of Sale, Judicial Sale and Québec's Recourses](https://lmcmic.ca/learn/mortgage-enforcement-across-canada/): foreclosure process for mortgage investors
+- [Power of Sale in Canada: What It Means for a Mortgage Investor](https://lmcmic.ca/learn/power-of-sale-for-mortgage-investors/): power of sale Canada investor
 - [The Real Cost of Enforcing a Mortgage Investment](https://lmcmic.ca/learn/cost-of-mortgage-enforcement/): cost of enforcing a mortgage investment
 - [Liquidity Risk in a Mortgage Investment: Redemption and Getting Your Money Out](https://lmcmic.ca/learn/liquidity-and-redemption/): liquidity risk mortgage investment
 - [Property Value and Marketability Risk in a Mortgage Investment](https://lmcmic.ca/learn/property-marketability-risk/): property marketability risk mortgage
@@ -72,6 +73,7 @@
 - [Are You an Accredited Investor in Canada? Eligibility Explained](https://lmcmic.ca/learn/accredited-investor-canada/): accredited investor Canada
 - [Exempt Market Mortgage Investments: How Offering Memorandums Work](https://lmcmic.ca/learn/exempt-market-and-offering-memorandums/): exempt market mortgage investment
 - [Syndicated Mortgage Investment Rules in Canada After the 2021 Reforms](https://lmcmic.ca/learn/syndicated-mortgage-rules/): syndicated mortgage investment
+- [FSRA and the Private Mortgage Investor: Ontario's Rules Explained](https://lmcmic.ca/learn/mortgage-investment-regulation-ontario/): FSRA private mortgage investor
 - [BC Mortgage Services Act: What Investors Need to Know About British Columbia's October 2026 Change](https://lmcmic.ca/learn/mortgage-investment-regulation-british-columbia/): BC Mortgage Services Act investors
 - [Mortgage Investing in Alberta: Regulators, Licensing and Judicial Sale Explained](https://lmcmic.ca/learn/mortgage-investment-regulation-alberta/): mortgage investing Alberta
 - [Mortgage Investing in Quebec: A Different Legal System](https://lmcmic.ca/learn/mortgage-investing-quebec/): mortgage investing Quebec
@@ -96,6 +98,7 @@
 - [Mortgage Investing in Alberta](https://lmcmic.ca/learn/mortgage-investing-alberta/): mortgage investing Alberta
 - [Mortgage Investing in Ottawa and the National Capital Region](https://lmcmic.ca/learn/mortgage-investing-ontario/ottawa/): mortgage investing Ottawa
 - [Mortgage Investing in Quebec, the Prairies and Atlantic Canada](https://lmcmic.ca/learn/mortgage-investing-quebec-prairies-atlantic/): mortgage investing Quebec
+- [Mortgage Investing FAQ: 60 Questions Canadian Investors Ask](https://lmcmic.ca/faq/): mortgage investment FAQ Canada
 
 ## Contact
 - Phone: 416-837-1414

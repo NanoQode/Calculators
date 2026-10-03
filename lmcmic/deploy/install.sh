@@ -27,6 +27,11 @@ id lmcmic >/dev/null 2>&1 || useradd --system --home /var/lib/lmcmic --shell /us
 install -d -o lmcmic -g lmcmic -m 700 /var/lib/lmcmic
 install -d -m 755 /opt/lmcmic /etc/lmcmic
 install -m 644 "$WORK/server/lead-server.mjs" /opt/lmcmic/lead-server.mjs
+# The service user cannot read node's install under /root, so it gets its own
+# copy of the (self-contained) binary.
+NODE_BIN=$(readlink -f "$(command -v node)")
+install -d -m 755 /opt/lmcmic/bin
+cmp -s "$NODE_BIN" /opt/lmcmic/bin/node || install -m 755 "$NODE_BIN" /opt/lmcmic/bin/node
 [ -f /etc/lmcmic/leads.env ] || install -m 640 -g lmcmic "$WORK/deploy/leads.env.example" /etc/lmcmic/leads.env
 touch /var/log/lmcmic-leads.log && chown lmcmic:lmcmic /var/log/lmcmic-leads.log
 install -m 644 "$WORK/deploy/lmcmic-leads.service" /etc/systemd/system/lmcmic-leads.service
@@ -34,15 +39,29 @@ systemctl daemon-reload
 systemctl enable lmcmic-leads >/dev/null 2>&1
 systemctl restart lmcmic-leads
 
-# ---- nginx (first install only; later runs keep the live config and its cert lines)
+# ---- nginx: always install the current vhost; once the Let's Encrypt
+# certificate exists, point the vhost at it and keep HSTS on.
 CONF=/etc/nginx/sites-available/lmcmic.ca
-if [ ! -f "$CONF" ]; then
-  [ -f /etc/ssl/certs/ssl-cert-snakeoil.pem ] || make-ssl-cert generate-default-snakeoil --force-overwrite
-  install -m 644 "$WORK/deploy/nginx-lmcmic.ca.conf" "$CONF"
-  ln -sfn "$CONF" /etc/nginx/sites-enabled/lmcmic.ca
+LIVE=/etc/letsencrypt/live/lmcmic.ca
+[ -f /etc/ssl/certs/ssl-cert-snakeoil.pem ] || make-ssl-cert generate-default-snakeoil --force-overwrite
+[ -f "$CONF" ] && cp "$CONF" "$CONF.bak-$STAMP"
+install -m 644 "$WORK/deploy/nginx-lmcmic.ca.conf" "$CONF"
+if [ -f "$LIVE/fullchain.pem" ]; then
+  sed -i \
+    -e "s#/etc/ssl/certs/ssl-cert-snakeoil.pem;\( *\)\# LMCMIC_CERT#$LIVE/fullchain.pem;\1\# LMCMIC_CERT#" \
+    -e "s#/etc/ssl/private/ssl-cert-snakeoil.key;\( *\)\# LMCMIC_KEY#$LIVE/privkey.pem;\1\# LMCMIC_KEY#" \
+    -e "s|# add_header Strict-Transport-Security|add_header Strict-Transport-Security|" "$CONF"
 fi
+ln -sfn "$CONF" /etc/nginx/sites-enabled/lmcmic.ca
 mkdir -p /var/www/certbot
-nginx -t && systemctl reload nginx
+if ! nginx -t; then
+  echo "nginx -t failed; restoring the previous lmcmic.ca vhost" >&2
+  [ -f "$CONF.bak-$STAMP" ] && cp "$CONF.bak-$STAMP" "$CONF"
+  nginx -t && systemctl reload nginx
+  exit 1
+fi
+systemctl reload nginx
+ls -1t "$CONF".bak-* 2>/dev/null | tail -n +6 | xargs -r rm -f
 
 # ---- certificate watcher
 install -m 755 "$WORK/deploy/lmcmic-cert.sh" /usr/local/sbin/lmcmic-cert

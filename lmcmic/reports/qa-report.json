@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-03T15:38:10Z",
+ "generated": "2026-10-03T15:39:11Z",
  "articles": [
   {
    "id": 1,
@@ -567,7 +567,7 @@
     },
     "META_DESC": {
      "ok": true,
-     "detail": "159 chars"
+     "detail": "158 chars"
     },
     "K1_ANSWER_FIRST_120_WORDS": {
      "ok": true,
@@ -871,14 +871,14 @@
     },
     "LENGTH": {
      "ok": true,
-     "detail": "1857 words (body 1536); target 1800"
+     "detail": "1856 words (body 1535); target 1800"
     },
     "K8_DISCLOSURES_IN_BODY": {
      "ok": true,
      "detail": "present"
     }
    },
-   "words": 1536
+   "words": 1535
   },
   {
    "id": 15,
@@ -938,7 +938,7 @@
     },
     "LENGTH": {
      "ok": true,
-     "detail": "2597 words (body 2157); target 2600"
+     "detail": "2599 words (body 2157); target 2600"
     },
     "K8_DISCLOSURES_IN_BODY": {
      "ok": true,
@@ -3023,7 +3023,7 @@
     },
     "LENGTH": {
      "ok": true,
-     "detail": "2745 words (body 2277); target 3200"
+     "detail": "2750 words (body 2277); target 3200"
     },
     "K8_DISCLOSURES_IN_BODY": {
      "ok": true,
@@ -3034,11 +3034,70 @@
   },
   {
    "id": 47,
-   "title": "Power of Sale: What It Means for a Mortgage Investor",
+   "title": "Power of Sale in Canada: What It Means for a Mortgage Investor",
    "url": "/learn/power-of-sale-for-mortgage-investors/",
-   "status": "NOT WRITTEN",
-   "checks": {},
-   "words": 0
+   "priority": 1,
+   "primary_keyword": "power of sale Canada investor",
+   "status": "PASS",
+   "checks": {
+    "FORMAT": {
+     "ok": true,
+     "detail": "front matter complete"
+    },
+    "PLAN": {
+     "ok": true,
+     "detail": "matches plan id"
+    },
+    "META_TITLE": {
+     "ok": true,
+     "detail": "52 chars"
+    },
+    "META_DESC": {
+     "ok": true,
+     "detail": "152 chars"
+    },
+    "K1_ANSWER_FIRST_120_WORDS": {
+     "ok": true,
+     "detail": "answer box 87 words"
+    },
+    "K2_HEADINGS": {
+     "ok": true,
+     "detail": "11 subheadings; H1 in body: 0; jumps: []; generic: []"
+    },
+    "K7_PROHIBITED_LANGUAGE": {
+     "ok": true,
+     "detail": "clean"
+    },
+    "K11_INTERNAL_LINKS": {
+     "ok": true,
+     "detail": "7 distinct internal links; unknown: []"
+    },
+    "SOURCES_ALLOWED": {
+     "ok": true,
+     "detail": "4 external refs; not on allow-list: []"
+    },
+    "J2_SEVEN_AXES": {
+     "ok": true,
+     "detail": "all seven named"
+    },
+    "E7_FAQ": {
+     "ok": true,
+     "detail": "5 FAQs"
+    },
+    "E9_TAKEAWAYS": {
+     "ok": true,
+     "detail": "5 takeaways"
+    },
+    "LENGTH": {
+     "ok": true,
+     "detail": "2104 words (body 1700); target 2200"
+    },
+    "K8_DISCLOSURES_IN_BODY": {
+     "ok": true,
+     "detail": "present"
+    }
+   },
+   "words": 1700
   },
   {
    "id": 48,
@@ -3701,14 +3760,14 @@
     },
     "LENGTH": {
      "ok": true,
-     "detail": "2316 words (body 1934); target 1800"
+     "detail": "2263 words (body 1913); target 1800"
     },
     "K8_DISCLOSURES_IN_BODY": {
      "ok": true,
      "detail": "present"
     }
    },
-   "words": 1934
+   "words": 1913
   },
   {
    "id": 58,
@@ -3768,14 +3827,14 @@
     },
     "LENGTH": {
      "ok": true,
-     "detail": "1870 words (body 1509); target 1600"
+     "detail": "1868 words (body 1507); target 1600"
     },
     "K8_DISCLOSURES_IN_BODY": {
      "ok": true,
      "detail": "present"
     }
    },
-   "words": 1509
+   "words": 1507
   },
   {
    "id": 59,
@@ -4170,22 +4229,81 @@
     },
     "LENGTH": {
      "ok": true,
-     "detail": "2374 words (body 2005); target 2600"
+     "detail": "2375 words (body 2006); target 2600"
     },
     "K8_DISCLOSURES_IN_BODY": {
      "ok": true,
      "detail": "present"
     }
    },
-   "words": 2005
+   "words": 2006
   },
   {
    "id": 65,
-   "title": "Mortgage Investment Regulation in Ontario",
+   "title": "FSRA and the Private Mortgage Investor: Ontario's Rules Explained",
    "url": "/learn/mortgage-investment-regulation-ontario/",
-   "status": "NOT WRITTEN",
-   "checks": {},
-   "words": 0
+   "priority": 1,
+   "primary_keyword": "FSRA private mortgage investor",
+   "status": "PASS",
+   "checks": {
+    "FORMAT": {
+     "ok": true,
+     "detail": "front matter complete"
+    },
+    "PLAN": {
+     "ok": true,
+     "detail": "matches plan id"
+    },
+    "META_TITLE": {
+     "ok": true,
+     "detail": "49 chars"
+    },
+    "META_DESC": {
+     "ok": true,
+     "detail": "150 chars"
+    },
+    "K1_ANSWER_FIRST_120_WORDS": {
+     "ok": true,
+     "detail": "answer box 73 words"
+    },
+    "K2_HEADINGS": {
+     "ok": true,
+     "detail": "10 subheadings; H1 in body: 0; jumps: []; generic: []"
+    },
+    "K7_PROHIBITED_LANGUAGE": {
+     "ok": true,
+     "detail": "clean"
+    },
+    "K11_INTERNAL_LINKS": {
+     "ok": true,
+     "detail": "7 distinct internal links; unknown: []"
+    },
+    "SOURCES_ALLOWED": {
+     "ok": true,
+     "detail": "5 external refs; not on allow-list: []"
+    },
+    "J2_SEVEN_AXES": {
+     "ok": true,
+     "detail": "all seven named"
+    },
+    "E7_FAQ": {
+     "ok": true,
+     "detail": "4 FAQs"
+    },
+    "E9_TAKEAWAYS": {
+     "ok": true,
+     "detail": "5 takeaways"
+    },
+    "LENGTH": {
+     "ok": true,
+     "detail": "2000 words (body 1730); target 2000"
+    },
+    "K8_DISCLOSURES_IN_BODY": {
+     "ok": true,
+     "detail": "present"
+    }
+   },
+   "words": 1730
   },
   {
    "id": 66,
@@ -5585,14 +5703,14 @@
     },
     "LENGTH": {
      "ok": true,
-     "detail": "2590 words (body 2223); target 2400"
+     "detail": "2591 words (body 2224); target 2400"
     },
     "K8_DISCLOSURES_IN_BODY": {
      "ok": true,
      "detail": "present"
     }
    },
-   "words": 2223
+   "words": 2224
   },
   {
    "id": 87,
@@ -5652,14 +5770,14 @@
     },
     "LENGTH": {
      "ok": true,
-     "detail": "2384 words (body 1943); target 2000"
+     "detail": "2385 words (body 1944); target 2000"
     },
     "K8_DISCLOSURES_IN_BODY": {
      "ok": true,
      "detail": "present"
     }
    },
-   "words": 1943
+   "words": 1944
   },
   {
    "id": 88,
@@ -5799,9 +5917,68 @@
    "id": 90,
    "title": "Mortgage Investing FAQ: 60 Questions Canadian Investors Ask",
    "url": "/faq/",
-   "status": "NOT WRITTEN",
-   "checks": {},
-   "words": 0
+   "priority": 1,
+   "primary_keyword": "mortgage investment FAQ Canada",
+   "status": "PASS",
+   "checks": {
+    "FORMAT": {
+     "ok": true,
+     "detail": "front matter complete"
+    },
+    "PLAN": {
+     "ok": true,
+     "detail": "matches plan id"
+    },
+    "META_TITLE": {
+     "ok": true,
+     "detail": "53 chars"
+    },
+    "META_DESC": {
+     "ok": true,
+     "detail": "148 chars"
+    },
+    "K1_ANSWER_FIRST_120_WORDS": {
+     "ok": true,
+     "detail": "answer box 77 words"
+    },
+    "K2_HEADINGS": {
+     "ok": true,
+     "detail": "3 subheadings; H1 in body: 0; jumps: []; generic: []"
+    },
+    "K7_PROHIBITED_LANGUAGE": {
+     "ok": true,
+     "detail": "clean"
+    },
+    "K11_INTERNAL_LINKS": {
+     "ok": true,
+     "detail": "8 distinct internal links; unknown: []"
+    },
+    "SOURCES_ALLOWED": {
+     "ok": true,
+     "detail": "6 external refs; not on allow-list: []"
+    },
+    "J2_SEVEN_AXES": {
+     "ok": true,
+     "detail": "all seven named"
+    },
+    "E7_FAQ": {
+     "ok": true,
+     "detail": "60 FAQs"
+    },
+    "E9_TAKEAWAYS": {
+     "ok": true,
+     "detail": "4 takeaways"
+    },
+    "LENGTH": {
+     "ok": true,
+     "detail": "4639 words (body 251); target 4000"
+    },
+    "K8_DISCLOSURES_IN_BODY": {
+     "ok": true,
+     "detail": "present"
+    }
+   },
+   "words": 251
   }
  ],
  "manual_checks": [
@@ -6161,7 +6338,7 @@
    "intent": "Informational",
    "target_page": "Pillar: What is a MIC",
    "url": "/faq/",
-   "on_page": false
+   "on_page": true
   },
   {
    "keyword": "what is a mortgage investment corporation",
@@ -7511,7 +7688,7 @@
    "intent": "Risk / due diligence",
    "target_page": "Guide: Power of sale",
    "url": "/learn/power-of-sale-for-mortgage-investors/",
-   "on_page": false
+   "on_page": true
   },
   {
    "keyword": "what is power of sale",
@@ -7520,7 +7697,7 @@
    "intent": "Informational",
    "target_page": "Guide: Power of sale",
    "url": "/learn/power-of-sale-for-mortgage-investors/",
-   "on_page": false
+   "on_page": true
   },
   {
    "keyword": "foreclosure process for mortgage investors",
@@ -7583,7 +7760,7 @@
    "intent": "Risk / due diligence",
    "target_page": "Guide: Power of sale",
    "url": "/learn/power-of-sale-for-mortgage-investors/",
-   "on_page": false
+   "on_page": true
   },
   {
    "keyword": "cost of enforcing a mortgage investment",
@@ -7736,7 +7913,7 @@
    "intent": "Risk / due diligence",
    "target_page": "Guide: Regulation in Ontario",
    "url": "/learn/mortgage-investment-regulation-ontario/",
-   "on_page": false
+   "on_page": true
   },
   {
    "keyword": "mortgage investor disclosure form Ontario",
@@ -7745,7 +7922,7 @@
    "intent": "Risk / due diligence",
    "target_page": "Guide: Regulation in Ontario",
    "url": "/learn/mortgage-investment-regulation-ontario/",
-   "on_page": false
+   "on_page": true
   },
   {
    "keyword": "BC Mortgage Services Act investors",
@@ -8141,7 +8318,7 @@
    "intent": "Comparison",
    "target_page": "Province hub: Ontario",
    "url": "/learn/mortgage-investment-regulation-ontario/",
-   "on_page": false
+   "on_page": true
   },
   {
    "keyword": "private mortgage investing Ontario",
@@ -9041,7 +9218,7 @@
    "intent": "Informational",
    "target_page": "Guide: Power of sale",
    "url": "/learn/power-of-sale-for-mortgage-investors/",
-   "on_page": false
+   "on_page": true
   },
   {
    "keyword": "how does foreclosure work in British Columbia",
