@@ -341,10 +341,10 @@ const products = [
     keyword: 'car insurance',
     keywords: ['car insurance quotes', 'auto insurance', 'cheap car insurance', 'compare car insurance', 'auto insurance quotes'],
     h1: 'Car Insurance Quotes: Compare Rates in Minutes',
-    tagline: 'See what drivers like you pay, then let a licensed broker shop the market for your lowest rate.',
+    tagline: 'See what drivers like you pay, then let a licensed advisor compare insurers for you.',
     intro:
-      'Car insurance is mandatory in every province, but how you buy it depends on where you live. Ontario, Alberta, Quebec (for property damage) and Atlantic Canada use private insurers that compete on price. British Columbia, Saskatchewan and Manitoba provide basic coverage through a public insurer, with optional coverage available on top. Instasure shows you a realistic premium range for your city and profile and connects you with a licensed broker who can compare insurers for you.',
-    benefits: ['Realistic premium ranges by city and driver profile', 'Discounts for bundling, winter tires, telematics and claims-free history', 'Help for new, young and high-risk drivers', 'Licensed brokers compare multiple insurers'],
+      'Car insurance is mandatory in every province, but how you buy it depends on where you live. Ontario, Alberta, Quebec (for property damage) and Atlantic Canada use private insurers that compete on price. British Columbia, Saskatchewan and Manitoba provide basic coverage through a public insurer, with optional coverage available on top. Instasure shows you a realistic premium range for your city and profile and connects you with a licensed insurance advisor who can compare insurers for you.',
+    benefits: ['Realistic premium ranges by city and driver profile', 'Discounts for bundling, winter tires, telematics and claims-free history', 'Help for new, young and high-risk drivers', 'Licensed advisors compare multiple insurers'],
     coverages: [
       { name: 'Third-party liability', desc: 'Mandatory. Pays for injury or damage you cause others. Most drivers carry $1–2 million.' },
       { name: 'Accident benefits', desc: 'Medical, rehabilitation and income benefits after a collision (structure varies by province).' },
@@ -377,7 +377,7 @@ const products = [
     h1: 'Home Insurance Quotes: Protect Your House, Belongings & Liability',
     tagline: 'Coverage built for Canadian risks — water, wind, hail, wildfire and theft.',
     intro:
-      'Home insurance protects the structure of your house, your belongings and your personal liability. In Canada, water damage is now one of the most common and costly claim types, and standard policies do not automatically include sewer backup or overland flood. Instasure explains the endorsements that matter in your province and connects you with a licensed broker to compare insurers.',
+      'Home insurance protects the structure of your house, your belongings and your personal liability. In Canada, water damage is now one of the most common and costly claim types, and standard policies do not automatically include sewer backup or overland flood. Instasure explains the endorsements that matter in your province and connects you with a licensed advisor to compare insurers.',
     benefits: ['Guaranteed replacement cost options', 'Sewer backup, overland water and earthquake endorsements', 'Bundling discounts with auto', 'Claims-free and security system discounts'],
     coverages: [
       { name: 'Dwelling', desc: 'Rebuilds your home at today’s construction cost (replacement cost).' },
@@ -472,7 +472,7 @@ const products = [
     tagline: 'From sole proprietors to growing teams — the coverage clients, landlords and contracts require.',
     intro:
       'A personal home or auto policy will generally not cover business activities. Small business insurance bundles the protections Canadian companies need — commercial general liability (CGL), property and equipment, business interruption, professional liability (E&O) and cyber — into a package priced for your industry and size.',
-    benefits: ['Certificates of insurance for contracts and leases', 'Packages for trades, retail, professional services and hospitality', 'Cyber and data breach options', 'Licensed commercial brokers'],
+    benefits: ['Certificates of insurance for contracts and leases', 'Packages for trades, retail, professional services and hospitality', 'Cyber and data breach options', 'Licensed commercial insurance advisors'],
     coverages: [
       { name: 'Commercial general liability (CGL)', desc: 'Third-party bodily injury and property damage from your operations and products.' },
       { name: 'Professional liability (E&O)', desc: 'Claims that your advice or service caused a financial loss.', link: '/professional-liability-insurance/' },

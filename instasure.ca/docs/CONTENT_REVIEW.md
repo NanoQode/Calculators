@@ -35,6 +35,7 @@ Also check: no "best", "cheapest" or "lowest price" wording anywhere without a p
 | # | Item | Where |
 |---|---|---|
 | 3.1 | The estimate engine's base rates and factors are modelled priors, calibrated loosely to public figures seen in October 2026. Have a licensed advisor sanity-check each product's example range. | `src/lib/quote-engine.js` |
+| 3.1a | After that review, set **Estimates and local data last reviewed**. It drives the "as of" month on every estimate, the example tables, the "Updated" date on product, province and city pages, `dateModified` and sitemap `lastmod`. Don't move it forward without a real review. | Admin → Site settings |
 | 3.2 | Province benchmarks (average auto and home premiums, rules, regulators, minimum liability) and the city auto factors. | `src/data/geo.js` |
 | 3.3 | Keyword volumes are modelled. Import a Keyword Planner export before forecasting. | Admin → SEO → Keyword map → Import |
 | 3.4 | The Rate Index shows a product × province cell only once it has 25 quote requests. Confirm that minimum and the methodology wording before the first press release. | `/insights/rate-index/` |

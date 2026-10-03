@@ -15,6 +15,12 @@ const geo = require('../data/geo');
 const { bySlug } = require('../data/products');
 const { money, monthYear, clampInt } = require('./util');
 
+const MODEL_REVIEWED = '2026-10-03';
+/** When the model was last reviewed (Admin → Site settings), so "as of" never silently rolls forward. */
+function reviewedAt() {
+  try { return require('./settings').get('estimates_reviewed_at') || MODEL_REVIEWED; } catch { return MODEL_REVIEWED; }
+}
+
 const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
 const lerpTable = (table, x) => {
   const keys = Object.keys(table).map(Number).sort((a, b) => a - b);
@@ -378,7 +384,7 @@ function estimate(productSlug, inputs = {}) {
   const out = provider.quote(product, inputs);
   out.product = product.slug;
   out.provider = provider.id;
-  out.asOf = monthYear();
+  out.asOf = monthYear(reviewedAt());
   out.periodLabel = out.period === 'month' ? '/mo' : out.period === 'year' ? '/yr' : ' per trip';
   return out;
 }
@@ -399,4 +405,4 @@ function fromPrice(productSlug, overrides = {}) {
   return { amount: e.low, periodLabel: e.periodLabel, example: e.example, asOf: e.asOf };
 }
 
-module.exports = { estimate, fromPrice, DEFAULT_PROFILES, INDUSTRY, providers };
+module.exports = { estimate, fromPrice, DEFAULT_PROFILES, INDUSTRY, providers, reviewedAt };

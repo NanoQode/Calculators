@@ -21,7 +21,7 @@ function productOverrides() {
   }
   return overridesCache;
 }
-function invalidate() { overridesCache = null; geoOvCache = null; }
+function invalidate() { overridesCache = null; geoOvCache = null; ovDates = null; }
 
 function isEnabled(slug) { const o = productOverrides()[slug]; return !o || !!o.enabled; }
 function enabledProducts() { return products.filter((p) => isEnabled(p.slug)); }
@@ -45,6 +45,9 @@ function city(provCode, slug) {
   const ov = geoOverride(`${provCode}/${slug}`);
   return ov ? { ...c, ...ov.data, verified_at: ov.verified_at } : c;
 }
+
+/** Regulator name for running text: names stand alone (FSRA, AMF, Service NL), superintendents take "the". */
+const regulatorName = (prov) => (/Superintendent/.test(prov.regulator.short) ? `the ${prov.regulator.short}` : prov.regulator.short);
 
 /** Lower-case a phrase's first letter for mid-sentence use, keeping proper nouns and acronyms (FSRA, GTA) intact. */
 const lcFirst = (t) => (/^[A-Z][A-Z]/.test(t) ? t : t.charAt(0).toLowerCase() + t.slice(1));
@@ -114,15 +117,83 @@ function geoContent(product, prov, c) {
   if (c) facts.push({ icon: 'groups', label: 'Population', value: `~${new Intl.NumberFormat('en-CA', { notation: 'compact' }).format(c.pop)}` });
   if (!c) facts.push({ icon: 'location_city', label: 'Cities covered', value: String((geo.citiesByProv[prov.code] || []).length) });
 
+  // Local claim risks (theft, flooding, hail) drive P&C prices; life, health and travel are priced on the person, not the postal code.
+  const localPricing = ['auto', 'property', 'business'].includes(product.category);
   const intro = [];
   if (product.category === 'auto') intro.push(prov.autoNotes[0]);
-  if (c) intro.push(`Pricing in ${c.name} reflects local claim patterns — ${c.risks.slice(0, 2).map(lcFirst).join(' and ')}.`);
-  else intro.push(`Key ${prov.name} risks insurers price in: ${prov.risks.slice(0, 3).map(lcFirst).join('; ')}.`);
+  if (localPricing && c) intro.push(`Pricing in ${c.name} reflects local claim patterns — ${c.risks.slice(0, 2).map(lcFirst).join(' and ')}.`);
+  else if (localPricing) intro.push(`Key ${prov.name} risks insurers price in: ${prov.risks.slice(0, 3).map(lcFirst).join('; ')}.`);
+  else {
+    const f = product.factors.slice(0, 3).map(lcFirst);
+    const factors = `${f.slice(0, -1).join(', ')}, and ${f[f.length - 1]}`;
+    intro.push(c
+      ? `${product.name} in ${c.name} is priced the same way as anywhere in ${prov.name}. Insurers look at ${factors}, not your postal code.`
+      : `${product.name} in ${prov.name} is regulated by ${regulatorName(prov)}. Insurers price it on ${factors}, not your postal code; what differs by province is the rules and the advisors licensed to help you.`);
+  }
 
-  const notes = [...(product.category === 'auto' ? prov.autoNotes.slice(1) : []), ...(prov.events2026 || []).filter((e) => !/accident benefits|Care-First|rate cap|freeze/i.test(e) || product.category === 'auto')];
-  const risks = c ? [...c.risks, ...prov.risks.slice(0, 2)] : prov.risks;
+  const mortgageRelated = ['life', 'property'].includes(product.category);
+  const notes = product.category === 'auto'
+    ? prov.autoNotes.slice(1)
+    : (prov.events2026 || []).filter((e) => (/mortgage/i.test(e) ? mortgageRelated : true));
+  const risks = !localPricing ? [] : c ? [...c.risks, ...prov.risks.slice(0, 2)] : prov.risks;
   const nearby = c ? (c.near || []).map((s) => geo.cityByKey[`${prov.code}/${s}`] || geo.cities.find((x) => x.slug === s)).filter(Boolean) : (geo.citiesByProv[prov.code] || []);
-  return { where, estimate, facts, intro, notes, risks, faq: localFaq(product, prov, c), nearby };
+  return { where, estimate, facts, intro, notes, risks, faq: localFaq(product, prov, c), nearby, examples: exampleTable(product, prov, c) };
+}
+
+/**
+ * Example estimates for a place: the priced table competitors publish (age × sex for life, driver profiles for
+ * car, coverage levels for property), built from the same model as the widget and labelled as estimates.
+ */
+function exampleTable(product, prov, c) {
+  const flow = product.quoteFlow;
+  const base = { ...quoteEngine.DEFAULT_PROFILES[flow], province: prov.code, city: c ? c.slug : undefined };
+  const est = (o) => quoteEngine.estimate(product.slug, { ...base, ...o });
+  const cell = (e) => ({ mid: e.mid, low: e.low, high: e.high, period: e.periodLabel });
+  const by = (label, list) => ({ cols: [label, 'Typical', 'Range'], rows: list.map(([name, o]) => { const e = est(o); return [name, cell(e)]; }), ranged: true });
+  let t;
+  if (flow === 'life') {
+    const what = product.slug === 'whole-life-insurance' ? `${money(base.coverage)} whole life` : `${money(base.coverage)}, ${base.term}-year term`;
+    t = { cols: ['Age', 'Female, non-smoker', 'Male, non-smoker'], rows: [25, 35, 45, 55, 65].map((age) => [String(age), cell(est({ age, sex: 'female', smoker: 'no' })), cell(est({ age, sex: 'male', smoker: 'no' }))]), assumptions: what };
+  } else if (flow === 'health' && product.slug === 'health-dental-insurance') {
+    t = { cols: ['Plan type', 'Age 35', 'Age 55'], rows: [['Single', 'single'], ['Couple', 'couple'], ['Family', 'family']].map(([name, household]) => [name, cell(est({ household, age: 35 })), cell(est({ household, age: 55 }))]), assumptions: 'mid-tier plan' };
+  } else if (flow === 'health') {
+    const what = product.slug === 'disability-insurance' ? `${money(base.income)} income, 90-day waiting period` : `${money(base.coverage)} critical illness coverage, 10-year term`;
+    t = { cols: ['Age', 'Female, non-smoker', 'Male, non-smoker'], rows: [25, 35, 45, 55].map((age) => [String(age), cell(est({ age, sex: 'female', smoker: 'no' })), cell(est({ age, sex: 'male', smoker: 'no' }))]), assumptions: what };
+  } else if (flow === 'auto') {
+    t = by('Driver profile', [['Age 20, licensed 2 years', { age: 20, years_licensed: 2 }], ['Age 25, licensed 7 years', { age: 25, years_licensed: 7 }], ['Age 40, licensed 15+ years', { age: 40, years_licensed: 15 }], ['Age 40, one at-fault claim', { age: 40, years_licensed: 15, claims: 1 }], ['Age 40, one minor ticket', { age: 40, years_licensed: 15, tickets: 1 }], ['Age 65, licensed 15+ years', { age: 65, years_licensed: 15 }]]);
+    t.assumptions = 'standard vehicle, full coverage';
+  } else if (flow === 'property') {
+    const list = product.slug === 'home-insurance' ? [['$350,000 rebuild cost', { rebuild: 350000 }], ['$500,000 rebuild cost', { rebuild: 500000 }], ['$750,000 rebuild cost', { rebuild: 750000 }], ['$1,000,000 rebuild cost', { rebuild: 1000000 }]]
+      : product.slug === 'condo-insurance' ? [['$25,000 contents', { contents: 25000 }], ['$50,000 contents', { contents: 50000 }], ['$75,000 contents', { contents: 75000 }]]
+        : [['$20,000 contents', { contents: 20000 }], ['$35,000 contents', { contents: 35000 }], ['$60,000 contents', { contents: 60000 }]];
+    t = by('Coverage', list);
+    t.assumptions = '$1,000 deductible, $2 million liability where applicable';
+  } else if (flow === 'travel') {
+    t = product.slug === 'super-visa-insurance'
+      ? by('Visitor age', [55, 60, 65, 70, 75, 80].map((a) => [String(a), { visitor_age: a }]))
+      : by('Traveller age', [30, 50, 65, 75].map((a) => [String(a), { age: a }]));
+    t.assumptions = product.slug === 'super-visa-insurance' ? '$100,000 coverage, $0 deductible, 12 months, no pre-existing condition coverage' : '14-day trip, emergency medical';
+  } else if (flow === 'business') {
+    t = product.slug === 'group-benefits' ? by('Team size', [3, 10, 25, 50].map((n) => [`${n} employees`, { employees: n }]))
+      : product.slug === 'contractor-insurance' ? by('Annual revenue', [100000, 250000, 500000].map((r) => [money(r), { industry: 'trades', revenue: r }]))
+        : product.slug === 'professional-liability-insurance' ? by('Annual revenue', [75000, 150000, 300000].map((r) => [money(r), { industry: 'consulting', revenue: r }]))
+          : by('Business type', ['consulting', 'retail', 'trades', 'food', 'ecommerce'].map((k) => [quoteEngine.INDUSTRY[k].label, { industry: k }]));
+    t.assumptions = product.slug === 'group-benefits' ? 'standard plan design' : '$2 million CGL';
+  }
+  if (!t) return null;
+  return { ...t, asOf: est({}).asOf };
+}
+
+let ovDates = null;
+/**
+ * Truthful "last updated" date for a programmatic page: the later of the model/data review date
+ * (Admin → Site settings) and any editor override for this URL or place. Never "today" by default.
+ */
+function contentDate(path, geoKey) {
+  if (!ovDates) ovDates = Object.fromEntries(db.all('SELECT path, updated_at FROM seo_overrides').map((r) => [r.path, String(r.updated_at || '').slice(0, 10)]));
+  const dates = [String(settings.get('estimates_reviewed_at') || '').slice(0, 10), ovDates[path]];
+  if (geoKey) { const g = geoOverride(geoKey); if (g) dates.push(String(g.updated_at || '').slice(0, 10)); }
+  return dates.filter(Boolean).sort().pop();
 }
 
 // ───────────────────────── Registry ─────────────────────────
@@ -139,29 +210,32 @@ const STATIC = [
 function allPages() {
   const pages = [];
   const today = new Date().toISOString().slice(0, 10);
-  for (const [path, priority, changefreq] of STATIC) pages.push({ path, priority, changefreq, lastmod: today, type: 'static', indexable: true });
+  const siteDate = contentDate('/') || today;
+  const latestPost = String(db.value("SELECT MAX(updated_at) FROM posts WHERE status = 'published'") || '').slice(0, 10);
+  const hubDate = [siteDate, latestPost].filter(Boolean).sort().pop();
+  for (const [path, priority, changefreq] of STATIC) pages.push({ path, priority, changefreq, lastmod: ['/', '/guides/', '/site-map/'].includes(path) ? hubDate : contentDate(path) || siteDate, type: 'static', indexable: true });
   for (const p of enabledProducts()) {
-    pages.push({ path: `/${p.slug}/`, priority: 0.9, changefreq: 'weekly', lastmod: today, type: 'product', indexable: true, title: p.name });
+    pages.push({ path: `/${p.slug}/`, priority: 0.9, changefreq: 'weekly', lastmod: contentDate(`/${p.slug}/`) || siteDate, type: 'product', indexable: true, title: p.name });
     if (p.geo === 'none') continue;
     for (const prov of geo.provinces) {
       const P = province(prov.code);
-      pages.push({ path: geoPath(p, P), priority: 0.7, changefreq: 'monthly', lastmod: today, type: 'product-province', indexable: geoIndexable(p, P), title: `${p.name} in ${P.name}` });
+      pages.push({ path: geoPath(p, P), priority: 0.7, changefreq: 'monthly', lastmod: contentDate(geoPath(p, P), prov.code) || siteDate, type: 'product-province', indexable: geoIndexable(p, P), title: `${p.name} in ${P.name}` });
       if (p.geo !== 'city') continue;
       for (const c of geo.citiesByProv[prov.code]) {
-        pages.push({ path: geoPath(p, P, c), priority: c.tier === 1 ? 0.7 : 0.5, changefreq: 'monthly', lastmod: today, type: 'product-city', indexable: geoIndexable(p, P, c), title: `${p.name} in ${c.name}, ${P.abbr}` });
+        pages.push({ path: geoPath(p, P, c), priority: c.tier === 1 ? 0.7 : 0.5, changefreq: 'monthly', lastmod: contentDate(geoPath(p, P, c), `${prov.code}/${c.slug}`) || siteDate, type: 'product-city', indexable: geoIndexable(p, P, c), title: `${p.name} in ${c.name}, ${P.abbr}` });
       }
     }
   }
-  // The Rate Index is noindex (and out of the sitemap) until at least one cell meets the minimum sample.
+  // The Rate Index is noindex (and out of the sitemap) until at least one cell meets the minimum sample; it is recomputed from live data, so today is its true date.
   pages.push({ path: '/insights/rate-index/', priority: 0.7, changefreq: 'weekly', lastmod: today, type: 'static', indexable: rateIndexRows().length > 0, title: 'Instasure Rate Index' });
   for (const prov of geo.provinces) {
-    pages.push({ path: `/insurance/${prov.slug}/`, priority: 0.6, changefreq: 'monthly', lastmod: today, type: 'geo-hub', indexable: true, title: `Insurance in ${prov.name}` });
-    for (const c of geo.citiesByProv[prov.code]) pages.push({ path: `/insurance/${prov.slug}/${c.slug}/`, priority: 0.5, changefreq: 'monthly', lastmod: today, type: 'geo-hub', indexable: cityHubIndexable(c), title: `Insurance in ${c.name}` });
+    pages.push({ path: `/insurance/${prov.slug}/`, priority: 0.6, changefreq: 'monthly', lastmod: contentDate(`/insurance/${prov.slug}/`, prov.code) || siteDate, type: 'geo-hub', indexable: true, title: `Insurance in ${prov.name}` });
+    for (const c of geo.citiesByProv[prov.code]) pages.push({ path: `/insurance/${prov.slug}/${c.slug}/`, priority: 0.5, changefreq: 'monthly', lastmod: contentDate(`/insurance/${prov.slug}/${c.slug}/`, `${prov.code}/${c.slug}`) || siteDate, type: 'geo-hub', indexable: cityHubIndexable(c), title: `Insurance in ${c.name}` });
   }
   for (const post of db.all("SELECT slug, title, updated_at, published_at, robots FROM posts WHERE status = 'published' ORDER BY published_at DESC")) {
     pages.push({ path: `/guides/${post.slug}/`, priority: 0.7, changefreq: 'monthly', lastmod: String(post.updated_at || post.published_at).slice(0, 10), type: 'guide', indexable: !/noindex/.test(post.robots || ''), title: post.title });
   }
-  for (const cat of db.all('SELECT slug, name FROM categories ORDER BY sort')) pages.push({ path: `/guides/category/${cat.slug}/`, priority: 0.5, changefreq: 'weekly', lastmod: today, type: 'category', indexable: true, title: cat.name });
+  for (const cat of db.all('SELECT slug, name FROM categories ORDER BY sort')) pages.push({ path: `/guides/category/${cat.slug}/`, priority: 0.5, changefreq: 'weekly', lastmod: hubDate, type: 'category', indexable: true, title: cat.name });
   for (const a of db.all('SELECT slug, name, updated_at, is_demo FROM advisors WHERE active = 1')) pages.push({ path: `/advisors/${a.slug}/`, priority: 0.5, changefreq: 'monthly', lastmod: String(a.updated_at).slice(0, 10), type: 'advisor', indexable: !a.is_demo, title: a.name });
   // Admin robots overrides apply to the sitemap too.
   const robotsOv = Object.fromEntries(db.all("SELECT path, robots FROM seo_overrides WHERE robots IS NOT NULL AND robots != ''").map((r) => [r.path, r.robots]));
@@ -198,4 +272,4 @@ function rateIndexRows() {
 
 function serviceable(code) { return (settings.get('serviceable_provinces') || []).includes(code); }
 
-module.exports = { enabledProducts, getProduct, isEnabled, province, city, geoPath, geoIndexable, cityHubIndexable, geoContent, localFaq, allPages, invalidate, serviceable, rateIndexRows, RATE_INDEX_MIN };
+module.exports = { regulatorName, enabledProducts, getProduct, isEnabled, province, city, geoPath, geoIndexable, cityHubIndexable, geoContent, localFaq, exampleTable, contentDate, allPages, invalidate, serviceable, rateIndexRows, RATE_INDEX_MIN };

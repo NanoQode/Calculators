@@ -4,6 +4,7 @@ A Canada-wide insurance lead-generation site: instant answers, instant estimates
 
 - **Strategy:** [`docs/STRATEGY.md`](docs/STRATEGY.md) covers brand positioning, the competitor correlation map and niche gaps, page hierarchy, title and meta templates, the content and data plan, and the roadmap.
 - **Keywords:** [`docs/KEYWORDS.md`](docs/KEYWORDS.md) lists city, provincial and Canada-wide keywords sorted by volume, each with its target page ([`keywords.csv`](docs/keywords.csv) has the same data).
+- **Competitor site review:** [`docs/SITE_REVIEW.md`](docs/SITE_REVIEW.md) covers the direct crawl of competitor sitemaps, metadata and schema, and what changed as a result.
 - **Before launch:** [`docs/CONTENT_REVIEW.md`](docs/CONTENT_REVIEW.md) lists licensing, trust claims, facts to verify and consent settings.
 
 ## Quick start
@@ -20,7 +21,7 @@ npm start            # http://localhost:3000, admin at /admin
 On first start the app creates `data/instasure.db` and seeds:
 - the admin user, from `ADMIN_EMAIL` and `ADMIN_PASSWORD`, or with a random password printed once to the console;
 - scoring rules, 7 drip campaigns, guide categories and 18 launch guides;
-- 688 target keywords;
+- 695 target keywords;
 - 4 **sample advisors**, flagged as demo and noindexed. Replace them before launch.
 
 Copy `.env.example` to `.env` for production settings. `SESSION_SECRET`, `TRACKING_SECRET` and `SITE_URL` are required in production.

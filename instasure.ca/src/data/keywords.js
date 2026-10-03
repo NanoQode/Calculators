@@ -32,8 +32,9 @@
  * target_path is a page that exists today. A null target_path means the page is not built yet;
  *   the planned URL is in `notes`. Unmapped rows are the content backlog (Admin → SEO counts them).
  *
- * Competitor coverage comes from the October 2026 SERP research. It records which competitors had
- *   a dedicated page in search results, so it understates coverage where the search budget ran out.
+ * Competitor coverage: Ratehub, PolicyAdvisor and Sonnet come from their complete XML sitemaps (October 2026,
+ *   fetched directly). Rates.ca, Sun Life and Manulife block automated page requests, so their coverage comes from
+ *   search results and, for Rates.ca, its llms.txt. Details: docs/SITE_REVIEW.md.
  */
 const geo = require('./geo');
 const { products } = require('./products');
@@ -47,20 +48,25 @@ const PUBLIC_AUTO = new Set(['bc', 'mb', 'sk']);
 // ─────────────────────────────────────────────────────────────────────────────
 const SEEN = {
   car: {
+    // Ratehub, Sonnet: complete, from their XML sitemaps (October 2026). Rates.ca: search results only (its pages block automated access).
+    ratehub: 'abbotsford barrie brampton brantford burlington calgary edmonton fort-mcmurray fredericton grande-prairie guelph halifax hamilton kelowna kingston kitchener lethbridge london markham medicine-hat mississauga moncton montreal oakville oshawa ottawa peterborough red-deer regina saint-john saskatoon st-johns sudbury thunder-bay toronto vancouver victoria waterloo windsor winnipeg',
     'rates.ca': 'toronto mississauga brampton vaughan markham richmond-hill oakville burlington milton pickering ajax whitby oshawa hamilton st-catharines kitchener cambridge guelph london windsor barrie kingston sudbury thunder-bay ottawa calgary edmonton vancouver',
-    ratehub: 'toronto mississauga brampton markham oakville burlington oshawa hamilton kitchener waterloo guelph london windsor barrie kingston sudbury thunder-bay ottawa calgary edmonton red-deer lethbridge vancouver montreal winnipeg regina saskatoon halifax fredericton moncton saint-john st-johns',
-    sonnet: 'toronto ottawa hamilton mississauga barrie quebec-city laval',
+    sonnet: 'toronto ottawa hamilton mississauga barrie st-catharines thunder-bay montreal',
     'mychoice/squareone/thinkinsure': 'toronto brampton mississauga ottawa hamilton',
   },
   home: {
-    ratehub: 'toronto brampton mississauga hamilton windsor calgary edmonton vancouver winnipeg',
+    ratehub: 'toronto brampton mississauga hamilton windsor calgary edmonton vancouver burnaby victoria winnipeg regina saskatoon halifax fredericton moncton st-johns montreal',
     'rates.ca': 'toronto brampton mississauga ottawa hamilton oshawa st-catharines cambridge waterloo windsor calgary edmonton',
-    sonnet: 'calgary edmonton montreal laval',
+    sonnet: 'calgary edmonton vancouver ottawa laval quebec-city',
     'local brokers (#1)': 'toronto brampton ottawa',
   },
-  condo: { 'rates.ca': 'toronto ottawa vancouver calgary edmonton' },
-  tenant: { ratehub: 'toronto calgary edmonton', 'rates.ca': 'toronto mississauga vancouver calgary edmonton' },
-  life: { 'policyadvisor (stale 2024/25 titles)': 'toronto ottawa mississauga brampton hamilton vancouver' },
+  condo: { 'rates.ca': 'toronto ottawa vancouver calgary edmonton', sonnet: 'toronto mississauga calgary' },
+  tenant: { ratehub: 'toronto calgary edmonton', 'rates.ca': 'toronto mississauga vancouver calgary edmonton', sonnet: 'toronto mississauga ottawa calgary edmonton vancouver surrey montreal laval quebec-city' },
+  life: {
+    // PolicyAdvisor's sitemap also lists Calgary, but that URL returned 404 in October 2026.
+    'policyadvisor (stale 2025 titles)': 'toronto ottawa mississauga brampton hamilton windsor scarborough vancouver edmonton',
+    'ratehub (thin)': 'toronto mississauga calgary edmonton montreal winnipeg',
+  },
 };
 const PRODUCT_SEEN_KEY = { 'car-insurance': 'car', 'home-insurance': 'home', 'condo-insurance': 'condo', 'tenant-insurance': 'tenant', 'life-insurance': 'life' };
 function competitorsFor(product, citySlug) {
@@ -123,9 +129,9 @@ const NATIONAL = [
   ['term life insurance', 'term-life-insurance', 6600, 70, 'commercial', 'life-core', `${PA}, ${SL}, ${RH}, policyme`, '/term-life-insurance/', 1],
   ['whole life insurance', 'whole-life-insurance', 5400, 70, 'commercial', 'life-core', `${PA}, ${SL}, ${RH}`, '/whole-life-insurance/', 1],
   ['life insurance quotes', 'life-insurance', 4400, 70, 'transactional', 'life-core', `${PA} ("instantly"), policyme, ${RH}, ${SL}`, '/quote/life-insurance/', 1, 'Money term: instant estimate, then a licensed advisor.'],
-  ['life insurance calculator', 'life-insurance', 2400, 60, 'transactional', 'life-tools', `${SL}, policyme, hardbacon`, '/calculators/life-insurance-needs/', 1],
+  ['life insurance calculator', 'life-insurance', 2400, 60, 'transactional', 'life-tools', `${SL}, ${PA} (standalone), policyme, hardbacon`, '/calculators/life-insurance-needs/', 1],
   ['best life insurance companies canada', 'life-insurance', 2400, 65, 'commercial', 'life-reviews', `${PA}, wealthnorth, hellosafe`, null, 2, 'Planned: /life-insurance/best-companies/. Publish the methodology first.'],
-  ['mortgage life insurance', 'mortgage-life-insurance', 2400, 55, 'commercial', 'life-mortgage', `${PA}, ${RH}, policyme, banks`, '/mortgage-life-insurance/', 1, 'About 1.15M mortgage renewals in 2026 (CMHC via MPA, verify).'],
+  ['mortgage life insurance', 'mortgage-life-insurance', 2400, 55, 'commercial', 'life-mortgage', `${PA} (9 pages), ${RH}, policyme, banks`, '/mortgage-life-insurance/', 1, 'About 1.15M mortgage renewals in 2026 (CMHC via MPA, verify).'],
   ['how much life insurance do i need', 'life-insurance', 1900, 55, 'informational', 'life-tools', `policyme, ${RH}, ${PA}`, '/calculators/life-insurance-needs/', 1, 'Guide twin: /guides/how-much-life-insurance-do-i-need-canada/.'],
   ['term vs whole life insurance', 'term-life-insurance', 1900, 50, 'informational', 'life-compare', `${PA}, ${SL}, ${RH}`, '/guides/term-vs-whole-life-insurance-canada/', 1],
   ['how much does life insurance cost', 'life-insurance', 1600, 55, 'informational', 'life-cost', `${PA}, policyme, ${SL} (rates pages)`, '/guides/how-much-does-life-insurance-cost-canada/', 1],
@@ -146,7 +152,7 @@ const NATIONAL = [
   ['life insurance for newcomers to canada', 'life-insurance', 480, 30, 'commercial', 'life-audience', `${PA}, mychoice, iA`, '/guides/life-insurance-for-newcomers-to-canada/', 1, 'Underserved and high converting. Planned translations: Punjabi, Hindi, Mandarin, Tagalog.'],
   ['life insurance for smokers', 'life-insurance', 390, 35, 'commercial', 'life-conditions', PA, null, 3, 'Planned: /life-insurance/conditions/smokers/.'],
   ['500000 life insurance cost', 'term-life-insurance', 390, 35, 'informational', 'life-cost', PA, '/guides/how-much-does-life-insurance-cost-canada/', 2],
-  ['sun life vs manulife', 'life-insurance', 390, 30, 'commercial', 'life-reviews', PA, null, 3, 'Planned: /compare/sun-life-vs-manulife-term-life/.'],
+  ['sun life vs manulife', 'life-insurance', 390, 45, 'commercial', 'life-reviews', `${PA} (15 programmatic term-life head-to-heads)`, null, 4, 'PolicyAdvisor already runs 15 carrier-pair pages. Compete on P&C head-to-heads first (no competitor has them).'],
   ['1 million life insurance cost', 'term-life-insurance', 320, 35, 'informational', 'life-cost', PA, '/guides/how-much-does-life-insurance-cost-canada/', 2],
   ['life insurance for diabetics', 'life-insurance', 320, 30, 'commercial', 'life-conditions', PA, null, 3, 'Planned conditions hub: /life-insurance/conditions/{condition}/.'],
   ['life insurance work permit canada', 'life-insurance', 260, 20, 'commercial', 'life-audience', `${PA}, yahoo finance`, '/guides/life-insurance-for-newcomers-to-canada/', 1],
@@ -158,7 +164,7 @@ const NATIONAL = [
   ['long term disability insurance', 'disability-insurance', 2900, 55, 'informational', 'living-benefits', PA, '/disability-insurance/', 3, 'Much of the volume is about group or claims; qualify carefully.'],
   ['private health insurance canada', 'health-dental-insurance', 2900, 60, 'commercial', 'health-dental', `${PA}, ${SL}, ${ML}, blue cross`, '/health-dental-insurance/', 2],
   ['health and dental insurance', 'health-dental-insurance', 2400, 55, 'commercial', 'health-dental', `${PA}, ${SL}, blue cross`, '/health-dental-insurance/', 1],
-  ['critical illness insurance cost', 'critical-illness-insurance', 880, 45, 'informational', 'living-benefits', `${PA}, policyme`, '/critical-illness-insurance/', 1],
+  ['critical illness insurance cost', 'critical-illness-insurance', 880, 45, 'informational', 'living-benefits', `${PA} (cost page + calculator), ${RH} (age table), policyme`, '/critical-illness-insurance/', 1],
   ['canadian dental care plan vs private insurance', 'health-dental-insurance', 720, 25, 'informational', 'health-dental', 'dental clinics (weak)', '/guides/private-dental-insurance-vs-cdcp/', 1, 'Weak SERP. CDCP opened to adults 18 to 64 in 2026.'],
   ['disability insurance for self employed', 'disability-insurance', 590, 35, 'commercial', 'living-benefits', PA, '/disability-insurance/', 1, 'Tie-in with the Ontario income-replacement opt-out.'],
   ['health insurance for self employed', 'health-dental-insurance', 590, 35, 'commercial', 'health-dental', PA, '/health-dental-insurance/', 2],
@@ -166,7 +172,7 @@ const NATIONAL = [
   ['critical illness vs disability insurance', 'critical-illness-insurance', 390, 35, 'informational', 'living-benefits', `${PA}, ${SL}`, '/guides/critical-illness-vs-disability-insurance/', 1],
   // Travel
   ['travel insurance', 'travel-insurance', 40000, 80, 'commercial', 'travel', `${SL}, ${ML}, credit cards, ${RH}`, '/travel-insurance/', 3, 'Huge but low lead value. Capture through super visa, snowbird and visitors.'],
-  ['super visa insurance', 'super-visa-insurance', 9900, 55, 'transactional', 'travel-visitors', `${PA}, hellosafe, bestquote, coverme, rbc`, '/super-visa-insurance/', 1, 'Mandatory purchase with high intent and a strong newcomer-community fit.'],
+  ['super visa insurance', 'super-visa-insurance', 9900, 55, 'transactional', 'travel-visitors', `${PA} (38 visitor pages incl. insurer reviews), ${RH}, hellosafe, bestquote, coverme`, '/super-visa-insurance/', 1, 'Mandatory purchase with high intent and a strong newcomer-community fit.'],
   ['visitors insurance canada', 'travel-insurance', 4400, 55, 'transactional', 'travel-visitors', `${RH}, ${RC}, ${PA}, ${SL}`, '/super-visa-insurance/', 2, 'Planned: dedicated /travel-insurance/visitors-to-canada/.'],
   ['super visa insurance cost', 'super-visa-insurance', 1600, 40, 'commercial', 'travel-visitors', `${PA}, hellosafe, bestquote`, '/guides/super-visa-insurance-requirements-cost/', 1],
   ['snowbird travel insurance', 'travel-insurance', 1300, 45, 'commercial', 'travel', '(not seen)', null, 3, 'Planned: /travel-insurance/snowbird/.'],
@@ -236,6 +242,15 @@ const NATIONAL = [
   ['manulife life insurance review', 'life-insurance', 480, 35, 'commercial', 'brand-reviews', PA, null, 3, 'Planned: /reviews/manulife/.'],
   ['sun life life insurance review', 'life-insurance', 390, 35, 'commercial', 'brand-reviews', PA, null, 3, 'Planned: /reviews/sun-life/.'],
   ['coverme insurance review', 'life-insurance', 320, 30, 'commercial', 'brand-reviews', PA, null, 3, 'Direct-to-consumer "instant" competitor; compare honestly.'],
+  // P&C insurer head-to-heads: Ratehub and Rates.ca publish single-insurer pages only, and PolicyAdvisor's head-to-heads are life-only.
+  ['intact vs aviva', 'car-insurance', 210, 20, 'commercial', 'brand-reviews', '(none seen)', null, 3, 'Planned: /compare/intact-vs-aviva/ (car and home), with a published comparison method.'],
+  ['td insurance vs intact', 'car-insurance', 170, 20, 'commercial', 'brand-reviews', '(none seen)', null, 3, 'Planned: /compare/td-insurance-vs-intact/.'],
+  ['belairdirect vs td insurance', 'car-insurance', 140, 15, 'commercial', 'brand-reviews', '(none seen)', null, 3, 'Planned: /compare/belairdirect-vs-td-insurance/.'],
+  ['sonnet vs belairdirect', 'car-insurance', 90, 15, 'commercial', 'brand-reviews', 'youset (blog)', null, 4, 'Planned: /compare/sonnet-vs-belairdirect/.'],
+  // Rate-change trackers: Rates.ca covers Ontario and Alberta only.
+  ['car insurance rate increase by company ontario', 'car-insurance', 390, 45, 'informational', 'auto-data', 'rates.ca (Ontario rate tracker)', null, 4, 'Rates.ca owns this with a quarterly FSRA-based tracker. Link to FSRA rather than duplicate.'],
+  ['nova scotia car insurance rate increase', 'car-insurance', 210, 15, 'informational', 'auto-data', '(none seen)', null, 2, 'Planned: Atlantic rate-decision tracker (NS UARB, NB Insurance Board, NL PUB, PEI IRAC). No competitor covers Atlantic rate filings; verify each board publishes decisions.'],
+  ['new brunswick car insurance rate increase', 'car-insurance', 140, 15, 'informational', 'auto-data', '(none seen)', null, 3, 'Same Atlantic tracker.'],
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -336,7 +351,7 @@ function difficultyLocal(product, base, c, comps) {
   return clamp(d, 5, 90);
 }
 function gapFactor(comps) {
-  if (comps.some((x) => /stale/.test(x))) return 1.3;
+  if (comps.some((x) => /stale|thin/.test(x))) return 1.3;
   return comps.length === 0 ? 1.5 : comps.length === 1 ? 1.2 : comps.length === 2 ? 1 : 0.8;
 }
 
@@ -403,7 +418,7 @@ function build() {
       if (!indexable) notes.push('Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).');
       if (publicAuto) notes.push(`${p.auto.publicInsurer} sells basic auto; target optional coverage. Low lead value.`);
       if (c.prov === 'qc') notes.push('Quebec waitlist until AMF registration.');
-      if (comps.some((x) => /stale/.test(x))) notes.push('Competitor city page carries a stale year in its title: freshness opening.');
+      if (comps.some((x) => /stale|thin/.test(x))) notes.push('Competitor city pages here are thin or carry stale dates (October 2026 review): freshness opening.');
       const k = {
         keyword: `${term} ${phrase}`, level: 'local', product, province: c.prov, city: c.slug,
         volume, volume_source: 'model', difficulty, intent: 'local', cluster,

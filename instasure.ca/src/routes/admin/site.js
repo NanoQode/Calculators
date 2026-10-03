@@ -38,6 +38,7 @@ router.post('/settings', auth.requireRole('admin'), (req, res) => {
     quiet_hours: { start: Math.min(23, Math.max(0, Number(b.quiet_start) || 8)), end: Math.min(24, Math.max(1, Number(b.quiet_end) || 20)) },
     advisor_response_hours: Number(b.advisor_response_hours) || 0, announcement: b.announcement, analytics_cookie_banner: b.analytics_cookie_banner === 'on',
     default_og_image: b.default_og_image,
+    estimates_reviewed_at: /^\d{4}-\d{2}-\d{2}$/.test(String(b.estimates_reviewed_at || '')) ? b.estimates_reviewed_at : settings.get('estimates_reviewed_at'),
   };
   if (patch.rating_value && !patch.rating_source) return res.redirect(303, '/admin/settings?_err=' + encodeURIComponent('A public rating needs a named, verifiable source (e.g. Google reviews).'));
   settings.setMany(patch);

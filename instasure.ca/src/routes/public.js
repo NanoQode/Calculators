@@ -451,7 +451,7 @@ router.get('/insurance/:province/', (req, res, next) => {
       path: p, title: `Insurance in ${prov.name}: Life, Home, Car & Business Coverage`,
       description: `How insurance works in ${prov.name}: ${prov.auto.label.toLowerCase()}, regulator (${prov.regulator.short}), local risks and licensed advisors. Get instant estimates for every type of coverage.`,
       breadcrumbs: [HOME, { name: 'Insurance by province', url: '/insurance/' }, { name: prov.name, url: p }],
-      jsonld: [seo.webPage({ path: p, name: `Insurance in ${prov.name}`, about: seo.areaFor(prov) }), seo.faqPage(faq, p)],
+      jsonld: [seo.webPage({ path: p, name: `Insurance in ${prov.name}`, about: seo.areaFor(prov), modified: pages.contentDate(p, prov.code) }), seo.faqPage(faq, p)],
     }),
   });
 });
@@ -476,7 +476,7 @@ router.get('/insurance/:province/:city/', (req, res, next) => {
       description: `Insurance in ${c.name}: instant estimates for car, home, tenant, life and business coverage, local risk factors, and advisors licensed in ${prov.name}.`,
       robots: pages.cityHubIndexable(c) ? undefined : 'noindex,follow',
       breadcrumbs: [HOME, { name: 'Insurance by province', url: '/insurance/' }, { name: prov.name, url: `/insurance/${prov.slug}/` }, { name: c.name, url: p }],
-      jsonld: [seo.webPage({ path: p, name: `Insurance in ${c.name}`, about: seo.areaFor(prov, c) }), seo.faqPage(faq, p)],
+      jsonld: [seo.webPage({ path: p, name: `Insurance in ${c.name}`, about: seo.areaFor(prov, c), modified: pages.contentDate(p, `${prov.code}/${c.slug}`) }), seo.faqPage(faq, p)],
     }),
   });
 });
@@ -489,8 +489,9 @@ router.get('/:product/', (req, res, next) => {
   const ov = seo.getOverride(p) || {};
   const faq = [...product.faq, ...(ov.faq || [])];
   const topCities = product.geo === 'city' ? geo.cities.filter((c) => c.tier === 1).sort((a, b) => b.pop - a.pop).slice(0, 18) : [];
+  const updated = pages.contentDate(p);
   res.page('public/product', {
-    pageType: 'product', sectionLabel: product.short, product, faq, topCities,
+    pageType: 'product', sectionLabel: product.short, product, faq, topCities, updated,
     from: quoteEngine.fromPrice(product.slug), widget: widgetSingle(product.slug),
     intro: ov.intro_md ? md.render(ov.intro_md).html : null, h1: ov.h1 || product.h1,
     related: product.related.map((s) => pages.getProduct(s)).filter(Boolean),
@@ -500,7 +501,7 @@ router.get('/:product/', (req, res, next) => {
       path: p, title: `${product.h1.split(':')[0]} (${new Date().getFullYear()})`,
       description: `${product.tagline} Instant ${product.name.toLowerCase()} estimates for every province, plain-language guidance and licensed advisors.`,
       breadcrumbs: [HOME, { name: product.name, url: p }],
-      jsonld: [seo.webPage({ path: p, name: product.name, description: product.tagline }), seo.financialProduct(product, { path: p }), seo.faqPage(faq, p)],
+      jsonld: [seo.webPage({ path: p, name: product.name, description: product.tagline, modified: updated }), seo.financialProduct(product, { path: p }), seo.faqPage(faq, p)],
     }),
   });
 });
@@ -515,8 +516,10 @@ function renderGeo(req, res, next, product, prov, c) {
   const year = new Date().getFullYear();
   const crumbs = [HOME, { name: product.name, url: `/${product.slug}/` }, { name: prov.name, url: pages.geoPath(product, prov) }];
   if (c) crumbs.push({ name: c.name, url: p });
+  const updated = pages.contentDate(p, c ? `${prov.code}/${c.slug}` : prov.code);
+  const advice = pages.serviceable(prov.code) ? `advisors licensed in ${prov.name}` : `a waitlist for licensed advice in ${prov.name}`;
   res.page('public/product-geo', {
-    pageType: 'product-geo', sectionLabel: `${product.short} · ${c ? c.name : prov.abbr}`, product, prov, city: c, content, faq, where,
+    pageType: 'product-geo', sectionLabel: `${product.short} · ${c ? c.name : prov.abbr}`, product, prov, city: c, content, faq, where, updated,
     serviceable: pages.serviceable(prov.code),
     intro: ov.intro_md ? md.render(ov.intro_md).html : null, h1: ov.h1 || `${product.name} in ${where}`,
     otherProducts: pages.enabledProducts().filter((x) => x.slug !== product.slug && x.geo === (c ? 'city' : x.geo) && (c ? x.geo === 'city' : x.geo !== 'none')).slice(0, 8),
@@ -528,11 +531,11 @@ function renderGeo(req, res, next, product, prov, c) {
       path: p,
       title: c ? `${product.name} ${c.name}, ${prov.abbr}: Compare Quotes & Costs (${year})` : `${product.name} in ${prov.name}: Costs, Rules & Quotes (${year})`,
       description: c
-        ? `Compare ${product.name.toLowerCase()} in ${where}: instant estimate (${U.money(content.estimate.low, { cents: content.estimate.low < 100 })}–${U.money(content.estimate.high, { cents: content.estimate.high < 100 })}${content.estimate.periodLabel} example), local risk factors and advisors licensed in ${prov.name}.`
-        : `${product.name} in ${prov.name}: how it works under ${prov.regulator.short}, what drives price, instant estimates and advisors licensed in ${prov.name}.`,
+        ? `Compare ${product.name.toLowerCase()} in ${where}: instant estimate (${U.money(content.estimate.low, { cents: content.estimate.low < 100 })}–${U.money(content.estimate.high, { cents: content.estimate.high < 100 })}${content.estimate.periodLabel} example), ${content.risks.length ? 'local risk factors' : `example prices by ${content.examples ? content.examples.cols[0].toLowerCase() : 'profile'}`} and ${advice}.`
+        : `${product.name} in ${prov.name}: how it works under ${pages.regulatorName(prov)}, what drives price, instant estimates and ${advice}.`,
       robots: indexable ? undefined : 'noindex,follow',
       breadcrumbs: crumbs,
-      jsonld: [seo.webPage({ path: p, name: `${product.name} in ${where}`, about: seo.areaFor(prov, c) }), seo.financialProduct(product, { path: p, province: prov, city: c }), seo.faqPage(faq, p)],
+      jsonld: [seo.webPage({ path: p, name: `${product.name} in ${where}`, about: seo.areaFor(prov, c), modified: updated }), seo.financialProduct(product, { path: p, province: prov, city: c }), seo.faqPage(faq, p)],
     }),
   });
 }

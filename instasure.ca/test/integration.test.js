@@ -30,6 +30,25 @@ test('public pages render with canonical, meta description and valid JSON-LD', a
   }
 });
 
+test('province and city pages show a dated example-estimates table and declare dateModified', async () => {
+  const req = client();
+  for (const p of ['/car-insurance/ontario/brampton/', '/life-insurance/ontario/', '/super-visa-insurance/ontario/brampton/']) {
+    const html = await (await req(p)).text();
+    assert.match(html, /id="examples-h"/, `${p} example table`);
+    assert.match(html, /<table[\s\S]*<th scope="row"/, `${p} table rows`);
+    assert.match(html, /Updated <time datetime="\d{4}-\d{2}-\d{2}">/, `${p} visible date`);
+    const page = jsonLd(html)['@graph'].find((n) => n['@type'] === 'WebPage');
+    assert.ok(page && page.dateModified, `${p} dateModified`);
+  }
+  const life = await (await req('/life-insurance/ontario/toronto/')).text();
+  assert.doesNotMatch(life, /Local risk factors/, 'life pages are not priced on local P&C risks');
+  const qc = await (await req('/car-insurance/quebec/montreal/')).text();
+  assert.doesNotMatch(qc, /French pages are required|advisors licensed in Quebec/, 'no internal notes or advisor promises in waitlisted provinces');
+  const llms = await (await req('/llms.txt')).text();
+  assert.match(llms, /## Scope/);
+  assert.match(llms, /does not underwrite/);
+});
+
 test('a published guide has Article schema, FAQ and is in the sitemap and llms.txt', async () => {
   const req = client();
   const slug = db.value("SELECT slug FROM posts WHERE status = 'published' ORDER BY id LIMIT 1");
@@ -39,6 +58,10 @@ test('a published guide has Article schema, FAQ and is in the sitemap and llms.t
   assert.ok(graph.some((n) => n['@type'] === 'FAQPage'));
   const sm = await (await req('/sitemap-guides.xml')).text();
   assert.ok(sm.includes(`/guides/${slug}/`));
+  const life = await (await req('/life-insurance/ontario/toronto/')).text();
+  assert.doesNotMatch(life, /Local risk factors/, 'life pages are not priced on local P&C risks');
+  const qc = await (await req('/car-insurance/quebec/montreal/')).text();
+  assert.doesNotMatch(qc, /French pages are required|advisors licensed in Quebec/, 'no internal notes or advisor promises in waitlisted provinces');
   const llms = await (await req('/llms.txt')).text();
   assert.ok(llms.includes(`/guides/${slug}/`));
   const mdTwin = await req(`/guides/${slug}.md`);

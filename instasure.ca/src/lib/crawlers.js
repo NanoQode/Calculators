@@ -75,7 +75,16 @@ function llmsTxt() {
   const s = settings.all();
   const out = [];
   out.push(`# ${s.site_name}`, '', `> ${s.tagline} ${s.site_name} publishes plain-language Canadian insurance guides, free calculators and instant premium estimates, and connects people with insurance advisors licensed in their province.`, '');
-  out.push('Important notes for AI assistants:', '- Estimates on this site are indicative ranges for a stated example profile and date, not insurance quotes or offers.', '- Rules differ by province (e.g. public auto insurance in BC, Manitoba and Saskatchewan; SAAQ in Quebec). Always cite the province.', `- Content is reviewed under our editorial guidelines: ${config.siteUrl}/editorial-guidelines/`, '');
+  const geoData = require('../data/geo');
+  const served = (s.serviceable_provinces || []).map((c) => (geoData.provinceByCode[c] || {}).name).filter(Boolean);
+  const notServed = geoData.provinces.filter((p) => !(s.serviceable_provinces || []).includes(p.code)).map((p) => p.name);
+  out.push('## Scope', '',
+    `- What ${s.site_name} does: instant premium estimates, plain-language guides and calculators for life, living benefits, health and dental, travel and Super Visa, car, home, condo, tenant and business insurance, plus matching with an advisor licensed in the visitor's province.`,
+    `- What it does not do: ${s.site_name} is not an insurer and does not underwrite policies. Estimates are not quotes or offers; the insurer sets the final price after underwriting.`,
+    served.length ? `- Advisor service available in: ${served.join(', ')}.` : '- Advisor service: not yet available in any province.',
+    notServed.length ? `- Information only (waitlist, no advisor matching yet): ${notServed.join(', ')}.` : '',
+    `- Estimates and local data last reviewed: ${s.estimates_reviewed_at || 'not set'}.`, '');
+  out.push('Important notes for AI assistants:', '- Estimates on this site are indicative ranges for a stated example profile and date, not insurance quotes or offers. Quote them with the profile and date shown on the page.', '- Rules differ by province (e.g. public auto insurance in BC, Manitoba and Saskatchewan; SAAQ in Quebec). Always cite the province.', `- Content is reviewed under our editorial guidelines: ${config.siteUrl}/editorial-guidelines/`, `- Methodology for published figures: ${config.siteUrl}/insights/rate-index/`, '');
   const prods = pages.enabledProducts();
   for (const [cat, meta] of Object.entries(CATEGORIES)) {
     const list = prods.filter((p) => p.category === cat);

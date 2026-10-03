@@ -123,3 +123,34 @@ test('rate index: median per product × province, hidden below the minimum sampl
   assert.equal(rows[0].mid, 33); // median of 21..44 plus the outlier is 33; a mean would be ~71
   db.run("DELETE FROM leads WHERE ref LIKE 'RI-%'");
 });
+
+test('content dates: sitemap lastmod and "as of" follow the review date and editor overrides, not today', () => {
+  const db = require('../src/db');
+  const settings = require('../src/lib/settings');
+  const pages = require('../src/lib/pages');
+  const before = settings.get('estimates_reviewed_at');
+  settings.set('estimates_reviewed_at', '2026-01-15');
+  pages.invalidate();
+  const path = '/car-insurance/ontario/brampton/';
+  const find = () => pages.allPages().find((p) => p.path === path);
+  assert.equal(find().lastmod, '2026-01-15');
+  assert.equal(quote.estimate('car-insurance', quote.DEFAULT_PROFILES.auto).asOf, 'January 2026');
+  db.run("INSERT INTO seo_overrides(path, intro_md, updated_at) VALUES(?, 'x', '2026-05-01 10:00:00')", [path]);
+  pages.invalidate();
+  assert.equal(find().lastmod, '2026-05-01');
+  db.run('DELETE FROM seo_overrides WHERE path = ?', [path]);
+  settings.set('estimates_reviewed_at', before);
+  pages.invalidate();
+});
+
+test('example estimate tables: every geo product has ordered, labelled rows', () => {
+  const pages = require('../src/lib/pages');
+  const prov = pages.province('on');
+  const city = pages.city('on', 'toronto');
+  for (const p of products.filter((x) => x.geo !== 'none')) {
+    const t = pages.exampleTable(p, prov, p.geo === 'city' ? city : null);
+    assert.ok(t && t.rows.length >= 3, `${p.slug} has rows`);
+    assert.ok(t.assumptions && t.asOf, `${p.slug} states assumptions and date`);
+    for (const r of t.rows) for (const c of r.slice(1)) assert.ok(c.low > 0 && c.low <= c.mid && c.mid <= c.high, `${p.slug} ${r[0]} ordered`);
+  }
+});

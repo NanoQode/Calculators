@@ -47,6 +47,8 @@ const DEFAULTS = {
   default_og_image: '/img/og-default.png',
   advisor_response_hours: 2,
   instant_policy_products: [],
+  // Date the estimate model and programmatic page data were last reviewed. Drives "as of" lines, dateModified and sitemap lastmod.
+  estimates_reviewed_at: '2026-10-03',
   analytics_cookie_banner: true,
   french_enabled: false,
 };
