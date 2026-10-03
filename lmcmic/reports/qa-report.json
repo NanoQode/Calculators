@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-03T15:46:33Z",
+ "generated": "2026-10-03T16:10:11Z",
  "articles": [
   {
    "id": 1,
@@ -6045,11 +6045,36 @@
   }
  ],
  "manual_checks": [
-  "K4 regulatory claims verified at source today",
-  "K10 calculations recomputed by a second person",
-  "K12 external links resolve (live check)",
-  "K13 featured image commissioned to Tab 2 spec",
-  "K17 tax/regulatory sign-off by qualified reviewer"
+  {
+   "id": "K4",
+   "label": "Regulatory claims verified at source",
+   "status": "Signed off",
+   "note": "Signed off — legal review completed 3 October 2026 (confirmed by Lendmax Capital)"
+  },
+  {
+   "id": "K17",
+   "label": "Tax / regulatory sign-off by qualified reviewer",
+   "status": "Signed off",
+   "note": "Signed off — legal review completed 3 October 2026 (confirmed by Lendmax Capital)"
+  },
+  {
+   "id": "K10",
+   "label": "Calculations recomputed by a second person",
+   "status": "Pending",
+   "note": "Every worked example was recomputed by its writer with a script; a second person's check is still to be recorded."
+  },
+  {
+   "id": "K12",
+   "label": "External links resolve (live check)",
+   "status": "Pending",
+   "note": "Not yet run"
+  },
+  {
+   "id": "K13",
+   "label": "Featured image to Tab 2 spec",
+   "status": "Partly met",
+   "note": "lendmaxcapital.ca publishes one photograph and four partner logos; they are used on the core pages. Articles use generated title cards until more photography is supplied."
+  }
  ],
  "keywords": [
   {

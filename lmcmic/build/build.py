@@ -149,6 +149,10 @@ TARGET_PAGE_ARTICLE = {
 
 env = Environment(loader=FileSystemLoader(ROOT / "templates"), autoescape=select_autoescape(["html"]),
                   trim_blocks=True, lstrip_blocks=True)
+IMAGES = json.loads((ROOT / "content/images.json").read_text())
+env.globals["images"] = IMAGES
+# Pages that show a photo, for the image sitemap.
+IMAGE_PAGES = {"/": ["driving-results"], "/performance-and-risk/": ["driving-results"], "/contact/": ["driving-results"]}
 env.filters["tojson_ld"] = lambda o: Markup(json.dumps(o, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/"))
 
 
@@ -618,11 +622,15 @@ def write_crawl_files():
         if url == "/":
             extra = (f"<video:video><video:thumbnail_loc>https://i.ytimg.com/vi/{v['id']}/hqdefault.jpg</video:thumbnail_loc>"
                      f"<video:title>{html.escape(v['title'])}</video:title><video:description>{html.escape(v['description'])}</video:description>"
-                     f"<video:player_loc>https://www.youtube-nocookie.com/embed/{v['id']}</video:player_loc></video:video>")
+                     f"<video:player_loc>https://www.youtube-nocookie.com/embed/{v['id']}</video:player_loc>"
+                     + (f"<video:publication_date>{v['upload_date']}</video:publication_date>" if v.get("upload_date") else "")
+                     + "</video:video>")
+        img_ids = IMAGE_PAGES.get(url, [])
+        extra += "".join(f"<image:image><image:loc>{DOMAIN}/assets/img/{i}-{min(IMAGES['photos'][i]['widths'][-1], IMAGES['photos'][i]['width'])}.jpg</image:loc></image:image>" for i in img_ids)
         urls.append(f"<url><loc>{abs_url(url)}</loc><lastmod>{TODAY}</lastmod>{extra}</url>")
     (DIST / "sitemap.xml").write_text(
         '<?xml version="1.0" encoding="UTF-8"?>\n'
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n'
         + "\n".join(urls) + "\n</urlset>\n", encoding="utf-8")
     (DIST / "robots.txt").write_text(
         "# lmcmic.ca\nUser-agent: *\nAllow: /\nDisallow: /api/\n\n"
@@ -671,9 +679,26 @@ def subset_icon_font():
 def write_reports(arts):
     REPORTS.mkdir(exist_ok=True)
     rows = []
-    manual = ["K4 regulatory claims verified at source today", "K10 calculations recomputed by a second person",
-              "K12 external links resolve (live check)", "K13 featured image commissioned to Tab 2 spec",
-              "K17 tax/regulatory sign-off by qualified reviewer"]
+    lr = SITE.get("legal_review", {})
+    signed = f"Signed off — legal review completed {lr.get('label', '')} (confirmed by Lendmax Capital)" if lr.get("completed") else "Pending"
+    lc_path = REPORTS / "link-check.json"
+    if lc_path.exists():
+        lc = json.loads(lc_path.read_text())
+        bad = [x for x in lc["results"] if not x["ok"]]
+        k12 = (f"Checked {lc['checked']} — {len(lc['results']) - len(bad)} of {len(lc['results'])} external links resolve"
+               + (f"; not confirmed from the server: {', '.join(sorted({x['url'].split('/')[2] for x in bad}))}" if bad else ""))
+        k12_status = "Passed" if not bad else "Mostly passed"
+    else:
+        k12, k12_status = "Not yet run", "Pending"
+    manual = [
+        {"id": "K4", "label": "Regulatory claims verified at source", "status": "Signed off", "note": signed},
+        {"id": "K17", "label": "Tax / regulatory sign-off by qualified reviewer", "status": "Signed off", "note": signed},
+        {"id": "K10", "label": "Calculations recomputed by a second person", "status": "Pending",
+         "note": "Every worked example was recomputed by its writer with a script; a second person's check is still to be recorded."},
+        {"id": "K12", "label": "External links resolve (live check)", "status": k12_status, "note": k12},
+        {"id": "K13", "label": "Featured image to Tab 2 spec", "status": "Partly met",
+         "note": "lendmaxcapital.ca publishes one photograph and four partner logos; they are used on the core pages. Articles use generated title cards until more photography is supplied."},
+    ]
     for a in PLAN["articles"]:
         p = ARTICLES_DIR / f"{a['id']}.md"
         if not p.exists():

@@ -206,3 +206,39 @@
   </ul>
 </aside>
 {%- endmacro %}
+
+{# Responsive photo from content/images.json. Files are produced at deploy by
+   deploy/images.py; width/height are always set so nothing shifts on load. #}
+{% macro photo(id, sizes='(min-width: 1024px) 560px, 100vw', cls='', loading='lazy', fetchpriority='') -%}
+{% set p = images.photos[id] %}
+<picture>
+  <source type="image/avif" srcset="{% for w in p.widths %}/assets/img/{{ id }}-{{ [w, p.width]|min }}.avif {{ [w, p.width]|min }}w{{ ', ' if not loop.last }}{% endfor %}" sizes="{{ sizes }}">
+  <source type="image/webp" srcset="{% for w in p.widths %}/assets/img/{{ id }}-{{ [w, p.width]|min }}.webp {{ [w, p.width]|min }}w{{ ', ' if not loop.last }}{% endfor %}" sizes="{{ sizes }}">
+  <img class="{{ cls }}" src="/assets/img/{{ id }}-{{ [p.widths[-1], p.width]|min }}.jpg" srcset="{% for w in p.widths %}/assets/img/{{ id }}-{{ [w, p.width]|min }}.jpg {{ [w, p.width]|min }}w{{ ', ' if not loop.last }}{% endfor %}" sizes="{{ sizes }}" width="{{ p.width }}" height="{{ p.height }}" alt="{{ p.alt }}" loading="{{ loading }}" decoding="async"{% if fetchpriority %} fetchpriority="{{ fetchpriority }}"{% endif %}>
+</picture>
+{%- endmacro %}
+
+{% macro logo(id, cls='') -%}
+{% set l = images.logos[id] %}{% set h = images.logo_height %}{% set w = (l.width * h / l.height) | round | int %}
+<picture>
+  <source type="image/webp" srcset="/assets/img/{{ id }}-{{ h }}.webp 1x, /assets/img/{{ id }}-{{ h * 2 }}.webp 2x">
+  <img class="{{ cls }}" src="/assets/img/{{ id }}-{{ h }}.png" srcset="/assets/img/{{ id }}-{{ h * 2 }}.png 2x" width="{{ w }}" height="{{ h }}" alt="{{ l.alt }}" loading="lazy" decoding="async">
+</picture>
+{%- endmacro %}
+
+{# The professionals around the fund, with the same logos lendmaxcapital.ca uses. #}
+{% macro partners(site, dark=False, cols='grid-cols-2 lg:grid-cols-4') -%}
+<div class="grid gap-3 {{ cols }}">
+  {% for id, role, name, d in [
+    ('partner-yalepgc', 'Auditor', 'Yale PGC LLP', 'Chartered Professional Accountants; audits the financial statements annually.'),
+    ('partner-drake', 'Exempt market dealer', 'Drake Financial Ltd.', 'Registered dealer; assesses suitability before any subscription.'),
+    ('partner-olympia', 'Registered-plan trustee', 'Olympia Trust Company', 'Administers self-directed RRSP, RRIF, TFSA and FHSA accounts.'),
+    ('partner-westernpacific', 'Registered-plan trustee', 'Western Pacific Trust Company', 'Administers self-directed registered accounts.')] %}
+  <div class="rounded-2xl {{ 'bg-white/95' if dark else 'bg-white border border-border-hairline' }} p-4 flex flex-col gap-2">
+    <div class="h-10 flex items-center">{{ logo(id, 'h-10 w-auto max-w-full object-contain') }}</div>
+    <p class="font-sans text-[10px] font-bold uppercase tracking-wider text-secondary">{{ role }}</p>
+    <p class="font-sans text-body-sm text-on-surface-variant"><strong class="text-on-surface">{{ name }}</strong> — {{ d }}</p>
+  </div>
+  {% endfor %}
+</div>
+{%- endmacro %}

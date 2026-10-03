@@ -1,0 +1,17 @@
+{
+  "_comment": "Images reused from lendmaxcapital.ca (same company). At deploy, deploy/images.py fetches each src and writes size-optimised AVIF/WebP plus a JPEG/PNG fallback into assets/img/. Dimensions here are the source dimensions, measured 3 October 2026.",
+  "photos": {
+    "driving-results": {
+      "src": "https://lendmaxcapital.ca/img/driving-results.jpg",
+      "width": 690, "height": 522, "widths": [400, 690],
+      "alt": "Mid-rise residential condominium building in Ontario with the caption: Driving Results. In every market condition."
+    }
+  },
+  "logos": {
+    "partner-yalepgc": {"src": "https://lendmaxcapital.ca/img/partner-yalepgc@2x.png", "width": 419, "height": 120, "alt": "Yale PGC LLP, Chartered Professional Accountants"},
+    "partner-drake": {"src": "https://lendmaxcapital.ca/img/partner-drake@2x.png", "width": 307, "height": 120, "alt": "Drake Financial Ltd., exempt market dealer"},
+    "partner-olympia": {"src": "https://lendmaxcapital.ca/img/partner-olympia@2x.png", "width": 249, "height": 120, "alt": "Olympia Trust Company"},
+    "partner-westernpacific": {"src": "https://lendmaxcapital.ca/img/partner-westernpacific@2x.png", "width": 230, "height": 120, "alt": "Western Pacific Trust Company"}
+  },
+  "logo_height": 40
+}

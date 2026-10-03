@@ -22,7 +22,7 @@
     <h2 id="your-choices">Your choices</h2>
     <p>You may ask to see, correct or withdraw consent for the use of your personal information, subject to legal and regulatory limits. Contact our privacy officer at <a href="mailto:{{ site.email_investors }}">{{ site.email_investors }}</a>, by phone at {{ site.phone }}, or by mail at {{ site.address.street }}, {{ site.address.city }}, Ontario {{ site.address.postal }}.</p>
     <h2 id="cookies">Cookies and embedded content</h2>
-    <p>This site does not set advertising cookies. The video on the home page loads from YouTube only when you press play, using YouTube's privacy-enhanced mode; YouTube's own terms then apply. Fonts are served by Google Fonts.</p>
+    <p>This site does not set advertising cookies. {% if site.ga4_id %}We use Google Analytics 4 to understand how visitors use the site — pages viewed, how visitors arrived and whether the enquiry form was submitted. Google Analytics sets first-party cookies and does not log or store full IP addresses. You can opt out with Google's <a href="https://tools.google.com/dlpage/gaoptout">browser add-on</a>. {% endif %}The video on the home page loads from YouTube only when you press play, using YouTube's privacy-enhanced mode; YouTube's own terms then apply. Fonts are served by Google Fonts.</p>
   </div>
 </section>
 {% endblock %}

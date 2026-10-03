@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>https://lmcmic.ca/</loc><lastmod>2026-10-03</lastmod><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/uztmlCMHPZ8/hqdefault.jpg</video:thumbnail_loc><video:title>LMC — Lendmax Capital Mortgage Investment Corp.</video:title><video:description>An introduction to Lendmax Capital Mortgage Investment Corporation: how investor capital funds residential first and second mortgages in Ontario, British Columbia and Alberta, how underwriting and exits are handled, and how distributions are paid.</video:description><video:player_loc>https://www.youtube-nocookie.com/embed/uztmlCMHPZ8</video:player_loc></video:video></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+<url><loc>https://lmcmic.ca/</loc><lastmod>2026-10-03</lastmod><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/uztmlCMHPZ8/hqdefault.jpg</video:thumbnail_loc><video:title>LMC — Lendmax Capital Mortgage Investment Corp.</video:title><video:description>An introduction to Lendmax Capital Mortgage Investment Corporation: how investor capital funds residential first and second mortgages in Ontario, British Columbia and Alberta, how underwriting and exits are handled, and how distributions are paid.</video:description><video:player_loc>https://www.youtube-nocookie.com/embed/uztmlCMHPZ8</video:player_loc><video:publication_date>2021-12-31T00:00:00-05:00</video:publication_date></video:video><image:image><image:loc>https://lmcmic.ca/assets/img/driving-results-690.jpg</image:loc></image:image></url>
 <url><loc>https://lmcmic.ca/why-invest-in-a-mic/</loc><lastmod>2026-10-03</lastmod></url>
-<url><loc>https://lmcmic.ca/performance-and-risk/</loc><lastmod>2026-10-03</lastmod></url>
+<url><loc>https://lmcmic.ca/performance-and-risk/</loc><lastmod>2026-10-03</lastmod><image:image><image:loc>https://lmcmic.ca/assets/img/driving-results-690.jpg</image:loc></image:image></url>
 <url><loc>https://lmcmic.ca/how-to-invest/</loc><lastmod>2026-10-03</lastmod></url>
-<url><loc>https://lmcmic.ca/contact/</loc><lastmod>2026-10-03</lastmod></url>
+<url><loc>https://lmcmic.ca/contact/</loc><lastmod>2026-10-03</lastmod><image:image><image:loc>https://lmcmic.ca/assets/img/driving-results-690.jpg</image:loc></image:image></url>
 <url><loc>https://lmcmic.ca/learn/what-is-mortgage-investing/</loc><lastmod>2026-10-03</lastmod></url>
 <url><loc>https://lmcmic.ca/learn/how-private-mortgage-investing-works/</loc><lastmod>2026-10-03</lastmod></url>
 <url><loc>https://lmcmic.ca/learn/how-mortgage-investors-make-money/</loc><lastmod>2026-10-03</lastmod></url>

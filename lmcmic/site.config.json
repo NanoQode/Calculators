@@ -24,7 +24,11 @@
     "country": "CA"
   },
   "hours": "Monday to Friday, 9:00 a.m. to 6:00 p.m. Eastern",
-  "provinces": ["Ontario", "British Columbia", "Alberta"],
+  "provinces": [
+    "Ontario",
+    "British Columbia",
+    "Alberta"
+  ],
   "lead": {
     "endpoint": "/api/lead",
     "redirect_url": "https://app.lendmaxcapital.ca/investor-start",
@@ -34,7 +38,8 @@
     "id": "uztmlCMHPZ8",
     "title": "LMC — Lendmax Capital Mortgage Investment Corp.",
     "description": "An introduction to Lendmax Capital Mortgage Investment Corporation: how investor capital funds residential first and second mortgages in Ontario, British Columbia and Alberta, how underwriting and exits are handled, and how distributions are paid.",
-    "upload_date": ""
+    "upload_date": "2021-12-31T00:00:00-05:00",
+    "upload_date_label": "31 December 2021"
   },
   "performance": {
     "source_label": "Lendmax Capital MIC, “Past performance”, updated 19 September 2026",
@@ -42,12 +47,30 @@
     "target_label": "FY2025 target annual return",
     "target": "9%",
     "series": [
-      {"year": "FY2020", "rate": 0.00},
-      {"year": "FY2021", "rate": 6.00},
-      {"year": "FY2022", "rate": 7.83},
-      {"year": "FY2023", "rate": 8.15},
-      {"year": "FY2024", "rate": 10.15},
-      {"year": "FY2025", "rate": 13.57}
+      {
+        "year": "FY2020",
+        "rate": 0.0
+      },
+      {
+        "year": "FY2021",
+        "rate": 6.0
+      },
+      {
+        "year": "FY2022",
+        "rate": 7.83
+      },
+      {
+        "year": "FY2023",
+        "rate": 8.15
+      },
+      {
+        "year": "FY2024",
+        "rate": 10.15
+      },
+      {
+        "year": "FY2025",
+        "rate": 13.57
+      }
     ]
   },
   "loan_terms": "3 to 12 months",
@@ -56,5 +79,13 @@
   "content_updated_label": "3 October 2026",
   "next_review_label": "January 2027",
   "author": "Lendmax Capital MIC Investor Education Desk",
-  "ga4_id": ""
+  "ga4_id": "",
+  "legal_review": {
+    "completed": true,
+    "date": "2026-10-03",
+    "label": "3 October 2026",
+    "note": "Legal and regulatory review completed by Lendmax Capital and confirmed to the site build on 3 October 2026."
+  },
+  "ga4_property_id": "255904887",
+  "_ga4_comment": "ga4_id must be the web data stream's Measurement ID (G-XXXXXXXXXX) from GA4 property 255904887: Admin > Data streams > Web. The numeric property ID alone cannot be used in the page tag."
 }

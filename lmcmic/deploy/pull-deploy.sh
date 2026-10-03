@@ -18,5 +18,5 @@ curl -fsSL "https://codeload.github.com/$REPO/tar.gz/$SHA" -o "$WORK/src.tgz"
 tar -xzf "$WORK/src.tgz" -C "$WORK"
 SRC=$(find "$WORK" -maxdepth 2 -type d -name lmcmic | head -1)
 [ -d "$SRC/dist" ] || { echo "no lmcmic/dist in $REPO@$BRANCH" >&2; exit 1; }
-tar -czf "$WORK/release.tgz" -C "$SRC" dist server/lead-server.mjs deploy
+tar -czf "$WORK/release.tgz" -C "$SRC" dist server/lead-server.mjs deploy content/images.json
 bash "$SRC/deploy/install.sh" "$WORK/release.tgz"

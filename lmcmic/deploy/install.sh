@@ -17,6 +17,8 @@ tar -xzf "$TARBALL" -C "$WORK"
 # ---- static site
 mkdir -p "$REL"
 cp -a "$WORK/dist/." "$REL/"
+# Photos and partner logos come from lendmaxcapital.ca, optimised per release.
+[ -f "$WORK/content/images.json" ] && python3 "$WORK/deploy/images.py" "$WORK/content/images.json" "$REL"
 find "$REL" -type d -exec chmod 755 {} +
 find "$REL" -type f -exec chmod 644 {} +
 ln -sfn "$REL" "$WWW/current.new" && mv -Tf "$WWW/current.new" "$WWW/current"

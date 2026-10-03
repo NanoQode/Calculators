@@ -11,5 +11,10 @@ done
 for u in /robots.txt /llms.txt /sitemap.xml /favicon.ico /assets/site.css /api/health; do
   code=$(curl "${R[@]}" "https://lmcmic.ca$u"); [ "$code" = 200 ] || { echo "FAIL $code $u"; fail=$((fail+1)); }
 done
-echo "smoke: $n sitemap URLs checked, $fail failures"
+# every optimised image a page references
+for u in $(grep -rhoE '/assets/img/[A-Za-z0-9@._-]+' /var/www/lmcmic.ca/current --include=index.html | sort -u); do
+  n=$((n+1)); code=$(curl "${R[@]}" "https://lmcmic.ca$u")
+  [ "$code" = 200 ] || { echo "FAIL $code $u"; fail=$((fail+1)); }
+done
+echo "smoke: $n URLs checked, $fail failures"
 exit $fail

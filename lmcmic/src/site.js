@@ -11,6 +11,16 @@
     set: function (k, v) { try { sessionStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* private mode */ } }
   };
 
+  /* ---------- Google Analytics 4 (only when a measurement ID is configured).
+     Initialised here rather than inline so the CSP can forbid inline script. */
+  var ga = document.documentElement.getAttribute("data-ga");
+  if (ga) {
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    window.gtag("config", ga);
+  }
+
   /* ---------- mobile menu */
   var toggle = $("[data-menu-toggle]"), menu = $("#mobile-menu");
   if (toggle && menu) toggle.addEventListener("click", function () {

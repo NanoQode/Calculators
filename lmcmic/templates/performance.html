@@ -3,7 +3,7 @@
 {# Design source: content/data/design-track_record_risk.html #}
 {% set perf = site.performance %}
 <section class="bg-gradient-to-b from-surface-container to-surface">
-  <div class="container-site pt-6 md:pt-10 pb-8 grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-end">
+  <div class="container-site pt-6 md:pt-10 pb-8 grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-center">
     <div>
       <div class="flex flex-wrap items-center gap-2">
         <span class="chip bg-maple-red-tint text-on-tertiary-container shadow-sm">{{ m.icon('security', 'text-[13px]') }}Section 130.1 governance</span>
@@ -13,6 +13,7 @@
       <p class="mt-4 font-sans text-body-lg text-on-surface-variant max-w-2xl">Mortgage underwriting secured by Canadian residential real estate in Ontario, British Columbia and Alberta. Below: what the fund has actually paid each fiscal year, how every loan is tested before it is funded, and who checks the work.</p>
     </div>
     <div class="grid grid-cols-2 gap-3">
+      <figure class="col-span-2 rounded-2xl overflow-hidden shadow-md bg-navy-surface">{{ m.photo('driving-results', '(min-width: 1024px) 460px, 100vw', 'block w-full h-auto', loading='eager', fetchpriority='high') }}</figure>
       {% set last = perf.series[-1] %}
       <div class="card p-4"><div class="flex items-center justify-between text-on-surface-variant"><span class="font-sans text-label-caps uppercase">{{ last.year }} net return paid</span>{{ m.icon('verified_user', 'text-secondary text-[20px]') }}</div><div class="mt-2 font-sans text-stat-metric-mobile font-bold tracking-tight text-on-surface">{{ '%.2f' % last.rate }}%</div><p class="font-sans text-body-sm text-secondary font-medium">Against a {{ perf.target }} target</p></div>
       <div class="card p-4"><div class="flex items-center justify-between text-on-surface-variant"><span class="font-sans text-label-caps uppercase">Loan terms</span>{{ m.icon('event_repeat', 'text-secondary text-[20px]') }}</div><div class="mt-2 font-sans text-stat-metric-mobile font-bold tracking-tight text-on-surface">3–12 mo</div><p class="font-sans text-body-sm text-on-surface-variant">Short duration, staggered maturities</p></div>
@@ -101,14 +102,10 @@
   <div class="container-site">
     {{ m.eyebrow('Institutional integrity') }}
     <h2 id="gov-heading" class="mt-2 font-serif text-headline-lg text-on-surface">Governance and published research</h2>
-    <div class="mt-5 grid gap-3 grid-cols-2 lg:grid-cols-4">
-      {% for ic, t, d in [
-        ('fact_check', 'Auditor', 'A licensed public accounting firm audits the corporation’s financial statements annually; they accompany the offering memorandum.'),
-        ('account_balance', 'Administrator', site.administrator ~ ', ' ~ site.fsra_licence_label ~ ', collects and remits mortgage payments through trust.'),
-        ('handshake', 'Exempt market dealer', 'Shares are distributed only through a registered exempt market dealer, which assesses suitability for each investor.'),
-        ('gavel', 'Real estate counsel', 'A real estate lawyer reviews title, registers the charge, handles payouts and discharges, and acts on enforcement.')] %}
-      <div class="card p-4"><div class="flex items-center gap-1.5 text-secondary">{{ m.icon(ic, 'text-[18px]') }}<span class="font-sans text-label-caps uppercase font-bold">{{ t }}</span></div><p class="mt-2 font-sans text-body-sm text-on-surface-variant">{{ d }}</p></div>
-      {% endfor %}
+    <div class="mt-5">{{ m.partners(site) }}</div>
+    <div class="mt-3 grid gap-3 md:grid-cols-2">
+      <div class="card p-4"><div class="flex items-center gap-1.5 text-secondary">{{ m.icon('account_balance', 'text-[18px]') }}<span class="font-sans text-label-caps uppercase font-bold">Mortgage administrator</span></div><p class="mt-2 font-sans text-body-sm text-on-surface-variant">{{ site.administrator }}, {{ site.fsra_licence_label }}, collects borrower payments into trust, reconciles monthly and remits to the corporation.</p></div>
+      <div class="card p-4"><div class="flex items-center gap-1.5 text-secondary">{{ m.icon('gavel', 'text-[18px]') }}<span class="font-sans text-label-caps uppercase font-bold">Real estate counsel</span></div><p class="mt-2 font-sans text-body-sm text-on-surface-variant">A real estate lawyer reviews title, registers each charge, handles payouts and discharges, and acts on enforcement.</p></div>
     </div>
     <div class="mt-4 card p-5 grid gap-3 md:grid-cols-[1fr_auto] md:items-center">
       <div><p class="font-sans text-headline-sm text-on-surface">Thought leadership <span class="font-sans text-label-caps text-secondary">by Ali Zaidi</span></p><p class="mt-1 font-sans text-body-sm text-on-surface-variant">Published papers on the Canadian alternative-lending asset class, including <em>MIC vs REIT</em>, first vs second mortgage investments, loan-to-value, liquidity and redemption, and where returns come from.</p></div>

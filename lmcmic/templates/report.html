@@ -15,7 +15,7 @@ th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;verti
 .wrap{overflow-x:auto}td.c{text-align:center}code{font-size:12px}
 </style></head><body><main>
 <h1>lmcmic.ca — content checklist</h1>
-<p class="meta">Generated {{ data.generated }} from the SEO roadmap (Tab 3, section K pre-publication gate). Automated checks run on every build; the manual checks below must be signed off by a person and are never marked passed automatically.</p>
+<p class="meta">Generated {{ data.generated }} from the SEO roadmap (Tab 3, section K pre-publication gate). Automated checks run on every build; manual checks show the status recorded for them.</p>
 {% set arts = data.articles %}
 {% set passed = arts | selectattr('status', 'equalto', 'PASS') | list | length %}
 {% set kw = data.keywords %}
@@ -26,8 +26,10 @@ th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;verti
   <div class="tile">Keyword terms present on page<b>{{ kw | selectattr('on_page') | list | length }} / {{ kw|length }}</b></div>
   <div class="tile">Total words<b>{{ '{:,}'.format(arts | sum(attribute='words')) }}</b></div>
 </div>
-<h2>Manual sign-off still required (every article)</h2>
-<ul>{% for m in data.manual_checks %}<li class="man">{{ m }}</li>{% endfor %}</ul>
+<h2>Manual checks (Tab 3, section K)</h2>
+<div class="wrap"><table><thead><tr><th>Check</th><th>Status</th><th>Detail</th></tr></thead><tbody>
+{% for m in data.manual_checks %}<tr><td><strong>{{ m.id }}</strong> {{ m.label }}</td><td class="{{ 'ok' if m.status in ('Signed off', 'Passed') else 'man' }}">{{ m.status }}</td><td>{{ m.note }}</td></tr>{% endfor %}
+</tbody></table></div>
 <h2>Automated checks by article</h2>
 {% set cols = ['FORMAT','META_TITLE','META_DESC','K1_ANSWER_FIRST_120_WORDS','K2_HEADINGS','K7_PROHIBITED_LANGUAGE','K8_DISCLOSURES_IN_BODY','K11_INTERNAL_LINKS','SOURCES_ALLOWED','J2_SEVEN_AXES','E7_FAQ','E9_TAKEAWAYS','LENGTH'] %}
 <div class="wrap"><table><thead><tr><th>#</th><th>Article</th><th>P</th><th>Words</th><th>Status</th>{% set short = {'META_TITLE':'TITLE','META_DESC':'DESC','K1_ANSWER_FIRST_120_WORDS':'K1 answer','K2_HEADINGS':'K2 H1/Hn','K7_PROHIBITED_LANGUAGE':'K7 language','K8_DISCLOSURES_IN_BODY':'K8 disclos.','K11_INTERNAL_LINKS':'K11 links','SOURCES_ALLOWED':'Sources','J2_SEVEN_AXES':'J2 7 axes','E7_FAQ':'E7 FAQ','E9_TAKEAWAYS':'E9 takeaways'} %}{% for c in cols %}<th title="{{ c }}">{{ short.get(c, c) }}</th>{% endfor %}</tr></thead><tbody>

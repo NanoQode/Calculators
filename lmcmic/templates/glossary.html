@@ -3,7 +3,7 @@
 <section class="container-site pt-6 md:pt-10 pb-4">
   {{ m.eyebrow('Reference') }}
   <h1 class="mt-3 font-serif text-display-hero-mobile md:text-display-hero text-on-surface tracking-tight max-w-4xl">{{ page.title }}</h1>
-  <p class="mt-3 font-sans text-body-sm text-on-surface-variant">{{ count }} terms · By {{ site.author }} · Current as of {{ site.content_updated_label }}</p>
+  <p class="mt-3 font-sans text-body-sm text-on-surface-variant">{{ count }} terms · By {{ site.author }} · Current as of {{ site.content_updated_label }}{% if site.legal_review.completed %} · Legal &amp; regulatory review {{ site.legal_review.label }}{% endif %}</p>
   <div class="mt-5 max-w-3xl rounded-2xl border-l-4 border-secondary bg-sky-subtle/60 p-5 font-sans text-body-lg text-on-surface [&_p]:m-0">{{ answer }}</div>
   <div class="prose-lmc mt-6">{{ body_html }}</div>
   <nav class="mt-6 flex flex-wrap gap-1.5 sticky top-16 md:top-20 z-30 bg-surface/95 backdrop-blur py-2" aria-label="Letters">

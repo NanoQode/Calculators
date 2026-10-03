@@ -1,6 +1,6 @@
 {%- import "macros.html" as m -%}
 <!doctype html>
-<html lang="en-CA">
+<html lang="en-CA"{% if site.ga4_id %} data-ga="{{ site.ga4_id }}"{% endif %}>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -40,8 +40,8 @@
 <link rel="stylesheet" href="{{ icon_font_url }}">
 <link rel="stylesheet" href="/assets/site.css?v={{ build_id }}">
 {% for s in page.schema %}<script type="application/ld+json">{{ s | tojson_ld }}</script>
-{% endfor %}{% if site.ga4_id %}<script async src="https://www.googletagmanager.com/gtag/js?id={{ site.ga4_id }}"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','{{ site.ga4_id }}');</script>
+{% endfor %}{% if site.ga4_id %}<link rel="preconnect" href="https://www.googletagmanager.com">
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ site.ga4_id }}"></script>
 {% endif %}</head>
 <body class="min-h-screen flex flex-col">
 <a class="skip-link" href="#main">Skip to content</a>

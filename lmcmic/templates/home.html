@@ -40,6 +40,16 @@
   <p class="mt-3 font-sans text-[12px] text-on-surface-variant">Mortgage investments are not guaranteed. Returns are targets, not promises, and principal can be lost. Higher potential returns come with higher risk.</p>
 </section>
 
+<section class="container-site mb-12 grid gap-6 lg:grid-cols-[1fr_1.35fr] lg:items-center" aria-labelledby="partners-heading">
+  <figure class="rounded-2xl overflow-hidden shadow-md bg-navy-surface">{{ m.photo('driving-results', '(min-width: 1024px) 460px, 100vw', 'block w-full h-auto') }}</figure>
+  <div>
+    {{ m.eyebrow('The professionals around the fund') }}
+    <h2 id="partners-heading" class="mt-2 font-serif text-headline-lg text-on-surface">Audited, administered under licence, sold through a registered dealer</h2>
+    <p class="mt-2 mb-4 font-sans text-body-md text-on-surface-variant">The people who check the work sit between an investor's capital and a registered charge on a Canadian home. Mortgage payments are collected by {{ site.administrator }} under {{ site.fsra_licence_label }}.</p>
+    {{ m.partners(site, cols='grid-cols-2') }}
+  </div>
+</section>
+
 <section class="container-site mb-12 grid gap-6 lg:grid-cols-2">
   <div class="rounded-2xl bg-navy-surface text-white p-5 md:p-7 shadow-md">
     <div class="flex items-center justify-between mb-2"><span class="font-sans text-label-caps uppercase tracking-wider text-sky-bright">Track record</span>{{ m.icon('monitoring', 'text-sky-bright text-[20px]') }}</div>
