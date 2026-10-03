@@ -14,16 +14,34 @@ EMAIL=${LMCMIC_CERT_EMAIL:-deals@lendmaxcapital.ca}
 
 log() { echo "$(date -Is) $*" >> "$LOG"; }
 
-if [ -f "$LIVE/fullchain.pem" ] && grep -q "$LIVE/fullchain.pem" "$CONF"; then
-  exit 0
-fi
+has_www() { [ -f "$LIVE/cert.pem" ] && openssl x509 -in "$LIVE/cert.pem" -noout -text | grep -q "DNS:www.lmcmic.ca"; }
+
+# Probe through public DNS (as Let's Encrypt will), not this host's resolver
+# cache, which can keep the previous address for the length of the old TTL.
+probe() {  # probe <host> <token> → prints the body served for the token
+  local host=$1 ip
+  ip=$(dig +short "$host" @1.1.1.1 | grep -E '^[0-9.]+$' | tail -1)
+  [ -n "$ip" ] || return 0
+  curl -s -m 10 --resolve "$host:80:$ip" "http://$host/.well-known/acme-challenge/$2" || true
+}
 
 mkdir -p "$WEBROOT/.well-known/acme-challenge"
 token="probe-$(head -c 12 /dev/urandom | od -An -tx1 | tr -d ' \n')"
 echo "$token" > "$WEBROOT/.well-known/acme-challenge/$token"
-reach_apex=$(curl -s -m 10 "http://lmcmic.ca/.well-known/acme-challenge/$token" || true)
-reach_www=$(curl -s -m 10 "http://www.lmcmic.ca/.well-known/acme-challenge/$token" || true)
+reach_apex=$(probe lmcmic.ca "$token")
+reach_www=$(probe www.lmcmic.ca "$token")
 rm -f "$WEBROOT/.well-known/acme-challenge/$token"
+
+# Already live: nothing to do, unless www has since been pointed here and the
+# certificate does not cover it yet.
+if [ -f "$LIVE/fullchain.pem" ] && grep -q "$LIVE/fullchain.pem" "$CONF"; then
+  if [ "$reach_www" = "$token" ] && ! has_www; then
+    log "www.lmcmic.ca now reaches this server; expanding certificate"
+    certbot certonly --webroot -w "$WEBROOT" -d lmcmic.ca -d www.lmcmic.ca --cert-name lmcmic.ca \
+      --expand --non-interactive --agree-tos -m "$EMAIL" >> "$LOG" 2>&1 && systemctl reload nginx && log "certificate expanded to www"
+  fi
+  exit 0
+fi
 
 if [ "$reach_apex" != "$token" ]; then
   exit 0   # DNS still points elsewhere — try again next run
