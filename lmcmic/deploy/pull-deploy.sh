@@ -9,7 +9,12 @@ REPO=${LMCMIC_REPO:-nanoqode/calculators}
 WORK=$(mktemp -d)
 trap 'rm -rf "$WORK"' EXIT
 
-curl -fsSL "https://codeload.github.com/$REPO/tar.gz/refs/heads/$BRANCH" -o "$WORK/src.tgz"
+# Resolve the branch to its commit first: branch archives are CDN-cached for a
+# few minutes, commit archives are immutable.
+SHA=$(curl -fsSL "https://api.github.com/repos/$REPO/commits/$BRANCH" | grep -m1 '"sha"' | cut -d'"' -f4)
+[ -n "$SHA" ] || { echo "could not resolve $BRANCH" >&2; exit 1; }
+echo "deploying $REPO@$BRANCH ($SHA)"
+curl -fsSL "https://codeload.github.com/$REPO/tar.gz/$SHA" -o "$WORK/src.tgz"
 tar -xzf "$WORK/src.tgz" -C "$WORK"
 SRC=$(find "$WORK" -maxdepth 2 -type d -name lmcmic | head -1)
 [ -d "$SRC/dist" ] || { echo "no lmcmic/dist in $REPO@$BRANCH" >&2; exit 1; }
