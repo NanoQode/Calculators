@@ -1,0 +1,134 @@
+{
+ "checked": "3 October 2026, from the lmcmic.ca server, after launch",
+ "results": [
+  {
+   "url": "https://lautorite.qc.ca/en/general-public",
+   "status": 403,
+   "ok": false,
+   "note": "site blocks automated requests from the server's data-centre address (403) or is unreachable from it; opens normally in a browser \u2014 check by hand"
+  },
+  {
+   "url": "https://laws-lois.justice.gc.ca/eng/acts/I-3.3/section-130.1.html",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "url": "https://laws-lois.justice.gc.ca/eng/acts/I-3.3/section-207.01.html",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "url": "https://laws-lois.justice.gc.ca/eng/regulations/C.R.C.,_c._945/section-4900.html",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "url": "https://lendmaxcapital.ca/investor-portal",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "url": "https://lendmaxcapital.ca/investors/past-performance",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "url": "https://lendmaxcapital.ca/investors/published-papers",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "url": "https://mbsweblist.fsco.gov.on.ca/ShowLicence.aspx?13398~",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "url": "https://www.albertasecurities.com/",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "url": "https://www.bcfsa.ca/industry-resources/mortgage-broker-resources/mortgage-services-act",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "url": "https://www.bcsc.bc.ca/",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "url": "https://www.canada.ca/en/revenue-agency.html",
+   "status": 0,
+   "ok": false,
+   "note": "site blocks automated requests from the server's data-centre address (403) or is unreachable from it; opens normally in a browser \u2014 check by hand"
+  },
+  {
+   "url": "https://www.canada.ca/en/revenue-agency/services/tax/technical-information/income-tax/income-tax-folios-index/series-3-property-investments-savings-plans/folio-10-registered-plans-similar-arrangements/income-tax-folio-s3-f10-c2-prohibited-investments-rrsps-rrifs-rdsps-resps-tfsas-fhsas.html",
+   "status": 0,
+   "ok": false,
+   "note": "site blocks automated requests from the server's data-centre address (403) or is unreachable from it; opens normally in a browser \u2014 check by hand"
+  },
+  {
+   "url": "https://www.cdic.ca/",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "url": "https://www.cmhc-schl.gc.ca/professionals/housing-markets-data-and-research/housing-research/research-reports/housing-finance/residential-mortgage-industry-report",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "url": "https://www.fsrao.ca/",
+   "status": 403,
+   "ok": false,
+   "note": "site blocks automated requests from the server's data-centre address (403) or is unreachable from it; opens normally in a browser \u2014 check by hand"
+  },
+  {
+   "url": "https://www.getsmarteraboutmoney.ca/",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "url": "https://www.mbrcc.ca/",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "url": "https://www.ontario.ca/laws/statute/06m29",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "url": "https://www.ontario.ca/laws/statute/90m40",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "url": "https://www.osc.ca/en/investors",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "url": "https://www.osc.ca/en/securities-law/instruments-rules-policies/4/45-106",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "url": "https://www.reca.ca/",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "url": "https://www.securities-administrators.ca/",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "url": "https://www.securities-administrators.ca/investor-tools/check-registration-disciplinary-history/",
+   "status": 200,
+   "ok": true
+  }
+ ]
+}

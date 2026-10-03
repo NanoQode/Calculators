@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-03T16:10:11Z",
+ "generated": "2026-10-03T16:12:32Z",
  "articles": [
   {
    "id": 1,
@@ -6066,8 +6066,8 @@
   {
    "id": "K12",
    "label": "External links resolve (live check)",
-   "status": "Pending",
-   "note": "Not yet run"
+   "status": "Mostly passed",
+   "note": "Checked 3 October 2026, from the lmcmic.ca server, after launch — 21 of 25 external links resolve; not confirmed from the server: lautorite.qc.ca, www.canada.ca, www.fsrao.ca"
   },
   {
    "id": "K13",

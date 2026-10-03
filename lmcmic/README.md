@@ -75,8 +75,8 @@ release under `/var/www/lmcmic.ca/releases/`, flips the `current` symlink,
 the certificate watcher. Roll back with
 `ln -sfn /var/www/lmcmic.ca/releases/<previous> /var/www/lmcmic.ca/current`.
 
-Then point DNS at the server (Cloudflare: `A lmcmic.ca → 159.203.33.160`,
-`CNAME www → lmcmic.ca`). The cert watcher (`/usr/local/sbin/lmcmic-cert`, cron
+DNS (Cloudflare, DNS only): `A lmcmic.ca → 159.203.33.160` (live since
+3 October 2026) and `CNAME www → lmcmic.ca`. The cert watcher (`/usr/local/sbin/lmcmic-cert`, cron
 every 5 min) issues the Let's Encrypt certificate and enables HSTS as soon as
 the domain reaches the server. Submit `https://lmcmic.ca/sitemap.xml` in Google
 Search Console and Bing Webmaster Tools.
