@@ -407,6 +407,19 @@
     $('[data-mini-cover]').textContent = money(mini.value * 10);
   });
 
+  // ───────────── Home provider logo scroller: pause / play (WCAG 2.2.2) ─────────────
+  $$('[data-marquee-toggle]').forEach(function (btn) {
+    var band = btn.closest('[data-provider-scroller]'), m = band && $('[data-marquee]', band), icon = $('[data-marquee-icon]', btn);
+    if (!m) return;
+    btn.addEventListener('click', function () {
+      var paused = !m.hasAttribute('data-paused');
+      if (paused) m.setAttribute('data-paused', ''); else m.removeAttribute('data-paused');
+      btn.setAttribute('aria-pressed', paused ? 'true' : 'false');
+      btn.setAttribute('aria-label', paused ? 'Play the logo scroller' : 'Pause the logo scroller');
+      if (icon) icon.textContent = paused ? 'play_arrow' : 'pause';
+    });
+  });
+
   // ───────────── Results / compare billing toggle ─────────────
   var rb = $$('[data-results-billing]');
   rb.forEach(function (b) {

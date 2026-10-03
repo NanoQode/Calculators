@@ -62,6 +62,24 @@
   .content-auto { content-visibility: auto; contain-intrinsic-size: 1px 800px; }
 }
 
+/* Home provider logo scroller (views/public/partials/provider-marquee.ejs). Two identical sets slide by
+   exactly one set width (-50%), so the loop has no seam. Paused on hover, by the pause button, and
+   replaced by a static, wrapped grid when the visitor prefers reduced motion. */
+.marquee { overflow: hidden; -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent); }
+.marquee-track { display: flex; width: max-content; animation: marquee var(--marquee-duration, 60s) linear infinite; }
+.marquee-set { display: flex; align-items: center; flex-shrink: 0; }
+.marquee-item { flex-shrink: 0; display: flex; align-items: center; justify-content: center; height: 64px; padding-inline: 28px; }
+.marquee-logo { width: calc(var(--lw) * var(--logo-scale, 1)); height: calc(var(--lh) * var(--logo-scale, 1)); max-width: none; object-fit: contain; }
+.marquee:hover .marquee-track, .marquee[data-paused] .marquee-track { animation-play-state: paused; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (max-width: 639px) { .marquee { --logo-scale: .8; } .marquee-item { height: 52px; padding-inline: 20px; } }
+@media (prefers-reduced-motion: reduce) {
+  .marquee { -webkit-mask-image: none; mask-image: none; }
+  .marquee-track { animation: none; width: auto; display: block; }
+  .marquee-set { flex-wrap: wrap; flex-shrink: 1; justify-content: center; row-gap: 12px; }
+  .marquee-set[aria-hidden="true"], .marquee-toggle { display: none; }
+}
+
 /* FAQ disclosure animation (no JS needed — native <details>) */
 details[open] .faq-chevron { transform: rotate(180deg); }
 .faq-chevron { transition: transform .2s ease; }

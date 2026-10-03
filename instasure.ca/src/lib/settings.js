@@ -29,6 +29,7 @@ const DEFAULTS = {
   rating_source: '',
   carriers: ['Canada Life', 'Manulife', 'Sun Life', 'Desjardins', 'iA Financial Group', 'RBC Insurance', 'BMO Insurance', 'Equitable Life', 'Beneva', 'Wawanesa', 'Intact', 'Aviva'],
   carriers_confirmed: false,
+  provider_scroller: true, // home page logo scroller under the hero (Admin → Insurers & MGAs)
   social_links: [],
   ga4_id: '',
   gsc_verification: '',

@@ -50,7 +50,7 @@ router.post('/settings', auth.requireRole('admin'), (req, res) => {
 });
 
 // ───────────── Insurers & MGAs (logos) ─────────────
-router.get('/partners', auth.requireRole('admin'), (req, res) => res.admin('partners', { title: 'Insurers & MGAs', rows: partners.list(), TYPES: partners.TYPES, CATEGORIES, confirmed: !!settings.get('carriers_confirmed') }));
+router.get('/partners', auth.requireRole('admin'), (req, res) => res.admin('partners', { title: 'Insurers & MGAs', rows: partners.list(), TYPES: partners.TYPES, CATEGORIES, confirmed: !!settings.get('carriers_confirmed'), scroller: settings.get('provider_scroller') !== false }));
 
 /** Read an optional logo upload into the media store; returns { logo, w, h } or throws MediaError with the reason. */
 function logoFrom(req, name) {
@@ -76,6 +76,11 @@ router.post('/partners', auth.requireRole('admin'), partnerUpload, (req, res) =>
 router.post('/partners/confirm', auth.requireRole('admin'), (req, res) => {
   settings.set('carriers_confirmed', req.body.carriers_confirmed === 'on'); purge();
   res.locals.audit('update', 'settings', 'carriers_confirmed', req.body.carriers_confirmed === 'on');
+  res.redirect(303, '/admin/partners?_ok=Saved');
+});
+router.post('/partners/scroller', auth.requireRole('admin'), (req, res) => {
+  settings.set('provider_scroller', req.body.provider_scroller === 'on'); purge();
+  res.locals.audit('update', 'settings', 'provider_scroller', req.body.provider_scroller === 'on');
   res.redirect(303, '/admin/partners?_ok=Saved');
 });
 router.post('/partners/:id', auth.requireRole('admin'), partnerUpload, (req, res) => {

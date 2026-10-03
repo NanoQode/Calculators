@@ -1,0 +1,31 @@
+<%
+  // Auto-scrolling insurer logo band under the home hero. Locals: logos (partners.scroller() with a `size` from partners.fit()).
+  // The set is rendered twice and the track slides by exactly one set (-50%), so the loop is seamless.
+  // Each logo gets about the same visual area (partners.fit), so square and wide marks look equally weighted.
+  var GAP = 56; // px between logos on desktop (.marquee-item padding in src/styles/site.css), used to time the loop
+  var setWidth = logos.reduce(function(a, p){ return a + p.size.w + GAP; }, 0);
+  var duration = Math.max(20, Math.round(setWidth / 45)); // ~45 px per second
+  var item = function(p, hidden){
+    return '<li class="marquee-item">'
+      + '<img src="' + p.logo + '" alt="' + (hidden ? '' : U.escapeHtml(p.name)) + '" width="' + p.size.w + '" height="' + p.size.h + '"'
+      + ' style="--lw:' + p.size.w + 'px;--lh:' + p.size.h + 'px" class="marquee-logo" decoding="async"' + (hidden ? '' : ' title="' + U.escapeHtml(p.name) + '"') + '>'
+      + '</li>';
+  };
+%>
+<section class="w-full bg-surface-container-lowest border-y border-outline-variant/30 py-space-lg" aria-labelledby="providers-h" data-provider-scroller>
+  <div class="container-site text-center flex flex-col items-center gap-space-xs mb-space-md">
+    <p class="eyebrow">Insurers across Canada</p>
+    <h2 id="providers-h" class="font-headline-md text-headline-md lg:font-headline-lg lg:text-headline-lg text-primary-container tracking-tight text-balance">Access Canada’s Insurance Provider Network</h2>
+    <p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">One licensed advisor compares plans from Canadian insurers for you. Insurers and products vary by province.</p>
+  </div>
+  <div class="marquee" style="--marquee-duration:<%= duration %>s" data-marquee>
+    <div class="marquee-track">
+      <ul class="marquee-set" aria-label="Insurance providers"><% logos.forEach(function(p){ %><%- item(p, false) %><% }) %></ul>
+      <ul class="marquee-set" aria-hidden="true"><% logos.forEach(function(p){ %><%- item(p, true) %><% }) %></ul>
+    </div>
+  </div>
+  <div class="container-site mt-space-sm flex items-center justify-between gap-space-sm">
+    <p class="font-label-sm text-[11px] text-on-surface-variant">Logos are trademarks of their respective owners. Availability depends on your province, the product and underwriting.</p>
+    <button type="button" class="marquee-toggle shrink-0 w-9 h-9 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface flex items-center justify-center" aria-label="Pause the logo scroller" aria-pressed="false" data-marquee-toggle><span class="material-symbols-outlined text-[20px]" aria-hidden="true" data-marquee-icon>pause</span></button>
+  </div>
+</section>

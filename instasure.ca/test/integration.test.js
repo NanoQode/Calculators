@@ -430,7 +430,8 @@ test('insurer and MGA logos: hidden until confirmed, SVG refused, then shown wit
   const page = await (await req('/admin/partners')).text();
   const csrf = page.match(/name="_csrf" value="([^"]+)"/)[1];
   assert.match(page, /Hidden from the site/);
-  assert.doesNotMatch(await (await req('/')).text(), /data-partners=/, 'nothing public before confirmation');
+  assert.doesNotMatch(await (await req('/')).text(), /data-partners=/, 'no appointment bands before confirmation');
+  assert.doesNotMatch(await (await req('/life-insurance/')).text(), /data-partners=/);
 
   // A 1×1 PNG with a 320×90 header (the dimension reader only needs IHDR).
   const png = Buffer.from('89504e470d0a1a0a' + '0000000d' + '49484452' + '00000140' + '0000005a' + '0806000000' + '00000000', 'hex');
@@ -453,13 +454,13 @@ test('insurer and MGA logos: hidden until confirmed, SVG refused, then shown wit
 
   await req('/admin/partners/confirm', { method: 'POST', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: form({ _csrf: csrf, carriers_confirmed: 'on' }) });
   const home = await (await req('/')).text();
-  assert.match(home, /data-partners="band"/);
-  assert.match(home, new RegExp(`<img src="${saved.logo}" alt="Test MGA Partners logo" width="320" height="90"`));
-  assert.match(home, /MGAs \(managing general agencies\)/);
   assert.match(home, /data-partners="compact"/, 'footer row');
   assert.match(home, /shown with permission/);
+  assert.match(home, /alt="Test MGA Partners"/, 'the home scroller picks up an uploaded logo');
   const life = await (await req('/life-insurance/')).text();
-  assert.match(life, /Test MGA Partners logo/, 'life-line MGA on a life page');
+  assert.match(life, /data-partners="band"/);
+  assert.match(life, new RegExp(`<img src="${saved.logo}" alt="Test MGA Partners logo" width="320" height="90"`));
+  assert.match(life, /MGAs \(managing general agencies\)/);
   const car = await (await req('/car-insurance/')).text();
   assert.doesNotMatch((car.split('data-partners="band"')[1] || '').split('</section>')[0], /Test MGA Partners/, 'life-only MGA not in the car page band');
   const quote = await (await req('/quote/term-life-insurance/')).text();
@@ -469,5 +470,34 @@ test('insurer and MGA logos: hidden until confirmed, SVG refused, then shown wit
   await req(`/admin/partners/${id}/delete`, { method: 'POST', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: form({ _csrf: csrf }) });
   assert.ok(!settings.get('partners').some((p) => p.id === id));
   settings.set('carriers_confirmed', false);
+  require('../src/lib/cache').clear();
+});
+
+test('home provider scroller: supplied logos under the hero, sized by area, accessible, and switchable in admin', async () => {
+  const req = client();
+  const settings = require('../src/lib/settings');
+  const { providers } = require('../src/data/providers');
+  const html = await (await req('/')).text();
+  const hero = html.indexOf('<h1'), band = html.indexOf('data-provider-scroller'), products = html.indexOf('id="products-h"');
+  assert.ok(hero > 0 && band > hero && band < products, 'scroller sits between the hero and the product cards');
+  assert.match(html, /<h2 id="providers-h"[^>]*>Access Canada’s Insurance Provider Network<\/h2>/);
+  const section = html.slice(band, html.indexOf('</section>', band));
+  const [visible, hidden] = section.split('aria-hidden="true"');
+  assert.equal((visible.match(/class="marquee-item"/g) || []).length, providers.length, 'one visible logo per provider');
+  assert.equal((hidden.match(/class="marquee-item"/g) || []).length, providers.length, 'a hidden copy for the seamless loop');
+  assert.ok(!/alt="[^"]+"/.test(hidden), 'the copy is silent for screen readers');
+  for (const p of providers) assert.match(visible, new RegExp(`src="${p.logo}" alt="${p.name}"`), p.name);
+  const areas = [...visible.matchAll(/width="(\d+)" height="(\d+)"/g)].map((m) => Number(m[1]) * Number(m[2]));
+  const mean = areas.reduce((a, b) => a + b, 0) / areas.length;
+  assert.ok(areas.every((a) => Math.abs(a - mean) / mean < 0.1), 'logos get about the same visual area');
+  assert.match(section, /data-marquee-toggle/, 'pause button (WCAG 2.2.2)');
+  assert.equal((await req(providers[0].logo)).status, 200);
+
+  await req('/admin/login', { method: 'POST', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: form({ email: 'admin@instasure.test', password: 'correct-horse-battery-staple', next: '/admin/' }) });
+  const csrf = (await (await req('/admin/partners')).text()).match(/name="_csrf" value="([^"]+)"/)[1];
+  await req('/admin/partners/scroller', { method: 'POST', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: form({ _csrf: csrf }) });
+  assert.equal(settings.get('provider_scroller'), false);
+  assert.doesNotMatch(await (await req('/')).text(), /data-provider-scroller/, 'switched off in admin');
+  settings.set('provider_scroller', true);
   require('../src/lib/cache').clear();
 });

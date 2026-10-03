@@ -18,6 +18,7 @@ const geo = require('../data/geo');
 const { CATEGORIES } = require('../data/products');
 const glossary = require('../data/glossary');
 const specialties = require('../lib/specialties');
+const partners = require('../lib/partners');
 const U = require('../lib/util');
 
 const router = express.Router();
@@ -100,6 +101,7 @@ router.get('/', (req, res) => {
   res.page('public/home', {
     pageType: 'home', sectionLabel: 'Home',
     widget: widgetFor('term-life-insurance'), productCards, latestGuides, faq: HOME_FAQ,
+    providerLogos: partners.scroller().map((p) => ({ ...p, size: partners.fit(p) })),
     guideCount: db.value("SELECT COUNT(*) FROM posts WHERE status = 'published'"),
     asOf: U.monthYear(),
     meta: seo.meta({

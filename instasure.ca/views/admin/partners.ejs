@@ -2,14 +2,22 @@
   var catKeys = Object.keys(CATEGORIES);
   var checker = 'bg-[length:16px_16px] bg-[linear-gradient(45deg,#eef_25%,transparent_25%,transparent_75%,#eef_75%),linear-gradient(45deg,#eef_25%,transparent_25%,transparent_75%,#eef_75%)] bg-[position:0_0,8px_8px]';
 %>
-<%- include('partials-head', { h: 'Insurers & MGAs', sub: 'The insurers and managing general agencies (MGAs) your advisors are appointed with, and their logos. Shown on the home page, product and service pages, the quote flow and the footer, but only after you confirm below.' }) %>
+<%- include('partials-head', { h: 'Insurers & MGAs', sub: 'The insurers and managing general agencies (MGAs) your advisors work with, and their logos: the home page scroller, plus the product, service, quote and footer logo bands once you confirm appointments below.' }) %>
 
 <form method="post" action="/admin/partners/confirm" class="card p-5 mb-4 flex flex-col gap-2 <%= confirmed ? '' : 'border-2 border-error/40' %>">
   <input type="hidden" name="_csrf" value="<%= csrf %>">
   <label class="flex items-start gap-2 font-body-md text-body-md"><input type="checkbox" name="carriers_confirmed" class="mt-1" <%= confirmed ? 'checked' : '' %>>
     <span>I confirm we hold a current written appointment or contract with every insurer and MGA marked “Show” below, and written permission to display each logo shown.</span></label>
-  <p class="font-body-sm text-body-sm text-on-surface-variant">Showing an insurer you are not appointed with, or a logo without permission, is a misleading “partner” claim under the Competition Act and provincial advertising rules (FSRA, RIBO, AMF, BCFSA), and a trademark problem. Until this is ticked, nothing on this page appears on the site.</p>
+  <p class="font-body-sm text-body-sm text-on-surface-variant">Showing an insurer you are not appointed with, or a logo without permission, is a misleading “partner” claim under the Competition Act and provincial advertising rules (FSRA, RIBO, AMF, BCFSA), and a trademark problem. Until this is ticked, the logo bands that say advisors are appointed with these companies (product and service pages, the quote sidebar and the footer) stay hidden. The home page scroller has its own switch below.</p>
   <div><button class="btn-primary !py-2 !px-4">Save</button> <span class="font-label-md text-label-md <%= confirmed ? 'text-secondary' : 'text-error' %> ml-2"><%= confirmed ? 'Shown on the site' : 'Hidden from the site' %></span></div>
+</form>
+
+<form method="post" action="/admin/partners/scroller" class="card p-5 mb-4 flex flex-col gap-2">
+  <input type="hidden" name="_csrf" value="<%= csrf %>">
+  <label class="flex items-start gap-2 font-body-md text-body-md"><input type="checkbox" name="provider_scroller" class="mt-1" <%= scroller ? 'checked' : '' %>>
+    <span>Show the logo scroller under the home page hero (“Access Canada’s Insurance Provider Network”): every insurer and MGA below that is marked “Show” and has a logo.</span></label>
+  <p class="font-body-sm text-body-sm text-on-surface-variant">The scroller says advisors compare plans from Canadian insurers and that availability varies by province; it does not claim an appointment with each company. Remove any company you don’t want shown.</p>
+  <div><button class="btn-primary !py-2 !px-4">Save</button> <span class="font-label-md text-label-md <%= scroller ? 'text-secondary' : 'text-on-surface-variant' %> ml-2"><%= scroller ? 'Scroller on' : 'Scroller off' %></span></div>
 </form>
 
 <form method="post" action="/admin/partners?_csrf=<%= encodeURIComponent(csrf) %>" enctype="multipart/form-data" class="card p-5 mb-4 grid grid-cols-1 md:grid-cols-6 gap-3 items-end">

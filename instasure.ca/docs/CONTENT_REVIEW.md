@@ -28,7 +28,7 @@ The design mockups included claims that could not be verified. The build does no
 |---|---|---|
 | Regulator licence numbers in the footer | Shows the generic licence disclosure only | Enter real numbers on the `/licensing/` page and advisor profiles |
 | "4.9/5 from 40,000+ reviews" | Hidden | Set rating value, count **and** source (e.g. Google) in Site settings; all three are required |
-| Carrier and MGA logos and "partners" | Names and logos hidden while `carriers_confirmed` is off (Admin → Insurers & MGAs) | Confirm a written appointment or contract with each insurer and MGA shown and written permission to use each logo, upload the logos, then tick the confirmation |
+| Carrier and MGA logos and "partners" | Home page scroller ("Access Canada's Insurance Provider Network") shows the 18 logos the owner supplied (October 3, 2026), with neutral copy and a trademark notice; the bands that say advisors are appointed with these companies stay hidden while `carriers_confirmed` is off (Admin → Insurers & MGAs) | Remove any insurer the advisors cannot place business with; confirm a written appointment or contract with each insurer and MGA shown and permission to use each logo, then tick the confirmation |
 | Salaried, non-commissioned advisors; price match; "84% approved with no exam" | Removed | Only add back with evidence and legal sign-off |
 | Named-carrier prices on the results page | Replaced by product-type tiers with estimate ranges and disclaimers | Real quotes come from the advisor |
 

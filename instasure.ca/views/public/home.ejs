@@ -26,6 +26,8 @@
   </section>
 </div>
 
+<% if (providerLogos.length) { %><%- include('partials/provider-marquee', { logos: providerLogos }) %><% } %>
+
 <!-- What do you need to protect? -->
 <section class="w-full bg-surface-container-lowest py-space-xl shadow-sm" aria-labelledby="products-h">
   <div class="container-site">
@@ -72,7 +74,6 @@
   </div>
 </section>
 
-<% var homePartners = partnersFor(); if (homePartners.length) { %><%- include('partials/partner-logos', { list: homePartners, variant: 'band' }) %><% } %>
 
 <%- include('partials/advisor-banner', { bannerTitle: 'Prefer a human review before you buy?' }) %>
 
