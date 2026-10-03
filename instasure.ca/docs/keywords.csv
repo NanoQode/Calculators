@@ -33,6 +33,7 @@ term vs whole life insurance,national,term-life-insurance,,,1900,model,50,inform
 alberta car insurance increase 2026,provincial,car-insurance,ab,,1900,model,35,informational,auto-regulation,"globalnews, daily hive, brokers",/guides/alberta-car-insurance-2026-care-first/,1,"Alberta auto premiums rose 22.6% year over year in Q2 2026 (Applied, verify). Few aggregator pages."
 home insurance toronto,local,home-insurance,on,toronto,1900,model,68,local,property-local,"ratehub, rates.ca, local brokers (#1)",/home-insurance/ontario/toronto/,1,
 why is my car insurance going up,national,car-insurance,,,1600,model,35,informational,auto-regulation,"onlia, rates.ca",/guides/why-is-my-car-insurance-going-up-2026/,1,Renewal-notice searches. Refresh each quarter with the Applied Rating Index.
+high risk car insurance,national,car-insurance,,,1600,model,45,commercial,auto-persona,"ratehub, rates.ca guide, facility association",/car-insurance/high-risk-drivers/,1,"Built with the High-risk auto desk (niche gap: competitors run one generic page). Next: sub-guides after an accident, tickets, lapsed or cancelled."
 how much does life insurance cost,national,life-insurance,,,1600,model,55,informational,life-cost,"policyadvisor, policyme, sun life (rates pages)",/guides/how-much-does-life-insurance-cost-canada/,1,
 super visa insurance cost,national,super-visa-insurance,,,1600,model,40,commercial,travel-visitors,"policyadvisor, hellosafe, bestquote",/guides/super-visa-insurance-requirements-cost/,1,
 does home insurance cover water damage,national,home-insurance,,,1600,model,40,informational,property-coverage,"ratehub, CAA, RBC, westland",/guides/does-home-insurance-cover-water-damage-canada/,1,Peaks after storms. A strong AI-citation format.
@@ -51,7 +52,7 @@ insurance advisor near me,national,,,,1300,model,40,local,advisors,"policyadviso
 health insurance ontario,provincial,health-dental-insurance,on,,1300,model,61,commercial,health-province,policyadvisor,/health-dental-insurance/ontario/,1,
 optional accident benefits ontario,provincial,car-insurance,on,,1300,model,35,informational,auto-regulation,"intact, northbridge, thebig.ca",/guides/ontario-auto-insurance-changes-july-2026/,1,
 business insurance ontario,provincial,business-insurance,on,,1200,model,52,commercial,business-province,(none seen),/business-insurance/ontario/,1,
-car insurance for newcomers to canada,national,car-insurance,,,1000,model,35,commercial,auto-persona,"ratehub, rates.ca guide",,1,"Planned: /car-insurance/newcomers/. Pair with multilingual advisors (Punjabi, Hindi, Tagalog, Mandarin)."
+car insurance for newcomers to canada,national,car-insurance,,,1000,model,35,commercial,auto-persona,"ratehub, rates.ca guide",/car-insurance/newcomers/,1,"Built with the Newcomer driver desk. Staff it with multilingual advisors (Punjabi, Hindi, Tagalog, Mandarin)."
 mortgage protection insurance,national,mortgage-life-insurance,,,1000,model,45,commercial,life-mortgage,"policyadvisor, manulife mortgage protection plan",/mortgage-life-insurance/,1,
 is tenant insurance mandatory,national,tenant-insurance,,,1000,model,35,informational,property-coverage,"sonnet faq, tenantrights.ca",/guides/tenant-insurance-ontario-landlord-require/,1,
 home insurance bc,provincial,home-insurance,bc,,1000,model,53,commercial,property-province,sonnet,/home-insurance/british-columbia/,1,
@@ -69,7 +70,7 @@ employee benefits for small business,national,group-benefits,,,720,model,45,comm
 alberta good driver rate cap,provincial,car-insurance,ab,,720,model,30,informational,auto-regulation,"globalnews, alberta.ca",/guides/alberta-car-insurance-2026-care-first/,1,
 insurance advisor toronto,local,,on,toronto,680,model,30,local,advisors,"local brokers, thinkinsure, rates.ca (broker pages)",/insurance/ontario/toronto/,1,City hub. Add a Google Business Profile only where an advisor really works from that city.
 buy life insurance online,national,no-medical-life-insurance,,,590,model,40,transactional,life-instant,"sun life go, coverme, policyme, policyadvisor",/no-medical-life-insurance/,1,"Brand fit. Say ""instant"" only where a product truly binds online in that province."
-disability insurance for self employed,national,disability-insurance,,,590,model,35,commercial,living-benefits,policyadvisor,/disability-insurance/,1,Tie-in with the Ontario income-replacement opt-out.
+disability insurance for self employed,national,disability-insurance,,,590,model,35,commercial,living-benefits,policyadvisor,/disability-insurance/self-employed/,1,Built with the Self-employed income protection desk. Tie-in with the Ontario income-replacement opt-out.
 business insurance toronto,local,business-insurance,on,toronto,590,model,41,local,business-local,(none seen),/business-insurance/ontario/toronto/,1,
 life insurance for newcomers to canada,national,life-insurance,,,480,model,30,commercial,life-audience,"policyadvisor, mychoice, iA",/guides/life-insurance-for-newcomers-to-canada/,1,"Underserved and high converting. Planned translations: Punjabi, Hindi, Mandarin, Tagalog."
 income replacement benefit ontario opt out,provincial,car-insurance,on,,480,model,25,informational,auto-regulation,"thebig.ca, thinkinsure",/guides/ontario-auto-insurance-changes-july-2026/,1,Pair with the disability insurance page for self-employed drivers.
@@ -97,6 +98,7 @@ business insurance edmonton,local,business-insurance,ab,edmonton,260,model,41,lo
 life insurance hamilton,local,life-insurance,on,hamilton,250,model,47,local,life-local,policyadvisor (stale 2025 titles),/life-insurance/ontario/hamilton/,1,Competitor city pages here are thin or carry stale dates (October 2026 review): freshness opening.
 life insurance surrey,local,life-insurance,bc,surrey,240,model,35,local,life-local,(none seen),/life-insurance/british-columbia/surrey/,1,
 critical illness insurance ontario,provincial,critical-illness-insurance,on,,220,model,37,commercial,living-benefits,(none seen),/critical-illness-insurance/ontario/,1,
+should i buy optional accident benefits,national,car-insurance,,,210,model,15,informational,auto-regulation,(explainers only),/car-insurance/accident-benefits-review/,1,Ontario only. The Accident benefits review desk turns the July 2026 opt-out into an advisor conversation; the guide covers the rules.
 business insurance winnipeg,local,business-insurance,mb,winnipeg,210,model,33,local,business-local,(none seen),/business-insurance/manitoba/winnipeg/,1,
 life insurance halifax,local,life-insurance,ns,halifax,200,model,35,local,life-local,(none seen),/life-insurance/nova-scotia/halifax/,1,
 life insurance london ontario,local,life-insurance,on,london,190,model,43,local,life-local,(none seen),/life-insurance/ontario/london/,1,
@@ -107,26 +109,27 @@ renters insurance,national,tenant-insurance,,,9900,model,65,commercial,property-
 dental insurance,national,health-dental-insurance,,,8100,model,65,commercial,health-dental,"sun life, manulife, blue cross, policyadvisor",/health-dental-insurance/,2,Much of the volume is CDCP navigation; target the self-employed and CDCP-ineligible.
 house insurance,national,home-insurance,,,8100,model,75,commercial,property-core,"ratehub, rates.ca",/home-insurance/,2,
 insurance broker near me,national,,,,6600,model,60,local,advisors,"local brokers, thinkinsure",/advisors/,2,"Needs Google Business Profiles. Say ""licensed advisor"" unless the entity is a registered brokerage."
-visitors insurance canada,national,travel-insurance,,,4400,model,55,transactional,travel-visitors,"ratehub, rates.ca, policyadvisor, sun life",/super-visa-insurance/,2,Planned: dedicated /travel-insurance/visitors-to-canada/.
+visitors insurance canada,national,travel-insurance,,,4400,model,55,transactional,travel-visitors,"ratehub, rates.ca, policyadvisor, sun life",/travel-insurance/visitors-to-canada/,2,Built: dedicated visitors page. The super visa page covers the mandatory case.
 private health insurance canada,national,health-dental-insurance,,,2900,model,60,commercial,health-dental,"policyadvisor, sun life, manulife, blue cross",/health-dental-insurance/,2,
 car insurance calculator,national,car-insurance,,,2400,model,55,transactional,auto-tools,"rates.ca (ON, AB), lowestrates (ON)",/quote/car-insurance/,2,Instant estimate covers the intent. Planned: /calculators/car-insurance-cost/ with province selector.
 most stolen cars canada,national,car-insurance,,,2400,model,40,informational,auto-data,"sonnet, equite association, insurancehotline",,2,Planned: /guides/most-stolen-cars-canada/ refreshed with each Équité report.
 best life insurance companies canada,national,life-insurance,,,2400,model,65,commercial,life-reviews,"policyadvisor, wealthnorth, hellosafe",,2,Planned: /life-insurance/best-companies/. Publish the methodology first.
-landlord insurance,national,home-insurance,,,2400,model,50,commercial,property-niche,"ratehub, rates.ca",,2,Planned: /home-insurance/landlord-rental-property/.
+landlord insurance,national,home-insurance,,,2400,model,50,commercial,property-niche,"ratehub, rates.ca",/landlord-insurance/,2,Built (service page).
 general liability insurance,national,business-insurance,,,2400,model,55,commercial,business,"ratehub (CGL), rates.ca",/business-insurance/,2,
 car insurance bc,provincial,car-insurance,bc,,2200,model,63,commercial,auto-province,ratehub,/car-insurance/british-columbia/,2,ICBC sells basic auto; target optional coverage. Low lead value.
-car insurance for new drivers,national,car-insurance,,,1900,model,50,commercial,auto-persona,"rates.ca guide, ratehub blog",,2,"Planned: /car-insurance/new-drivers/ (G1/G2/G, Class 7, L/N by province)."
-high risk car insurance,national,car-insurance,,,1600,model,45,commercial,auto-persona,"ratehub, rates.ca guide, facility association",,2,"Planned: /car-insurance/high-risk/ plus sub-pages: after an accident, tickets, impaired, lapsed or cancelled."
-life insurance for seniors,national,life-insurance,,,1600,model,50,commercial,life-audience,"policyadvisor, sun life",,2,"Planned: /life-insurance/seniors/ (no-medical, guaranteed issue, final expense)."
+car insurance for new drivers,national,car-insurance,,,1900,model,50,commercial,auto-persona,"rates.ca guide, ratehub blog",/car-insurance/new-drivers/,2,"Built: service page with a new-driver example estimate. Next: per-province sections (G1/G2/G, Class 7, L/N)."
+life insurance for seniors,national,life-insurance,,,1600,model,50,commercial,life-audience,"policyadvisor, sun life",/life-insurance/seniors/,2,"Built with a seniors example estimate (no-medical, guaranteed issue and final expense covered on the page)."
+snowbird travel insurance,national,travel-insurance,,,1300,model,45,commercial,travel,(not seen),/travel-insurance/snowbirds/,2,Built with the Snowbird travel desk and an example estimate.
 flood insurance canada,national,home-insurance,,,1300,model,45,informational,property-coverage,"money.ca, mychoice, IBC",/guides/does-home-insurance-cover-water-damage-canada/,2,The national flood program is delayed. Planned: a tracker page.
+commercial auto insurance,national,business-insurance,,,1300,model,50,commercial,business,rates.ca,/business-insurance/commercial-auto/,2,Built with the Commercial auto & trucking desk.
 icbc optional insurance,provincial,car-insurance,bc,,1300,model,40,informational,auto-regulation,"ICBC, BC brokers",/guides/icbc-optional-insurance-explained/,2,ICBC basic rates are frozen through 2027; optional coverage still varies.
 how much is car insurance in toronto,local,car-insurance,on,toronto,1300,model,79,informational,auto-local,"ratehub, rates.ca, sonnet, mychoice/squareone/thinkinsure",/car-insurance/ontario/toronto/,2,Ratehub ranks a blog post for this. The city page answers it in the first two sentences with a dated average.
 car insurance vaughan,local,car-insurance,on,vaughan,1300,model,72,local,auto-local,rates.ca,/car-insurance/ontario/vaughan/,2,
 car insurance markham,local,car-insurance,on,markham,1200,model,76,local,auto-local,"ratehub, rates.ca",/car-insurance/ontario/markham/,2,
 car insurance halifax,local,car-insurance,ns,halifax,1200,model,64,local,auto-local,ratehub,/car-insurance/nova-scotia/halifax/,2,
 car insurance rates by province,national,car-insurance,,,1000,model,45,informational,auto-cost,"sonnet, rates.ca",/insights/rate-index/,2,
-uber insurance canada,national,car-insurance,,,1000,model,40,commercial,auto-persona,"ratehub, mychoice, thinkinsure",/guides/gig-driver-insurance-uber-doordash-ontario/,2,
-final expense insurance canada,national,life-insurance,,,1000,model,40,commercial,life-audience,policyadvisor,,2,Planned: /life-insurance/final-expense/.
+uber insurance canada,national,car-insurance,,,1000,model,40,commercial,auto-persona,"ratehub, mychoice, thinkinsure",/car-insurance/rideshare-and-delivery/,2,Built with the Gig driver desk. The Ontario gig-driver guide supports it.
+final expense insurance canada,national,life-insurance,,,1000,model,40,commercial,life-audience,policyadvisor,/life-insurance/final-expense/,2,Built (service page).
 home insurance calculator,national,home-insurance,,,1000,model,45,transactional,property-tools,rates.ca (AB),/quote/home-insurance/,2,
 errors and omissions insurance,national,professional-liability-insurance,,,1000,model,50,commercial,business,rates.ca,/professional-liability-insurance/,2,
 compare insurance quotes canada,national,,,,1000,model,55,commercial,brand-instant,"ratehub, rates.ca",/compare/,2,
@@ -136,8 +139,9 @@ car insurance nova scotia,provincial,car-insurance,ns,,990,model,57,commercial,a
 cheap car insurance calgary,local,car-insurance,ab,calgary,970,model,71,transactional,auto-local,"ratehub, rates.ca",/car-insurance/alberta/calgary/,2,"Rates.ca titles lead with ""Cheap""; answer with factors and FSA data, not a price promise."
 home insurance alberta,provincial,home-insurance,ab,,900,model,57,commercial,property-province,"ratehub, sonnet",/home-insurance/alberta/,2,
 term life insurance rates,national,term-life-insurance,,,880,model,55,commercial,life-cost,"sun life (rates page), policyadvisor",/term-life-insurance/,2,
+cottage insurance,national,home-insurance,,,880,model,40,commercial,property-niche,rates.ca (cottage rental),/home-insurance/cottage-and-seasonal/,2,Built with the Cottage & rural property desk.
 ontario car insurance calculator,provincial,car-insurance,on,,880,model,45,transactional,auto-tools,"rates.ca, lowestrates",/quote/car-insurance/,2,
-g2 car insurance ontario,provincial,car-insurance,on,,880,model,40,commercial,auto-persona,"rates.ca (money page), ratehub blog",,2,Planned: /car-insurance/ontario/g2-drivers/ (also G1 and G).
+g2 car insurance ontario,provincial,car-insurance,on,,880,model,40,commercial,auto-persona,"rates.ca (money page), ratehub blog",/car-insurance/new-drivers/,2,Answered on the new-drivers page. Planned: an Ontario G1/G2/G section or /car-insurance/ontario/g2-drivers/.
 car insurance etobicoke,local,car-insurance,on,toronto,880,model,45,local,auto-local,rates.ca,,2,Planned Toronto sub-area page.
 home insurance ottawa,local,home-insurance,on,ottawa,850,model,56,local,property-local,"rates.ca, sonnet, local brokers (#1)",/home-insurance/ontario/ottawa/,2,
 car insurance richmond hill,local,car-insurance,on,richmond-hill,850,model,64,local,auto-local,rates.ca,/car-insurance/ontario/richmond-hill/,2,
@@ -148,6 +152,7 @@ car insurance new brunswick,provincial,car-insurance,nb,,810,model,57,commercial
 cheap car insurance edmonton,local,car-insurance,ab,edmonton,730,model,71,transactional,auto-local,"ratehub, rates.ca",/car-insurance/alberta/edmonton/,2,"Rates.ca titles lead with ""Cheap""; answer with factors and FSA data, not a price promise."
 why is home insurance going up,national,home-insurance,,,720,model,30,informational,property-cost,(news),,2,"Property premiums rose 5.8% year over year in Q2 2026 (Applied, verify). Planned guide."
 condo insurance cost,national,condo-insurance,,,720,model,40,informational,property-cost,"ratehub, rates.ca",/condo-insurance/,2,
+airbnb insurance canada,national,home-insurance,,,720,model,35,commercial,property-niche,(not seen),/home-insurance/short-term-rental/,2,"Built with the Short-term rental desk (niche gap: Ratehub has one page, no one staffs it)."
 home insurance winnipeg,local,home-insurance,mb,winnipeg,660,model,52,local,property-local,ratehub,/home-insurance/manitoba/winnipeg/,2,
 car insurance oakville,local,car-insurance,on,oakville,650,model,68,local,auto-local,"ratehub, rates.ca",/car-insurance/ontario/oakville/,2,
 home insurance mississauga,local,home-insurance,on,mississauga,640,model,64,local,property-local,"ratehub, rates.ca",/home-insurance/ontario/mississauga/,2,
@@ -165,16 +170,18 @@ super visa insurance ontario,provincial,super-visa-insurance,on,,550,model,42,co
 home insurance hamilton,local,home-insurance,on,hamilton,530,model,56,local,property-local,"ratehub, rates.ca",/home-insurance/ontario/hamilton/,2,
 home insurance surrey,local,home-insurance,bc,surrey,530,model,48,local,property-local,(none seen),/home-insurance/british-columbia/surrey/,2,
 cheap car insurance hamilton,local,car-insurance,on,hamilton,520,model,65,transactional,auto-local,"ratehub, rates.ca, sonnet, mychoice/squareone/thinkinsure",/car-insurance/ontario/hamilton/,2,"Rates.ca titles lead with ""Cheap""; answer with factors and FSA data, not a price promise."
-doordash insurance canada,national,car-insurance,,,480,model,25,commercial,auto-persona,"everlance, thinkinsure",/guides/gig-driver-insurance-uber-doordash-ontario/,2,Gig drivers are the group most exposed by the Ontario accident-benefits opt-out.
+doordash insurance canada,national,car-insurance,,,480,model,25,commercial,auto-persona,"everlance, thinkinsure",/car-insurance/rideshare-and-delivery/,2,Gig drivers are the group most exposed by the Ontario accident-benefits opt-out. Service page plus the Ontario guide.
 best critical illness insurance canada,national,critical-illness-insurance,,,480,model,45,commercial,living-benefits,policyadvisor,,2,Planned: /critical-illness-insurance/best-companies/ with methodology.
-key person insurance,national,life-insurance,,,480,model,35,commercial,business-benefits,policyadvisor,,2,"Planned: /business-insurance/key-person/ (life product, business buyer)."
+key person insurance,national,life-insurance,,,480,model,35,commercial,business-benefits,policyadvisor,/business-insurance/key-person/,2,"Built (life product, business buyer)."
 contractor liability insurance,national,contractor-insurance,,,480,model,35,commercial,business-trades,"ratehub, rates.ca",/contractor-insurance/,2,
+cant get home insurance,national,home-insurance,,,480,model,25,commercial,property-niche,local brokers,/home-insurance/hard-to-insure/,2,Niche gap: no comparison site has a page for declined or non-renewed homes. Hard-to-insure property desk.
 strata insurance deductible bc,provincial,condo-insurance,bc,,480,model,30,informational,property-coverage,BC brokers,/guides/condo-insurance-deductible-assessment-explained/,2,BC strata deductibles are the national extreme. BC banned strata referral fees in 2020.
 health insurance bc,provincial,health-dental-insurance,bc,,470,model,53,commercial,health-province,policyadvisor,/health-dental-insurance/british-columbia/,2,
 home insurance halifax,local,home-insurance,ns,halifax,430,model,52,local,property-local,ratehub,/home-insurance/nova-scotia/halifax/,2,
 home insurance london ontario,local,home-insurance,on,london,420,model,56,local,property-local,(none seen),/home-insurance/ontario/london/,2,
 health insurance alberta,provincial,health-dental-insurance,ab,,410,model,53,commercial,health-province,policyadvisor,/health-dental-insurance/alberta/,2,
 500000 life insurance cost,national,term-life-insurance,,,390,model,35,informational,life-cost,policyadvisor,/guides/how-much-does-life-insurance-cost-canada/,2,
+high risk home insurance,national,home-insurance,,,390,model,30,commercial,property-niche,"local brokers, specialty MGAs",/home-insurance/hard-to-insure/,2,Same page and desk as above.
 alberta car insurance calculator,provincial,car-insurance,ab,,390,model,35,transactional,auto-tools,rates.ca,/quote/car-insurance/,2,
 home insurance markham,local,home-insurance,on,markham,350,model,56,local,property-local,(none seen),/home-insurance/ontario/markham/,2,
 home insurance vaughan,local,home-insurance,on,vaughan,340,model,56,local,property-local,(none seen),/home-insurance/ontario/vaughan/,2,
@@ -243,6 +250,7 @@ assurance habitation,provincial,home-insurance,qc,,22000,model,70,transactional,
 assurance vie,provincial,life-insurance,qc,,9900,model,65,commercial,fr-quebec,"desjardins, iA, beneva, sun life",,3,Planned: /fr/assurance-vie/. No competitor geo page seen for Quebec life insurance; PolicyAdvisor is not licensed there.
 soumission assurance auto,provincial,car-insurance,qc,,6600,model,65,transactional,fr-quebec,"sonnet (""soumission 100% en ligne"")",,3,"Planned: /fr/soumission/ (quote flow in French). Use ""soumission"" in French titles."
 liability insurance,national,business-insurance,,,5400,model,65,commercial,business,"ratehub, rates.ca",/business-insurance/,3,
+motorcycle insurance,national,car-insurance,,,5400,model,60,commercial,auto-recreational,"ratehub (ON, AB), rates.ca, insurer brands",/motorcycle-insurance/,3,Seasonal: searches peak March to May. Province pages are the next step if quote volume justifies them.
 assurance locataire,provincial,tenant-insurance,qc,,4400,model,55,commercial,fr-quebec,sonnet,,3,Planned: /fr/assurance-locataire/.
 long term disability insurance,national,disability-insurance,,,2900,model,55,informational,living-benefits,policyadvisor,/disability-insurance/,3,Much of the volume is about group or claims; qualify carefully.
 car insurance quebec,provincial,car-insurance,qc,,2200,model,71,commercial,auto-province,"ratehub, rates.ca, sonnet",/car-insurance/quebec/,3,Quebec waitlist until AMF registration; English phrase only (French terms listed separately).
@@ -250,33 +258,35 @@ best car insurance companies canada,national,car-insurance,,,1900,model,60,comme
 comprehensive vs collision insurance,national,car-insurance,,,1600,model,40,informational,auto-coverage,rates.ca coverage pages,,3,Planned guide. The glossary covers the terms meanwhile.
 tenant insurance ontario,provincial,tenant-insurance,on,,1600,model,62,commercial,property-province,"ratehub, rates.ca, sonnet",/tenant-insurance/ontario/,3,
 assurance auto montréal,local,car-insurance,qc,montreal,1600,model,55,local,fr-quebec,ratehub (EN only),,3,Planned: /fr/assurance-auto/quebec/montreal/.
-car insurance after accident,national,car-insurance,,,1300,model,35,informational,auto-persona,rates.ca,,3,Planned guide under the high-risk cluster.
-universal life insurance,national,whole-life-insurance,,,1300,model,55,commercial,life-core,"policyadvisor, sun life, ratehub",,3,Planned section on /whole-life-insurance/ or a separate page.
-snowbird travel insurance,national,travel-insurance,,,1300,model,45,commercial,travel,(not seen),,3,Planned: /travel-insurance/snowbird/.
-travel insurance for seniors,national,travel-insurance,,,1300,model,50,commercial,travel,sun life,,3,Planned: /travel-insurance/seniors/ (with the snowbird page).
-commercial auto insurance,national,business-insurance,,,1300,model,50,commercial,business,rates.ca,,3,Planned: /business-insurance/commercial-auto/.
-trucking insurance,national,business-insurance,,,1300,model,50,commercial,business-trades,"brokers, specialty MGAs",,3,Planned: /business-insurance/trucking/ (commercial auto).
+car insurance after accident,national,car-insurance,,,1300,model,35,informational,auto-persona,rates.ca,/car-insurance/high-risk-drivers/,3,Answered on the high-risk page; a dedicated guide is still planned.
+universal life insurance,national,whole-life-insurance,,,1300,model,55,commercial,life-core,"policyadvisor, sun life, ratehub",/life-insurance/universal-life/,3,Built (service page under whole life).
+travel insurance for seniors,national,travel-insurance,,,1300,model,50,commercial,travel,sun life,/travel-insurance/snowbirds/,3,Answered on the snowbird page; a separate seniors page is not planned.
+trucking insurance,national,business-insurance,,,1300,model,50,commercial,business-trades,"brokers, specialty MGAs",/business-insurance/commercial-auto/,3,Answered on the commercial auto page (Commercial auto & trucking desk). A trucking-only page waits for real for-hire volume.
+umbrella insurance,national,home-insurance,,,1300,model,40,commercial,property-niche,ratehub,/umbrella-insurance/,3,"Good cross-sell for landlords, cottage owners and boat owners."
+long term care insurance canada,national,health-dental-insurance,,,1300,model,45,commercial,health-dental,"ratehub, policyadvisor",/long-term-care-insurance/,3,Few Canadian insurers still sell individual LTC; the page says so and covers the alternatives.
 assurance maladies graves,provincial,critical-illness-insurance,qc,,1300,model,40,commercial,fr-quebec,"desjardins, sun life",,3,Planned: /fr/assurance-maladies-graves/.
 tenant insurance toronto,local,tenant-insurance,on,toronto,1300,model,60,local,property-local,"ratehub, rates.ca, sonnet",/tenant-insurance/ontario/toronto/,3,
 car insurance montreal,local,car-insurance,qc,montreal,1200,model,68,local,auto-local,"ratehub, sonnet",/car-insurance/quebec/montreal/,3,Quebec waitlist until AMF registration.
+types of insurance in canada,national,,,,1000,model,40,informational,brand-instant,"ratehub, rates.ca, insurer brands",/insurance-services/,3,"All-services hub with every product, service and specialist desk."
 assurance invalidité,provincial,disability-insurance,qc,,1000,model,40,commercial,fr-quebec,"desjardins, iA",,3,Planned: /fr/assurance-invalidite/.
 assurance habitation montréal,local,home-insurance,qc,montreal,1000,model,50,local,fr-quebec,sonnet,,3,Planned: /fr/assurance-habitation/quebec/montreal/.
-home and auto insurance bundle,national,car-insurance,,,880,model,45,commercial,auto-core,"ratehub, rates.ca",,3,Planned: /car-insurance/home-and-auto-bundle/.
-cottage insurance,national,home-insurance,,,880,model,40,commercial,property-niche,rates.ca (cottage rental),,3,Planned: /home-insurance/cottage-seasonal/.
+home and auto insurance bundle,national,car-insurance,,,880,model,45,commercial,auto-core,"ratehub, rates.ca",/car-insurance/home-and-auto-bundle/,3,Built (service page).
+electric car insurance,national,car-insurance,,,880,model,35,commercial,auto-persona,"ratehub, rates.ca",/car-insurance/electric-and-hybrid/,3,
+directors and officers insurance,national,business-insurance,,,880,model,45,commercial,business,"ratehub, policyadvisor",/business-insurance/directors-and-officers/,3,"Non-profit boards are an easy, under-served segment."
 sonnet insurance review,national,car-insurance,,,880,model,30,commercial,brand-reviews,"youset, policyme, lowestrates, comparewise",,3,Planned: /reviews/{insurer}/. Brand-review SERPs looked soft.
 assurance auto québec,local,car-insurance,qc,quebec-city,880,model,50,local,fr-quebec,sonnet,,3,Planned: /fr/assurance-auto/quebec/ville-de-quebec/.
 car insurance winnipeg,local,car-insurance,mb,winnipeg,820,model,64,local,auto-local,ratehub,/car-insurance/manitoba/winnipeg/,3,MPI sells basic auto; target optional coverage. Low lead value.
 condo insurance ontario,provincial,condo-insurance,on,,730,model,59,commercial,property-province,"ratehub, rates.ca, sonnet",/condo-insurance/ontario/,3,
 is life insurance taxable in canada,national,life-insurance,,,720,model,40,informational,life-tax,policyadvisor,,3,Planned guide.
-international student health insurance canada,national,travel-insurance,,,720,model,40,commercial,travel-visitors,policyadvisor,,3,Planned: /travel-insurance/international-students/.
-airbnb insurance canada,national,home-insurance,,,720,model,35,commercial,property-niche,(not seen),,3,Planned: short-term rental insurance page.
+international student health insurance canada,national,travel-insurance,,,720,model,40,commercial,travel-visitors,policyadvisor,/travel-insurance/international-students/,3,Built (service page).
+mobile home insurance,national,home-insurance,,,720,model,30,commercial,property-niche,ratehub,/home-insurance/mobile-and-manufactured/,3,
 car insurance surrey,local,car-insurance,bc,surrey,710,model,60,local,auto-local,(none seen),/car-insurance/british-columbia/surrey/,3,ICBC sells basic auto; target optional coverage. Low lead value.
 car insurance windsor,local,car-insurance,on,windsor,640,model,76,local,auto-local,"ratehub, rates.ca",/car-insurance/ontario/windsor/,3,
 car insurance oshawa,local,car-insurance,on,oshawa,610,model,68,local,auto-local,"ratehub, rates.ca",/car-insurance/ontario/oshawa/,3,
-senior car insurance,national,car-insurance,,,590,model,35,commercial,auto-persona,"ratehub, rates.ca guide",,3,Planned: /car-insurance/seniors/.
-joint life insurance,national,life-insurance,,,590,model,40,commercial,life-audience,"sun life, policyadvisor",,3,Planned: /life-insurance/joint/.
-cyber insurance canada,national,business-insurance,,,590,model,45,commercial,business,ratehub,,3,Planned: /business-insurance/cyber/.
-restaurant insurance,national,business-insurance,,,590,model,40,commercial,business-trades,rates.ca (food & beverage),,3,Planned: /business-insurance/restaurant/.
+senior car insurance,national,car-insurance,,,590,model,35,commercial,auto-persona,"ratehub, rates.ca guide",/car-insurance/senior-drivers/,3,Built with a senior-driver example estimate.
+joint life insurance,national,life-insurance,,,590,model,40,commercial,life-audience,"sun life, policyadvisor",/life-insurance/joint/,3,Built (service page).
+cyber insurance canada,national,business-insurance,,,590,model,45,commercial,business,ratehub,/business-insurance/cyber/,3,Built (service page).
+restaurant insurance,national,business-insurance,,,590,model,40,commercial,business-trades,rates.ca (food & beverage),/business-insurance/restaurants/,3,Built (service page).
 condo insurance toronto,local,condo-insurance,on,toronto,590,model,56,local,property-local,"rates.ca, sonnet",/condo-insurance/ontario/toronto/,3,
 cheap car insurance ottawa,local,car-insurance,on,ottawa,580,model,79,transactional,auto-local,"ratehub, rates.ca, sonnet, mychoice/squareone/thinkinsure",/car-insurance/ontario/ottawa/,3,"Rates.ca titles lead with ""Cheap""; answer with factors and FSA data, not a price promise."
 tenant insurance ottawa,local,tenant-insurance,on,ottawa,580,model,52,local,property-local,sonnet,/tenant-insurance/ontario/ottawa/,3,
@@ -289,7 +299,7 @@ car insurance whitby,local,car-insurance,on,whitby,490,model,56,local,auto-local
 car insurance ajax,local,car-insurance,on,ajax,490,model,56,local,auto-local,rates.ca,/car-insurance/ontario/ajax/,3,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
 20 year term life insurance,national,term-life-insurance,,,480,model,40,commercial,life-core,sun life,/term-life-insurance/,3,
 out of province travel insurance,national,travel-insurance,,,480,model,35,informational,travel,sun life,/travel-insurance/,3,
-home based business insurance,national,business-insurance,,,480,model,30,commercial,business,"ratehub blog, sonnet blog",,3,Planned: /business-insurance/home-based/.
+home based business insurance,national,business-insurance,,,480,model,30,commercial,business,"ratehub blog, sonnet blog",/business-insurance/home-based/,3,Built (service page).
 manulife life insurance review,national,life-insurance,,,480,model,35,commercial,brand-reviews,policyadvisor,,3,Planned: /reviews/manulife/.
 icbc low kilometre discount,provincial,car-insurance,bc,,480,model,30,informational,auto-regulation,ICBC,/guides/icbc-optional-insurance-explained/,3,
 how much is car insurance in mississauga,local,car-insurance,on,mississauga,480,model,79,informational,auto-local,"ratehub, rates.ca, sonnet, mychoice/squareone/thinkinsure",/car-insurance/ontario/mississauga/,3,Ratehub ranks a blog post for this. The city page answers it in the first two sentences with a dated average.
@@ -302,16 +312,17 @@ cheap car insurance halifax,local,car-insurance,ns,halifax,430,model,59,transact
 how much is car insurance in edmonton,local,car-insurance,ab,edmonton,420,model,71,informational,auto-local,"ratehub, rates.ca",/car-insurance/alberta/edmonton/,3,Ratehub ranks a blog post for this. The city page answers it in the first two sentences with a dated average.
 tenant insurance brampton,local,tenant-insurance,on,brampton,410,model,48,local,property-local,(none seen),/tenant-insurance/ontario/brampton/,3,
 car insurance barrie,local,car-insurance,on,barrie,400,model,72,local,auto-local,"ratehub, rates.ca, sonnet",/car-insurance/ontario/barrie/,3,
-life insurance for smokers,national,life-insurance,,,390,model,35,commercial,life-conditions,policyadvisor,,3,Planned: /life-insurance/conditions/smokers/.
-cleaning business insurance,national,contractor-insurance,,,390,model,25,commercial,business-trades,rates.ca,,3,Planned: /contractor-insurance/cleaning/.
+life insurance for smokers,national,life-insurance,,,390,model,35,commercial,life-conditions,policyadvisor,/life-insurance/medical-conditions/,3,Answered on the medical-conditions page (Medical underwriting desk). Per-condition pages still planned.
+cleaning business insurance,national,contractor-insurance,,,390,model,25,commercial,business-trades,rates.ca,/contractor-insurance/cleaning/,3,Built (trade page).
+tenant insurance for students,national,tenant-insurance,,,390,model,20,commercial,property-coverage,ratehub blog,/tenant-insurance/students/,3,Back-to-school spike in August and September.
 sun life life insurance review,national,life-insurance,,,390,model,35,commercial,brand-reviews,policyadvisor,,3,Planned: /reviews/sun-life/.
 tenant insurance hamilton,local,tenant-insurance,on,hamilton,360,model,48,local,property-local,(none seen),/tenant-insurance/ontario/hamilton/,3,
 car insurance st catharines,local,car-insurance,on,st-catharines,360,model,68,local,auto-local,"rates.ca, sonnet",/car-insurance/ontario/st-catharines/,3,
 car insurance st johns,local,car-insurance,nl,st-johns,360,model,64,local,auto-local,ratehub,/car-insurance/newfoundland-and-labrador/st-johns/,3,
 how much is car insurance in ottawa,local,car-insurance,on,ottawa,330,model,79,informational,auto-local,"ratehub, rates.ca, sonnet, mychoice/squareone/thinkinsure",/car-insurance/ontario/ottawa/,3,Ratehub ranks a blog post for this. The city page answers it in the first two sentences with a dated average.
 car insurance guelph,local,car-insurance,on,guelph,330,model,68,local,auto-local,"ratehub, rates.ca",/car-insurance/ontario/guelph/,3,
-life insurance for diabetics,national,life-insurance,,,320,model,30,commercial,life-conditions,policyadvisor,,3,Planned conditions hub: /life-insurance/conditions/{condition}/.
-landscaping insurance,national,contractor-insurance,,,320,model,25,commercial,business-trades,ratehub blog,,3,Planned: /contractor-insurance/landscaping/.
+life insurance for diabetics,national,life-insurance,,,320,model,30,commercial,life-conditions,policyadvisor,/life-insurance/medical-conditions/,3,Answered on the medical-conditions page (Medical underwriting desk). Planned per-condition hub: /life-insurance/conditions/{condition}/.
+landscaping insurance,national,contractor-insurance,,,320,model,25,commercial,business-trades,ratehub blog,/contractor-insurance/landscaping/,3,Built (trade page).
 coverme insurance review,national,life-insurance,,,320,model,30,commercial,brand-reviews,policyadvisor,,3,"Direct-to-consumer ""instant"" competitor; compare honestly."
 condo insurance calgary,local,condo-insurance,ab,calgary,320,model,56,local,property-local,"rates.ca, sonnet",/condo-insurance/alberta/calgary/,3,
 car insurance red deer,local,car-insurance,ab,red-deer,310,model,56,local,auto-local,ratehub,/car-insurance/alberta/red-deer/,3,
@@ -324,9 +335,9 @@ car insurance kingston,local,car-insurance,on,kingston,280,model,68,local,auto-l
 car insurance lethbridge,local,car-insurance,ab,lethbridge,280,model,56,local,auto-local,ratehub,/car-insurance/alberta/lethbridge/,3,
 home insurance burnaby,local,home-insurance,bc,burnaby,270,model,52,local,property-local,ratehub,/home-insurance/british-columbia/burnaby/,3,
 car insurance moncton,local,car-insurance,nb,moncton,270,model,56,local,auto-local,ratehub,/car-insurance/new-brunswick/moncton/,3,
-plumber insurance,national,contractor-insurance,,,260,model,25,commercial,business-trades,rates.ca,/contractor-insurance/,3,"Planned trade pages: /contractor-insurance/{trade}/ (plumber, HVAC, electrician, cleaning, landscaping)."
-electrician insurance,national,contractor-insurance,,,260,model,25,commercial,business-trades,(not seen),,3,Planned: /contractor-insurance/electrician/.
-roofing insurance,national,contractor-insurance,,,260,model,25,commercial,business-trades,(not seen),,3,Planned: /contractor-insurance/roofing/.
+plumber insurance,national,contractor-insurance,,,260,model,25,commercial,business-trades,rates.ca,/contractor-insurance/plumber/,3,Built (trade page). More trades follow the same template.
+electrician insurance,national,contractor-insurance,,,260,model,25,commercial,business-trades,(not seen),/contractor-insurance/electrician/,3,Built (trade page).
+roofing insurance,national,contractor-insurance,,,260,model,25,commercial,business-trades,(not seen),/contractor-insurance/roofing/,3,Built (trade page).
 handyman insurance,national,contractor-insurance,,,260,model,20,commercial,business-trades,(not seen),/contractor-insurance/,3,
 condo insurance bc,provincial,condo-insurance,bc,,260,model,43,commercial,property-province,sonnet,/condo-insurance/british-columbia/,3,
 is tenant insurance mandatory in alberta,provincial,tenant-insurance,ab,,260,model,25,informational,property-coverage,sonnet faq,/tenant-insurance/alberta/,3,
@@ -342,7 +353,7 @@ home insurance nova scotia,provincial,home-insurance,ns,,240,model,43,commercial
 home insurance oakville,local,home-insurance,on,oakville,240,model,48,local,property-local,(none seen),/home-insurance/ontario/oakville/,3,
 home insurance richmond hill,local,home-insurance,on,richmond-hill,230,model,48,local,property-local,(none seen),/home-insurance/ontario/richmond-hill/,3,
 home insurance burlington,local,home-insurance,on,burlington,220,model,48,local,property-local,(none seen),/home-insurance/ontario/burlington/,3,
-hvac insurance,national,contractor-insurance,,,210,model,25,commercial,business-trades,rates.ca,,3,Planned: /contractor-insurance/hvac/.
+hvac insurance,national,contractor-insurance,,,210,model,25,commercial,business-trades,rates.ca,/contractor-insurance/hvac/,3,Built (trade page).
 intact vs aviva,national,car-insurance,,,210,model,20,commercial,brand-reviews,(none seen),,3,"Planned: /compare/intact-vs-aviva/ (car and home), with a published comparison method."
 business insurance quebec,provincial,business-insurance,qc,,210,model,44,commercial,business-province,(none seen),/business-insurance/quebec/,3,Quebec waitlist until AMF registration; English phrase only (French terms listed separately).
 home insurance oshawa,local,home-insurance,on,oshawa,210,model,52,local,property-local,rates.ca,/home-insurance/ontario/oshawa/,3,
@@ -447,10 +458,15 @@ term life insurance saskatchewan,provincial,term-life-insurance,sk,,22,model,24,
 contractor insurance saskatchewan,provincial,contractor-insurance,sk,,22,model,19,commercial,business-province,(none seen),/contractor-insurance/saskatchewan/,3,
 disability insurance nova scotia,provincial,disability-insurance,ns,,21,model,22,commercial,living-benefits,(none seen),/disability-insurance/nova-scotia/,3,
 critical illness insurance saskatchewan,provincial,critical-illness-insurance,sk,,20,model,19,commercial,living-benefits,(none seen),/critical-illness-insurance/saskatchewan/,3,
-classic car insurance,national,car-insurance,,,1300,model,50,commercial,auto-persona,ratehub,,4,Specialty market with low advisor fit.
+pet insurance,national,home-insurance,,,14000,model,70,commercial,specialty-personal,"sonnet (pet product), trupanion, petsecure, pets plus us",/pet-insurance/,4,Big but low advisor fit: most pet insurers sell direct. A completeness page that keeps visitors on site.
+boat insurance,national,home-insurance,,,2900,model,50,commercial,auto-recreational,"ratehub (boat, marine)",/boat-insurance/,4,Often an endorsement on the home policy; the page explains when a separate policy is needed.
+rv insurance,national,car-insurance,,,1900,model,45,commercial,auto-recreational,"ratehub (rv, trailer)",/rv-insurance/,4,
+classic car insurance,national,car-insurance,,,1300,model,50,commercial,auto-persona,ratehub,/car-insurance/classic-cars/,4,Built (advisor-quoted). Specialty market with low advisor fit.
 gap insurance canada,national,car-insurance,,,1000,model,40,informational,auto-coverage,"rates.ca, ratehub",,4,FSRA warned in 2026 about unlicensed GAP sales. Explainer only.
+snowmobile insurance,national,car-insurance,,,1000,model,35,commercial,auto-recreational,ratehub,/atv-snowmobile-insurance/,4,
 saaq car insurance,provincial,car-insurance,qc,,1000,model,40,informational,auto-regulation,sonnet (3+ posts),,4,Quebec is waitlisted until AMF registration and French pages exist.
 car insurance deductible,national,car-insurance,,,880,model,35,informational,auto-coverage,sonnet,/glossary/,4,
+atv insurance,national,car-insurance,,,880,model,35,commercial,auto-recreational,ratehub,/atv-snowmobile-insurance/,4,
 car insurance vancouver,local,car-insurance,bc,vancouver,860,model,76,local,auto-local,"ratehub, rates.ca",/car-insurance/british-columbia/vancouver/,4,ICBC sells basic auto; target optional coverage. Low lead value.
 children's life insurance,national,life-insurance,,,720,model,40,commercial,life-audience,policyadvisor,,4,Planned: /life-insurance/children/.
 tenant insurance calgary,local,tenant-insurance,ab,calgary,710,model,60,local,property-local,"ratehub, rates.ca, sonnet",/tenant-insurance/alberta/calgary/,4,

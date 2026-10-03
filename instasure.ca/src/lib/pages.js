@@ -10,6 +10,7 @@ const db = require('../db');
 const settings = require('./settings');
 const quoteEngine = require('./quote-engine');
 const { products, bySlug } = require('../data/products');
+const servicesData = require('../data/services');
 const geo = require('../data/geo');
 const { money } = require('./util');
 
@@ -184,6 +185,27 @@ function exampleTable(product, prov, c) {
   return { ...t, asOf: est({}).asOf };
 }
 
+// ───────────────────────── Specialty services ─────────────────────────
+/** Services whose parent product is switched on (Admin → Products), in catalogue order. */
+function enabledServices() { return servicesData.services.filter((sv) => isEnabled(sv.parent)); }
+function getService(slug) { const sv = servicesData.bySlug[slug]; return sv && isEnabled(sv.parent) ? sv : null; }
+function serviceByPath(p) { const sv = servicesData.byPath[p]; return sv && isEnabled(sv.parent) ? sv : null; }
+/** Services listed on a product pillar: those quoting through it. */
+function servicesFor(productSlug) { return enabledServices().filter((sv) => sv.parent === productSlug); }
+/** Example estimate for a service, from its parent product's model and the service's profile override. */
+function serviceEstimate(sv, provCode = 'on') {
+  if (!sv.estimate) return null;
+  const parent = bySlug[sv.parent];
+  const e = quoteEngine.estimate(sv.parent, { ...quoteEngine.DEFAULT_PROFILES[parent.quoteFlow], province: provCode, ...sv.estimate.profile });
+  return { ...e, label: sv.estimate.label };
+}
+/** Services grouped by the parent product's category, for navigation and the services hub. */
+function servicesByCategory() {
+  const out = {};
+  for (const sv of enabledServices()) (out[bySlug[sv.parent].category] ||= []).push(sv);
+  return out;
+}
+
 let ovDates = null;
 /**
  * Truthful "last updated" date for a programmatic page: the later of the model/data review date
@@ -199,7 +221,7 @@ function contentDate(path, geoKey) {
 // ───────────────────────── Registry ─────────────────────────
 const STATIC = [
   ['/', 1.0, 'daily'], ['/quote/', 0.9, 'weekly'], ['/compare/', 0.7, 'weekly'], ['/guides/', 0.8, 'daily'],
-  ['/calculators/', 0.8, 'monthly'], ['/calculators/life-insurance-needs/', 0.8, 'monthly'], ['/calculators/tenant-condo-coverage/', 0.6, 'monthly'],
+  ['/calculators/', 0.8, 'monthly'], ['/insurance-services/', 0.8, 'weekly'], ['/calculators/life-insurance-needs/', 0.8, 'monthly'], ['/calculators/tenant-condo-coverage/', 0.6, 'monthly'],
   ['/calculators/business-coverage/', 0.6, 'monthly'], ['/calculators/mortgage-protection/', 0.6, 'monthly'],
   ['/advisors/', 0.7, 'weekly'], ['/insurance/', 0.7, 'monthly'], ['/glossary/', 0.5, 'monthly'],
   ['/about/', 0.4, 'yearly'], ['/how-we-make-money/', 0.4, 'yearly'], ['/editorial-guidelines/', 0.4, 'yearly'],
@@ -226,6 +248,7 @@ function allPages() {
       }
     }
   }
+  for (const sv of enabledServices()) pages.push({ path: sv.path, priority: sv.niche ? 0.8 : 0.7, changefreq: 'monthly', lastmod: contentDate(sv.path) || siteDate, type: 'service', indexable: true, title: sv.name });
   // The Rate Index is noindex (and out of the sitemap) until at least one cell meets the minimum sample; it is recomputed from live data, so today is its true date.
   pages.push({ path: '/insights/rate-index/', priority: 0.7, changefreq: 'weekly', lastmod: today, type: 'static', indexable: rateIndexRows().length > 0, title: 'Instasure Rate Index' });
   for (const prov of geo.provinces) {
@@ -272,4 +295,4 @@ function rateIndexRows() {
 
 function serviceable(code) { return (settings.get('serviceable_provinces') || []).includes(code); }
 
-module.exports = { regulatorName, enabledProducts, getProduct, isEnabled, province, city, geoPath, geoIndexable, cityHubIndexable, geoContent, localFaq, exampleTable, contentDate, allPages, invalidate, serviceable, rateIndexRows, RATE_INDEX_MIN };
+module.exports = { enabledServices, getService, serviceByPath, servicesFor, serviceEstimate, servicesByCategory, regulatorName, enabledProducts, getProduct, isEnabled, province, city, geoPath, geoIndexable, cityHubIndexable, geoContent, localFaq, exampleTable, contentDate, allPages, invalidate, serviceable, rateIndexRows, RATE_INDEX_MIN };

@@ -16,6 +16,7 @@ const quoteEngine = require('./quote-engine');
 const config = require('../config');
 const geo = require('../data/geo');
 const { bySlug } = require('../data/products');
+const specialties = require('./specialties');
 const U = require('./util');
 
 const LEAD_TYPES = ['quote', 'consult', 'calculator', 'guide', 'newsletter', 'partial'];
@@ -41,7 +42,9 @@ function classifySource(ctx) {
 }
 
 function normalise(input) {
-  const product = bySlug[input.product] ? input.product : null;
+  const service = specialties.isService(input.service) ? input.service : null;
+  // A service request without a product quotes and routes through the service's parent product.
+  const product = bySlug[input.product] ? input.product : service ? specialties.productFor(service) : null;
   const email = U.normEmail(input.email);
   const postal = U.normPostal(input.postal_code);
   let province = String(input.province || '').toLowerCase();
@@ -56,7 +59,7 @@ function normalise(input) {
   if (province) quote_inputs.province = province;
   if (city) quote_inputs.city = city;
   return {
-    product, lead_type, email, province, city, postal_code: postal,
+    product, service, lead_type, email, province, city, postal_code: postal,
     product_category: product ? bySlug[product].category : null,
     first_name: U.truncate(input.first_name, 60) || null,
     last_name: U.truncate(input.last_name, 60) || null,
@@ -103,7 +106,7 @@ async function create(input, ctx = {}) {
     lead_type: n.lead_type,
     first_name: n.first_name, last_name: n.last_name, email: n.email, phone: n.phone,
     province: n.province, city: n.city, postal_code: n.postal_code, language: n.language,
-    product: n.product, product_category: n.product_category,
+    product: n.product, product_category: n.product_category, service: n.service,
     quote_inputs: n.quote_inputs, estimate: estimate || {},
     timeframe: n.timeframe, best_time: n.best_time, message: n.message,
     value_estimate: n.product ? bySlug[n.product].leadValue : 0,
@@ -168,6 +171,8 @@ async function sendConfirmation(lead) {
   } else {
     lines.push(`Thanks for using ${settings.get('site_name')}. Your reference is **{{ref}}**.`);
     if (est.low !== undefined) lines.push(`Your instant estimate for **${est.headline || product.name}** is **{{estimate_low}}–{{estimate_high}}{{estimate_period}}** (example profile: ${est.example}). Estimates are not quotes — your advisor will confirm real insurer prices.`);
+    const desk = lead.service && specialties.deskBySlug[lead.service];
+    if (desk) lines.push(`Your request went to our **${desk.desk}**, which handles ${desk.name.toLowerCase()} requests.`);
     lines.push(lead.advisor_id ? `**{{advisor_name}}**, a licensed advisor in {{province_name}}, will review your request${settings.get('advisor_response_hours') ? ` — usually within ${settings.get('advisor_response_hours')} business hours` : ''}. Want to pick a time? [Book a call]({{advisor_booking_url}}).` : 'A licensed advisor will review your request and follow up shortly.');
   }
   await mailer.sendEmail({
@@ -195,7 +200,7 @@ async function notifyTeam(lead) {
       subject: `${hot ? '🔥 HOT ' : ''}New ${product ? product.short : ''} lead ${lead.ref} — score ${lead.score} (${lead.grade})`,
       bodyMd: [
         `**${lead.first_name || ''} ${lead.last_name || ''}** · ${lead.email}${lead.phone ? ' · ' + U.fmtPhone(lead.phone) : ''}`,
-        `Product: **${product ? product.name : '—'}** · ${lead.city || ''} ${String(lead.province || '').toUpperCase()} · Type: ${lead.lead_type} · Timeframe: ${lead.timeframe || '—'}`,
+        `Product: **${product ? product.name : '—'}**${lead.service ? ` · Service: **${specialties.labelFor(lead.service)}**${specialties.deskBySlug[lead.service] ? ` (${specialties.deskBySlug[lead.service].desk})` : ''}` : ''} · ${lead.city || ''} ${String(lead.province || '').toUpperCase()} · Type: ${lead.lead_type} · Timeframe: ${lead.timeframe || '—'}`,
         `Assigned to: ${advisor ? advisor.name : '**Unassigned — needs routing**'} · Status: ${lead.status}`,
         `[Open in CRM](${config.siteUrl}/admin/leads/${lead.id})`,
       ].join('\n\n'),

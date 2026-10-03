@@ -43,7 +43,7 @@
   <div class="container-site grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
     <div class="lg:col-span-5 flex flex-col gap-space-sm">
       <p class="eyebrow">Local estimate · <%= est.asOf %></p>
-      <h2 id="cost-h" class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container">How much does <%= product.name.toLowerCase() %> cost in <%= city ? city.name : prov.name %>?</h2>
+      <h2 id="cost-h" class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container">How much does <%= lc(product.name) %> cost in <%= city ? city.name : prov.name %>?</h2>
       <p class="font-body-md text-body-md text-on-surface-variant">Instasure’s pricing model estimates the following range for an example profile. Your actual premium depends on your details and the insurer.</p>
     </div>
     <div class="lg:col-span-7 bg-surface-container-low rounded-3xl p-space-lg flex flex-col gap-space-md">
@@ -104,7 +104,7 @@
   </div>
   <% } %>
   <div class="card p-space-lg">
-    <div class="flex items-center gap-2 mb-space-sm"><span class="material-symbols-outlined text-secondary">tune</span><h2 class="font-headline-md text-headline-md text-primary-container">What drives your <%= product.short.toLowerCase() %> premium</h2></div>
+    <div class="flex items-center gap-2 mb-space-sm"><span class="material-symbols-outlined text-secondary">tune</span><h2 class="font-headline-md text-headline-md text-primary-container">What drives your <%= lc(product.short) %> premium</h2></div>
     <ol class="space-y-2">
       <% product.factors.forEach(function(f, i){ %><li class="flex items-start gap-3"><span class="w-6 h-6 rounded-full bg-surface-container flex items-center justify-center font-label-sm text-label-sm text-primary-container shrink-0"><%= i + 1 %></span><span class="font-body-md text-body-md text-on-surface"><%= f %></span></li><% }) %>
     </ol>
@@ -164,6 +164,6 @@
   <div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg"><% guides.forEach(function(g){ %><%- include('partials/guide-card', { g: g }) %><% }) %></div></section>
 <% } %>
 
-<%- include('partials/advisor-banner', { bannerTitle: 'Get ' + product.short.toLowerCase() + ' quotes from an advisor licensed in ' + prov.name, bannerWhere: prov.name, bannerProduct: product.slug }) %>
+<%- include('partials/advisor-banner', { bannerTitle: 'Get ' + lc(product.short) + ' quotes from an advisor licensed in ' + prov.name, bannerWhere: prov.name, bannerProduct: product.slug }) %>
 
 <section class="container-site pb-space-lg"><p class="font-body-sm text-body-sm text-on-surface-variant">Sources: <% (prov.sources || []).forEach(function(src, i){ %><a class="link" href="<%= src %>" rel="noopener nofollow" target="_blank"><%= src.replace(/^https?:\/\/(www\.)?/, '').split('/')[0] %></a><%= i < prov.sources.length - 1 ? ', ' : '' %><% }) %><%= (prov.sources || []).length ? '. ' : '' %>Estimates are modelled by Instasure for the example profile shown and are not quotes. Last reviewed <%= U.monthYear() %>.</p></section>

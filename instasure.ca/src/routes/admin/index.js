@@ -56,8 +56,15 @@ function launchChecklist() {
     { ok: !!s.legal_name, label: 'Legal entity name set (CASL sender identification)', href: '/admin/settings#identity' },
     { ok: !!s.mailing_address, label: 'Mailing address set (required in every commercial email under CASL)', href: '/admin/settings#identity' },
     { ok: !!s.privacy_officer, label: 'Privacy officer named (PIPEDA / Quebec Law 25)', href: '/admin/settings#identity' },
+    { ok: !settings.phoneIsPlaceholder(s.phone), label: 'Customer service number replaced (the site shows the 1-800-000-0000 placeholder)', href: '/admin/settings#identity' },
     { ok: !db.value('SELECT COUNT(*) FROM advisors WHERE is_demo = 1 AND active = 1'), label: 'Sample advisors replaced with real licensed advisors', href: '/admin/advisors' },
     { ok: db.value("SELECT COUNT(*) FROM advisors WHERE is_demo = 0 AND active = 1 AND licences LIKE '%number%'") > 0, label: 'At least one advisor with licence numbers entered', href: '/admin/advisors' },
+    (() => {
+      const staffed = new Set(db.all('SELECT specialties FROM advisors WHERE active = 1 AND is_demo = 0').flatMap((a) => db.json(a.specialties, [])));
+      const desks = require('../../lib/specialties').DESKS;
+      const n = desks.filter((d) => staffed.has(d.slug)).length;
+      return { ok: n === desks.length, label: `Specialist desks staffed by real advisors (${n} of ${desks.length})`, href: '/admin/advisors' };
+    })(),
     { ok: !!require('../../config').smtp, label: 'SMTP configured (SMTP_HOST in .env) so emails actually send', href: '/admin/emails' },
     { ok: !!s.gsc_verification || !!s.ga4_id, label: 'Google Search Console / GA4 connected', href: '/admin/settings#analytics' },
     { ok: !!s.bing_verification, label: 'Bing Webmaster Tools verified (feeds ChatGPT search & Copilot)', href: '/admin/settings#analytics' },

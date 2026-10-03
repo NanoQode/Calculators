@@ -27,7 +27,7 @@
 <section class="w-full bg-surface-container-lowest py-space-xl shadow-sm" aria-labelledby="cov-h">
   <div class="container-site">
     <p class="eyebrow">Coverage options</p>
-    <h2 id="cov-h" class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container mb-space-lg">Types of <%= product.name.toLowerCase() %> in Canada</h2>
+    <h2 id="cov-h" class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container mb-space-lg">Types of <%= lc(product.name) %> in Canada</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 <%= product.coverages.length > 4 ? 'lg:grid-cols-3' : 'lg:grid-cols-2' %> gap-space-md">
       <% product.coverages.forEach(function(c){ %>
       <div class="bg-surface-container-low rounded-2xl p-space-md flex flex-col gap-2">
@@ -39,6 +39,21 @@
     </div>
   </div>
 </section>
+
+<% if (typeof services !== 'undefined' && services.length) { %>
+<section class="container-site pt-space-xl" aria-labelledby="svc-h">
+  <p class="eyebrow">Specialty coverage</p>
+  <h2 id="svc-h" class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container mb-space-md">More <%= lc(product.short) %> coverage</h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-space-sm">
+    <% services.forEach(function(x){ %>
+    <a href="<%= x.path %>" class="card card-hover p-space-md flex items-start gap-3">
+      <span class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-primary-container shrink-0"><span class="material-symbols-outlined"><%= x.icon %></span></span>
+      <span class="flex flex-col"><span class="font-label-lg text-label-lg text-on-surface"><%= x.name %></span><span class="font-body-sm text-body-sm <%= x.niche ? 'text-secondary' : 'text-on-surface-variant' %>"><%= x.niche ? 'Dedicated specialist desk' : x.tagline %></span></span>
+    </a>
+    <% }) %>
+  </div>
+</section>
+<% } %>
 
 <section class="container-site py-space-xl grid grid-cols-1 lg:grid-cols-2 gap-space-lg" aria-label="Pricing factors">
   <div class="card p-space-lg">
@@ -91,8 +106,9 @@
 </section>
 <% } %>
 
+<% if (typeof desk !== 'undefined' && desk) { %><%- include('partials/specialist-help', { deskInfo: desk, deskAdvisor: advisors && advisors[0] }) %><% } %>
 <%- include('partials/faq', { items: faq, faqHeading: product.name + ' FAQ' }) %>
-<%- include('partials/advisor-banner', { bannerTitle: 'Talk it through with a licensed ' + product.short.toLowerCase() + ' advisor', bannerProduct: product.slug }) %>
+<% if (typeof desk === 'undefined' || !desk) { %><%- include('partials/advisor-banner', { bannerTitle: 'Talk it through with a licensed ' + lc(product.short) + ' advisor', bannerProduct: product.slug }) %><% } %>
 
 <% if (related.length) { %>
 <section class="container-site pb-space-xl" aria-labelledby="rel-h">

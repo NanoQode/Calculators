@@ -132,7 +132,7 @@ Coverage: ● dedicated pages at depth · ◐ partial (few pages, blog only, thi
 | Car, cities outside Ontario | ~19,000 | ◐ | ● (40 cities, thin, many last updated May 2025) | ○ | ○ | ○ | ◐ (Montréal) | Medium | Beat Ratehub's round-number pages on freshness and data: dated tables by driver profile, province rules, local risks. Airdrie, St. Albert, Spruce Grove, Surrey, Burnaby, Laval and Gatineau have no Ratehub car page. |
 | Car regulation (ON reform, AB Care-First, ICBC) | ~15,000 | ◐ | ◐ | ○ | ○ | ○ | ◐ | **High** | Built: 3 guides. Next: an opt-out savings calculator and an Alberta countdown with city figures. |
 | Rate-change trackers by insurer | ~1,000 | ● (ON, AB) | ○ | ○ | ○ | ○ | ○ | **High** outside ON/AB | Don't duplicate Rates.ca. Build an Atlantic rate-decision tracker (NS, NB, NL, PEI boards; verify each publishes decisions). |
-| Car personas (new drivers, newcomers, high risk, gig) | ~10,000 | ◐ | ● | ○ | ○ | ○ | ○ | Medium | Newcomer and gig-driver pages with multilingual advisors; licence-stage pages (G1/G2/G, Class 7, L/N). |
+| Car personas (new drivers, newcomers, high risk, gig) | ~10,000 | ◐ | ● | ○ | ○ | ○ | ○ | Medium | Built: new drivers, seniors, EV, classic and bundle pages, plus high-risk, newcomer and gig-driver pages each with a specialist desk. Next: licence-stage sections (G1/G2/G, Class 7, L/N) and high-risk sub-guides. |
 | Car data (theft, cost by province) | ~6,300 | ● | ◐ | ○ | ○ | ○ | ◐ | Medium | The Rate Index plus theft pages refreshed with each Équité report. |
 | Home, city pages | ~17,000 | ● | ● (18 cities) | ○ | ○ | ○ | ◐ (6) | Medium | Home SERPs are softer than car (local brokers at #1). Brampton, Ottawa and Hamilton first; coverage-level tables on every page. |
 | Home perils (water, flood, hail, earthquake) | ~6,800 | ◐ | ◐ | ○ | ○ | ○ | ◐ | **High** | Built: water damage and Calgary hail guides. Next: national flood program tracker, BC earthquake. |
@@ -142,14 +142,16 @@ Coverage: ● dedicated pages at depth · ◐ partial (few pages, blog only, thi
 | Life cost tables (by age and amount) | ~4,100 | ○ | ◐ | ● | ● | ? | ○ | Medium | Built: cost guide plus age × sex tables on every life province and city page. Next: one page per age band fed by Rate Index data. |
 | Life by province | ~2,500 | ○ | ● (10, thin, no rate tables) | ◐ (4 prov.) | ○ | ○ | ○ | Medium | Built: all 10 provinces with dated age × sex tables and licensed-advisor matching. PolicyAdvisor can't sell outside ON, BC, AB and MB. |
 | Life by city | ~7,800 | ○ | ◐ (6, thin) | ◐ (9, "(2025)" titles, no dates) | ○ | ○ | ○ | **High** | Built: tier-1 city pages with current dates, tables and FAQs. |
-| Life audiences (newcomers, seniors, conditions) | ~5,400 | ○ | ◐ | ● | ◐ | ? | ○ | Medium | Built: newcomer guide. Next: seniors, conditions hub, translations. |
+| Life audiences (newcomers, seniors, conditions) | ~5,400 | ○ | ◐ | ● | ◐ | ? | ○ | Medium | Built: newcomer guide plus seniors, final expense, joint, children and universal life pages; medical conditions and newcomers each have a specialist desk. Next: per-condition pages, translations. |
 | Instant / no-medical life | ~2,500 | ○ | ◐ | ◐ | ● (Go) | ● (CoverMe) | ○ | Medium | A neutral comparison of instant products: issue age, maximum cover, health questions, time to coverage. |
 | Mortgage protection | ~5,000 | ○ | ◐ | ● (9 pages) | ? | ● | ○ | Medium | Built: comparison guide plus calculator (no competitor tool of this kind). Tie to the 2026 renewal wave. |
-| CI and DI | ~17,000 | ○ | ◐ | ● | ● | ● | ○ | Medium | Built: CI vs DI guide and age tables on province pages. Next: DI for self-employed (Ontario opt-out tie-in). |
+| CI and DI | ~17,000 | ○ | ◐ | ● | ● | ● | ○ | Medium | Built: CI vs DI guide, age tables on province pages, and a self-employed DI page with its own desk (Ontario opt-out tie-in). |
 | Health and dental / CDCP | ~15,000 | ○ | ◐ | ● (4 prov., CDCP page) | ● | ● | ○ | Medium | Built: CDCP vs private guide and plan-type tables. Differentiate on provinces PolicyAdvisor doesn't serve. |
-| Super visa and visitors | ~21,000 | ○ | ◐ | ● (38 pages) | ◐ | ? | ○ | Medium | Built: super visa product, city pages with visitor-age tables, and a guide. Community targeting (Brampton, Surrey, Mississauga). |
+| Super visa and visitors | ~21,000 | ○ | ◐ | ● (38 pages) | ◐ | ? | ○ | Medium | Built: super visa product with its desk, city pages with visitor-age tables, a guide, and visitors-to-Canada, snowbird (desk) and international-student pages. Community targeting (Brampton, Surrey, Mississauga). |
 | Business by coverage | ~26,000 | ● | ● | ○ | ○ | ○ | ○ | Low–medium | Built: business, contractor and professional liability pages, business-type tables and a coverage checker. |
-| Business by trade | ~4,300 | ● | ◐ | ○ | ○ | ○ | ○ | Medium | Planned `/contractor-insurance/{trade}/` pages. |
+| Business by trade | ~4,300 | ● | ◐ | ○ | ○ | ○ | ○ | Medium | Built: 6 trade pages (plumber, electrician, HVAC, landscaping, cleaning, roofing) plus restaurant, cyber, D&O, key person, home-based and commercial auto (desk). More trades use the same template. |
+| Specialty personal lines (pet, boat, RV, motorcycle, ATV, umbrella, landlord, mobile home) | ~30,000 | ◐ | ● | ○ | ○ | ○ | ◐ (landlord, pet) | Low–medium | Built: one page each, advisor-quoted. Completeness pages that keep the visitor on site and feed cross-sell (umbrella for landlords, boat with cottage). |
+| Hard-to-place risks (declined homes, high-risk drivers, medical underwriting, fleets, short-term rentals, cottages) | ~7,400 | ◐ | ◐ | ◐ | ○ | ○ | ○ | **High** | Built: a page plus a staffed specialist desk for each. Competitors publish one generic page and a quote form; none offers a person who handles these cases. |
 | Group benefits | ~2,800 | ○ | ◐ | ● | ? | ● | ○ | Medium | Highest lead value on the site; province pages with team-size tables built. |
 | Insurer reviews | ~5,000 | ● | ● (23 P&C) | ● (47 life/CI) | ○ | ○ | ○ | Medium (soft SERPs) | Planned `/reviews/{insurer}/` with a published method. |
 | Insurer head-to-heads ("A vs B") | ~1,000 | ○ | ○ | ● (15, life only) | ○ | ○ | ○ | **High** for P&C | Start with P&C pairs (Intact vs Aviva, TD vs Intact…). No competitor has them. |
@@ -166,12 +168,13 @@ Coverage: ● dedicated pages at depth · ◐ partial (few pages, blog only, thi
 6. **P&C insurer head-to-heads** and an **Atlantic rate-decision tracker**: nobody covers them.
 7. **Mortgage protection at renewal** and **super visa by community**.
 8. **Calculators that no competitor offers:** mortgage protection vs term, condo deductible assessment, business coverage checker, Ontario opt-out savings.
+9. **A person for the hard cases:** every competitor treats high-risk drivers, declined homes, medical conditions, newcomers and fleets as a page with a quote form. instasure.ca routes them to a staffed specialist desk (section 5.1).
 
 ---
 
 ## 5. Page hierarchy for lead generation (site skeleton)
 
-Built pages are in plain text; *planned* pages are in italics. 779 URLs exist today, 608 of them indexable. Thin programmatic pages are kept out of the index until an editor enriches them.
+Built pages are in plain text; *planned* pages are in italics. 826 URLs exist today, 654 of them indexable. Thin programmatic pages are kept out of the index until an editor enriches them.
 
 ```
 /                                    Home: instant-quote portal (product picker, 60-second estimate, advisor promise)
@@ -184,7 +187,13 @@ Built pages are in plain text; *planned* pages are in italics. 779 URLs exist to
 │   │                                contractor, professional liability, group benefits
 │   ├── /{product}/{province}/       Product × province (234; 231 indexable): rules, regulator, cost drivers, estimate
 │   │   └── /{product}/{province}/{city}/   Product × city (406; 255 indexable): local cost, risks, nearby cities, advisors
-│   ├── *best companies / persona / trade sub-pages*   e.g. /car-insurance/new-drivers/, /contractor-insurance/plumber/
+│   ├── /{product}/{service}/        Service pages (45, all indexable), e.g. /car-insurance/high-risk-drivers/,
+│   │                                /life-insurance/medical-conditions/, /contractor-insurance/plumber/; 15 carry a specialist desk
+│   ├── *best companies sub-pages*   e.g. /car-insurance/best-companies/ (after a published methodology)
+├── /{service}/                      Stand-alone service pages: /pet-insurance/, /motorcycle-insurance/, /boat-insurance/,
+│                                    /rv-insurance/, /atv-snowmobile-insurance/, /landlord-insurance/, /umbrella-insurance/,
+│                                    /long-term-care-insurance/
+├── /insurance-services/             All services hub: every product, service and specialist desk
 ├── /insurance/                      Insurance by place
 │   ├── /insurance/{province}/       Province hub (13): auto system, regulator, all products
 │   └── /insurance/{province}/{city}/   City hub (58): every product for that city, local advisors
@@ -211,13 +220,40 @@ Built pages are in plain text; *planned* pages are in italics. 779 URLs exist to
 | Quote flow | Transactional ("car insurance quotes") | 60-second estimate, then contact details and consent, then advisor match | Highest |
 | Product × city | Local commercial ("car insurance brampton") | Inline estimate widget with the city pre-filled, local cost figures, nearby-city links | High |
 | Product × province | Commercial with rules ("home insurance alberta") | Estimate widget, province rules, licensed-advisor block | High |
-| Product pillar | Head terms | Product explainer, estimate widget, links to every province | Medium–high |
+| Product pillar | Head terms | Product explainer, estimate widget, links to every province and service | Medium–high |
+| Service page | Persona and specialty ("high risk car insurance", "landlord insurance") | Example estimate where the model supports it, otherwise an advisor quote; a specialist call-back form on desk pages | High (desk pages highest) |
 | Guides | Informational ("does home insurance cover water damage") | Contextual estimate CTA, calculator links, nurture opt-in | Medium (nurture) |
 | Calculators | Tool ("how much life insurance do I need") | Result first, then optional "send me this and match me with an advisor" | High |
 | Rate Index and data | Research, press, AI answers | Citations and links that raise every other page | Indirect |
 | Advisor profiles | Trust and local | Book a review with that advisor | High |
 
-Every lead runs through the backend pipeline: validation, postal code to province, estimate, duplicate check, scoring (A–D), routing to an advisor licensed in that province and product line, drip campaign enrolment (with express consent), confirmation email and team alert. Non-serviceable provinces get a waitlist instead of a quote.
+Every lead runs through the backend pipeline: validation, postal code to province, estimate, duplicate check, scoring (A–D), routing to an advisor licensed in that province and product line (a specialist on the desk first, when the lead came from a desk page), drip campaign enrolment (with express consent), confirmation email and team alert. Non-serviceable provinces get a waitlist instead of a quote.
+
+### 5.1 Services and specialist desks
+
+The service catalogue (`src/data/services.js`) covers what the six competitors sell beyond the 18 core products: 45 pages across auto, property, life, health, travel and business. Where the research found a niche gap, the page gets a **specialist desk**: a call-back form that sends the lead to an advisor who handles these cases, a desk phone line (the customer service number until desks get their own), and routing that prefers advisors tagged with that desk.
+
+| Desk | Page | Why it is a gap |
+|---|---|---|
+| High-risk auto | /car-insurance/high-risk-drivers/ | Competitors publish one generic high-risk page; nothing for a lapse, cancellation or impaired-driving record. |
+| Newcomer driver | /car-insurance/newcomers/ | No multilingual help or country-by-country proof-of-experience guidance. High intent in Brampton, Mississauga and Surrey. |
+| Gig driver | /car-insurance/rideshare-and-delivery/ | Nobody connects rideshare coverage with the July 2026 Ontario accident-benefits opt-out and disability cover. |
+| Accident benefits review (Ontario only) | /car-insurance/accident-benefits-review/ | Everyone explains the reform; nobody offers a personal review with a licensed advisor. |
+| Short-term rental | /home-insurance/short-term-rental/ | One thin competitor page; no condo-host or frequency guidance. |
+| Cottage & rural property | /home-insurance/cottage-and-seasonal/ | No specialist help for remote, water-access and rented cottages. |
+| Hard-to-insure property | /home-insurance/hard-to-insure/ | No aggregator helps with declined or non-renewed homes; demand rises with flood and wildfire losses. |
+| Medical underwriting | /life-insurance/medical-conditions/ | Competitors cover a handful of conditions and offer no anonymous pre-underwriting. |
+| Newcomer life | /life-insurance/newcomers/ | PolicyAdvisor is licensed in four provinces and offers no multilingual help. |
+| Self-employed income protection | /disability-insurance/self-employed/ | Nobody links disability cover to the Ontario income-replacement opt-out or covers gig workers. |
+| Snowbird travel | /travel-insurance/snowbirds/ | Medical questionnaire and stability-period mistakes are where snowbird claims fail; no one offers help as a service. |
+| Commercial auto & trucking | /business-insurance/commercial-auto/ | No competitor handles fleets, trucking or mixed driver records as a service. |
+| Mortgage renewal protection | /mortgage-life-insurance/ | Renewal-wave timing plus a side-by-side of lender and personal cover. |
+| Super Visa | /super-visa-insurance/ | Policies checked against IRCC rules, with community-language advisors. |
+| Condo | /condo-insurance/ | Reading the corporation's declaration and sizing improvements and the deductible assessment. |
+
+**How a desk works in the backend.** Admin → Advisors → *Specialist desks* tags each advisor with the desks they staff. A lead from a desk page carries `service`; routing first picks among advisors on that desk who are licensed for the province and product line, then falls back to any licensed advisor and logs "No specialist on this desk is licensed for the province" on the lead timeline. Lead lists show the service and desk. The launch checklist counts how many desks have a real advisor.
+
+**Customer service number.** Site settings → Customer service number holds `1-800-000-0000`, a placeholder that cannot connect (000 is not a valid exchange). It shows in the header, footer, menus, hub, service pages and desk panels so the layout is final, but it is kept out of the JSON-LD (`telephone`, `contactPoint`) until a real number replaces it, and the launch checklist flags it.
 
 ---
 
@@ -302,9 +338,9 @@ Templates in use on this build. `{Year}` updates automatically; the brand suffix
 
 | Phase | When | Work |
 |---|---|---|
-| **0. Before launch** | Now | Confirm the licensed operating entity (agency or brokerage) per province and per line (life/A&S, general). Load real advisors with licence numbers and remove the four sample advisors. Fill company settings (legal name, address, privacy officer). Work through `CONTENT_REVIEW.md`. Import real keyword volumes. Have a licensed advisor review the estimate model, then set **Estimates and local data last reviewed** in Site settings. Connect SMTP. Submit sitemaps to Google Search Console and Bing Webmaster Tools. |
+| **0. Before launch** | Now | Confirm the licensed operating entity (agency or brokerage) per province and per line (life/A&S, general). Load real advisors with licence numbers, tag the desks each one staffs, and remove the four sample advisors (their desk assignments are demo data). Replace the 1-800-000-0000 placeholder with the real customer service number. Fill company settings (legal name, address, privacy officer). Work through `CONTENT_REVIEW.md`. Import real keyword volumes. Have a licensed advisor review the estimate model, then set **Estimates and local data last reviewed** in Site settings. Connect SMTP. Submit sitemaps to Google Search Console and Bing Webmaster Tools. |
 | **1. First 90 days** | Launch to month 3 | Enrich the P1 pages in `KEYWORDS.md`: a 300+ character local intro, verified local facts and FAQ for each (Admin → SEO → Page overrides). Tables and dates are already on every page, so enrichment is about local facts competitors don't have. Publish the first Rate Index. Build the Ontario opt-out calculator. Start Google Business Profiles where advisors work. |
-| **2. Months 3–6** | | Build the content backlog by priority: Toronto sub-area pages, P&C insurer head-to-heads, the Atlantic rate-decision tracker, new drivers, high risk, newcomer car, landlord, best-companies pages with methodology, insurer reviews, trade pages, age-band life cost pages. Turn noindexed tier-3 city pages on as they are enriched. |
+| **2. Months 3–6** | | Build the content backlog by priority: Toronto sub-area pages, P&C insurer head-to-heads, the Atlantic rate-decision tracker, high-risk sub-guides, per-condition life pages, best-companies pages with methodology, insurer reviews, more trade pages, age-band life cost pages. Give busy desks their own phone lines. Turn noindexed tier-3 city pages on as they are enriched. |
 | **3. Months 6–12** | | Instant policy pilots where online binding is allowed (travel and super visa, tenant, simplified-issue life) through carrier or MGA integrations. French Quebec site after AMF registration. Quarterly Rate Index press releases. |
 
 **Operating loop in the backend:** Admin → SEO shows unmapped keywords (the backlog), indexation status, 404s and crawler visits. Analytics shows leads by landing page, source (including AI referrers) and grade. Content edits publish instantly, purge the page cache, update sitemaps and ping IndexNow.

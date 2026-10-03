@@ -78,7 +78,7 @@ function organization() {
     image: abs('/img/logo.svg'),
     description: s.tagline,
     email: s.email || undefined,
-    telephone: s.phone || undefined,
+    telephone: s.phone && !settings.phoneIsPlaceholder(s.phone) ? s.phone : undefined,
     foundingDate: s.founded_year || undefined,
     areaServed: served.length
       ? served.map((p) => ({ '@type': 'AdministrativeArea', name: p.name, containedInPlace: { '@type': 'Country', name: 'Canada' } }))
@@ -88,7 +88,7 @@ function organization() {
     publishingPrinciples: abs('/editorial-guidelines/'),
   };
   if (s.mailing_address) node.address = { '@type': 'PostalAddress', streetAddress: s.mailing_address, addressCountry: 'CA' };
-  if (s.phone) node.contactPoint = { '@type': 'ContactPoint', telephone: s.phone, contactType: 'customer service', areaServed: 'CA', availableLanguage: ['English'] };
+  if (s.phone && !settings.phoneIsPlaceholder(s.phone)) node.contactPoint = { '@type': 'ContactPoint', telephone: s.phone, contactType: 'customer service', areaServed: 'CA', availableLanguage: ['English'] };
   return node;
 }
 

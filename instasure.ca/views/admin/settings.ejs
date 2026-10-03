@@ -7,7 +7,8 @@
     <label><span class="admin-label">Site name</span><input class="admin-input" name="site_name" value="<%= st.site_name %>"></label>
     <label><span class="admin-label">Legal entity name</span><input class="admin-input" name="legal_name" value="<%= st.legal_name %>" placeholder="Instasure Technologies Canada Inc."></label>
     <label class="col-span-2"><span class="admin-label">Tagline</span><input class="admin-input" name="tagline" value="<%= st.tagline %>"></label>
-    <label><span class="admin-label">Public phone</span><input class="admin-input" name="phone" value="<%= st.phone %>" placeholder="1-8XX-XXX-XXXX"></label>
+    <label><span class="admin-label">Customer service number</span><input class="admin-input" name="phone" value="<%= st.phone %>" placeholder="1-8XX-XXX-XXXX"><% if (phoneIsPlaceholder(st.phone)) { %><span class="block font-label-sm text-label-sm text-error mt-1">Placeholder number. Replace it before launch; it is hidden from structured data until you do.</span><% } %></label>
+    <label><span class="admin-label">Phone hours</span><input class="admin-input" name="phone_hours" value="<%= st.phone_hours %>" placeholder="Monday to Friday, 9 a.m. to 6 p.m. ET"></label>
     <label><span class="admin-label">Public email</span><input class="admin-input" name="email" value="<%= st.email %>"></label>
     <label class="col-span-2"><span class="admin-label">Mailing address (required in every commercial email)</span><input class="admin-input" name="mailing_address" value="<%= st.mailing_address %>"></label>
     <label><span class="admin-label">Privacy officer (name &amp; email)</span><input class="admin-input" name="privacy_officer" value="<%= st.privacy_officer %>"></label>

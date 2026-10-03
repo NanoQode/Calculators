@@ -154,3 +154,52 @@ test('example estimate tables: every geo product has ordered, labelled rows', ()
     for (const r of t.rows) for (const c of r.slice(1)) assert.ok(c.low > 0 && c.low <= c.mid && c.mid <= c.high, `${p.slug} ${r[0]} ordered`);
   }
 });
+
+test('services: unique slugs and paths, valid parents, complete content, SEO-length meta', () => {
+  const { services } = require('../src/data/services');
+  const { bySlug } = require('../src/data/products');
+  const provinceSlugs = new Set(geo.provinces.map((p) => p.slug));
+  const codes = new Set(geo.provinces.map((p) => p.code));
+  const seen = new Set();
+  for (const s of services) {
+    assert.ok(!seen.has(s.slug) && !seen.has(s.path), `${s.slug} unique`); seen.add(s.slug); seen.add(s.path);
+    assert.ok(!bySlug[s.slug], `${s.slug} does not shadow a product`);
+    assert.match(s.path, /^\/[a-z0-9-]+\/(?:[a-z0-9-]+\/)?$/, `${s.slug} path shape`);
+    const seg = s.path.split('/').filter(Boolean);
+    assert.ok(seg.length === 1 ? !bySlug[seg[0]] : !provinceSlugs.has(seg[1]), `${s.path} does not collide with product or province URLs`);
+    assert.ok(bySlug[s.parent], `${s.slug} parent ${s.parent}`);
+    assert.ok(s.title.length <= 65, `${s.slug} title ${s.title.length}`);
+    assert.ok(s.description.length >= 100 && s.description.length <= 160, `${s.slug} description ${s.description.length}`);
+    assert.ok(s.intro.length && s.whoFor.length >= 3 && s.covers.length >= 2 && s.watch.length >= 2 && s.factors.length >= 3, `${s.slug} content`);
+    assert.ok(s.faq.length >= 2 && s.faq.every((f) => f.q.endsWith('?') && f.a.length > 40), `${s.slug} FAQ`);
+    for (const r of s.related) assert.ok(bySlug[r] || services.some((x) => x.slug === r), `${s.slug} related ${r}`);
+    if (s.niche) assert.ok(s.desk && s.deskPitch && s.deskPitch.length > 60, `${s.slug} desk`);
+    if (s.provinces) assert.ok(s.provinces.every((c) => codes.has(c)), `${s.slug} provinces`);
+    if (s.estimate) assert.ok(quote.DEFAULT_PROFILES[bySlug[s.parent].quoteFlow] !== undefined, `${s.slug} estimate engine`);
+  }
+});
+
+test('specialist desks: every niche service or product has a desk and the sample advisors staff real desks', () => {
+  const specialties = require('../src/lib/specialties');
+  const db = require('../src/db');
+  assert.ok(specialties.DESKS.length >= 10);
+  for (const d of specialties.DESKS) {
+    assert.ok(d.desk.endsWith('desk'), d.slug);
+    assert.ok(products.some((p) => p.slug === d.product), `${d.slug} product`);
+  }
+  assert.equal(specialties.isService('high-risk-car-insurance'), true);
+  assert.equal(specialties.isService('not-a-desk'), false);
+  assert.equal(specialties.productFor('cottage-seasonal-insurance'), 'home-insurance');
+  for (const a of db.all('SELECT name, specialties FROM advisors')) {
+    for (const s of JSON.parse(a.specialties || '[]')) assert.ok(specialties.deskBySlug[s], `${a.name} staffs unknown desk ${s}`);
+  }
+});
+
+test('customer service phone: the placeholder is recognised and real numbers are not', () => {
+  const settings = require('../src/lib/settings');
+  assert.equal(settings.phoneIsPlaceholder(settings.PLACEHOLDER_PHONE), true);
+  assert.equal(settings.phoneIsPlaceholder('1-800-000-0000'), true);
+  assert.equal(settings.phoneIsPlaceholder(''), true);
+  assert.equal(settings.phoneIsPlaceholder('1-888-412-7788'), false);
+  assert.equal(settings.phoneIsPlaceholder('(416) 555-0199'), false);
+});

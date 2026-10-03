@@ -1,0 +1,130 @@
+<%
+  var fmt = function(n){ return U.money(n, { cents: n < 100 }); };
+  var catName = CATEGORIES[product.category].name;
+  var onlyIn = sv.provinces ? geoData.provinces.filter(function(p){ return sv.provinces.indexOf(p.code) > -1; }).map(function(p){ return p.name; }).join(', ') : '';
+%>
+<div class="relative w-full overflow-hidden">
+  <div class="absolute -top-40 right-1/4 w-[520px] h-[520px] rounded-full bg-secondary-container/20 blur-[130px] pointer-events-none"></div>
+  <section class="container-site pt-space-md pb-space-xl relative">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+      <div class="lg:col-span-7 flex flex-col gap-space-md lg:pt-space-md">
+        <div class="flex flex-wrap gap-space-xs">
+          <a href="/<%= product.slug %>/" class="chip bg-secondary-container/40 text-on-secondary-container hover:underline"><span class="material-symbols-outlined text-[15px]"><%= sv.icon %></span> <%= catName %></a>
+          <% if (desk) { %><a href="#specialist" class="chip bg-primary-container text-on-primary"><span class="material-symbols-outlined text-[15px]">support_agent</span> Dedicated specialist desk</a><% } %>
+          <% if (onlyIn) { %><span class="chip bg-surface-container text-on-surface"><span class="material-symbols-outlined text-[15px] text-secondary">location_on</span> <%= onlyIn %> only</span><% } %>
+        </div>
+        <h1 class="font-display-lg-mobile text-display-lg-mobile lg:font-display-lg lg:text-display-lg text-primary-container tracking-tight text-balance"><%= h1 %></h1>
+        <% if (updated) { %><p class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px] text-secondary">event_available</span>Updated <time datetime="<%= updated %>"><%= U.fmtDate(updated) %></time></p><% } %>
+        <p class="font-body-lg text-body-lg text-on-surface-variant"><%= sv.tagline %></p>
+        <div class="article-body">
+          <% sv.intro.forEach(function(p){ %><p><%= p %></p><% }) %>
+          <% if (intro) { %><%- intro %><% } %>
+        </div>
+        <div class="flex flex-wrap gap-space-sm">
+          <a href="<%= quoteUrl %>" class="btn-primary" data-track="quote_start" data-label="service_<%= sv.slug %>"><%= estimate ? 'Get my instant estimate' : 'Start my quote' %> <span class="material-symbols-outlined text-[18px]">arrow_forward</span></a>
+          <% if (desk) { %>
+          <a href="#specialist" class="btn-soft" data-track="cta_click" data-label="service_desk_<%= sv.slug %>"><span class="material-symbols-outlined text-[18px]">support_agent</span> Talk to a specialist</a>
+          <% } else { %>
+          <a href="/contact/?type=consult&service=<%= sv.slug %>" class="btn-soft" data-track="cta_click" data-label="service_consult_<%= sv.slug %>"><span class="material-symbols-outlined text-[18px]">calendar_month</span> Talk to an advisor</a>
+          <% } %>
+        </div>
+        <% if (s.phone) { %><p class="font-body-sm text-body-sm text-on-surface-variant">Or call <a class="link" href="tel:<%= tel(s.phone) %>" data-track="phone_click" data-label="service_<%= sv.slug %>"><%= s.phone %></a><%= s.phone_hours ? ' · ' + s.phone_hours : '' %></p><% } %>
+      </div>
+      <aside class="lg:col-span-5 lg:sticky lg:top-24 flex flex-col gap-space-md">
+        <div class="bg-surface-container-lowest rounded-3xl p-space-lg shadow-xl flex flex-col gap-space-sm">
+          <% if (estimate) { %>
+          <span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-secondary inline-block"></span> Example estimate</span>
+          <p class="font-price-hero-mobile text-price-hero-mobile lg:font-price-hero lg:text-price-hero text-primary-container"><%= fmt(estimate.low) %>–<%= fmt(estimate.high) %><span class="font-body-md text-body-md text-on-surface-variant"><%= estimate.periodLabel %></span></p>
+          <p class="font-body-sm text-body-sm text-on-surface-variant"><strong>Example profile:</strong> <%= estimate.example %>. As of <%= estimate.asOf %>. An estimate, not a quote or offer.</p>
+          <a href="<%= quoteUrl %>" class="btn-primary w-full" data-track="quote_start" data-label="service_card_<%= sv.slug %>">Personalise it <span class="material-symbols-outlined text-[18px]">arrow_forward</span></a>
+          <% } else { %>
+          <span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">request_quote</span> Quoted by an advisor</span>
+          <p class="font-headline-sm text-headline-sm text-primary-container">Prices for this coverage depend on details an insurer needs to see.</p>
+          <p class="font-body-md text-body-md text-on-surface-variant">Answer a few questions and a licensed advisor compares insurers for you. No cost and no obligation.</p>
+          <a href="<%= desk ? '#specialist' : quoteUrl %>" class="btn-primary w-full" data-track="cta_click" data-label="service_card_<%= sv.slug %>"><%= desk ? 'Request a specialist quote' : 'Start my quote' %> <span class="material-symbols-outlined text-[18px]">arrow_forward</span></a>
+          <% } %>
+        </div>
+        <div class="card p-space-md flex flex-col gap-2">
+          <p class="font-label-md text-label-md text-on-surface">What affects your price</p>
+          <ol class="space-y-2">
+            <% sv.factors.forEach(function(f, i){ %><li class="flex items-start gap-3"><span class="w-6 h-6 rounded-full bg-surface-container flex items-center justify-center font-label-sm text-label-sm text-primary-container shrink-0"><%= i + 1 %></span><span class="font-body-md text-body-md text-on-surface"><%= f %></span></li><% }) %>
+          </ol>
+        </div>
+      </aside>
+    </div>
+  </section>
+</div>
+
+<section class="w-full bg-surface-container-lowest py-space-xl shadow-sm" aria-labelledby="cov-h">
+  <div class="container-site grid grid-cols-1 lg:grid-cols-12 gap-space-xl">
+    <div class="lg:col-span-4 flex flex-col gap-space-sm">
+      <p class="eyebrow">Who it’s for</p>
+      <h2 class="font-headline-md text-headline-md text-primary-container"><%= sv.name %> is for</h2>
+      <ul class="space-y-2">
+        <% sv.whoFor.forEach(function(w){ %><li class="flex items-start gap-2 font-body-md text-body-md text-on-surface"><span class="tick mt-0.5"><span class="material-symbols-outlined text-[12px]">check</span></span><span><%= w %></span></li><% }) %>
+      </ul>
+    </div>
+    <div class="lg:col-span-8">
+      <p class="eyebrow">Coverage</p>
+      <h2 id="cov-h" class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container mb-space-md">What it covers</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+        <% sv.covers.forEach(function(c){ %>
+        <div class="bg-surface-container-low rounded-2xl p-space-md flex flex-col gap-2">
+          <h3 class="font-headline-sm text-headline-sm text-on-surface"><%= c.name %></h3>
+          <p class="font-body-md text-body-md text-on-surface-variant"><%= c.desc %></p>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="container-site py-space-xl" aria-labelledby="watch-h">
+  <div class="rounded-3xl bg-primary-container text-on-primary p-space-lg relative overflow-hidden">
+    <div class="absolute -right-10 -bottom-10 w-60 h-60 rounded-full bg-secondary/20 blur-3xl"></div>
+    <p class="font-label-sm text-label-sm uppercase tracking-wider text-secondary-fixed mb-1">Before you buy</p>
+    <h2 id="watch-h" class="font-headline-md text-headline-md mb-space-sm">Things to know before you buy <%= sv.name %></h2>
+    <ul class="space-y-2 relative">
+      <% sv.watch.forEach(function(w){ %><li class="flex items-start gap-2 font-body-md text-body-md text-primary-fixed-dim"><span class="material-symbols-outlined text-[18px] text-secondary-fixed mt-0.5">east</span><span><%= w %></span></li><% }) %>
+    </ul>
+  </div>
+</section>
+
+<% if (desk) { %>
+<%- include('partials/specialist-help', { deskInfo: desk, deskAdvisor: advisors[0] }) %>
+<% } %>
+
+<%- include('partials/faq', { items: faq, faqHeading: sv.name + ': FAQ' }) %>
+
+<% if (!desk) { %>
+<%- include('partials/advisor-banner', { bannerTitle: 'Talk through your ' + sv.name + ' options with a licensed advisor', bannerProduct: product.slug }) %>
+<% } %>
+
+<% if (related.length || siblings.length) { %>
+<section class="container-site pb-space-xl grid grid-cols-1 lg:grid-cols-2 gap-space-lg" aria-label="Related coverage">
+  <% if (related.length) { %>
+  <div>
+    <h2 class="font-headline-md text-headline-md text-primary-container mb-space-md">Related coverage</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
+      <% related.forEach(function(r){ %><a href="<%= r.url %>" class="card card-hover p-space-md flex items-center gap-3"><span class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-primary-container shrink-0"><span class="material-symbols-outlined"><%= r.icon %></span></span><span class="font-label-lg text-label-lg text-on-surface"><%= r.name %></span></a><% }) %>
+    </div>
+  </div>
+  <% } %>
+  <% if (siblings.length) { %>
+  <div>
+    <h2 class="font-headline-md text-headline-md text-primary-container mb-space-md">More <%= lc(product.short) %> coverage</h2>
+    <ul class="flex flex-wrap gap-2">
+      <% siblings.forEach(function(x){ %><li><a href="<%= x.path %>" class="chip bg-surface-container-lowest text-on-surface shadow-sm hover:text-secondary !py-2 !px-3 font-label-md text-label-md"><%= x.name %><% if (x.niche) { %> <span class="material-symbols-outlined text-[14px] text-secondary" title="Specialist desk">support_agent</span><% } %></a></li><% }) %>
+      <li><a href="/<%= product.slug %>/" class="chip bg-secondary-container/40 text-on-secondary-container !py-2 !px-3 font-label-md text-label-md"><%= product.name %> →</a></li>
+    </ul>
+  </div>
+  <% } %>
+</section>
+<% } %>
+
+<% if (guides.length) { %>
+<section class="container-site pb-space-xl" aria-labelledby="g-h">
+  <div class="flex items-end justify-between mb-space-lg gap-space-sm"><div><p class="eyebrow">Learn before you buy</p><h2 id="g-h" class="font-headline-md text-headline-md text-primary-container"><%= product.short %> guides</h2></div><a class="link font-label-lg text-label-lg" href="/guides/">All guides →</a></div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg"><% guides.forEach(function(g){ %><%- include('partials/guide-card', { g: g }) %><% }) %></div>
+</section>
+<% } %>

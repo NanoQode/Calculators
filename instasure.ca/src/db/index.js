@@ -39,6 +39,18 @@ function prepare(sql) {
   return s;
 }
 
+/** Columns added after a table first shipped: CREATE TABLE IF NOT EXISTS won't add them to existing databases. */
+const COLUMNS = [
+  ['advisors', 'specialties', "TEXT DEFAULT '[]'"],
+  ['leads', 'service', 'TEXT'],
+];
+function migrate() {
+  for (const [table, column, type] of COLUMNS) {
+    const cols = db.prepare(`PRAGMA table_info(${table})`).all().map((c) => c.name);
+    if (!cols.includes(column)) db.exec(`ALTER TABLE ${table} ADD COLUMN ${column} ${type}`);
+  }
+}
+
 const api = {
   open(file = config.dbPath) {
     if (db) return api;
@@ -46,6 +58,7 @@ const api = {
     db = new DatabaseSync(file);
     db.exec('PRAGMA journal_mode = WAL; PRAGMA synchronous = NORMAL; PRAGMA foreign_keys = ON; PRAGMA busy_timeout = 5000;');
     db.exec(fs.readFileSync(path.join(__dirname, 'schema.sql'), 'utf8'));
+    migrate();
     return api;
   },
   close() {

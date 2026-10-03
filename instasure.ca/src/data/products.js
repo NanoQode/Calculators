@@ -34,7 +34,7 @@ const products = [
     h1: 'Life Insurance in Canada: Compare Quotes in 60 Seconds',
     tagline: 'Protect your family’s income, mortgage and future with term or permanent coverage from leading Canadian insurers.',
     intro:
-      'Life insurance pays a lump sum to the people you name when you die. For most Canadian households the question is not whether to buy it, but how much, for how long, and which type. Instasure gives you an instant estimate, explains the trade-offs in plain language, and matches you with a licensed advisor in your province to confirm the best carrier price.',
+      'Life insurance pays a lump sum to the people you name when you die. For most Canadian households the question is not whether to buy it, but how much, for how long, and which type. Instasure gives you an instant estimate, explains the trade-offs in plain language, and matches you with a licensed advisor in your province to confirm real insurer prices.',
     benefits: [
       'Death benefits paid to a named beneficiary are generally received tax-free in Canada',
       'Lock a level premium for 10, 20 or 30 years, or for life',
@@ -151,6 +151,8 @@ const products = [
   },
   {
     slug: 'mortgage-life-insurance',
+    niche: true, desk: 'Mortgage renewal protection desk',
+    deskPitch: 'A specialist compares your lender\'s mortgage insurance with personal term life and critical illness before you renew or switch lenders, so your family is never left uncovered between policies.',
     name: 'Mortgage Life Insurance',
     short: 'Mortgage Protection',
     category: 'life',
@@ -299,6 +301,8 @@ const products = [
   },
   {
     slug: 'super-visa-insurance',
+    niche: true, desk: 'Super Visa desk',
+    deskPitch: 'A Super Visa specialist checks every policy against IRCC\'s current requirements, compares deductibles and stable pre-existing condition coverage, and sets up monthly payments where insurers allow them. Advisors who speak Punjabi, Hindi, Urdu, Mandarin, Tagalog and other languages are matched where available.',
     name: 'Super Visa Insurance',
     short: 'Super Visa',
     category: 'travel',
@@ -396,6 +400,8 @@ const products = [
   },
   {
     slug: 'condo-insurance',
+    niche: true, desk: 'Condo desk',
+    deskPitch: 'A condo specialist reads your corporation\'s declaration and master policy, sizes your improvements and deductible-assessment coverage, and checks the special rules for renting out a unit.',
     name: 'Condo Insurance',
     short: 'Condo',
     category: 'property',

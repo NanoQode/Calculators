@@ -15,6 +15,9 @@ Work through this list before instasure.ca takes real traffic. Each item names t
 | 1.5 | Replace the four **sample advisors** (`sample-*`, flagged as demo and noindexed) with real advisors, their licence numbers by province, languages and designations. Then deactivate or delete the samples. | Admin → Advisors | Leads are routed only to active advisors; profiles carry the "reviewed by" credential on guides. |
 | 1.6 | Keep Quebec on the waitlist until an AMF-registered firm operates a compliant digital space (Alternative Distribution Methods regulation) with French pages. | Admin → Site settings | AMF rules for online distribution. |
 | 1.7 | Have counsel review the compensation model (per-lead fees vs commissions) for each province. | Legal | See the referral-fee rules above. |
+| 1.8 | Replace the customer service placeholder **1-800-000-0000** with a real, staffed number and set the hours. It shows in the header, menus, footer, services hub, every service page and every desk panel. It stays out of JSON-LD until replaced; the dashboard launch checklist flags it. | Admin → Site settings → Customer service number | A number that cannot connect on a live site breaks trust and wastes the call intent. |
+| 1.9 | Staff each of the 15 **specialist desks** with real advisors (Advisor → *Specialist desks*). The sample advisors' desk tags are demo data. Each desk pitch promises specific expertise (for example, anonymous pre-underwriting enquiries, CVOR trucks, Facility Association placements, reading condo declarations): only keep a desk live if a licensed advisor really does that work, or edit the pitch in `src/data/services.js` / `src/data/products.js`. Language lines say "matched where available"; keep them only if at least one advisor speaks those languages. | Admin → Advisors | Leads from a desk page route to a desk specialist first, then to a licensed generalist (logged on the lead). An unstaffed desk still works, but the pitch overpromises. |
+| 1.10 | Decide whether each line the service pages cover (pet, boat, RV, motorcycle, ATV, umbrella, long-term care, D&O, cyber, commercial auto, trades) is one your advisors are licensed and appointed to place. Disable any that are not. | Admin → Site → Products (service pages follow their parent product) or remove from `src/data/services.js` | Don't invite leads you can't serve. |
 
 ## 2. Trust claims the mockups contained (removed or gated)
 
@@ -61,6 +64,27 @@ Each guide lists its sources at the bottom. These are the claims most likely to 
 | Life cost, CI vs DI, term vs whole | Example-profile price ranges "as of October 2026" from the Instasure model | Real carrier quotes for the same profile |
 
 After checking, update each guide's **Last reviewed** date and reviewer in **Admin → Content**, which also refreshes `dateModified` and the "Reviewed by" line.
+
+## 4a. Facts on the service pages to verify
+
+The 45 service pages (`src/data/services.js`) are written in general terms, but these statements are specific enough to check against the primary source:
+
+| Page | Claim to check | Primary source |
+|---|---|---|
+| High-risk drivers | The Facility Association guarantees mandatory coverage for licensed drivers in provinces with private auto insurance | Facility Association |
+| Rideshare & delivery | OPCF 6A covers ridesharing in Ontario; which accident benefits became optional on July 1, 2026 | FSRA endorsement list; Ontario regulation |
+| Accident benefits review | Applies at renewals from July 2026; Ontario only | FSRA |
+| Senior drivers | Ontario drivers 80 and older renew their licence every two years with a vision test and screening | ServiceOntario |
+| Visitors to Canada | Super Visa insurance must provide at least $100,000 of coverage valid for at least a year | IRCC |
+| Snowbirds | Provincial time-away rules (days outside the province before OHIP and other plans lapse) | Each provincial health plan |
+| International students | Which provinces cover international students and after what wait; UHIP in Ontario | Provincial health plans; UHIP |
+| Commercial auto | Ontario commercial motor vehicles over 4,500 kg generally need a CVOR certificate | Ontario Ministry of Transportation |
+| Cyber | PIPEDA requires reporting breaches that create a real risk of significant harm | Office of the Privacy Commissioner |
+| Boat | Insurance is not federally required for pleasure craft; operators of motorized pleasure craft need proof of competency such as a Pleasure Craft Operator Card | Transport Canada |
+| Medical conditions | Anonymous pre-underwriting enquiries do not leave a decline on the applicant's record | Carrier and MIB practice; have the desk advisor confirm |
+| Final expense, children, joint, universal life | Example coverage amounts and policy features described | Carrier product guides |
+| Long-term care | That few Canadian insurers still sell individual LTC policies | Carrier product lists |
+| Example estimates (high risk, new drivers, newcomer car, senior drivers, seniors life, self-employed DI, snowbirds, student tenants) | Example-profile ranges from the Instasure model | Real carrier quotes for the same profile |
 
 ## 5. Email, consent and privacy
 

@@ -34,7 +34,7 @@
       <tr class="hover:bg-surface-container-low <%= l.is_test ? 'opacity-60' : '' %>">
         <td class="admin-td"><input type="checkbox" name="ids" value="<%= l.id %>" aria-label="Select <%= l.ref %>"></td>
         <td class="admin-td"><a class="link" href="/admin/leads/<%= l.id %>"><%= ((l.first_name || '') + ' ' + (l.last_name || '')).trim() || l.email %></a><div class="text-body-sm text-on-surface-variant"><%= l.ref %> · <%= l.email %><%= l.phone ? ' · ' + U.fmtPhone(l.phone) : '' %></div></td>
-        <td class="admin-td text-body-sm"><%= l.product ? (bySlug[l.product] || {}).short : '—' %><div class="text-on-surface-variant"><%= l.lead_type %></div></td>
+        <td class="admin-td text-body-sm"><%= l.product ? (bySlug[l.product] || {}).short : '—' %><div class="text-on-surface-variant"><%= l.lead_type %><% if (l.service) { var dk = desks.find(function(d){ return d.slug === l.service; }); %> · <span class="text-secondary"><%= dk ? dk.desk : (serviceData.bySlug[l.service] || {}).short || l.service %></span><% } %></div></td>
         <td class="admin-td text-body-sm"><%= l.city || '' %> <span class="uppercase"><%= l.province || '' %></span></td>
         <td class="admin-td"><%- include('grade', { l: l }) %></td>
         <td class="admin-td text-body-sm"><%= l.status %><% if (!l.consent_marketing) { %><div class="text-on-surface-variant" title="No express marketing consent (CASL)">no consent</div><% } %></td>

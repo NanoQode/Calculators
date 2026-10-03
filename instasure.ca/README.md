@@ -21,8 +21,8 @@ npm start            # http://localhost:3000, admin at /admin
 On first start the app creates `data/instasure.db` and seeds:
 - the admin user, from `ADMIN_EMAIL` and `ADMIN_PASSWORD`, or with a random password printed once to the console;
 - scoring rules, 7 drip campaigns, guide categories and 18 launch guides;
-- 695 target keywords;
-- 4 **sample advisors**, flagged as demo and noindexed. Replace them before launch.
+- 711 target keywords (re-running the seed maps stored keywords to pages built since, without overwriting admin edits);
+- 4 **sample advisors**, flagged as demo and noindexed, each tagged with a few specialist desks so routing can be tried. Replace them before launch.
 
 Copy `.env.example` to `.env` for production settings. `SESSION_SECRET`, `TRACKING_SECRET` and `SITE_URL` are required in production.
 
@@ -43,9 +43,9 @@ src/
   app.js                  middleware: helmet CSP with nonces, compression, canonical redirects, redirects/410s, page cache
   config.js               env settings (.env loader included)
   db/                     schema.sql, node:sqlite wrapper, idempotent seed
-  data/                   products (18), provinces and cities (13 + 57), glossary, keyword map
+  data/                   products (18), services (45), provinces and cities (13 + 57), glossary, keyword map
   content/                Markdown trust pages and launch guides (JSON front matter)
-  lib/                    quote-engine, scoring, routing, leads, drip, mailer, seo, crawlers,
+  lib/                    quote-engine, scoring, routing, specialties (desks), leads, drip, mailer, seo, crawlers,
                           indexnow, publisher, tracking, media, pages, charts, auth
   routes/
     public.js             server-rendered pages
@@ -63,12 +63,14 @@ public/                   compiled CSS, JS (site, calculators, admin, SEO audit)
 | `/` | Instant-quote portal |
 | `/quote/`, `/quote/{product}/`, `/quote/results/{ref}/` | 60-second estimate flow, then results and advisor match |
 | `/{product}/`, `/{product}/{province}/`, `/{product}/{province}/{city}/` | 18 product pillars, 234 province pages and 406 city pages. City pages without enough local content are noindexed until an editor enriches them. |
+| `/insurance-services/` | All services hub: products, services and specialist desks |
+| `/car-insurance/high-risk-drivers/`, `/pet-insurance/`, `/contractor-insurance/plumber/`… | 45 service pages for what competitors sell beyond the core products; 12 of them (plus condo, super visa and mortgage life) have a specialist desk with a call-back form |
 | `/insurance/{province}/{city}/` | Province and city hubs |
 | `/guides/…`, `/calculators/…`, `/compare/`, `/glossary/`, `/insights/rate-index/` | Knowledge, tools and data |
 | `/advisors/{slug}/` | Licensed advisor profiles |
 | `/about/`, `/how-we-make-money/`, `/licensing/`, `/editorial-guidelines/`, `/privacy/`, `/terms/`, `/accessibility/` | Trust pages |
 
-That is 779 URLs, 608 of them indexable, with JSON-LD on every page type, split XML sitemaps (indexable pages only), robots.txt with an AI-crawler policy switch, `llms.txt`/`llms-full.txt`, Markdown twins of guides, and IndexNow on publish.
+That is 826 URLs, 654 of them indexable, with JSON-LD on every page type, split XML sitemaps (indexable pages only), robots.txt with an AI-crawler policy switch, `llms.txt`/`llms-full.txt`, Markdown twins of guides, and IndexNow on publish.
 
 ### Admin (`/admin`)
 
@@ -77,12 +79,16 @@ That is 779 URLs, 608 of them indexable, with JSON-LD on every page type, split 
 | **Dashboard** | Leads, grades, sources, pipeline value, hot leads, crawler activity |
 | **Leads** | Inbox with filters, lead detail and timeline, notes, status pipeline (kanban), reassign, CSV export (formula-injection safe), anonymise/delete (PIPEDA, Law 25) |
 | **Scoring** | Editable rules (fit, intent, engagement, data quality) to a 0–100 score and A–D grade; hot-lead alerts |
-| **Routing** | Licensed advisors by province, product line and language, with capacity and weights |
+| **Routing** | Licensed advisors by province, product line and language, with capacity and weights. Specialist desks: tag advisors with the desks they staff; desk leads go to a desk specialist first, then to a licensed generalist (logged on the lead) |
 | **Campaigns** | Drip sequences by trigger and filter, step editor with preview, CASL controls (express consent, quiet hours by province time zone, suppression, one-click unsubscribe), email log with opens and clicks |
 | **Content** | Guide/blog editor with a live SEO and answer-engine audit, FAQ, takeaways, sources, reviewer, scheduling, direct publish (purges cache, updates sitemaps, pings IndexNow) |
 | **SEO** | Per-URL overrides (title, description, robots, canonical, local intro), keyword map with CSV import/export, redirects and 410s, 404 monitor, indexation report, crawler log, IndexNow log |
 | **Analytics** | First-party pageviews, sources (including AI referrers), landing pages, funnel, leads by product, province and grade |
-| **Site** | Settings (company, trust claims, consent wording, serviceable provinces, AI bot policy), products, geo overrides, media library, users |
+| **Site** | Settings (company, customer service number and hours, trust claims, consent wording, serviceable provinces, AI bot policy, estimates-reviewed date), products, geo overrides, media library, users |
+
+## Customer service number
+
+The site ships with the placeholder **1-800-000-0000** (Admin → Site → Settings → Customer service number). It appears in the header, menus, footer, services hub, service pages and desk panels, but stays out of structured data until it is replaced, and the launch checklist on the dashboard flags it. Enter the real number and hours there; no code change is needed.
 
 ## Compliance built in
 

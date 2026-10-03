@@ -12,6 +12,7 @@ const seo = require('../../lib/seo');
 const { products, CATEGORIES, bySlug } = require('../../data/products');
 const geo = require('../../data/geo');
 const { slugify, arr, sqlNow } = require('../../lib/util');
+const { deskBySlug } = require('../../lib/specialties');
 
 const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: media.MAX_BYTES + 1, files: 1 } });
@@ -25,7 +26,7 @@ router.post('/settings', auth.requireRole('admin'), (req, res) => {
   const b = req.body;
   const lines = (v) => String(v || '').split('\n').map((s) => s.trim()).filter(Boolean);
   const patch = {
-    site_name: b.site_name, legal_name: b.legal_name, tagline: b.tagline, phone: b.phone, email: b.email, mailing_address: b.mailing_address,
+    site_name: b.site_name, legal_name: b.legal_name, tagline: b.tagline, phone: b.phone, phone_hours: b.phone_hours, email: b.email, mailing_address: b.mailing_address,
     privacy_officer: b.privacy_officer, founded_year: b.founded_year, licence_disclosure: b.licence_disclosure, quote_disclaimer: b.quote_disclaimer,
     serviceable_provinces: arr(b.serviceable_provinces).filter((c) => geo.provinceByCode[c]), waitlist_message: b.waitlist_message,
     rating_value: b.rating_value, rating_count: b.rating_count, rating_source: b.rating_source,
@@ -54,7 +55,7 @@ router.get('/advisors', auth.requireRole('editor'), (req, res) => {
   const coverage = geo.provinces.map((p) => ({ p, n: rows.filter((a) => a.active && !a.is_demo && db.json(a.provinces, []).includes(p.code)).length }));
   res.admin('advisors', { title: 'Advisors', rows, coverage, CATEGORIES });
 });
-router.get('/advisors/new', auth.requireRole('editor'), (req, res) => res.admin('advisor-edit', { title: 'New advisor', a: { languages: '["en"]', provinces: '[]', categories: '[]', licences: '[]', active: 1, accepting_leads: 1, weight: 1, max_open_leads: 150 }, provinces: geo.provinces, CATEGORIES, LANGS }));
+router.get('/advisors/new', auth.requireRole('editor'), (req, res) => res.admin('advisor-edit', { title: 'New advisor', a: { languages: '["en"]', provinces: '[]', categories: '[]', specialties: '[]', licences: '[]', active: 1, accepting_leads: 1, weight: 1, max_open_leads: 150 }, provinces: geo.provinces, CATEGORIES, LANGS }));
 router.get('/advisors/:id', auth.requireRole('editor'), (req, res, next) => {
   const a = db.get('SELECT * FROM advisors WHERE id = ?', [Number(req.params.id)]);
   if (!a) return next();
@@ -69,7 +70,7 @@ router.post('/advisors', auth.requireRole('editor'), (req, res) => {
       .map(([province, regulator, type, number, expires]) => ({ province: province.toLowerCase(), regulator, type, number, expires }));
     const row = {
       name: String(b.name || '').trim().slice(0, 100), title: b.title, designations: b.designations, email: b.email || null, phone: b.phone || null, booking_url: /^https:\/\//.test(b.booking_url || '') ? b.booking_url : null,
-      bio_md: b.bio_md, languages: arr(b.languages), provinces: arr(b.provinces).filter((c) => geo.provinceByCode[c]), categories: arr(b.categories).filter((c) => CATEGORIES[c]), licences,
+      bio_md: b.bio_md, languages: arr(b.languages), provinces: arr(b.provinces).filter((c) => geo.provinceByCode[c]), categories: arr(b.categories).filter((c) => CATEGORIES[c]), specialties: arr(b.specialties).filter((d) => deskBySlug[d]), licences,
       years_experience: Number(b.years_experience) || null, active: b.active ? 1 : 0, accepting_leads: b.accepting_leads ? 1 : 0, weight: Math.max(1, Number(b.weight) || 1),
       max_open_leads: Number(b.max_open_leads) || null, is_demo: b.is_demo ? 1 : 0, updated_at: sqlNow(),
     };

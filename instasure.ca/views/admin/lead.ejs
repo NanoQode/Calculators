@@ -3,7 +3,7 @@
   <div>
     <a href="/admin/leads" class="font-label-md text-label-md text-on-surface-variant hover:text-secondary">← Leads</a>
     <h1 class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container mt-1"><%= ((lead.first_name || '') + ' ' + (lead.last_name || '')).trim() || lead.email %></h1>
-    <p class="font-body-md text-body-md text-on-surface-variant"><span class="font-mono"><%= lead.ref %></span> · <%= lead.lead_type %> · <%= product ? product.name : 'No product' %> · created <%= U.fmtDate(lead.created_at, 'short') %> (<%= U.timeAgo(lead.created_at) %>)</p>
+    <p class="font-body-md text-body-md text-on-surface-variant"><span class="font-mono"><%= lead.ref %></span> · <%= lead.lead_type %> · <%= product ? product.name : 'No product' %><% if (lead.service) { var dk = desks.find(function(d){ return d.slug === lead.service; }); var sv = serviceData.bySlug[lead.service]; %> · <span class="chip bg-secondary-container/40 text-on-secondary-container"><%= dk ? dk.desk : (sv ? sv.name : lead.service) %></span><% } %> · created <%= U.fmtDate(lead.created_at, 'short') %> (<%= U.timeAgo(lead.created_at) %>)</p>
     <div class="flex flex-wrap gap-2 mt-2">
       <%- include('grade', { l: lead }) %>
       <span class="badge bg-surface-container"><%= lead.status %></span>

@@ -224,3 +224,90 @@ test('first-party analytics beacon stores pageviews and ignores bots', async () 
   await new Promise((r) => setTimeout(r, 20));
   assert.ok(db.get("SELECT * FROM crawler_hits WHERE bot = 'ClaudeBot' AND path = '/life-insurance/'"));
 });
+
+test('service pages: hub, niche page with specialist desk form, plain service page and product cross-links', async () => {
+  const req = client();
+  const { services } = require('../src/data/services');
+  for (const s of services) {
+    const r = await req(s.path);
+    assert.equal(r.status, 200, s.path);
+    const html = await r.text();
+    const graph = jsonLd(html)['@graph'];
+    assert.ok(graph.some((n) => n['@type'] === 'FAQPage'), `${s.path} FAQ schema`);
+    assert.ok(graph.some((n) => n['@type'] === 'BreadcrumbList'), `${s.path} breadcrumbs`);
+    assert.equal((html.match(/<h1[\s>]/g) || []).length, 1, `${s.path} one h1`);
+    assert.equal(/id="specialist"/.test(html), Boolean(s.niche), `${s.path} specialist desk only on niche services`);
+  }
+  const niche = await (await req('/car-insurance/high-risk-drivers/')).text();
+  assert.match(niche, /name="service" value="high-risk-car-insurance"/);
+  assert.match(niche, /High-risk auto desk/);
+  const ab = await (await req('/car-insurance/accident-benefits-review/')).text();
+  assert.match(ab, /<select class="field" name="province" required><option value="">Select…<\/option><option value="on" selected>Ontario<\/option><\/select>/, 'Ontario-only desk only offers Ontario');
+
+  const hub = await (await req('/insurance-services/')).text();
+  for (const s of services) assert.ok(hub.includes(`href="${s.path}"`), `hub links ${s.path}`);
+  assert.ok(jsonLd(hub)['@graph'].some((n) => n['@type'] === 'ItemList'));
+  const car = await (await req('/car-insurance/')).text();
+  assert.match(car, /href="\/car-insurance\/high-risk-drivers\/"/, 'product page links its services');
+  const condo = await (await req('/condo-insurance/')).text();
+  assert.match(condo, /id="specialist"/, 'niche product shows its desk');
+  const core = await (await req('/sitemap-core.xml')).text();
+  assert.ok(core.includes('/insurance-services/') && core.includes('/pet-insurance/') && core.includes('/contractor-insurance/roofing/'));
+  const llms = await (await req('/llms.txt')).text();
+  assert.match(llms, /## Specialty coverage/);
+});
+
+test('customer service placeholder number is shown to people but kept out of structured data', async () => {
+  const req = client();
+  const html = await (await req('/')).text();
+  assert.match(html, /href="tel:18000000000"/);
+  const ld = JSON.stringify(jsonLd(html));
+  assert.doesNotMatch(ld, /800-000-0000|18000000000/);
+});
+
+test('specialist routing: desk leads go to an advisor on that desk, else to a licensed generalist with a note', async () => {
+  const req = client();
+  const hdr = { 'content-type': 'application/json', accept: 'application/json' };
+  const send = async (service, email) => json(await req('/api/leads', { method: 'POST', headers: hdr, body: JSON.stringify({ lead_type: 'consult', service, email, first_name: 'Desk', phone: '416-555-0142', province: 'on', timeframe: '30d', _ts: String(Date.now() - 9000) }) }));
+  const event = (ref) => {
+    const lead = db.get('SELECT * FROM leads WHERE ref = ?', [ref]);
+    return { lead, data: JSON.parse(db.get("SELECT data FROM lead_events WHERE lead_id = ? AND type = 'assigned'", [lead.id]).data) };
+  };
+
+  const a = await send('high-risk-car-insurance', 'desk.highrisk@gmail.com');
+  assert.equal(a.ok, true);
+  const ea = event(a.ref);
+  assert.equal(ea.lead.service, 'high-risk-car-insurance');
+  assert.equal(ea.lead.product, 'car-insurance', 'product inferred from the service');
+  assert.equal(ea.data.specialist, true);
+  const adv = db.get('SELECT specialties FROM advisors WHERE id = ?', [ea.lead.advisor_id]);
+  assert.ok(JSON.parse(adv.specialties).includes('high-risk-car-insurance'));
+
+  const b = await send('cottage-seasonal-insurance', 'desk.cottage@gmail.com');
+  const eb = event(b.ref);
+  assert.ok(eb.lead.advisor_id, 'still routed');
+  assert.equal(eb.data.specialist, false);
+  assert.match(eb.data.note, /generalist/);
+
+  const c = await send('not-a-real-desk', 'desk.unknown@gmail.com');
+  assert.equal(db.get('SELECT service FROM leads WHERE ref = ?', [c.ref]).service, null, 'unknown services are dropped');
+});
+
+test('admin: phone placeholder is flagged, desks are editable, and desk leads show their desk', async () => {
+  const req = client();
+  await req('/admin/login', { method: 'POST', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: form({ email: 'admin@instasure.test', password: 'correct-horse-battery-staple', next: '/admin/' }) });
+  const dash = await (await req('/admin/')).text();
+  assert.match(dash, /Customer service number replaced/);
+  assert.match(dash, /Specialist desks staffed/);
+  const st = await req('/admin/settings');
+  assert.equal(st.status, 200);
+  assert.match(await st.text(), /name="phone"[^>]*value="1-800-000-0000"/);
+  const advId = db.value("SELECT id FROM advisors WHERE specialties LIKE '%high-risk-car-insurance%' LIMIT 1");
+  const edit = await (await req(`/admin/advisors/${advId}`)).text();
+  assert.match(edit, /name="specialties" value="high-risk-car-insurance" checked/);
+  const leadId = db.value("SELECT id FROM leads WHERE service = 'high-risk-car-insurance' LIMIT 1");
+  const lead = await (await req(`/admin/leads/${leadId}`)).text();
+  assert.match(lead, /High-risk auto desk/);
+  const list = await (await req('/admin/leads')).text();
+  assert.match(list, /High-risk auto desk/);
+});

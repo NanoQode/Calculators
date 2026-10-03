@@ -10,7 +10,10 @@ const DEFAULTS = {
   site_name: 'Instasure.ca',
   legal_name: '',
   tagline: 'Instant insurance answers, instant quotes and licensed advisors across Canada.',
-  phone: '',
+  // Customer service line. Ships as an obviously invalid placeholder (no 000 exchange exists in North America),
+  // shown so the layout is complete; it is kept out of structured data and flagged in the admin launch checklist.
+  phone: '1-800-000-0000',
+  phone_hours: 'Monday to Friday, 9 a.m. to 6 p.m. ET',
   email: 'hello@instasure.ca',
   mailing_address: '',
   privacy_officer: '',
@@ -53,6 +56,10 @@ const DEFAULTS = {
   french_enabled: false,
 };
 
+const PLACEHOLDER_PHONE = '1-800-000-0000';
+/** True while the customer service number is still the shipped placeholder (or empty). */
+function phoneIsPlaceholder(v) { const d = String(v || '').replace(/\D/g, ''); return !d || d === '18000000000' || /^1?\d{3}0{7}$/.test(d); }
+
 let cache = null;
 
 function load() {
@@ -75,4 +82,4 @@ function invalidate() { cache = null; }
 /** Interpolate {site_name}-style tokens with settings values. */
 function interpolate(str) { return String(str || '').replace(/\{(\w+)\}/g, (m, k) => (all()[k] !== undefined ? String(all()[k]) : m)); }
 
-module.exports = { DEFAULTS, all, get, set, setMany, invalidate, interpolate };
+module.exports = { DEFAULTS, PLACEHOLDER_PHONE, phoneIsPlaceholder, all, get, set, setMany, invalidate, interpolate };

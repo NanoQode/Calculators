@@ -1,0 +1,63 @@
+<%
+  var total = prods.length + Object.keys(groups).reduce(function(n, k){ return n + groups[k].length; }, 0);
+%>
+<section class="container-site pt-space-md pb-space-lg">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-end">
+    <div class="lg:col-span-8 flex flex-col gap-space-sm">
+      <p class="eyebrow">All services · <%= total %> types of coverage</p>
+      <h1 class="font-display-lg-mobile text-display-lg-mobile lg:font-display-lg lg:text-display-lg text-primary-container tracking-tight text-balance">Every kind of insurance, one licensed advisor</h1>
+      <p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl">From car, home and life to pet, boat, landlord and commercial auto. Get an instant estimate where we can model the price, and a licensed advisor in your province for everything else. Hard-to-place needs go to a dedicated specialist desk.</p>
+    </div>
+    <% if (s.phone) { %>
+    <a href="tel:<%= tel(s.phone) %>" class="lg:col-span-4 card p-space-md flex items-center gap-space-sm hover:shadow-md transition-shadow" data-track="phone_click" data-label="services_hub">
+      <span class="w-12 h-12 rounded-xl bg-secondary-container/60 flex items-center justify-center text-on-secondary-container"><span class="material-symbols-outlined">phone_in_talk</span></span>
+      <span class="flex flex-col"><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Customer service</span><span class="font-headline-sm text-headline-sm text-primary-container"><%= s.phone %></span><% if (s.phone_hours) { %><span class="font-body-sm text-body-sm text-on-surface-variant"><%= s.phone_hours %></span><% } %></span>
+    </a>
+    <% } %>
+  </div>
+</section>
+
+<section class="w-full bg-surface-container-low/70 py-space-xl" aria-labelledby="desks-h">
+  <div class="container-site">
+    <div class="flex flex-col gap-space-xs mb-space-lg max-w-3xl">
+      <p class="eyebrow flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">support_agent</span> Dedicated specialist desks</p>
+      <h2 id="desks-h" class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container">Hard to place? Talk to a specialist.</h2>
+      <p class="font-body-md text-body-md text-on-surface-variant">These are the needs most comparison sites handle with one generic page, if at all. Each has a desk of advisors who handle these requests regularly and are licensed in your province.</p>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-space-md">
+      <% deskList.forEach(function(d){ %>
+      <a href="<%= d.path %>#specialist" class="card card-hover p-space-md flex flex-col gap-2">
+        <span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider"><%= d.desk %></span>
+        <span class="font-headline-sm text-headline-sm text-on-surface"><%= d.name %></span>
+        <span class="font-body-sm text-body-sm text-on-surface-variant line-clamp-3"><%= d.pitch %></span>
+        <span class="link font-label-md text-label-md mt-auto">Request a specialist call →</span>
+      </a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<% Object.keys(CATEGORIES).forEach(function(cat){
+  var core = prods.filter(function(p){ return p.category === cat; });
+  var extra = groups[cat] || [];
+  if (!core.length && !extra.length) return; %>
+<section class="container-site py-space-lg" aria-labelledby="cat-<%= cat %>">
+  <div class="flex items-center gap-2 mb-space-md"><span class="material-symbols-outlined text-secondary"><%= CATEGORIES[cat].icon %></span><h2 id="cat-<%= cat %>" class="font-headline-md text-headline-md text-primary-container"><%= CATEGORIES[cat].name %></h2></div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-sm">
+    <% core.forEach(function(p){ %>
+    <a href="/<%= p.slug %>/" class="card card-hover p-space-md flex items-start gap-3">
+      <span class="w-10 h-10 rounded-xl bg-secondary-container/50 flex items-center justify-center text-on-secondary-container shrink-0"><span class="material-symbols-outlined"><%= p.icon %></span></span>
+      <span class="flex flex-col"><span class="font-label-lg text-label-lg text-on-surface"><%= p.name %></span><span class="font-body-sm text-body-sm text-on-surface-variant"><%= p.niche ? 'Specialist desk · ' : '' %>Instant estimate</span></span>
+    </a>
+    <% }) %>
+    <% extra.forEach(function(x){ %>
+    <a href="<%= x.path %>" class="card card-hover p-space-md flex items-start gap-3">
+      <span class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-primary-container shrink-0"><span class="material-symbols-outlined"><%= x.icon %></span></span>
+      <span class="flex flex-col"><span class="font-label-lg text-label-lg text-on-surface"><%= x.name %></span><span class="font-body-sm text-body-sm <%= x.niche ? 'text-secondary' : 'text-on-surface-variant' %>"><%= x.niche ? 'Specialist desk' : x.estimate ? 'Instant estimate' : 'Advisor quote' %></span></span>
+    </a>
+    <% }) %>
+  </div>
+</section>
+<% }) %>
+
+<%- include('partials/advisor-banner', { bannerTitle: 'Not sure what you need? Start with a free review.' }) %>

@@ -119,6 +119,15 @@ function createApp() {
     res.locals.CATEGORIES = CATEGORIES;
     res.locals.geoData = require('./data/geo');
     res.locals.mdlib = require('./lib/markdown');
+    res.locals.phoneIsPlaceholder = settings.phoneIsPlaceholder;
+    res.locals.tel = (n) => String(n || '').replace(/[^0-9+]/g, '');
+    // Lowercase a product name for use mid-sentence, keeping proper nouns and acronyms intact.
+    res.locals.lc = (t) => String(t || '').toLowerCase()
+      .replace(/super visa/g, 'Super Visa').replace(/\be&o\b/g, 'E&O').replace(/\bd&o\b/g, 'D&O')
+      .replace(/\b(canada|ontario|airbnb)\b/g, (w) => w[0].toUpperCase() + w.slice(1))
+      .replace(/\b(rv|hvac|atv)\b/g, (w) => w.toUpperCase());
+    res.locals.serviceData = require('./data/services');
+    res.locals.desks = require('./lib/specialties').DESKS;
     res.locals.year = new Date().getFullYear();
     res.locals.flash = req.query._ok ? { type: 'ok', msg: String(req.query._ok).slice(0, 200) } : req.query._err ? { type: 'err', msg: String(req.query._err).slice(0, 200) } : null;
     /** Render a view inside a layout; caches anonymous public GETs. */

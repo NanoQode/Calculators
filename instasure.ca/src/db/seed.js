@@ -30,16 +30,16 @@ const CATEGORIES = [
 const CATEGORY_FOR = { life: 'life-insurance', health: 'living-benefits', home: 'home-property', auto: 'auto', travel: 'travel-visitors', business: 'business', claims: 'claims-rules' };
 
 const ADVISORS = [
-  { slug: 'sample-jordan-lee', name: 'Jordan Lee', designations: 'LLQP', title: 'Life & Living Benefits Advisor (sample profile)', provinces: ['on', 'bc'], categories: ['life', 'health', 'travel'], languages: ['en', 'zh'], years: 9,
+  { slug: 'sample-jordan-lee', specialties: ['life-insurance-medical-conditions', 'newcomer-life-insurance', 'snowbird-travel-insurance', 'mortgage-life-insurance'], name: 'Jordan Lee', designations: 'LLQP', title: 'Life & Living Benefits Advisor (sample profile)', provinces: ['on', 'bc'], categories: ['life', 'health', 'travel'], languages: ['en', 'zh'], years: 9,
     licences: [{ province: 'on', regulator: 'FSRA', type: 'Life & A&S agent' }, { province: 'bc', regulator: 'Insurance Council of BC', type: 'Life agent' }],
     bio: 'Sample profile for layout and routing tests. Replace with a real licensed advisor in **Admin → Advisors** before launch.\n\nSpecialises in term life, critical illness and Super Visa coverage for young families and newcomers.' },
-  { slug: 'sample-amrit-sandhu', name: 'Amrit Sandhu', designations: 'LLQP, CIP', title: 'Senior Insurance Advisor (sample profile)', provinces: ['on', 'ab'], categories: ['life', 'health', 'travel', 'auto', 'property'], languages: ['en', 'pa', 'hi'], years: 12,
+  { slug: 'sample-amrit-sandhu', specialties: ['newcomer-car-insurance', 'newcomer-life-insurance', 'super-visa-insurance', 'high-risk-car-insurance', 'rideshare-delivery-insurance', 'ontario-accident-benefits-review', 'self-employed-disability-insurance'], name: 'Amrit Sandhu', designations: 'LLQP, CIP', title: 'Senior Insurance Advisor (sample profile)', provinces: ['on', 'ab'], categories: ['life', 'health', 'travel', 'auto', 'property'], languages: ['en', 'pa', 'hi'], years: 12,
     licences: [{ province: 'on', regulator: 'FSRA', type: 'Life & A&S agent' }, { province: 'ab', regulator: 'Alberta Insurance Council', type: 'General insurance agent' }],
     bio: 'Sample profile for layout and routing tests. Replace with a real licensed advisor before launch.\n\nHelps Brampton, Mississauga and Calgary families with life, Super Visa, home and auto coverage in English, Punjabi and Hindi.' },
-  { slug: 'sample-sam-okafor', name: 'Sam Okafor', designations: 'CAIB', title: 'Commercial & Property Broker (sample profile)', provinces: ['ab', 'sk', 'mb', 'on'], categories: ['business', 'property', 'auto'], languages: ['en'], years: 8,
+  { slug: 'sample-sam-okafor', specialties: ['commercial-auto-insurance', 'hard-to-insure-homes', 'short-term-rental-insurance', 'condo-insurance'], name: 'Sam Okafor', designations: 'CAIB', title: 'Commercial & Property Broker (sample profile)', provinces: ['ab', 'sk', 'mb', 'on'], categories: ['business', 'property', 'auto'], languages: ['en'], years: 8,
     licences: [{ province: 'ab', regulator: 'Alberta Insurance Council', type: 'General insurance broker' }, { province: 'on', regulator: 'RIBO', type: 'Registered insurance broker' }],
     bio: 'Sample profile for layout and routing tests. Replace with a real licensed broker before launch.\n\nWorks with contractors, consultants and retailers on CGL, E&O and property packages.' },
-  { slug: 'sample-taylor-macdonald', name: 'Taylor MacDonald', designations: 'LLQP, CIP', title: 'Atlantic Canada Advisor (sample profile)', provinces: ['ns', 'nb', 'pe', 'nl'], categories: ['life', 'health', 'property', 'auto', 'travel'], languages: ['en', 'fr'], years: 15,
+  { slug: 'sample-taylor-macdonald', specialties: ['cottage-seasonal-insurance', 'hard-to-insure-homes', 'snowbird-travel-insurance'], name: 'Taylor MacDonald', designations: 'LLQP, CIP', title: 'Atlantic Canada Advisor (sample profile)', provinces: ['ns', 'nb', 'pe', 'nl'], categories: ['life', 'health', 'property', 'auto', 'travel'], languages: ['en', 'fr'], years: 15,
     licences: [{ province: 'ns', regulator: 'NS Superintendent of Insurance', type: 'Life & general agent' }, { province: 'nb', regulator: 'FCNB', type: 'Life & general agent' }],
     bio: 'Sample profile for layout and routing tests. Replace with a real licensed advisor before launch.\n\nServes Halifax, Moncton, Saint John and St. John’s households with home, auto and life insurance.' },
 ];
@@ -177,11 +177,15 @@ function seed({ quiet = false } = {}) {
     for (const a of ADVISORS) {
       db.insert('advisors', {
         slug: a.slug, name: a.name, title: a.title, designations: a.designations, bio_md: a.bio,
-        languages: a.languages, provinces: a.provinces, licences: a.licences, categories: a.categories,
+        languages: a.languages, provinces: a.provinces, licences: a.licences, categories: a.categories, specialties: a.specialties || [],
         years_experience: a.years, is_demo: 1, booking_url: null, email: null,
       });
     }
     log(`${ADVISORS.length} SAMPLE advisors created (flagged is_demo — replace before launch)`);
+  }
+  // Databases created before specialist desks existed: give the sample advisors their demo desks once.
+  for (const a of ADVISORS) {
+    db.run("UPDATE advisors SET specialties = ? WHERE slug = ? AND is_demo = 1 AND (specialties IS NULL OR specialties = '[]')", [JSON.stringify(a.specialties || []), a.slug]);
   }
 
   if (!db.value('SELECT COUNT(*) FROM scoring_rules')) {
@@ -200,13 +204,15 @@ function seed({ quiet = false } = {}) {
   const kwFile = path.join(config.ROOT, 'src', 'data', 'keywords.js');
   if (fs.existsSync(kwFile)) {
     const { keywords } = require(kwFile);
-    let n = 0;
+    let n = 0, mapped = 0;
     for (const k of keywords) {
-      if (db.get('SELECT id FROM keywords WHERE keyword = ?', [k.keyword])) continue;
-      db.insert('keywords', { ...k, volume_source: k.volume_source || 'model' });
-      n++;
+      const have = db.get('SELECT id, target_path FROM keywords WHERE keyword = ?', [k.keyword]);
+      if (!have) { db.insert('keywords', { ...k, volume_source: k.volume_source || 'model' }); n++; continue; }
+      // A page planned earlier now exists: point the stored keyword at it, but never overwrite a mapping set in the admin.
+      if (!have.target_path && k.target_path) { db.run('UPDATE keywords SET target_path = ?, notes = ? WHERE id = ?', [k.target_path, k.notes || null, have.id]); mapped++; }
     }
     if (n) log(`${n} keywords imported`);
+    if (mapped) log(`${mapped} keywords mapped to newly built pages`);
   }
 
   const g = importGuides();

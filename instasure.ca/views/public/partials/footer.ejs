@@ -9,6 +9,7 @@
       <div class="lg:col-span-2 flex flex-col gap-space-sm pr-space-md">
         <a href="/" class="flex items-center gap-2"><img src="/img/logo-mark.svg" alt="" width="28" height="28" class="h-7 w-7"><span class="font-headline-sm text-headline-sm text-primary-container tracking-tight">Instasure<span class="text-secondary">.ca</span></span></a>
         <p class="font-body-sm text-body-sm text-on-surface-variant max-w-sm">Instant insurance answers, instant estimates and licensed advisors in your province — life, living benefits, home, auto, travel and business coverage for Canadians coast to coast.</p>
+        <% if (s.phone) { %><a href="tel:<%= tel(s.phone) %>" class="flex items-center gap-2 w-fit" data-track="phone_click" data-label="footer"><span class="material-symbols-outlined text-[20px] text-secondary">phone_in_talk</span><span class="flex flex-col"><span class="font-label-lg text-label-lg text-on-surface"><%= s.phone %></span><% if (s.phone_hours) { %><span class="font-body-sm text-body-sm text-on-surface-variant"><%= s.phone_hours %></span><% } %></span></a><% } %>
         <div class="flex flex-wrap items-center gap-space-xs pt-space-xs">
           <span class="chip bg-surface-container-low text-on-surface"><span class="text-on-tertiary-container" aria-hidden="true">✿</span> Built for Canadians</span>
           <span class="chip bg-surface-container-low text-secondary"><span class="material-symbols-outlined text-[14px]">verified_user</span> Licensed advisors only</span>
@@ -42,6 +43,13 @@
       </div>
     </div>
 
+    <div class="border-t border-surface-container pt-space-lg pb-space-md">
+      <h2 class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant mb-2">Specialty coverage &amp; specialist desks</h2>
+      <ul class="flex flex-wrap gap-x-4 gap-y-1 font-body-sm text-body-sm">
+        <% var liveSlugs = fp.map(function(p){ return p.slug; }); serviceData.services.forEach(function(x){ if (x.trade || liveSlugs.indexOf(x.parent) < 0) return; %><li><a class="<%= x.niche ? 'text-secondary' : 'text-on-surface-variant' %> hover:text-secondary" href="<%= x.path %>"><%= x.name %></a></li><% }) %>
+        <li><a class="link" href="/insurance-services/">All services →</a></li>
+      </ul>
+    </div>
     <div class="border-t border-surface-container pt-space-lg pb-space-md grid gap-space-md lg:grid-cols-2">
       <div>
         <h2 class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant mb-2">Insurance by province</h2>

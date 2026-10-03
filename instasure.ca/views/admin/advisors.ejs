@@ -6,7 +6,7 @@
   <tbody><% rows.forEach(function(a){ %><tr class="hover:bg-surface-container-low <%= a.active ? '' : 'opacity-50' %>">
     <td class="admin-td"><a class="link" href="/admin/advisors/<%= a.id %>"><%= a.name %></a><% if (a.is_demo) { %> <span class="badge bg-error-container text-on-error-container">sample</span><% } %><div class="text-body-sm text-on-surface-variant"><%= a.title || '' %><%= a.has_login ? ' · has login' : '' %></div></td>
     <td class="admin-td text-body-sm uppercase"><%= db_json(a.provinces, []).join(', ') %></td>
-    <td class="admin-td text-body-sm"><%= db_json(a.categories, []).join(', ') %></td>
+    <td class="admin-td text-body-sm"><%= db_json(a.categories, []).join(', ') %><% var sp = db_json(a.specialties, []); if (sp.length) { %><div class="text-secondary"><%= sp.length %> specialist desk<%= sp.length > 1 ? 's' : '' %></div><% } %></td>
     <td class="admin-td text-body-sm"><%= a.open_leads %><%= a.max_open_leads ? ' / ' + a.max_open_leads : '' %></td><td class="admin-td text-body-sm"><%= a.won %></td>
     <td class="admin-td text-body-sm"><%= a.active && a.accepting_leads ? 'on · weight ' + a.weight : 'paused' %></td></tr><% }) %>
   </tbody></table></div>

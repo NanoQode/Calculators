@@ -29,7 +29,8 @@
             </div>
             <% }) %>
             <div class="col-span-3 flex items-center justify-between bg-surface-container-low rounded-xl px-4 py-3">
-              <span class="font-body-sm text-body-sm text-on-surface-variant">Looking for your province or city?</span>
+              <a href="/insurance-services/" class="link font-label-md text-label-md flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">apps</span>All services &amp; specialist desks</a>
+              <% if (s.phone) { %><a href="tel:<%= tel(s.phone) %>" class="flex items-center gap-1 font-label-md text-label-md text-on-surface hover:text-secondary" data-track="phone_click" data-label="mega_menu"><span class="material-symbols-outlined text-[18px] text-secondary">phone_in_talk</span><%= s.phone %></a><% } %>
               <a href="/insurance/" class="link font-label-md text-label-md">Insurance by province →</a>
             </div>
           </div>
@@ -43,19 +44,13 @@
     </div>
     <div class="flex items-center gap-space-sm shrink-0">
       <% if (s.phone) { %>
-      <div class="hidden lg:flex flex-col text-right pr-1">
-        <span class="font-label-sm text-label-sm text-on-surface-variant tracking-wider uppercase">Licensed advisors</span>
-        <a class="font-label-md text-label-md text-on-surface hover:text-secondary" href="tel:<%= s.phone.replace(/[^0-9+]/g,'') %>" data-track="phone_click"><%= s.phone %></a>
+      <div class="hidden lg:flex xl:hidden flex-col text-right pr-1">
+        <span class="font-label-sm text-label-sm text-on-surface-variant tracking-wider uppercase">Customer service</span>
+        <a class="font-label-md text-label-md text-on-surface hover:text-secondary" href="tel:<%= tel(s.phone) %>" data-track="phone_click" data-label="header"><%= s.phone %></a>
       </div>
-      <div class="hidden lg:block h-7 w-px bg-surface-container-high"></div>
+      <div class="hidden lg:block xl:hidden h-7 w-px bg-surface-container-high"></div>
+      <a href="tel:<%= tel(s.phone) %>" class="hidden xl:inline-flex w-11 h-11 rounded-full items-center justify-center bg-surface-container-low text-primary-container hover:bg-surface-container hover:text-secondary transition-colors" title="Customer service <%= s.phone %>" aria-label="Call customer service at <%= s.phone %>" data-track="phone_click" data-label="header_icon"><span class="material-symbols-outlined text-[20px]">call</span></a>
       <% } %>
-      <a href="/advisors/" class="hidden 2xl:flex items-center gap-2 py-1 px-2 rounded-full hover:bg-surface-container-low transition-all">
-        <span class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-primary-container"><span class="material-symbols-outlined text-[18px]">support_agent</span></span>
-        <span class="flex flex-col text-left">
-          <span class="font-label-sm text-label-sm text-secondary flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-secondary inline-block"></span>Licensed in your province</span>
-          <span class="font-label-md text-label-md text-on-surface">Talk to an Advisor</span>
-        </span>
-      </a>
       <span class="lg:hidden inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-low"><span class="text-[11px] leading-none" aria-hidden="true">🇨🇦</span><span class="font-label-sm text-label-sm text-on-secondary-fixed-variant">Canada-wide</span></span>
       <a href="/quote/" class="hidden md:inline-flex whitespace-nowrap btn-primary !py-2.5 !px-5 shadow-[0_4px_12px_rgba(0,108,70,0.18)]" data-track="cta_click" data-label="header_get_rate">Get Instant Rate</a>
       <button type="button" class="xl:hidden w-11 h-11 rounded-full flex items-center justify-center hover:bg-surface-container" aria-label="Open menu" aria-controls="drawer" aria-expanded="false" data-drawer-open><span class="material-symbols-outlined">menu</span></button>
@@ -78,6 +73,7 @@
     <% }) %>
     <hr class="my-space-md border-surface-container">
     <ul class="space-y-1 font-label-lg text-label-lg">
+      <li><a class="block py-2" href="/insurance-services/">All services &amp; specialist desks</a></li>
       <li><a class="block py-2" href="/compare/">Compare plans</a></li>
       <li><a class="block py-2" href="/guides/">Knowledge &amp; guides</a></li>
       <li><a class="block py-2" href="/calculators/">Calculators</a></li>
@@ -85,5 +81,8 @@
       <li><a class="block py-2" href="/advisors/">Licensed advisors</a></li>
       <li><a class="block py-2" href="/about/">About us</a></li>
     </ul>
+    <% if (s.phone) { %>
+    <a href="tel:<%= tel(s.phone) %>" class="mt-space-md card p-space-md flex items-center gap-3" data-track="phone_click" data-label="drawer"><span class="material-symbols-outlined text-secondary">phone_in_talk</span><span class="flex flex-col"><span class="font-label-lg text-label-lg text-on-surface"><%= s.phone %></span><% if (s.phone_hours) { %><span class="font-body-sm text-body-sm text-on-surface-variant"><%= s.phone_hours %></span><% } %></span></a>
+    <% } %>
   </nav>
 </div>

@@ -17,6 +17,7 @@ const md = require('../lib/markdown');
 const geo = require('../data/geo');
 const { CATEGORIES } = require('../data/products');
 const glossary = require('../data/glossary');
+const specialties = require('../lib/specialties');
 const U = require('../lib/util');
 
 const router = express.Router();
@@ -144,7 +145,9 @@ router.get('/quote/:product/', (req, res, next) => {
   const q = req.query;
   const province = geo.provinceByCode[String(q.province || '').toLowerCase()] ? String(q.province).toLowerCase() : '';
   const prefill = {};
-  for (const k of ['coverage', 'age', 'term', 'smoker', 'city', 'industry', 'contents', 'rebuild', 'income', 'days', 'visitor_age']) if (q[k]) prefill[k] = String(q[k]).slice(0, 40);
+  for (const k of ['coverage', 'age', 'term', 'smoker', 'city', 'industry', 'contents', 'rebuild', 'income', 'days', 'visitor_age', 'years_licensed', 'claims', 'tickets']) if (q[k]) prefill[k] = String(q[k]).slice(0, 40);
+  const serviceSlug = specialties.isService(String(q.service || '')) && specialties.productFor(String(q.service)) === product.slug ? String(q.service) : null;
+  const service = serviceSlug ? { slug: serviceSlug, name: specialties.labelFor(serviceSlug), desk: specialties.deskBySlug[serviceSlug] || null } : null;
   let resume = null;
   if (q.resume) {
     const lead = db.get("SELECT ref, first_name, email, province, city, quote_inputs FROM leads WHERE ref = ?", [String(q.resume).toUpperCase()]);
@@ -153,7 +156,7 @@ router.get('/quote/:product/', (req, res, next) => {
   const initial = quoteEngine.estimate(product.slug, { ...quoteEngine.DEFAULT_PROFILES[product.quoteFlow], ...prefill, province: province || prefill.province || 'on' });
   const advisors = routing.forArea(province || 'on', product.category, 1);
   res.page('public/quote-flow', {
-    pageType: 'quote', sectionLabel: 'Get Quote', product, prefill, province: province || prefill.province || '', initial, advisors, resume, noCache: !!q.resume,
+    pageType: 'quote', sectionLabel: 'Get Quote', product, prefill, province: province || prefill.province || '', initial, advisors, resume, service, noCache: !!q.resume,
     industries: quoteEngine.INDUSTRY,
     meta: seo.meta({
       path: `/quote/${product.slug}/`, title: `${product.name} Quote — Instant Estimate in 60 Seconds`,
@@ -365,9 +368,11 @@ for (const slug of Object.keys(STATIC)) {
 }
 
 router.get('/contact/', (req, res) => {
-  const product = pages.getProduct(String(req.query.product || ''));
+  const serviceSlug = specialties.isService(String(req.query.service || '')) ? String(req.query.service) : null;
+  const product = pages.getProduct(String(req.query.product || '')) || (serviceSlug && pages.getProduct(specialties.productFor(serviceSlug)));
+  const service = serviceSlug ? { slug: serviceSlug, name: specialties.labelFor(serviceSlug), desk: specialties.deskBySlug[serviceSlug] || null } : null;
   res.page('public/contact', {
-    pageType: 'contact', sectionLabel: 'Contact', product, type: req.query.type === 'consult' ? 'consult' : 'consult',
+    pageType: 'contact', sectionLabel: 'Contact', product, service, type: req.query.type === 'consult' ? 'consult' : 'consult',
     meta: seo.meta({
       path: '/contact/', title: 'Contact Instasure — Book a Free Licensed Advisor Review',
       description: 'Book a free, no-obligation insurance review with an advisor licensed in your province, or send us a question.',
@@ -395,6 +400,7 @@ router.get('/site-map/', (req, res) => {
   res.page('public/sitemap-html', {
     pageType: 'static', sectionLabel: 'Site map', groups: {
       'Main pages': all.filter((p) => ['static', 'product'].includes(p.type)),
+      'Specialty coverage': all.filter((p) => p.type === 'service'),
       'Insurance by province & city': all.filter((p) => p.type === 'geo-hub'),
       'Coverage by province': all.filter((p) => p.type === 'product-province'),
       'Coverage by city': all.filter((p) => p.type === 'product-city'),
@@ -482,6 +488,61 @@ router.get('/insurance/:province/:city/', (req, res, next) => {
 });
 
 // ───────────────────────── Product hubs & programmatic geo pages ─────────────────────────
+// ───────────────────────── Specialty services ─────────────────────────
+router.get('/insurance-services/', (req, res) => {
+  const groups = pages.servicesByCategory();
+  const prods = pages.enabledProducts();
+  const deskList = specialties.DESKS.filter((d) => (d.kind === 'service' ? pages.getService(d.slug) : pages.getProduct(d.slug)));
+  const all = pages.enabledServices();
+  res.page('public/services', {
+    pageType: 'services', sectionLabel: 'All services', groups, prods, deskList,
+    meta: seo.meta({
+      path: '/insurance-services/', title: 'All Insurance Services & Specialist Desks in Canada',
+      description: 'Every type of insurance Instasure covers, from car, home and life to pet, boat, landlord and commercial auto, plus specialist desks for hard-to-place needs.',
+      breadcrumbs: [HOME, { name: 'All services', url: '/insurance-services/' }],
+      jsonld: [seo.webPage({ path: '/insurance-services/', name: 'All insurance services', modified: pages.contentDate('/insurance-services/') }), seo.itemList([...prods.map((x) => ({ url: `/${x.slug}/`, name: x.name })), ...all.map((x) => ({ url: x.path, name: x.name }))], '/insurance-services/')],
+    }),
+  });
+});
+
+/** Quote link for a service: its parent product's flow, tagged with the service and pre-filled with its example profile. */
+function serviceQuoteUrl(sv) {
+  const qs = new URLSearchParams({ service: sv.slug });
+  for (const [k, v] of Object.entries((sv.estimate && sv.estimate.profile) || {})) qs.set(k, String(v));
+  return `/quote/${sv.parent}/?${qs}`;
+}
+
+// Service pages live at their own paths (top-level like /pet-insurance/ or nested like
+// /car-insurance/high-risk-drivers/). Registered before the product routes, which they never collide with.
+router.get(/^\/[a-z0-9-]+\/(?:[a-z0-9-]+\/)?$/, (req, res, next) => {
+  const sv = pages.serviceByPath(req.path);
+  if (!sv) return next();
+  const p = sv.path;
+  const product = pages.getProduct(sv.parent);
+  const ov = seo.getOverride(p) || {};
+  const desk = specialties.deskBySlug[sv.slug] || null;
+  const faq = [...sv.faq, ...(ov.faq || [])];
+  const related = (sv.related || []).map((slug) => {
+    const x = pages.getService(slug) || pages.getProduct(slug);
+    return x && { name: x.name, icon: x.icon, url: x.path || `/${x.slug}/` };
+  }).filter(Boolean);
+  const nested = p.startsWith(`/${product.slug}/`);
+  const crumbs = [HOME, nested ? { name: product.name, url: `/${product.slug}/` } : { name: 'All services', url: '/insurance-services/' }, { name: sv.name, url: p }];
+  const updated = pages.contentDate(p);
+  res.page('public/service', {
+    pageType: 'service', sectionLabel: sv.short, sv, product, desk, faq, related, updated,
+    estimate: pages.serviceEstimate(sv), quoteUrl: serviceQuoteUrl(sv),
+    intro: ov.intro_md ? md.render(ov.intro_md).html : null, h1: ov.h1 || sv.name,
+    advisors: routing.forArea(null, product.category, 1, desk ? sv.slug : null),
+    guides: relatedGuides({ product: product.slug, category: product.category, limit: 3 }),
+    siblings: pages.servicesFor(product.slug).filter((x) => x.slug !== sv.slug).slice(0, 8),
+    meta: seo.meta({
+      path: p, title: sv.title, description: sv.description, breadcrumbs: crumbs,
+      jsonld: [seo.webPage({ path: p, name: sv.name, description: sv.description, modified: updated }), seo.financialProduct({ name: sv.name, tagline: sv.tagline }, { path: p }), seo.faqPage(faq, p)],
+    }),
+  });
+});
+
 router.get('/:product/', (req, res, next) => {
   const product = pages.getProduct(req.params.product);
   if (!product) return next();
@@ -492,6 +553,7 @@ router.get('/:product/', (req, res, next) => {
   const updated = pages.contentDate(p);
   res.page('public/product', {
     pageType: 'product', sectionLabel: product.short, product, faq, topCities, updated,
+    services: pages.servicesFor(product.slug), desk: specialties.deskBySlug[product.slug] || null,
     from: quoteEngine.fromPrice(product.slug), widget: widgetSingle(product.slug),
     intro: ov.intro_md ? md.render(ov.intro_md).html : null, h1: ov.h1 || product.h1,
     related: product.related.map((s) => pages.getProduct(s)).filter(Boolean),

@@ -54,6 +54,7 @@ CREATE TABLE IF NOT EXISTS advisors (
   provinces TEXT DEFAULT '[]',       -- JSON array of province codes the advisor is licensed in
   licences TEXT DEFAULT '[]',        -- JSON [{province, regulator, type, number, expires}]
   categories TEXT DEFAULT '[]',      -- JSON array of product categories: life, health, auto, property, business, travel
+  specialties TEXT DEFAULT '[]',     -- JSON array of specialist desks (niche service or product slugs) this advisor staffs
   years_experience INTEGER,
   active INTEGER NOT NULL DEFAULT 1,
   accepting_leads INTEGER NOT NULL DEFAULT 1,
@@ -92,6 +93,7 @@ CREATE TABLE IF NOT EXISTS leads (
   first_name TEXT, last_name TEXT, email TEXT COLLATE NOCASE, phone TEXT,
   province TEXT, city TEXT, postal_code TEXT, language TEXT DEFAULT 'en',
   product TEXT, product_category TEXT,
+  service TEXT,                      -- specialty service or specialist desk slug (src/data/services.js), if any
   quote_inputs TEXT DEFAULT '{}',
   estimate TEXT DEFAULT '{}',
   timeframe TEXT, best_time TEXT, message TEXT,

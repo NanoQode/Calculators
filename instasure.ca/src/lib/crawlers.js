@@ -44,7 +44,7 @@ function robots() {
 }
 
 const GROUPS = {
-  core: (p) => ['static', 'product'].includes(p.type),
+  core: (p) => ['static', 'product', 'service'].includes(p.type),
   geo: (p) => ['product-province', 'product-city', 'geo-hub'].includes(p.type),
   guides: (p) => ['guide', 'category'].includes(p.type),
   advisors: (p) => p.type === 'advisor',
@@ -92,6 +92,12 @@ function llmsTxt() {
     out.push(`## ${meta.name}`, '');
     for (const p of list) out.push(`- [${p.name}](${config.siteUrl}/${p.slug}/): ${p.tagline}`);
     out.push('');
+  }
+  const svc = pages.enabledServices();
+  if (svc.length) {
+    out.push('## Specialty coverage', '');
+    for (const x of svc) out.push(`- [${x.name}](${config.siteUrl}${x.path}): ${x.tagline}${x.niche ? ` Handled by a dedicated specialist desk (${x.desk}).` : ''}`);
+    out.push(`- [All services and specialist desks](${config.siteUrl}/insurance-services/)`, '');
   }
   out.push('## Calculators', '',
     `- [Life insurance needs calculator](${config.siteUrl}/calculators/life-insurance-needs/): DIME-style coverage needs for Canadian households.`,
