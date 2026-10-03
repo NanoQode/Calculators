@@ -199,7 +199,7 @@ Built pages are in plain text; *planned* pages are in italics. 826 URLs exist to
 │   └── /insurance/{province}/{city}/   City hub (58): every product for that city, local advisors
 ├── /guides/                         Knowledge & risk centre
 │   ├── /guides/category/{slug}/     7 categories
-│   └── /guides/{slug}/              18 launch guides (+ /guides/{slug}.md twins for AI tools, noindex)
+│   └── /guides/{slug}/              Guides by Michael Le Chi, CFP: 18 at launch + 3 a day from the Blog Content Plan (+ .md twins for AI tools, noindex)
 ├── /calculators/                    4 calculators: life needs, mortgage protection, tenant/condo coverage, business coverage
 ├── /compare/                        Product-type comparisons (term vs whole, mortgage vs term…)
 │   └── */compare/{a}-vs-{b}/*       *Insurer head-to-heads*
@@ -209,7 +209,7 @@ Built pages are in plain text; *planned* pages are in italics. 826 URLs exist to
 ├── /insights/rate-index/            Instasure Rate Index (quarterly, from anonymised quote requests)
 ├── /glossary/                       Plain-language definitions (DefinedTermSet)
 ├── Trust: /about/  /how-we-make-money/  /editorial-guidelines/  /licensing/  /privacy/  /terms/  /accessibility/  /contact/  /site-map/
-├── Machine-readable: /sitemap.xml (core, geo, guides, advisors)  /robots.txt  /llms.txt  /llms-full.txt
+├── Machine-readable: /sitemap.xml (core, services, provinces, cities, places, guides, advisors)  /robots.txt  /llms.txt  /llms-full.txt
 └── */fr/…*                          *French Quebec and New Brunswick mirror (after AMF registration)*
 ```
 
