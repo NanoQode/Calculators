@@ -10,6 +10,14 @@ const config = require('../config');
 
 const siteHost = new URL(config.siteUrl).host;
 
+const ENTITIES = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ' };
+function decodeEntities(t) {
+  return t.replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi, (m, e) => {
+    if (e[0] === '#') return String.fromCodePoint(e[1].toLowerCase() === 'x' ? parseInt(e.slice(2), 16) : Number(e.slice(1)));
+    return ENTITIES[e.toLowerCase()] ?? m;
+  });
+}
+
 function render(md) {
   const toc = [];
   const used = new Map();
@@ -18,7 +26,8 @@ function render(md) {
     renderer: {
       heading({ tokens, depth }) {
         const text = this.parser.parseInline(tokens);
-        const plain = text.replace(/<[^>]+>/g, '');
+        // Plain heading text for the TOC and the id: tags stripped and entities decoded (the template escapes it once).
+        const plain = decodeEntities(text.replace(/<[^>]+>/g, ''));
         let id = slugify(plain) || 'section';
         const n = used.get(id) || 0;
         used.set(id, n + 1);

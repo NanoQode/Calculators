@@ -203,3 +203,9 @@ test('customer service phone: the placeholder is recognised and real numbers are
   assert.equal(settings.phoneIsPlaceholder('1-888-412-7788'), false);
   assert.equal(settings.phoneIsPlaceholder('(416) 555-0199'), false);
 });
+
+test('markdown: TOC entries hold plain text (no double-escaped apostrophes or ampersands)', () => {
+  const r = md.render("## Michael's take\n\nText.\n\n## Home & auto: what's covered?\n\nMore.");
+  assert.deepEqual(r.toc.map((t) => t.text), ["Michael's take", "Home & auto: what's covered?"]);
+  assert.ok(!r.toc.some((t) => /&#|&amp;/.test(t.text)));
+});
