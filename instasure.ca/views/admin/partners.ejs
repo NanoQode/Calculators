@@ -1,0 +1,61 @@
+<%
+  var catKeys = Object.keys(CATEGORIES);
+  var checker = 'bg-[length:16px_16px] bg-[linear-gradient(45deg,#eef_25%,transparent_25%,transparent_75%,#eef_75%),linear-gradient(45deg,#eef_25%,transparent_25%,transparent_75%,#eef_75%)] bg-[position:0_0,8px_8px]';
+%>
+<%- include('partials-head', { h: 'Insurers & MGAs', sub: 'The insurers and managing general agencies (MGAs) your advisors are appointed with, and their logos. Shown on the home page, product and service pages, the quote flow and the footer, but only after you confirm below.' }) %>
+
+<form method="post" action="/admin/partners/confirm" class="card p-5 mb-4 flex flex-col gap-2 <%= confirmed ? '' : 'border-2 border-error/40' %>">
+  <input type="hidden" name="_csrf" value="<%= csrf %>">
+  <label class="flex items-start gap-2 font-body-md text-body-md"><input type="checkbox" name="carriers_confirmed" class="mt-1" <%= confirmed ? 'checked' : '' %>>
+    <span>I confirm we hold a current written appointment or contract with every insurer and MGA marked “Show” below, and written permission to display each logo shown.</span></label>
+  <p class="font-body-sm text-body-sm text-on-surface-variant">Showing an insurer you are not appointed with, or a logo without permission, is a misleading “partner” claim under the Competition Act and provincial advertising rules (FSRA, RIBO, AMF, BCFSA), and a trademark problem. Until this is ticked, nothing on this page appears on the site.</p>
+  <div><button class="btn-primary !py-2 !px-4">Save</button> <span class="font-label-md text-label-md <%= confirmed ? 'text-secondary' : 'text-error' %> ml-2"><%= confirmed ? 'Shown on the site' : 'Hidden from the site' %></span></div>
+</form>
+
+<form method="post" action="/admin/partners?_csrf=<%= encodeURIComponent(csrf) %>" enctype="multipart/form-data" class="card p-5 mb-4 grid grid-cols-1 md:grid-cols-6 gap-3 items-end">
+  <input type="hidden" name="_csrf" value="<%= csrf %>">
+  <h2 class="md:col-span-6 font-headline-sm text-headline-sm">Add an insurer or MGA</h2>
+  <label class="md:col-span-2"><span class="admin-label">Name</span><input class="admin-input" name="name" required maxlength="80" placeholder="e.g. Canada Life"></label>
+  <label><span class="admin-label">Type</span><select class="admin-input" name="type"><% Object.keys(TYPES).forEach(function(t){ %><option value="<%= t %>"><%= TYPES[t] %></option><% }) %></select></label>
+  <label class="md:col-span-2"><span class="admin-label">Logo (PNG, JPEG, WebP or GIF, transparent PNG preferred; SVG is refused)</span><input class="admin-input" type="file" name="logo" accept="image/png,image/jpeg,image/webp,image/gif"></label>
+  <label class="flex items-center gap-2 font-body-sm text-body-sm"><input type="checkbox" name="show" checked> Show</label>
+  <fieldset class="md:col-span-6"><legend class="admin-label">Lines (leave all unticked to show on every page)</legend>
+    <div class="flex flex-wrap gap-3"><% catKeys.forEach(function(c){ %><label class="flex items-center gap-1.5 font-body-sm text-body-sm"><input type="checkbox" name="lines" value="<%= c %>"> <%= CATEGORIES[c].name %></label><% }) %></div></fieldset>
+  <div class="md:col-span-6"><button class="btn-primary !py-2 !px-4">Add</button></div>
+</form>
+
+<div class="card overflow-x-auto">
+  <table class="w-full text-left font-body-sm text-body-sm">
+    <thead class="bg-surface-container-low"><tr><th class="p-3 w-40">Logo</th><th class="p-3">Name, type and lines</th><th class="p-3 w-20">Order</th><th class="p-3 w-20">Show</th><th class="p-3 w-48"></th></tr></thead>
+    <tbody>
+      <% if (!rows.length) { %><tr><td colspan="5" class="p-4 text-on-surface-variant">No insurers or MGAs yet.</td></tr><% } %>
+      <% rows.forEach(function(p){ var fid = 'pf-' + p.id; %>
+      <tr class="border-t border-outline-variant/40 align-top">
+        <td class="p-3">
+          <div class="h-16 w-36 rounded-lg flex items-center justify-center p-2 <%= checker %>">
+            <% if (p.logo) { %><img src="<%= p.logo %>" alt="<%= p.name %> logo" class="max-h-12 max-w-full object-contain"><% } else { %><span class="font-label-sm text-label-sm text-on-surface-variant">No logo (name shows)</span><% } %>
+          </div>
+          <% if (p.logo && p.w) { %><p class="font-label-sm text-label-sm text-on-surface-variant mt-1"><%= p.w %>×<%= p.h %> px</p><% } %>
+        </td>
+        <td class="p-3">
+          <form id="<%= fid %>" method="post" action="/admin/partners/<%= p.id %>?_csrf=<%= encodeURIComponent(csrf) %>" enctype="multipart/form-data" class="grid grid-cols-1 md:grid-cols-3 gap-2">
+            <input type="hidden" name="_csrf" value="<%= csrf %>">
+            <input class="admin-input md:col-span-2" name="name" value="<%= p.name %>" required maxlength="80" aria-label="Name">
+            <select class="admin-input" name="type" aria-label="Type"><% Object.keys(TYPES).forEach(function(t){ %><option value="<%= t %>" <%= p.type === t ? 'selected' : '' %>><%= TYPES[t] %></option><% }) %></select>
+            <div class="md:col-span-3 flex flex-wrap gap-3"><% catKeys.forEach(function(c){ %><label class="flex items-center gap-1.5"><input type="checkbox" name="lines" value="<%= c %>" <%= p.lines.indexOf(c) > -1 ? 'checked' : '' %>> <%= CATEGORIES[c].name %></label><% }) %></div>
+            <label class="md:col-span-2"><span class="admin-label">Replace logo</span><input class="admin-input" type="file" name="logo" accept="image/png,image/jpeg,image/webp,image/gif"></label>
+            <% if (p.logo) { %><label class="flex items-center gap-1.5 self-end pb-2"><input type="checkbox" name="remove_logo"> Remove logo</label><% } %>
+          </form>
+        </td>
+        <td class="p-3"><input form="<%= fid %>" class="admin-input" type="number" name="order" value="<%= p.order %>" aria-label="Order"></td>
+        <td class="p-3"><input form="<%= fid %>" type="checkbox" name="show" <%= p.show ? 'checked' : '' %> aria-label="Show on the site"></td>
+        <td class="p-3 flex flex-col gap-2 items-start">
+          <button form="<%= fid %>" class="btn-soft !py-1.5 !px-3">Save</button>
+          <form method="post" action="/admin/partners/<%= p.id %>/delete" data-confirm="Remove <%= p.name %>?"><input type="hidden" name="_csrf" value="<%= csrf %>"><button class="font-label-sm text-label-sm text-error hover:underline">Remove</button></form>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+<p class="mt-3 font-body-sm text-body-sm text-on-surface-variant">Logos are stored in the <a class="link" href="/admin/media">media library</a>. For crisp logos, upload a transparent PNG or WebP about 320 px wide. Insurers place the policy; an MGA is a licensed wholesaler that gives advisors access to several insurers.</p>

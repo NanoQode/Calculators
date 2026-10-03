@@ -63,14 +63,16 @@
 
         <% if (f === 'life' || product.slug === 'critical-illness-insurance') {
              var isCI = product.slug === 'critical-illness-insurance';
-             var cmin = isCI ? 25000 : 100000, cmax = isCI ? 500000 : (product.slug === 'no-medical-life-insurance' ? 1000000 : 3000000), cstep = isCI ? 5000 : 25000;
-             var cdef = pv('coverage', isCI ? 100000 : 500000);
-             var presets = isCI ? [50000, 100000, 150000, 250000] : [250000, 500000, 750000, 1000000];
+             var small = !isCI && typeof service !== 'undefined' && service && service.plan === 'funeral';
+             var cmin = isCI ? 25000 : small ? 5000 : 100000, cmax = isCI ? 500000 : small ? 50000 : (product.slug === 'no-medical-life-insurance' ? 1000000 : 3000000), cstep = isCI ? 5000 : small ? 1000 : 25000;
+             var cdef = pv('coverage', isCI ? 100000 : small ? 10000 : 500000);
+             var presets = isCI ? [50000, 100000, 150000, 250000] : small ? [10000, 15000, 25000, 50000] : [250000, 500000, 750000, 1000000];
         %>
+        <% if (small) { %><input type="hidden" name="qi[plan]" value="funeral"><% } %>
         <div class="card p-space-lg flex flex-col gap-space-lg">
           <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-space-sm">
-            <div><span class="eyebrow">Amount</span><h2 class="font-headline-md text-headline-md text-on-surface"><%= isCI ? 'Lump-sum benefit' : 'Coverage amount' %></h2>
-              <p class="font-body-sm text-body-sm text-on-surface-variant"><%= isCI ? 'Paid tax-free after a covered diagnosis.' : 'Tax-free lump sum for your family or mortgage.' %> <a class="link" href="/calculators/life-insurance-needs/">Not sure?</a></p></div>
+            <div><span class="eyebrow">Amount</span><h2 class="font-headline-md text-headline-md text-on-surface"><%= isCI ? 'Lump-sum benefit' : small ? 'Funeral benefit' : 'Coverage amount' %></h2>
+              <p class="font-body-sm text-body-sm text-on-surface-variant"><% if (small) { %>Paid tax-free to the person you name, for the funeral and final bills.<% } else { %><%= isCI ? 'Paid tax-free after a covered diagnosis.' : 'Tax-free lump sum for your family or mortgage.' %> <a class="link" href="/calculators/life-insurance-needs/">Not sure?</a><% } %></p></div>
             <output class="bg-surface-container-high px-space-md py-1.5 rounded-xl font-headline-lg text-headline-lg text-primary-container" data-coverage-out><%= U.money(cdef) %></output>
           </div>
           <input type="range" name="qi[coverage]" min="<%= cmin %>" max="<%= cmax %>" step="<%= cstep %>" value="<%= cdef %>" class="w-full h-2.5 bg-surface-container-high rounded-full appearance-none cursor-pointer" aria-label="Coverage amount" data-coverage>
@@ -282,6 +284,7 @@
         <% }) %>
         <p class="font-body-sm text-body-sm text-on-surface-variant" data-example>Example: <%= initial.example %> · <%= initial.asOf %></p>
       </div>
+      <% var quotePartners = partnersFor(product.category); if (quotePartners.length) { %><%- include('partials/partner-logos', { list: quotePartners, variant: 'aside' }) %><% } %>
       <div class="bg-surface-container-low/60 rounded-xl p-space-sm flex flex-col gap-1">
         <div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm"><span class="material-symbols-outlined text-base text-secondary">lock</span><span>Encrypted in transit · PIPEDA-aligned</span></div>
         <p class="font-body-sm text-[11px] text-on-surface-variant leading-tight">We never sell your information. It goes only to the licensed advisor handling your request.</p>

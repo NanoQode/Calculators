@@ -30,6 +30,7 @@ cheap car insurance toronto,local,car-insurance,on,toronto,2300,model,79,transac
 car insurance edmonton,local,car-insurance,ab,edmonton,2100,model,76,local,auto-local,"ratehub, rates.ca",/car-insurance/alberta/edmonton/,1,
 how much life insurance do i need,national,life-insurance,,,1900,model,55,informational,life-tools,"policyme, ratehub, policyadvisor",/calculators/life-insurance-needs/,1,Guide twin: /guides/how-much-life-insurance-do-i-need-canada/.
 term vs whole life insurance,national,term-life-insurance,,,1900,model,50,informational,life-compare,"policyadvisor, sun life, ratehub",/guides/term-vs-whole-life-insurance-canada/,1,
+funeral insurance,national,life-insurance,,,1900,model,35,commercial,life-audience,"policyadvisor (final expense), sun life (funeral page), carrier direct plans",/life-insurance/funeral-expense/,1,"Funeral expense desk. H1 ""from $1 a day"" is backed by a labelled example estimate (50-year-old female non-smoker, $10,000) and hides itself if the model rises above $1 a day."
 alberta car insurance increase 2026,provincial,car-insurance,ab,,1900,model,35,informational,auto-regulation,"globalnews, daily hive, brokers",/guides/alberta-car-insurance-2026-care-first/,1,"Alberta auto premiums rose 22.6% year over year in Q2 2026 (Applied, verify). Few aggregator pages."
 home insurance toronto,local,home-insurance,on,toronto,1900,model,68,local,property-local,"ratehub, rates.ca, local brokers (#1)",/home-insurance/ontario/toronto/,1,
 why is my car insurance going up,national,car-insurance,,,1600,model,35,informational,auto-regulation,"onlia, rates.ca",/guides/why-is-my-car-insurance-going-up-2026/,1,Renewal-notice searches. Refresh each quarter with the Applied Rating Index.
@@ -63,6 +64,7 @@ life insurance cost by age,national,life-insurance,,,880,model,45,informational,
 critical illness insurance cost,national,critical-illness-insurance,,,880,model,45,informational,living-benefits,"policyadvisor (cost page + calculator), ratehub (age table), policyme",/critical-illness-insurance/,1,
 super visa insurance requirements,national,super-visa-insurance,,,880,model,35,informational,travel-visitors,"policyadvisor, rbc",/guides/super-visa-insurance-requirements-cost/,1,
 overland flood insurance,national,home-insurance,,,880,model,40,informational,property-coverage,"ratehub, CAA",/guides/does-home-insurance-cover-water-damage-canada/,1,
+funeral insurance canada,national,life-insurance,,,880,model,35,commercial,life-audience,"policyadvisor, sun life",/life-insurance/funeral-expense/,1,
 life insurance toronto,local,life-insurance,on,toronto,880,model,51,local,life-local,"policyadvisor (stale 2025 titles), ratehub (thin)",/life-insurance/ontario/toronto/,1,Competitor city pages here are thin or carry stale dates (October 2026 review): freshness opening.
 canadian dental care plan vs private insurance,national,health-dental-insurance,,,720,model,25,informational,health-dental,dental clinics (weak),/guides/private-dental-insurance-vs-cdcp/,1,Weak SERP. CDCP opened to adults 18 to 64 in 2026.
 small business insurance cost,national,business-insurance,,,720,model,40,informational,business,"ratehub blog, rates.ca (price anchors)",/guides/small-business-insurance-cost-canada/,1,
@@ -78,6 +80,7 @@ life insurance calgary,local,life-insurance,ab,calgary,480,model,47,local,life-l
 business insurance bc,provincial,business-insurance,bc,,430,model,44,commercial,business-province,(none seen),/business-insurance/british-columbia/,1,
 critical illness vs disability insurance,national,critical-illness-insurance,,,390,model,35,informational,living-benefits,"policyadvisor, sun life",/guides/critical-illness-vs-disability-insurance/,1,
 condo insurance deductible coverage,national,condo-insurance,,,390,model,25,informational,property-coverage,sonnet,/guides/condo-insurance-deductible-assessment-explained/,1,
+funeral expense insurance,national,life-insurance,,,390,model,30,commercial,life-audience,"policyadvisor (final expense), ratehub (final expense)",/life-insurance/funeral-expense/,1,"Page primary keyword (title, H1, slug). Final expense insurance keeps its own page; the two cross-link."
 life insurance ottawa,local,life-insurance,on,ottawa,390,model,47,local,life-local,policyadvisor (stale 2025 titles),/life-insurance/ontario/ottawa/,1,Competitor city pages here are thin or carry stale dates (October 2026 review): freshness opening.
 life insurance edmonton,local,life-insurance,ab,edmonton,390,model,51,local,life-local,"policyadvisor (stale 2025 titles), ratehub (thin)",/life-insurance/alberta/edmonton/,1,Competitor city pages here are thin or carry stale dates (October 2026 review): freshness opening.
 hail insurance calgary,local,home-insurance,ab,calgary,390,model,25,local,property-coverage,"IBC data, local brokers",/guides/calgary-hail-insurance-guide/,1,"Calgary hail on August 5, 2024 cost about $3.29B (CatIQ, verify)."
@@ -110,6 +113,7 @@ dental insurance,national,health-dental-insurance,,,8100,model,65,commercial,hea
 house insurance,national,home-insurance,,,8100,model,75,commercial,property-core,"ratehub, rates.ca",/home-insurance/,2,
 insurance broker near me,national,,,,6600,model,60,local,advisors,"local brokers, thinkinsure",/advisors/,2,"Needs Google Business Profiles. Say ""licensed advisor"" unless the entity is a registered brokerage."
 visitors insurance canada,national,travel-insurance,,,4400,model,55,transactional,travel-visitors,"ratehub, rates.ca, policyadvisor, sun life",/travel-insurance/visitors-to-canada/,2,Built: dedicated visitors page. The super visa page covers the mandatory case.
+cpp death benefit,national,life-insurance,,,4400,model,40,informational,life-audience,"canada.ca, media",,2,"Planned guide: /guides/cpp-death-benefit-and-funeral-costs/. canada.ca: $2,500 basic plus a possible $2,500 top-up since January 1, 2025."
 private health insurance canada,national,health-dental-insurance,,,2900,model,60,commercial,health-dental,"policyadvisor, sun life, manulife, blue cross",/health-dental-insurance/,2,
 car insurance calculator,national,car-insurance,,,2400,model,55,transactional,auto-tools,"rates.ca (ON, AB), lowestrates (ON)",/quote/car-insurance/,2,Instant estimate covers the intent. Planned: /calculators/car-insurance-cost/ with province selector.
 most stolen cars canada,national,car-insurance,,,2400,model,40,informational,auto-data,"sonnet, equite association, insurancehotline",,2,Planned: /guides/most-stolen-cars-canada/ refreshed with each Équité report.
@@ -119,6 +123,7 @@ general liability insurance,national,business-insurance,,,2400,model,55,commerci
 car insurance bc,provincial,car-insurance,bc,,2200,model,63,commercial,auto-province,ratehub,/car-insurance/british-columbia/,2,ICBC sells basic auto; target optional coverage. Low lead value.
 car insurance for new drivers,national,car-insurance,,,1900,model,50,commercial,auto-persona,"rates.ca guide, ratehub blog",/car-insurance/new-drivers/,2,"Built: service page with a new-driver example estimate. Next: per-province sections (G1/G2/G, Class 7, L/N)."
 life insurance for seniors,national,life-insurance,,,1600,model,50,commercial,life-audience,"policyadvisor, sun life",/life-insurance/seniors/,2,"Built with a seniors example estimate (no-medical, guaranteed issue and final expense covered on the page)."
+cost of a funeral in canada,national,life-insurance,,,1600,model,30,informational,life-audience,"funeral homes, media",,2,Planned guide: /guides/cost-of-a-funeral-in-canada/. Never invent an average; use provincial and funeral-home price lists.
 snowbird travel insurance,national,travel-insurance,,,1300,model,45,commercial,travel,(not seen),/travel-insurance/snowbirds/,2,Built with the Snowbird travel desk and an example estimate.
 flood insurance canada,national,home-insurance,,,1300,model,45,informational,property-coverage,"money.ca, mychoice, IBC",/guides/does-home-insurance-cover-water-damage-canada/,2,The national flood program is delayed. Planned: a tracker page.
 commercial auto insurance,national,business-insurance,,,1300,model,50,commercial,business,rates.ca,/business-insurance/commercial-auto/,2,Built with the Commercial auto & trucking desk.
@@ -175,6 +180,7 @@ best critical illness insurance canada,national,critical-illness-insurance,,,480
 key person insurance,national,life-insurance,,,480,model,35,commercial,business-benefits,policyadvisor,/business-insurance/key-person/,2,"Built (life product, business buyer)."
 contractor liability insurance,national,contractor-insurance,,,480,model,35,commercial,business-trades,"ratehub, rates.ca",/contractor-insurance/,2,
 cant get home insurance,national,home-insurance,,,480,model,25,commercial,property-niche,local brokers,/home-insurance/hard-to-insure/,2,Niche gap: no comparison site has a page for declined or non-renewed homes. Hard-to-insure property desk.
+burial insurance canada,national,life-insurance,,,480,model,30,commercial,life-audience,"US-style phrasing, carrier direct plans",/life-insurance/funeral-expense/,2,"Same page; use ""burial"" in an H2 and FAQ."
 strata insurance deductible bc,provincial,condo-insurance,bc,,480,model,30,informational,property-coverage,BC brokers,/guides/condo-insurance-deductible-assessment-explained/,2,BC strata deductibles are the national extreme. BC banned strata referral fees in 2020.
 health insurance bc,provincial,health-dental-insurance,bc,,470,model,53,commercial,health-province,policyadvisor,/health-dental-insurance/british-columbia/,2,
 home insurance halifax,local,home-insurance,ns,halifax,430,model,52,local,property-local,ratehub,/home-insurance/nova-scotia/halifax/,2,
@@ -182,6 +188,7 @@ home insurance london ontario,local,home-insurance,on,london,420,model,56,local,
 health insurance alberta,provincial,health-dental-insurance,ab,,410,model,53,commercial,health-province,policyadvisor,/health-dental-insurance/alberta/,2,
 500000 life insurance cost,national,term-life-insurance,,,390,model,35,informational,life-cost,policyadvisor,/guides/how-much-does-life-insurance-cost-canada/,2,
 high risk home insurance,national,home-insurance,,,390,model,30,commercial,property-niche,"local brokers, specialty MGAs",/home-insurance/hard-to-insure/,2,Same page and desk as above.
+funeral insurance for seniors,national,life-insurance,,,390,model,30,commercial,life-audience,"policyadvisor, sun life",/life-insurance/funeral-expense/,2,
 alberta car insurance calculator,provincial,car-insurance,ab,,390,model,35,transactional,auto-tools,rates.ca,/quote/car-insurance/,2,
 home insurance markham,local,home-insurance,on,markham,350,model,56,local,property-local,(none seen),/home-insurance/ontario/markham/,2,
 home insurance vaughan,local,home-insurance,on,vaughan,340,model,56,local,property-local,(none seen),/home-insurance/ontario/vaughan/,2,
@@ -195,6 +202,7 @@ home insurance saskatchewan,provincial,home-insurance,sk,,270,model,39,commercia
 super visa insurance surrey,local,super-visa-insurance,bc,surrey,270,model,28,local,travel-visitors,(none seen),/super-visa-insurance/british-columbia/surrey/,2,
 mortgage life insurance calculator,national,mortgage-life-insurance,,,260,model,25,transactional,life-tools,(none seen),/calculators/mortgage-protection/,2,No competitor tool seen.
 how much contents insurance do i need,national,tenant-insurance,,,260,model,20,transactional,property-tools,(none seen),/calculators/tenant-condo-coverage/,2,
+funeral insurance cost,national,life-insurance,,,260,model,25,commercial,life-audience,policyadvisor,/life-insurance/funeral-expense/,2,"Answered by the example estimate and the quote flow (small-policy mode, $5,000 to $50,000)."
 term life insurance ontario,provincial,term-life-insurance,on,,240,model,46,commercial,life-province,policyadvisor,/term-life-insurance/ontario/,2,
 contractor insurance ontario,provincial,contractor-insurance,on,,240,model,37,commercial,business-province,(none seen),/contractor-insurance/ontario/,2,
 home insurance richmond bc,local,home-insurance,bc,richmond,240,model,40,local,property-local,(none seen),/home-insurance/british-columbia/richmond/,2,
@@ -202,6 +210,7 @@ insurance advisor winnipeg,local,,mb,winnipeg,240,model,30,local,advisors,"local
 insurance advisor mississauga,local,,on,mississauga,230,model,30,local,advisors,"local brokers, thinkinsure, rates.ca (broker pages)",/insurance/ontario/mississauga/,2,City hub. Add a Google Business Profile only where an advisor really works from that city.
 super visa insurance calgary,local,super-visa-insurance,ab,calgary,230,model,36,local,travel-visitors,(none seen),/super-visa-insurance/alberta/calgary/,2,
 insurance advisor vancouver,local,,bc,vancouver,220,model,30,local,advisors,"local brokers, thinkinsure, rates.ca (broker pages)",/insurance/british-columbia/vancouver/,2,City hub. Add a Google Business Profile only where an advisor really works from that city.
+funeral insurance no medical,national,no-medical-life-insurance,,,210,model,25,commercial,life-instant,"policyadvisor, sun life go guaranteed",/life-insurance/funeral-expense/,2,
 nova scotia car insurance rate increase,national,car-insurance,,,210,model,15,informational,auto-data,(none seen),,2,"Planned: Atlantic rate-decision tracker (NS UARB, NB Insurance Board, NL PUB, PEI IRAC). No competitor covers Atlantic rate filings; verify each board publishes decisions."
 insurance advisor brampton,local,,on,brampton,210,model,30,local,advisors,"local brokers, thinkinsure, rates.ca (broker pages)",/insurance/ontario/brampton/,2,City hub. Add a Google Business Profile only where an advisor really works from that city.
 basement flood insurance toronto,local,home-insurance,on,toronto,210,model,25,local,property-coverage,"mcdougall, brokers",/guides/does-home-insurance-cover-water-damage-canada/,2,
@@ -217,6 +226,7 @@ life insurance markham,local,life-insurance,on,markham,160,model,43,local,life-l
 life insurance vaughan,local,life-insurance,on,vaughan,160,model,43,local,life-local,(none seen),/life-insurance/ontario/vaughan/,2,
 insurance advisor halifax,local,,ns,halifax,160,model,30,local,advisors,"local brokers, thinkinsure, rates.ca (broker pages)",/insurance/nova-scotia/halifax/,2,City hub. Add a Google Business Profile only where an advisor really works from that city.
 insurance advisor london ontario,local,,on,london,150,model,30,local,advisors,"local brokers, thinkinsure, rates.ca (broker pages)",/insurance/ontario/london/,2,City hub. Add a Google Business Profile only where an advisor really works from that city.
+prepaid funeral vs funeral insurance,national,life-insurance,,,140,model,15,informational,life-audience,(funeral homes only),,2,Planned guide: /guides/pre-arranged-funeral-vs-funeral-insurance/.
 business insurance manitoba,provincial,business-insurance,mb,,130,model,34,commercial,business-province,(none seen),/business-insurance/manitoba/,2,
 business insurance london ontario,local,business-insurance,on,london,130,model,41,local,business-local,(none seen),/business-insurance/ontario/london/,2,
 life insurance kitchener,local,life-insurance,on,kitchener,130,model,43,local,life-local,(none seen),/life-insurance/ontario/kitchener/,2,

@@ -1,0 +1,49 @@
+<%
+  // Insurer and MGA logos. Locals: list (from partnersFor), variant: 'band' | 'compact', heading (optional).
+  // Callers render this only when the list is non-empty, which needs the admin confirmation (src/lib/partners.js).
+  var insurersL = list.filter(function(p){ return p.type === 'insurer'; });
+  var mgasL = list.filter(function(p){ return p.type === 'mga'; });
+  var groups = [[insurersL, 'Insurers'], [mgasL, 'MGAs (managing general agencies)']].filter(function(g){ return g[0].length; });
+  var tile = function(p, small){
+    var box = small ? 'h-10 px-3' : 'h-20 px-4';
+    var img = small ? 'max-h-6' : 'max-h-11';
+    return '<li class="' + box + ' flex items-center justify-center rounded-xl bg-surface-container-lowest ring-1 ring-outline-variant/40" title="' + U.escapeHtml(p.name) + '">'
+      + (p.logo
+        ? '<img src="' + p.logo + '" alt="' + U.escapeHtml(p.name) + ' logo"' + (p.w && p.h ? ' width="' + p.w + '" height="' + p.h + '"' : '') + ' class="' + img + ' w-auto max-w-full object-contain" loading="lazy" decoding="async">'
+        : '<span class="' + (small ? 'font-label-sm text-label-sm' : 'font-label-lg text-label-lg') + ' text-primary-container font-extrabold tracking-tight text-center leading-tight">' + U.escapeHtml(p.name) + '</span>')
+      + '</li>';
+  };
+%>
+<% if (variant === 'aside') { %>
+<div class="card p-space-md flex flex-col gap-space-xs" data-partners="aside">
+  <span class="font-label-md text-label-md text-on-surface">Your advisor compares plans from</span>
+  <ul class="grid grid-cols-3 gap-2"><% list.slice(0, 9).forEach(function(p){ %><%- tile(p, true) %><% }) %></ul>
+  <p class="font-label-sm text-[11px] text-on-surface-variant leading-tight">Logos are trademarks of their owners, shown with permission. Availability depends on your province and product.</p>
+</div>
+<% } else if (variant === 'compact') { %>
+<div class="bg-surface-container-low/60 rounded-xl p-space-md mb-space-lg flex flex-col gap-space-sm" data-partners="compact">
+  <% groups.forEach(function(g){ %>
+  <div class="flex flex-col md:flex-row md:items-center gap-space-sm">
+    <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider shrink-0 md:w-56"><%= g[1] === 'Insurers' ? 'Insurers our advisors work with' : 'MGAs our advisors work through' %></span>
+    <ul class="flex flex-wrap gap-2"><% g[0].forEach(function(p){ %><%- tile(p, true) %><% }) %></ul>
+  </div>
+  <% }) %>
+  <p class="font-label-sm text-label-sm text-on-surface-variant">Logos are trademarks of their owners, shown with permission. Availability depends on your province and product.</p>
+</div>
+<% } else { %>
+<section class="w-full bg-surface-container-lowest py-space-lg shadow-sm" aria-labelledby="partners-h" data-partners="band">
+  <div class="container-site flex flex-col gap-space-md">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-space-sm">
+      <div><p class="eyebrow">Insurers &amp; MGAs</p><h2 id="partners-h" class="font-headline-sm text-headline-sm text-primary-container"><%= typeof heading !== 'undefined' && heading ? heading : 'Our licensed advisors compare plans from Canadian insurers' %></h2></div>
+      <span class="chip bg-surface-container text-on-surface shrink-0"><span class="material-symbols-outlined text-[16px] text-secondary">verified_user</span> One advisor, many insurers</span>
+    </div>
+    <% groups.forEach(function(g){ %>
+    <div class="flex flex-col gap-space-xs">
+      <% if (groups.length > 1) { %><p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider"><%= g[1] %></p><% } %>
+      <ul class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-space-sm"><% g[0].forEach(function(p){ %><%- tile(p, false) %><% }) %></ul>
+    </div>
+    <% }) %>
+    <p class="font-body-sm text-body-sm text-on-surface-variant">Our licensed advisors are appointed with these insurers<%= mgasL.length ? ' and work through these managing general agencies (MGAs), which give access to more insurers' : '' %>. Which ones can quote depends on your province, the product and underwriting. Logos are trademarks of their owners, shown with permission.</p>
+  </div>
+</section>
+<% } %>

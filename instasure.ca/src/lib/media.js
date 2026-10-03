@@ -27,6 +27,32 @@ function sniff(buf) {
   return null;
 }
 
+/** Pixel size from the image header (for width/height attributes that prevent layout shift). Null when unknown. */
+function dimensions(buf) {
+  try {
+    const ext = sniff(buf);
+    if (ext === 'png') return { w: buf.readUInt32BE(16), h: buf.readUInt32BE(20) };
+    if (ext === 'gif') return { w: buf.readUInt16LE(6), h: buf.readUInt16LE(8) };
+    if (ext === 'webp') {
+      const kind = buf.toString('latin1', 12, 16);
+      if (kind === 'VP8 ') return { w: buf.readUInt16LE(26) & 0x3fff, h: buf.readUInt16LE(28) & 0x3fff };
+      if (kind === 'VP8L') { const b = buf.readUInt32LE(21); return { w: (b & 0x3fff) + 1, h: ((b >> 14) & 0x3fff) + 1 }; }
+      if (kind === 'VP8X') return { w: 1 + buf.readUIntLE(24, 3), h: 1 + buf.readUIntLE(27, 3) };
+    }
+    if (ext === 'jpg') {
+      let i = 2;
+      while (i + 9 < buf.length) {
+        if (buf[i] !== 0xff) { i++; continue; }
+        const m = buf[i + 1];
+        if (m >= 0xc0 && m <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(m)) return { w: buf.readUInt16BE(i + 7), h: buf.readUInt16BE(i + 5) };
+        if (m === 0xd8 || m === 0x01 || (m >= 0xd0 && m <= 0xd7)) { i += 2; continue; }
+        i += 2 + buf.readUInt16BE(i + 2);
+      }
+    }
+  } catch { /* truncated header */ }
+  return null;
+}
+
 class MediaError extends Error { constructor(m) { super(m); this.status = 422; } }
 
 function save(buffer, { originalName, alt, userId } = {}) {
@@ -88,4 +114,4 @@ function adoptOrphans() {
   return n;
 }
 
-module.exports = { sniff, save, remove, references, adoptOrphans, MediaError, MAX_BYTES, NAME_RE };
+module.exports = { sniff, dimensions, save, remove, references, adoptOrphans, MediaError, MAX_BYTES, NAME_RE };

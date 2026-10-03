@@ -65,15 +65,7 @@
       </div>
     </div>
 
-    <% if (s.carriers_confirmed && s.carriers && s.carriers.length) { %>
-    <div class="bg-surface-container-low/60 rounded-xl p-space-md mb-space-lg flex flex-col md:flex-row md:items-center justify-between gap-space-sm">
-      <div class="flex items-center gap-space-md flex-wrap">
-        <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Insurers our advisors work with:</span>
-        <% s.carriers.forEach(function(c, i){ %><span class="font-label-md text-label-md text-on-surface"><%= c %></span><% if (i < s.carriers.length - 1) { %><span class="text-outline-variant">•</span><% } %><% }) %>
-      </div>
-      <span class="flex items-center gap-1 text-on-surface-variant font-label-sm text-label-sm"><span class="material-symbols-outlined text-[16px] text-secondary">lock</span> Encrypted &amp; PIPEDA-aligned</span>
-    </div>
-    <% } %>
+    <% var footPartners = partnersFor(); if (footPartners.length) { %><%- include('partner-logos', { list: footPartners, variant: 'compact' }) %><% } %>
 
     <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-space-sm text-on-surface-variant font-body-sm text-body-sm pt-space-sm">
       <p class="max-w-3xl">© <%= year %> <%= s.legal_name || s.site_name %>. <%= s.licence_disclosure %></p>

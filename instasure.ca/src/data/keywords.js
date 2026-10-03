@@ -247,6 +247,17 @@ const NATIONAL = [
   ['tenant insurance for students', 'tenant-insurance', 390, 20, 'commercial', 'property-coverage', `${RH} blog`, '/tenant-insurance/students/', 3, 'Back-to-school spike in August and September.'],
   ['should i buy optional accident benefits', 'car-insurance', 210, 15, 'informational', 'auto-regulation', '(explainers only)', '/car-insurance/accident-benefits-review/', 1, 'Ontario only. The Accident benefits review desk turns the July 2026 opt-out into an advisor conversation; the guide covers the rules.'],
   ['types of insurance in canada', null, 1000, 40, 'informational', 'brand-instant', `${RH}, ${RC}, insurer brands`, '/insurance-services/', 3, 'All-services hub with every product, service and specialist desk.'],
+  // Funeral expense (service page + Funeral expense desk, added October 3, 2026)
+  ['funeral insurance', 'life-insurance', 1900, 35, 'commercial', 'life-audience', `${PA} (final expense), ${SL} (funeral page), carrier direct plans`, '/life-insurance/funeral-expense/', 1, 'Funeral expense desk. H1 "from $1 a day" is backed by a labelled example estimate (50-year-old female non-smoker, $10,000) and hides itself if the model rises above $1 a day.'],
+  ['funeral insurance canada', 'life-insurance', 880, 35, 'commercial', 'life-audience', `${PA}, ${SL}`, '/life-insurance/funeral-expense/', 1],
+  ['funeral expense insurance', 'life-insurance', 390, 30, 'commercial', 'life-audience', `${PA} (final expense), ${RH} (final expense)`, '/life-insurance/funeral-expense/', 1, 'Page primary keyword (title, H1, slug). Final expense insurance keeps its own page; the two cross-link.'],
+  ['burial insurance canada', 'life-insurance', 480, 30, 'commercial', 'life-audience', 'US-style phrasing, carrier direct plans', '/life-insurance/funeral-expense/', 2, 'Same page; use "burial" in an H2 and FAQ.'],
+  ['funeral insurance for seniors', 'life-insurance', 390, 30, 'commercial', 'life-audience', `${PA}, ${SL}`, '/life-insurance/funeral-expense/', 2],
+  ['funeral insurance cost', 'life-insurance', 260, 25, 'commercial', 'life-audience', `${PA}`, '/life-insurance/funeral-expense/', 2, 'Answered by the example estimate and the quote flow (small-policy mode, $5,000 to $50,000).'],
+  ['funeral insurance no medical', 'no-medical-life-insurance', 210, 25, 'commercial', 'life-instant', `${PA}, ${SL} go guaranteed`, '/life-insurance/funeral-expense/', 2],
+  ['cost of a funeral in canada', 'life-insurance', 1600, 30, 'informational', 'life-audience', 'funeral homes, media', null, 2, 'Planned guide: /guides/funeral-costs-canada-by-province/. Never invent an average; use provincial and funeral-home price lists.'],
+  ['cpp death benefit', 'life-insurance', 4400, 40, 'informational', 'life-audience', 'canada.ca, media', null, 2, 'Planned guide: /guides/cpp-death-benefit-and-funeral-costs/. canada.ca: $2,500 basic plus a possible $2,500 top-up since January 1, 2025.'],
+  ['prepaid funeral vs funeral insurance', 'life-insurance', 140, 15, 'informational', 'life-audience', '(funeral homes only)', null, 2, 'Planned guide: /guides/pre-arranged-funeral-vs-funeral-insurance/.'],
   // Cross-product / brand
   ['insurance broker near me', null, 6600, 60, 'local', 'advisors', 'local brokers, thinkinsure', '/advisors/', 2, 'Needs Google Business Profiles. Say "licensed advisor" unless the entity is a registered brokerage.'],
   ['insurance quotes', null, 6600, 75, 'transactional', 'brand-instant', `${RH}, ${RC}, kanetix`, '/quote/', 1],

@@ -14,6 +14,7 @@
           <% if (onlyIn) { %><span class="chip bg-surface-container text-on-surface"><span class="material-symbols-outlined text-[15px] text-secondary">location_on</span> <%= onlyIn %> only</span><% } %>
         </div>
         <h1 class="font-display-lg-mobile text-display-lg-mobile lg:font-display-lg lg:text-display-lg text-primary-container tracking-tight text-balance"><%= h1 %></h1>
+        <% if (priceClaim && estimate) { %><p class="font-body-sm text-body-sm text-on-surface-variant" data-price-claim>About <%= U.money(priceClaim.perDay, { cents: true }) %> a day (<%= fmt(estimate.mid) %><%= estimate.periodLabel %>) for the example profile: <%= estimate.example %>. Instasure estimate as of <%= estimate.asOf %>, not a quote or offer; prices rise with age, amount and health.</p><% } %>
         <% if (updated) { %><p class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px] text-secondary">event_available</span>Updated <time datetime="<%= updated %>"><%= U.fmtDate(updated) %></time></p><% } %>
         <p class="font-body-lg text-body-lg text-on-surface-variant"><%= sv.tagline %></p>
         <div class="article-body">
@@ -93,6 +94,8 @@
 <% if (desk) { %>
 <%- include('partials/specialist-help', { deskInfo: desk, deskAdvisor: advisors[0] }) %>
 <% } %>
+
+<% var svcPartners = partnersFor(product.category); if (svcPartners.length) { %><%- include('partials/partner-logos', { list: svcPartners, variant: 'band', heading: 'Licensed advisors compare ' + lc(sv.short) + ' plans from these insurers' }) %><% } %>
 
 <%- include('partials/faq', { items: faq, faqHeading: sv.name + ': FAQ' }) %>
 

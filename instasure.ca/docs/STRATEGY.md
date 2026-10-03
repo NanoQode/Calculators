@@ -143,6 +143,7 @@ Coverage: ● dedicated pages at depth · ◐ partial (few pages, blog only, thi
 | Life by province | ~2,500 | ○ | ● (10, thin, no rate tables) | ◐ (4 prov.) | ○ | ○ | ○ | Medium | Built: all 10 provinces with dated age × sex tables and licensed-advisor matching. PolicyAdvisor can't sell outside ON, BC, AB and MB. |
 | Life by city | ~7,800 | ○ | ◐ (6, thin) | ◐ (9, "(2025)" titles, no dates) | ○ | ○ | ○ | **High** | Built: tier-1 city pages with current dates, tables and FAQs. |
 | Life audiences (newcomers, seniors, conditions) | ~5,400 | ○ | ◐ | ● | ◐ | ? | ○ | Medium | Built: newcomer guide plus seniors, final expense, joint, children and universal life pages; medical conditions and newcomers each have a specialist desk. Next: per-condition pages, translations. |
+| Funeral expense (funeral, burial, CPP death benefit) | ~10,600 | ○ | ◐ | ◐ (final expense) | ◐ (own funeral page) | ? | ○ | **High** | Built: `/life-insurance/funeral-expense/` with the Funeral expense desk, H1 "from $1 a day" backed by a labelled example estimate, and a small-policy quote flow. Next: 12 planned guides (CPP death benefit, how funeral insurance works, pre-arranged vs insurance, waiting periods…). |
 | Instant / no-medical life | ~2,500 | ○ | ◐ | ◐ | ● (Go) | ● (CoverMe) | ○ | Medium | A neutral comparison of instant products: issue age, maximum cover, health questions, time to coverage. |
 | Mortgage protection | ~5,000 | ○ | ◐ | ● (9 pages) | ? | ● | ○ | Medium | Built: comparison guide plus calculator (no competitor tool of this kind). Tie to the 2026 renewal wave. |
 | CI and DI | ~17,000 | ○ | ◐ | ● | ● | ● | ○ | Medium | Built: CI vs DI guide, age tables on province pages, and a self-employed DI page with its own desk (Ontario opt-out tie-in). |
@@ -174,7 +175,7 @@ Coverage: ● dedicated pages at depth · ◐ partial (few pages, blog only, thi
 
 ## 5. Page hierarchy for lead generation (site skeleton)
 
-Built pages are in plain text; *planned* pages are in italics. 827 URLs exist today (October 3, 2026), 658 of them indexable, and the guides grow by 3 a day. Thin programmatic pages are kept out of the index until an editor enriches them.
+Built pages are in plain text; *planned* pages are in italics. 828 URLs exist today (October 3, 2026), 659 of them indexable, and the guides grow by 3 a day. Thin programmatic pages are kept out of the index until an editor enriches them.
 
 ```
 /                                    Home: instant-quote portal (product picker, 60-second estimate, advisor promise)
@@ -187,8 +188,8 @@ Built pages are in plain text; *planned* pages are in italics. 827 URLs exist to
 │   │                                contractor, professional liability, group benefits
 │   ├── /{product}/{province}/       Product × province (234; 231 indexable): rules, regulator, cost drivers, estimate
 │   │   └── /{product}/{province}/{city}/   Product × city (406; 255 indexable): local cost, risks, nearby cities, advisors
-│   ├── /{product}/{service}/        Service pages (45, all indexable), e.g. /car-insurance/high-risk-drivers/,
-│   │                                /life-insurance/medical-conditions/, /contractor-insurance/plumber/; 15 carry a specialist desk
+│   ├── /{product}/{service}/        Service pages (46, all indexable), e.g. /car-insurance/high-risk-drivers/,
+│   │                                /life-insurance/medical-conditions/, /contractor-insurance/plumber/; 16 carry a specialist desk
 │   ├── *best companies sub-pages*   e.g. /car-insurance/best-companies/ (after a published methodology)
 ├── /{service}/                      Stand-alone service pages: /pet-insurance/, /motorcycle-insurance/, /boat-insurance/,
 │                                    /rv-insurance/, /atv-snowmobile-insurance/, /landlord-insurance/, /umbrella-insurance/,
@@ -231,7 +232,7 @@ Every lead runs through the backend pipeline: validation, postal code to provinc
 
 ### 5.1 Services and specialist desks
 
-The service catalogue (`src/data/services.js`) covers what the six competitors sell beyond the 18 core products: 45 pages across auto, property, life, health, travel and business. Where the research found a niche gap, the page gets a **specialist desk**: a call-back form that sends the lead to an advisor who handles these cases, a desk phone line (the customer service number until desks get their own), and routing that prefers advisors tagged with that desk.
+The service catalogue (`src/data/services.js`) covers what the six competitors sell beyond the 18 core products: 46 pages across auto, property, life, health, travel and business. Where the research found a niche gap, the page gets a **specialist desk**: a call-back form that sends the lead to an advisor who handles these cases, a desk phone line (the customer service number until desks get their own), and routing that prefers advisors tagged with that desk.
 
 | Desk | Page | Why it is a gap |
 |---|---|---|
@@ -243,6 +244,7 @@ The service catalogue (`src/data/services.js`) covers what the six competitors s
 | Cottage & rural property | /home-insurance/cottage-and-seasonal/ | No specialist help for remote, water-access and rented cottages. |
 | Hard-to-insure property | /home-insurance/hard-to-insure/ | No aggregator helps with declined or non-renewed homes; demand rises with flood and wildfire losses. |
 | Medical underwriting | /life-insurance/medical-conditions/ | Competitors cover a handful of conditions and offer no anonymous pre-underwriting. |
+| Funeral expense | /life-insurance/funeral-expense/ | Competitors fold funeral cover into a generic final-expense page; none sizes it to the funeral or sets the CPP death benefit and pre-arranged contracts side by side. H1 "from $1 a day" backed by a labelled example estimate. |
 | Newcomer life | /life-insurance/newcomers/ | PolicyAdvisor is licensed in four provinces and offers no multilingual help. |
 | Self-employed income protection | /disability-insurance/self-employed/ | Nobody links disability cover to the Ontario income-replacement opt-out or covers gig workers. |
 | Snowbird travel | /travel-insurance/snowbirds/ | Medical questionnaire and stability-period mistakes are where snowbird claims fail; no one offers help as a service. |

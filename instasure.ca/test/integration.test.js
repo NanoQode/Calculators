@@ -244,6 +244,16 @@ test('service pages: hub, niche page with specialist desk form, plain service pa
   const ab = await (await req('/car-insurance/accident-benefits-review/')).text();
   assert.match(ab, /<select class="field" name="province" required><option value="">Select…<\/option><option value="on" selected>Ontario<\/option><\/select>/, 'Ontario-only desk only offers Ontario');
 
+  const fun = await (await req('/life-insurance/funeral-expense/')).text();
+  assert.match(fun, /<h1[^>]*>Funeral Expense Insurance from \$1 a Day<\/h1>/);
+  assert.match(fun, /data-price-claim>About \$0\.\d\d a day \(\$[\d.]+\/mo\) for the example profile: 50-year-old female, non-smoker, \$10,000 simplified-issue/, 'price headline carries its profile and date');
+  assert.match(fun, /Funeral expense desk/);
+  assert.match(fun, /href="\/life-insurance\/final-expense\/"/, 'links final expense');
+  const fq = await (await req('/quote/whole-life-insurance/?service=funeral-expense-insurance&age=50&sex=female&coverage=10000&plan=whole')).text();
+  assert.match(fq, /name="qi\[plan\]" value="funeral"/, 'the service, not the query, sets the plan');
+  assert.match(fq, /min="5000" max="50000"/, 'small-policy slider');
+  const plain = await (await req('/quote/whole-life-insurance/?plan=funeral')).text();
+  assert.doesNotMatch(plain, /name="qi\[plan\]"/, 'no small-policy mode without the service');
   const hub = await (await req('/insurance-services/')).text();
   for (const s of services) assert.ok(hub.includes(`href="${s.path}"`), `hub links ${s.path}`);
   assert.ok(jsonLd(hub)['@graph'].some((n) => n['@type'] === 'ItemList'));
@@ -411,4 +421,53 @@ test('startup seeding never back-dates a new guide file on a site that already h
   assert.ok(before > 0);
   assert.equal(importGuides(), 0, 'nothing imported on an existing site');
   assert.equal(db.value('SELECT COUNT(*) FROM posts'), before);
+});
+
+test('insurer and MGA logos: hidden until confirmed, SVG refused, then shown with dimensions, filtered by line', async () => {
+  const req = client();
+  const settings = require('../src/lib/settings');
+  await req('/admin/login', { method: 'POST', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: form({ email: 'admin@instasure.test', password: 'correct-horse-battery-staple', next: '/admin/' }) });
+  const page = await (await req('/admin/partners')).text();
+  const csrf = page.match(/name="_csrf" value="([^"]+)"/)[1];
+  assert.match(page, /Hidden from the site/);
+  assert.doesNotMatch(await (await req('/')).text(), /data-partners=/, 'nothing public before confirmation');
+
+  // A 1×1 PNG with a 320×90 header (the dimension reader only needs IHDR).
+  const png = Buffer.from('89504e470d0a1a0a' + '0000000d' + '49484452' + '00000140' + '0000005a' + '0806000000' + '00000000', 'hex');
+  const upload = async (fields, file, name, type) => {
+    const fd = new FormData();
+    for (const [k, v] of Object.entries(fields)) for (const x of [].concat(v)) fd.append(k, x);
+    if (file) fd.append('logo', new Blob([file], { type }), name);
+    return req(`/admin/partners?_csrf=${encodeURIComponent(csrf)}`, { method: 'POST', body: fd });
+  };
+  const svg = await upload({ name: 'Bad Logo Co', type: 'insurer', show: 'on' }, Buffer.from('<svg xmlns="http://www.w3.org/2000/svg"><script>alert(1)</script></svg>'), 'logo.png', 'image/png');
+  assert.match(decodeURIComponent(svg.headers.get('location')), /Only PNG, JPEG, WebP or GIF/);
+  assert.ok(!settings.get('partners') || !settings.get('partners').some((p) => p.name === 'Bad Logo Co'), 'refused upload adds nothing');
+
+  const mga = await upload({ name: 'Test MGA Partners', type: 'mga', show: 'on', lines: 'life' }, png, 'mga.png', 'image/png');
+  assert.equal(mga.status, 303);
+  const saved = settings.get('partners').find((p) => p.name === 'Test MGA Partners');
+  assert.match(saved.logo, /^\/uploads\/[a-f0-9]{24}\.png$/);
+  assert.equal(saved.w, 320); assert.equal(saved.h, 90);
+  assert.ok(settings.get('partners').some((p) => p.name === 'Canada Life'), 'existing insurer names carried over');
+
+  await req('/admin/partners/confirm', { method: 'POST', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: form({ _csrf: csrf, carriers_confirmed: 'on' }) });
+  const home = await (await req('/')).text();
+  assert.match(home, /data-partners="band"/);
+  assert.match(home, new RegExp(`<img src="${saved.logo}" alt="Test MGA Partners logo" width="320" height="90"`));
+  assert.match(home, /MGAs \(managing general agencies\)/);
+  assert.match(home, /data-partners="compact"/, 'footer row');
+  assert.match(home, /shown with permission/);
+  const life = await (await req('/life-insurance/')).text();
+  assert.match(life, /Test MGA Partners logo/, 'life-line MGA on a life page');
+  const car = await (await req('/car-insurance/')).text();
+  assert.doesNotMatch((car.split('data-partners="band"')[1] || '').split('</section>')[0], /Test MGA Partners/, 'life-only MGA not in the car page band');
+  const quote = await (await req('/quote/term-life-insurance/')).text();
+  assert.match(quote, /data-partners="aside"/);
+
+  const id = saved.id;
+  await req(`/admin/partners/${id}/delete`, { method: 'POST', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: form({ _csrf: csrf }) });
+  assert.ok(!settings.get('partners').some((p) => p.id === id));
+  settings.set('carriers_confirmed', false);
+  require('../src/lib/cache').clear();
 });

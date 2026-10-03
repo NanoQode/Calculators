@@ -21,7 +21,7 @@ npm start            # http://localhost:3000, admin at /admin
 On first start the app creates `data/instasure.db` and seeds:
 - the admin user, from `ADMIN_EMAIL` and `ADMIN_PASSWORD`, or with a random password printed once to the console;
 - scoring rules, 7 drip campaigns, guide categories and 18 launch guides;
-- 711 target keywords (re-running the seed maps stored keywords to pages built since, without overwriting admin edits);
+- 721 target keywords (re-running the seed maps stored keywords to pages built since, without overwriting admin edits);
 - 4 **sample advisors**, flagged as demo and noindexed, each tagged with a few specialist desks so routing can be tried. Replace them before launch.
 
 Copy `.env.example` to `.env` for production settings. `SESSION_SECRET`, `TRACKING_SECRET` and `SITE_URL` are required in production.
@@ -64,7 +64,7 @@ public/                   compiled CSS, JS (site, calculators, admin, SEO audit)
 | `/quote/`, `/quote/{product}/`, `/quote/results/{ref}/` | 60-second estimate flow, then results and advisor match |
 | `/{product}/`, `/{product}/{province}/`, `/{product}/{province}/{city}/` | 18 product pillars, 234 province pages and 406 city pages. City pages without enough local content are noindexed until an editor enriches them. |
 | `/insurance-services/` | All services hub: products, services and specialist desks |
-| `/car-insurance/high-risk-drivers/`, `/pet-insurance/`, `/contractor-insurance/plumber/`… | 45 service pages for what competitors sell beyond the core products; 12 of them (plus condo, super visa and mortgage life) have a specialist desk with a call-back form |
+| `/car-insurance/high-risk-drivers/`, `/pet-insurance/`, `/contractor-insurance/plumber/`… | 46 service pages for what competitors sell beyond the core products; 12 of them (plus condo, super visa and mortgage life) have a specialist desk with a call-back form |
 | `/insurance/{province}/{city}/` | Province and city hubs |
 | `/guides/…`, `/calculators/…`, `/compare/`, `/glossary/`, `/insights/rate-index/` | Knowledge, tools and data |
 | `/advisors/{slug}/` | Licensed advisor profiles |

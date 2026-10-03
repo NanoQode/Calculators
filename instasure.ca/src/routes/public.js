@@ -145,14 +145,17 @@ router.get('/quote/:product/', (req, res, next) => {
   const q = req.query;
   const province = geo.provinceByCode[String(q.province || '').toLowerCase()] ? String(q.province).toLowerCase() : '';
   const prefill = {};
-  for (const k of ['coverage', 'age', 'term', 'smoker', 'city', 'industry', 'contents', 'rebuild', 'income', 'days', 'visitor_age', 'years_licensed', 'claims', 'tickets']) if (q[k]) prefill[k] = String(q[k]).slice(0, 40);
+  for (const k of ['coverage', 'age', 'sex', 'term', 'smoker', 'city', 'industry', 'contents', 'rebuild', 'income', 'days', 'visitor_age', 'years_licensed', 'claims', 'tickets']) if (q[k]) prefill[k] = String(q[k]).slice(0, 40);
   const serviceSlug = specialties.isService(String(q.service || '')) && specialties.productFor(String(q.service)) === product.slug ? String(q.service) : null;
-  const service = serviceSlug ? { slug: serviceSlug, name: specialties.labelFor(serviceSlug), desk: specialties.deskBySlug[serviceSlug] || null } : null;
+  const svData = serviceSlug ? pages.getService(serviceSlug) : null;
+  const service = serviceSlug ? { slug: serviceSlug, name: specialties.labelFor(serviceSlug), desk: specialties.deskBySlug[serviceSlug] || null, plan: (svData && svData.plan) || null } : null;
   let resume = null;
   if (q.resume) {
     const lead = db.get("SELECT ref, first_name, email, province, city, quote_inputs FROM leads WHERE ref = ?", [String(q.resume).toUpperCase()]);
     if (lead) { resume = lead; Object.assign(prefill, db.json(lead.quote_inputs, {})); }
   }
+  // Small permanent policies (funeral / final expense) price on their own plan, set by the service, never by the query or a resumed lead.
+  if (service && service.plan) prefill.plan = service.plan; else delete prefill.plan;
   const initial = quoteEngine.estimate(product.slug, { ...quoteEngine.DEFAULT_PROFILES[product.quoteFlow], ...prefill, province: province || prefill.province || 'on' });
   const advisors = routing.forArea(province || 'on', product.category, 1);
   res.page('public/quote-flow', {
@@ -508,7 +511,7 @@ router.get('/insurance-services/', (req, res) => {
 /** Quote link for a service: its parent product's flow, tagged with the service and pre-filled with its example profile. */
 function serviceQuoteUrl(sv) {
   const qs = new URLSearchParams({ service: sv.slug });
-  for (const [k, v] of Object.entries((sv.estimate && sv.estimate.profile) || {})) qs.set(k, String(v));
+  for (const [k, v] of Object.entries((sv.estimate && sv.estimate.profile) || {})) if (k !== 'plan') qs.set(k, String(v));
   return `/quote/${sv.parent}/?${qs}`;
 }
 
@@ -529,15 +532,19 @@ router.get(/^\/[a-z0-9-]+\/(?:[a-z0-9-]+\/)?$/, (req, res, next) => {
   const nested = p.startsWith(`/${product.slug}/`);
   const crumbs = [HOME, nested ? { name: product.name, url: `/${product.slug}/` } : { name: 'All services', url: '/insurance-services/' }, { name: sv.name, url: p }];
   const updated = pages.contentDate(p);
+  const estimate = pages.serviceEstimate(sv);
+  // A price headline ("from $1 a day") shows only while the labelled example estimate supports it.
+  const perDay = estimate && estimate.period === 'month' ? estimate.mid * 12 / 365 : null;
+  const claimOk = !sv.claimDaily || (perDay !== null && perDay <= sv.claimDaily);
   res.page('public/service', {
     pageType: 'service', sectionLabel: sv.short, sv, product, desk, faq, related, updated,
-    estimate: pages.serviceEstimate(sv), quoteUrl: serviceQuoteUrl(sv),
-    intro: ov.intro_md ? md.render(ov.intro_md).html : null, h1: ov.h1 || sv.name,
+    estimate, quoteUrl: serviceQuoteUrl(sv), priceClaim: sv.claimDaily && claimOk ? { perDay } : null,
+    intro: ov.intro_md ? md.render(ov.intro_md).html : null, h1: ov.h1 || (claimOk && sv.h1) || sv.name,
     advisors: routing.forArea(null, product.category, 1, desk ? sv.slug : null),
     guides: relatedGuides({ product: product.slug, category: product.category, limit: 3 }),
     siblings: pages.servicesFor(product.slug).filter((x) => x.slug !== sv.slug).slice(0, 8),
     meta: seo.meta({
-      path: p, title: sv.title, description: sv.description, breadcrumbs: crumbs,
+      path: p, title: claimOk ? sv.title : `${sv.name} in Canada`, description: sv.description, breadcrumbs: crumbs,
       jsonld: [seo.webPage({ path: p, name: sv.name, description: sv.description, modified: updated }), seo.financialProduct({ name: sv.name, tagline: sv.tagline }, { path: p }), seo.faqPage(faq, p)],
     }),
   });

@@ -13,6 +13,7 @@ const { products, CATEGORIES, bySlug } = require('../../data/products');
 const geo = require('../../data/geo');
 const { slugify, arr, sqlNow } = require('../../lib/util');
 const { deskBySlug } = require('../../lib/specialties');
+const partners = require('../../lib/partners');
 
 const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: media.MAX_BYTES + 1, files: 1 } });
@@ -30,7 +31,7 @@ router.post('/settings', auth.requireRole('admin'), (req, res) => {
     privacy_officer: b.privacy_officer, founded_year: b.founded_year, licence_disclosure: b.licence_disclosure, quote_disclaimer: b.quote_disclaimer,
     serviceable_provinces: arr(b.serviceable_provinces).filter((c) => geo.provinceByCode[c]), waitlist_message: b.waitlist_message,
     rating_value: b.rating_value, rating_count: b.rating_count, rating_source: b.rating_source,
-    carriers: lines(b.carriers), carriers_confirmed: b.carriers_confirmed === 'on', social_links: lines(b.social_links).filter((u) => /^https:\/\//.test(u)),
+    social_links: lines(b.social_links).filter((u) => /^https:\/\//.test(u)),
     ga4_id: String(b.ga4_id || '').trim(), gsc_verification: String(b.gsc_verification || '').trim(), bing_verification: String(b.bing_verification || '').trim(),
     ai_bot_policy: ['allow_all', 'search_only', 'block_all'].includes(b.ai_bot_policy) ? b.ai_bot_policy : 'allow_all', robots_extra: b.robots_extra,
     casl_mode: b.casl_mode === 'express_or_implied' ? 'express_or_implied' : 'express_only', consent_text: b.consent_text,
@@ -46,6 +47,55 @@ router.post('/settings', auth.requireRole('admin'), (req, res) => {
   scoring.invalidate(); purge();
   res.locals.audit('update', 'settings', '', Object.keys(patch));
   res.redirect(303, '/admin/settings?_ok=Settings+saved');
+});
+
+// ───────────── Insurers & MGAs (logos) ─────────────
+router.get('/partners', auth.requireRole('admin'), (req, res) => res.admin('partners', { title: 'Insurers & MGAs', rows: partners.list(), TYPES: partners.TYPES, CATEGORIES, confirmed: !!settings.get('carriers_confirmed') }));
+
+/** Read an optional logo upload into the media store; returns { logo, w, h } or throws MediaError with the reason. */
+function logoFrom(req, name) {
+  if (!req.file) return null;
+  const saved = media.save(req.file.buffer, { originalName: req.file.originalname, alt: `${name} logo`, userId: req.user.id });
+  const dim = media.dimensions(req.file.buffer) || {};
+  return { logo: saved.url, w: dim.w || null, h: dim.h || null };
+}
+function partnerFields(b, prev = {}) {
+  return { ...prev, name: String(b.name || '').trim().slice(0, 80), type: partners.TYPES[b.type] ? b.type : 'insurer', lines: arr(b.lines).filter((c) => CATEGORIES[c]), show: b.show === 'on', order: Number(b.order) || prev.order || 99 };
+}
+const partnerUpload = (req, res, next) => upload.single('logo')(req, res, (err) => (err ? res.redirect(303, '/admin/partners?_err=' + encodeURIComponent('Logo upload failed (PNG, JPEG, WebP or GIF up to 5 MB).')) : next()));
+
+router.post('/partners', auth.requireRole('admin'), partnerUpload, (req, res) => {
+  const rows = partners.list();
+  const row = partnerFields(req.body, { id: partners.nextId(rows), order: rows.length + 1 });
+  if (!row.name) return res.redirect(303, '/admin/partners?_err=Name+required');
+  try { Object.assign(row, logoFrom(req, row.name) || {}); } catch (e) { return res.redirect(303, '/admin/partners?_err=' + encodeURIComponent(e.message)); }
+  partners.save([...rows, row]); purge();
+  res.locals.audit('create', 'partner', row.id, row.name);
+  res.redirect(303, '/admin/partners?_ok=' + encodeURIComponent(`Added ${row.name}`));
+});
+router.post('/partners/confirm', auth.requireRole('admin'), (req, res) => {
+  settings.set('carriers_confirmed', req.body.carriers_confirmed === 'on'); purge();
+  res.locals.audit('update', 'settings', 'carriers_confirmed', req.body.carriers_confirmed === 'on');
+  res.redirect(303, '/admin/partners?_ok=Saved');
+});
+router.post('/partners/:id', auth.requireRole('admin'), partnerUpload, (req, res) => {
+  const rows = partners.list();
+  const i = rows.findIndex((p) => p.id === req.params.id);
+  if (i < 0) return res.redirect(303, '/admin/partners?_err=Not+found');
+  const row = partnerFields(req.body, rows[i]);
+  if (!row.name) return res.redirect(303, '/admin/partners?_err=Name+required');
+  try { Object.assign(row, logoFrom(req, row.name) || {}); } catch (e) { return res.redirect(303, '/admin/partners?_err=' + encodeURIComponent(e.message)); }
+  if (req.body.remove_logo === 'on' && !req.file) Object.assign(row, { logo: '', w: null, h: null });
+  rows[i] = row; partners.save(rows); purge();
+  res.locals.audit('update', 'partner', row.id, row.name);
+  res.redirect(303, '/admin/partners?_ok=' + encodeURIComponent(`Saved ${row.name}`));
+});
+router.post('/partners/:id/delete', auth.requireRole('admin'), (req, res) => {
+  const rows = partners.list();
+  const gone = rows.find((p) => p.id === req.params.id);
+  partners.save(rows.filter((p) => p.id !== req.params.id)); purge();
+  if (gone) res.locals.audit('delete', 'partner', gone.id, gone.name);
+  res.redirect(303, '/admin/partners?_ok=' + encodeURIComponent(gone ? `Removed ${gone.name} (its logo stays in the media library)` : 'Not found'));
 });
 
 // ───────────── Advisors ─────────────

@@ -70,7 +70,7 @@ function launchChecklist() {
     { ok: !!s.bing_verification, label: 'Bing Webmaster Tools verified (feeds ChatGPT search & Copilot)', href: '/admin/settings#analytics' },
     { ok: db.value("SELECT COUNT(*) FROM posts WHERE status = 'published' AND reviewer_id IS NOT NULL") > 0, label: 'Guides reviewed by a licensed advisor (E-E-A-T)', href: '/admin/posts' },
     { ok: db.value('SELECT COUNT(*) FROM geo_overrides WHERE verified_at IS NOT NULL') > 0, label: 'Province facts verified by a licensed team member', href: '/admin/geo' },
-    { ok: !!s.carriers_confirmed || !(s.carriers || []).length, label: 'Insurer names confirmed as contracted (or hidden)', href: '/admin/settings#trust' },
+    { ok: !!s.carriers_confirmed, label: 'Insurer and MGA appointments and logo permissions confirmed (logos hidden until then)', href: '/admin/partners' },
     { ok: !!require('../../config').indexNowEnabled, label: 'IndexNow enabled in production (INDEXNOW_ENABLED=true)', href: '/admin/seo' },
   ];
   return { items, done: items.filter((i) => i.ok).length };

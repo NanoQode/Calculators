@@ -72,19 +72,7 @@
   </div>
 </section>
 
-<% if (s.carriers_confirmed && s.carriers && s.carriers.length) { %>
-<section class="w-full bg-surface-container-lowest py-space-lg shadow-sm">
-  <div class="container-site flex flex-col gap-space-md">
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-space-sm">
-      <div><p class="eyebrow">Canadian insurers</p><h2 class="font-headline-sm text-headline-sm text-primary-container">Our advisors compare leading Canadian insurers</h2></div>
-      <span class="chip bg-surface-container text-on-surface"><span class="material-symbols-outlined text-[16px] text-secondary">lock</span> Encrypted &amp; private</span>
-    </div>
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-space-sm">
-      <% s.carriers.slice(0, 12).forEach(function(c){ %><div class="flex items-center justify-center p-space-md rounded-2xl bg-surface-container-low text-center"><span class="font-label-lg text-label-lg text-primary-container font-extrabold tracking-tight"><%= c %></span></div><% }) %>
-    </div>
-  </div>
-</section>
-<% } %>
+<% var homePartners = partnersFor(); if (homePartners.length) { %><%- include('partials/partner-logos', { list: homePartners, variant: 'band' }) %><% } %>
 
 <%- include('partials/advisor-banner', { bannerTitle: 'Prefer a human review before you buy?' }) %>
 

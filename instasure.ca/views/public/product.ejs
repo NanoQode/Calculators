@@ -24,6 +24,7 @@
   </section>
 </div>
 
+<% var prodPartners = partnersFor(product.category); if (prodPartners.length) { %><%- include('partials/partner-logos', { list: prodPartners, variant: 'band', heading: 'Licensed advisors compare ' + lc(product.short) + ' plans from these insurers' }) %><% } %>
 <section class="w-full bg-surface-container-lowest py-space-xl shadow-sm" aria-labelledby="cov-h">
   <div class="container-site">
     <p class="eyebrow">Coverage options</p>

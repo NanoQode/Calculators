@@ -128,6 +128,8 @@ function createApp() {
       .replace(/\b(rv|hvac|atv)\b/g, (w) => w.toUpperCase());
     res.locals.serviceData = require('./data/services');
     res.locals.desks = require('./lib/specialties').DESKS;
+    // Insurer and MGA logos: empty until an admin confirms appointments and logo permission (Admin → Insurers & MGAs).
+    res.locals.partnersFor = (category) => require('./lib/partners').visible(category);
     res.locals.year = new Date().getFullYear();
     res.locals.flash = req.query._ok ? { type: 'ok', msg: String(req.query._ok).slice(0, 200) } : req.query._err ? { type: 'err', msg: String(req.query._err).slice(0, 200) } : null;
     /** Render a view inside a layout; caches anonymous public GETs. */

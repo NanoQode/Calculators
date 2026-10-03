@@ -43,6 +43,10 @@ const TERM20_M_NS = { 18: 0.046, 25: 0.046, 30: 0.048, 35: 0.057, 40: 0.08, 45: 
 const TERM_FACTOR = { 10: 0.72, 20: 1, 30: 1.55, 65: 1.5 };
 const TERM_MAX_AGE = { 10: 75, 20: 65, 30: 55, 65: 55 };
 const WHOLE_M_NS = { 18: 0.62, 25: 0.68, 30: 0.76, 35: 0.86, 40: 1.0, 45: 1.3, 50: 1.65, 55: 2.1, 60: 2.8, 65: 3.8, 70: 5.2 };
+// Funeral / final expense: small simplified-issue permanent policies ($5k–$50k), level premiums, monthly per $1,000, male non-smoker.
+// Higher per-$1,000 than WHOLE_M_NS: simplified underwriting and small face amounts.
+const FUNERAL_M_NS = { 40: 2.0, 45: 2.5, 50: 3.1, 55: 3.9, 60: 5.0, 65: 6.6, 70: 8.9, 75: 12.3, 80: 17, 85: 23.5 };
+const FUNERAL_FEE = 4; // monthly policy fee
 // Critical illness: monthly per $1,000, Term 10, comprehensive, non-smoker
 const CI_NS = { 18: 0.32, 25: 0.34, 30: 0.4, 35: 0.5, 40: 0.68, 45: 0.95, 50: 1.35, 55: 1.9, 60: 2.7, 65: 3.6 };
 // Super Visa: annual premium, $100k, $0 deductible, no pre-existing
@@ -77,7 +81,33 @@ function range(mid, spread = 0.18, step = 1, min = 5) {
 }
 
 // ───────────────────────── Flow models ─────────────────────────
+/** Small permanent policies for funeral and final costs (plan: 'funeral'). */
+function funeral(i) {
+  const age = clamp(ageFromInput(i), 40, 85);
+  const female = i.sex === 'female';
+  const smoker = i.smoker === 'yes' || i.smoker === true;
+  const coverage = clamp(Number(i.coverage) || 10000, 5000, 50000);
+  const notes = [];
+  if (ageFromInput(i) < 40) notes.push('Funeral expense plans usually start at age 40; under 40, a small term or whole life policy is often cheaper.');
+  const perK = lerpTable(FUNERAL_M_NS, age) * (female ? 0.82 : 1) * (smoker ? 1.4 : 1);
+  const monthly = (coverage / 1000) * perK + FUNERAL_FEE;
+  const r = range(monthly, 0.14, 0.5, 8);
+  return {
+    period: 'month', ...r,
+    headline: `${money(coverage)} · Funeral expense (simplified issue)`,
+    example: `${age}-year-old ${female ? 'female' : 'male'}, ${smoker ? 'smoker' : 'non-smoker'}, ${money(coverage)} simplified-issue funeral expense policy, level premiums for life`,
+    tiers: [
+      tier('si', 'Simplified issue', 'Most popular', r.mid, ['A few health questions, no medical exam', 'Full benefit from day one once approved', 'Level premiums for life'], 'Health questions only', true),
+      tier('gi', 'Guaranteed issue', 'No health questions', r.mid * 1.45, ['Acceptance guaranteed within the age limits', 'Death benefit usually limited for the first two years', 'Higher price per dollar of coverage'], 'No health questions'),
+      tier('uw', 'Underwritten small whole life', 'Lower price if healthy', r.mid * 0.85, ['Full health questions, sometimes an exam', 'Often cheaper for healthy applicants', 'Higher amounts available'], 'Full underwriting'),
+    ],
+    notes,
+    meta: { age, coverage, smoker, sex: female ? 'female' : 'male', permanent: true, plan: 'funeral' },
+  };
+}
+
 function life(i, product) {
+  if (i.plan === 'funeral') return funeral(i);
   const age = ageFromInput(i);
   const female = i.sex === 'female';
   const smoker = i.smoker === 'yes' || i.smoker === true;

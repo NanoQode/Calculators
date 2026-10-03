@@ -32,6 +32,23 @@ test('estimate engine: life premiums rise with age and smoking', () => {
   assert.ok(p(35, 'yes') > p(35, 'no') * 2);
 });
 
+test('estimate engine: funeral plans price small policies, and the "$1 a day" headline holds for its example profile', () => {
+  const { services } = require('../src/data/services');
+  const pages = require('../src/lib/pages');
+  const f = quote.estimate('whole-life-insurance', { plan: 'funeral', age: 50, sex: 'female', smoker: 'no', coverage: 10000 });
+  assert.match(f.example, /\$10,000 simplified-issue funeral expense policy/);
+  assert.equal(f.tiers.length, 3);
+  const older = quote.estimate('whole-life-insurance', { plan: 'funeral', age: 70, sex: 'female', smoker: 'no', coverage: 10000 });
+  const smoker = quote.estimate('whole-life-insurance', { plan: 'funeral', age: 50, sex: 'female', smoker: 'yes', coverage: 10000 });
+  assert.ok(older.mid > f.mid && smoker.mid > f.mid, 'price rises with age and smoking');
+  assert.equal(quote.estimate('whole-life-insurance', { plan: 'funeral', coverage: 1000000 }).meta.coverage, 50000, 'funeral cover is capped at $50,000');
+  for (const sv of services.filter((s) => s.claimDaily)) {
+    const e = pages.serviceEstimate(sv);
+    assert.ok(e && e.mid * 12 / 365 <= sv.claimDaily, `${sv.slug}: example estimate ${e && e.mid}/mo supports "from $${sv.claimDaily} a day"`);
+    assert.ok(sv.h1 && sv.title.includes(`$${sv.claimDaily} a Day`), `${sv.slug} headline`);
+  }
+});
+
 test('estimate engine: Brampton auto costs more than Ottawa auto', () => {
   const b = quote.estimate('car-insurance', { province: 'on', city: 'brampton', age: 35 }).mid;
   const o = quote.estimate('car-insurance', { province: 'on', city: 'ottawa', age: 35 }).mid;
