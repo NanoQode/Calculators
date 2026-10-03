@@ -11,8 +11,8 @@ trap 'rm -rf "$WORK"' EXIT
 
 # Resolve the branch to its commit first: branch archives are CDN-cached for a
 # few minutes, commit archives are immutable.
-SHA=$(curl -fsSL "https://api.github.com/repos/$REPO/commits/$BRANCH" | grep -m1 '"sha"' | cut -d'"' -f4)
-[ -n "$SHA" ] || { echo "could not resolve $BRANCH" >&2; exit 1; }
+SHA=$(curl -fsSL -H 'Accept: application/vnd.github.sha' "https://api.github.com/repos/$REPO/commits/$BRANCH")
+[[ "$SHA" =~ ^[0-9a-f]{40}$ ]] || { echo "could not resolve $BRANCH" >&2; exit 1; }
 echo "deploying $REPO@$BRANCH ($SHA)"
 curl -fsSL "https://codeload.github.com/$REPO/tar.gz/$SHA" -o "$WORK/src.tgz"
 tar -xzf "$WORK/src.tgz" -C "$WORK"
