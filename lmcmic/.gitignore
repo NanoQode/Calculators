@@ -2,3 +2,5 @@ node_modules/
 .cache/
 # generated on the server from lendmaxcapital.ca by deploy/images.py
 dist/assets/img/
+__pycache__/
+*.pyc
