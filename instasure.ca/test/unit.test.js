@@ -86,3 +86,40 @@ test('every launch guide parses and scores ≥ 85 on the SEO/AEO audit', () => {
     for (const p of meta.products) assert.ok(products.some((x) => x.slug === p), `${f}: unknown product ${p}`);
   }
 });
+
+test('keyword map: valid rows, modelled volumes labelled, every target page exists', () => {
+  require('../src/db/seed').seed({ quiet: true });
+  const { keywords } = require('../src/data/keywords');
+  const pages = require('../src/lib/pages');
+  const known = new Set(pages.allPages().map((p) => p.path));
+  const extra = /^\/(quote\/([a-z-]+\/)?|calculators\/[a-z-]+\/)$/; // quote flows and calculators are not in the sitemap list
+  const seen = new Set();
+  assert.ok(keywords.length > 500);
+  for (const k of keywords) {
+    assert.ok(!seen.has(k.keyword), `duplicate keyword ${k.keyword}`);
+    seen.add(k.keyword);
+    assert.ok(['national', 'provincial', 'local'].includes(k.level), k.keyword);
+    assert.equal(k.volume_source, 'model', `${k.keyword} must be labelled as modelled`);
+    assert.ok(k.volume >= 10 && k.priority >= 1 && k.priority <= 5, k.keyword);
+    if (k.product) assert.ok(products.some((p) => p.slug === k.product), `${k.keyword}: unknown product ${k.product}`);
+    if (k.target_path) assert.ok(known.has(k.target_path) || extra.test(k.target_path), `${k.keyword}: no page at ${k.target_path}`);
+    else assert.ok(k.notes, `${k.keyword}: unmapped keywords need a plan in notes`);
+  }
+});
+
+test('rate index: median per product × province, hidden below the minimum sample, test leads excluded', () => {
+  const db = require('../src/db');
+  const pages = require('../src/lib/pages');
+  db.run("DELETE FROM leads WHERE ref LIKE 'RI-%'");
+  const add = (i, product, province, mid, isTest = 0) => db.run(
+    'INSERT INTO leads(ref, lead_type, product, province, estimate, is_test) VALUES(?, ?, ?, ?, ?, ?)',
+    [`RI-${product}-${province}-${i}-${isTest}`, 'quote', product, province, JSON.stringify({ mid }), isTest]);
+  for (let i = 1; i <= 25; i++) add(i, 'tenant-insurance', 'nb', i === 25 ? 1000 : 20 + i); // one outlier
+  for (let i = 1; i <= 24; i++) add(i, 'tenant-insurance', 'pe', 30);
+  for (let i = 1; i <= 30; i++) add(i, 'tenant-insurance', 'pe', 999, 1); // test leads never count
+  const rows = pages.rateIndexRows().filter((r) => r.product === 'tenant-insurance');
+  assert.deepEqual(rows.map((r) => r.province), ['nb']);
+  assert.equal(rows[0].n, 25);
+  assert.equal(rows[0].mid, 33); // median of 21..44 plus the outlier is 33; a mean would be ~71
+  db.run("DELETE FROM leads WHERE ref LIKE 'RI-%'");
+});

@@ -2,7 +2,7 @@
   "name": "instasure.ca",
   "version": "1.0.0",
   "private": true,
-  "description": "Instasure.ca — Canada-wide insurance information, instant quotes and licensed-advisor lead generation platform with an SEO-first CMS and lead-management backend.",
+  "description": "Instasure.ca \u2014 Canada-wide insurance information, instant quotes and licensed-advisor lead generation platform with an SEO-first CMS and lead-management backend.",
   "main": "server.js",
   "engines": {
     "node": ">=22.5.0"
@@ -12,6 +12,7 @@
     "watch:css": "tailwindcss -c tailwind.config.js -i ./src/styles/site.css -o ./public/assets/site.css --watch",
     "build": "npm run build:css",
     "seed": "node --disable-warning=ExperimentalWarning scripts/seed.js",
+    "keywords:report": "node scripts/keyword-report.js",
     "start": "node --disable-warning=ExperimentalWarning server.js",
     "dev": "npm run build:css && NODE_ENV=development node --disable-warning=ExperimentalWarning --watch server.js",
     "test": "node --disable-warning=ExperimentalWarning --test --test-concurrency=1 test/*.test.js"

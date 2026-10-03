@@ -46,6 +46,9 @@ function city(provCode, slug) {
   return ov ? { ...c, ...ov.data, verified_at: ov.verified_at } : c;
 }
 
+/** Lower-case a phrase's first letter for mid-sentence use, keeping proper nouns and acronyms (FSRA, GTA) intact. */
+const lcFirst = (t) => (/^[A-Z][A-Z]/.test(t) ? t : t.charAt(0).toLowerCase() + t.slice(1));
+
 const P_AND_C_CITY_TIER2 = new Set(['car-insurance', 'home-insurance', 'tenant-insurance', 'condo-insurance']);
 
 function geoPath(product, prov, c) {
@@ -75,7 +78,7 @@ function localFaq(product, prov, c) {
   const fmt = (n) => money(n, { cents: n < 100 });
   faqs.push({
     q: `How much does ${product.name.toLowerCase()} cost in ${where}?`,
-    a: `For an example profile (${est.example}), Instasure’s model estimates roughly ${fmt(est.low)}–${fmt(est.high)}${est.periodLabel} as of ${est.asOf}. Your price depends on ${product.factors.slice(0, 3).join(', ').toLowerCase()} and the insurer — get an instant personalised estimate, then a licensed advisor confirms real insurer quotes.`,
+    a: `For an example profile (${est.example}), Instasure’s model estimates roughly ${fmt(est.low)}–${fmt(est.high)}${est.periodLabel} as of ${est.asOf}. Your price depends on ${product.factors.slice(0, 3).map(lcFirst).join(', ')} and the insurer — get an instant personalised estimate, then a licensed advisor confirms real insurer quotes.`,
   });
   if (product.category === 'auto') {
     if (prov.auto.system === 'public') faqs.push({ q: `Can I shop around for car insurance in ${prov.name}?`, a: `${prov.autoNotes[0]} ${prov.code === 'mb' ? 'Extension coverage is also largely provided through MPI, so savings usually come from discounts and from shopping home, tenant and life insurance.' : 'You can compare optional coverage from private insurers, which is where most savings are.'}` });
@@ -113,8 +116,8 @@ function geoContent(product, prov, c) {
 
   const intro = [];
   if (product.category === 'auto') intro.push(prov.autoNotes[0]);
-  if (c) intro.push(`Pricing in ${c.name} reflects local claim patterns — ${c.risks.slice(0, 2).join(' and ').toLowerCase()}.`);
-  else intro.push(`Key ${prov.name} risks insurers price in: ${prov.risks.slice(0, 3).join('; ').toLowerCase()}.`);
+  if (c) intro.push(`Pricing in ${c.name} reflects local claim patterns — ${c.risks.slice(0, 2).map(lcFirst).join(' and ')}.`);
+  else intro.push(`Key ${prov.name} risks insurers price in: ${prov.risks.slice(0, 3).map(lcFirst).join('; ')}.`);
 
   const notes = [...(product.category === 'auto' ? prov.autoNotes.slice(1) : []), ...(prov.events2026 || []).filter((e) => !/accident benefits|Care-First|rate cap|freeze/i.test(e) || product.category === 'auto')];
   const risks = c ? [...c.risks, ...prov.risks.slice(0, 2)] : prov.risks;
@@ -149,6 +152,8 @@ function allPages() {
       }
     }
   }
+  // The Rate Index is noindex (and out of the sitemap) until at least one cell meets the minimum sample.
+  pages.push({ path: '/insights/rate-index/', priority: 0.7, changefreq: 'weekly', lastmod: today, type: 'static', indexable: rateIndexRows().length > 0, title: 'Instasure Rate Index' });
   for (const prov of geo.provinces) {
     pages.push({ path: `/insurance/${prov.slug}/`, priority: 0.6, changefreq: 'monthly', lastmod: today, type: 'geo-hub', indexable: true, title: `Insurance in ${prov.name}` });
     for (const c of geo.citiesByProv[prov.code]) pages.push({ path: `/insurance/${prov.slug}/${c.slug}/`, priority: 0.5, changefreq: 'monthly', lastmod: today, type: 'geo-hub', indexable: cityHubIndexable(c), title: `Insurance in ${c.name}` });
@@ -164,6 +169,33 @@ function allPages() {
   return pages;
 }
 
+/** Rate Index cells: median estimate per product × province over 90 days, published only past a minimum sample. */
+const RATE_INDEX_MIN = 25;
+function rateIndexRows() {
+  const raw = db.all(`SELECT product, province, json_extract(estimate,'$.mid') v, created_at
+    FROM leads WHERE is_test = 0 AND lead_type IN ('quote','calculator') AND json_extract(estimate,'$.mid') IS NOT NULL
+      AND province IS NOT NULL AND created_at >= datetime('now','-90 days')
+    ORDER BY product, province, v`);
+  const cells = new Map();
+  for (const r of raw) {
+    const key = `${r.product}|${r.province}`;
+    if (!cells.has(key)) cells.set(key, { product: r.product, province: r.province, values: [], first: r.created_at, last: r.created_at });
+    const c = cells.get(key);
+    c.values.push(Number(r.v));
+    if (r.created_at < c.first) c.first = r.created_at;
+    if (r.created_at > c.last) c.last = r.created_at;
+  }
+  const out = [];
+  for (const c of cells.values()) {
+    const n = c.values.length;
+    if (n < RATE_INDEX_MIN) continue;
+    const m = Math.floor(n / 2);
+    const mid = n % 2 ? c.values[m] : (c.values[m - 1] + c.values[m]) / 2; // values arrive sorted by v
+    out.push({ product: c.product, province: c.province, n, mid, first: c.first, last: c.last });
+  }
+  return out;
+}
+
 function serviceable(code) { return (settings.get('serviceable_provinces') || []).includes(code); }
 
-module.exports = { enabledProducts, getProduct, isEnabled, province, city, geoPath, geoIndexable, cityHubIndexable, geoContent, localFaq, allPages, invalidate, serviceable };
+module.exports = { enabledProducts, getProduct, isEnabled, province, city, geoPath, geoIndexable, cityHubIndexable, geoContent, localFaq, allPages, invalidate, serviceable, rateIndexRows, RATE_INDEX_MIN };

@@ -54,15 +54,17 @@ function widgetFor(activeSlug, province) {
   ].filter((t) => pages.isEnabled(t.product));
   const active = activeSlug && tabs.some((t) => t.product === activeSlug) ? activeSlug : (tabs[0] || {}).product;
   const flow = (tabs.find((t) => t.product === active) || {}).flow || 'life';
-  const estimate = quoteEngine.estimate(active, { ...quoteEngine.DEFAULT_PROFILES[flow], province: province || 'on' });
-  return { tabs, active, estimate };
+  const profile = quoteEngine.DEFAULT_PROFILES[flow];
+  const estimate = quoteEngine.estimate(active, { ...profile, province: province || 'on' });
+  return { tabs, active, estimate, flow, age: profile.age || 35 };
 }
 
 /** Single-product widget for product and product×geo pages. */
 function widgetSingle(slug, province, citySlug) {
   const product = pages.getProduct(slug);
-  const estimate = quoteEngine.estimate(slug, { ...quoteEngine.DEFAULT_PROFILES[product.quoteFlow], province: province || 'on', city: citySlug });
-  return { tabs: [{ product: slug, label: product.short, flow: product.quoteFlow }], active: slug, estimate, single: true, city: citySlug || '' };
+  const profile = quoteEngine.DEFAULT_PROFILES[product.quoteFlow];
+  const estimate = quoteEngine.estimate(slug, { ...profile, province: province || 'on', city: citySlug });
+  return { tabs: [{ product: slug, label: product.short, flow: product.quoteFlow }], active: slug, estimate, single: true, city: citySlug || '', flow: product.quoteFlow, age: profile.age || 35 };
 }
 
 function staticPage(slug) {
@@ -405,10 +407,8 @@ router.get('/site-map/', (req, res) => {
 
 // First-party data asset: aggregated estimate ranges from real quote requests (min sample size enforced).
 router.get('/insights/rate-index/', (req, res) => {
-  const MIN = 25;
-  const rows = db.all(`SELECT product, province, COUNT(*) n, AVG(json_extract(estimate,'$.mid')) mid, MIN(created_at) first, MAX(created_at) last
-    FROM leads WHERE is_test = 0 AND lead_type IN ('quote','calculator') AND json_extract(estimate,'$.mid') IS NOT NULL AND created_at >= datetime('now','-90 days')
-    GROUP BY product, province HAVING n >= ? ORDER BY product, province`, [MIN]);
+  const MIN = pages.RATE_INDEX_MIN;
+  const rows = pages.rateIndexRows().map((r) => ({ ...r, name: (pages.getProduct(r.product) || {}).name || r.product }));
   res.page('public/rate-index', {
     pageType: 'insights', sectionLabel: 'Rate index', rows, MIN,
     meta: seo.meta({
@@ -526,7 +526,7 @@ function renderGeo(req, res, next, product, prov, c) {
     guides: relatedGuides({ product: product.slug, province: prov.code, limit: 3 }),
     meta: seo.meta({
       path: p,
-      title: c ? `${product.name} ${c.name}: Compare Quotes & Costs (${year})` : `${product.name} in ${prov.name}: Costs, Rules & Quotes (${year})`,
+      title: c ? `${product.name} ${c.name}, ${prov.abbr}: Compare Quotes & Costs (${year})` : `${product.name} in ${prov.name}: Costs, Rules & Quotes (${year})`,
       description: c
         ? `Compare ${product.name.toLowerCase()} in ${where}: instant estimate (${U.money(content.estimate.low, { cents: content.estimate.low < 100 })}–${U.money(content.estimate.high, { cents: content.estimate.high < 100 })}${content.estimate.periodLabel} example), local risk factors and advisors licensed in ${prov.name}.`
         : `${product.name} in ${prov.name}: how it works under ${prov.regulator.short}, what drives price, instant estimates and advisors licensed in ${prov.name}.`,

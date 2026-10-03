@@ -1,0 +1,689 @@
+keyword,level,product,province,city,volume,volume_source,difficulty,intent,cluster,competitors,target_path,priority,notes
+life insurance,national,life-insurance,,,33000,model,85,commercial,life-core,"policyadvisor, sun life, manulife, policyme, ratehub, canada life",/life-insurance/,1,"Highest-value head term. Province, city and cost pages feed it."
+home insurance,national,home-insurance,,,27000,model,82,commercial,property-core,"ratehub, rates.ca, sonnet, insurer brands",/home-insurance/,1,
+tenant insurance,national,tenant-insurance,,,15000,model,70,commercial,property-core,"sonnet, ratehub, rates.ca, squareone",/tenant-insurance/,1,
+car insurance quotes,national,car-insurance,,,14000,model,78,transactional,auto-core,"ratehub, rates.ca, kanetix, lowestrates",/quote/car-insurance/,1,Money term: send to the instant estimate flow.
+car insurance ontario,provincial,car-insurance,on,,12000,model,79,commercial,auto-province,"ratehub, rates.ca, sonnet",/car-insurance/ontario/,1,
+super visa insurance,national,super-visa-insurance,,,9900,model,55,transactional,travel-visitors,"policyadvisor, hellosafe, bestquote, coverme, rbc",/super-visa-insurance/,1,Mandatory purchase with high intent and a strong newcomer-community fit.
+business insurance,national,business-insurance,,,8100,model,70,commercial,business,"ratehub, rates.ca, zensurance, apollo",/business-insurance/,1,
+term life insurance,national,term-life-insurance,,,6600,model,70,commercial,life-core,"policyadvisor, sun life, ratehub, policyme",/term-life-insurance/,1,
+critical illness insurance,national,critical-illness-insurance,,,6600,model,65,commercial,living-benefits,"policyadvisor, sun life, policyme, ratehub",/critical-illness-insurance/,1,
+home insurance quotes,national,home-insurance,,,6600,model,75,transactional,property-core,"ratehub, rates.ca, sonnet, squareone",/quote/home-insurance/,1,
+condo insurance,national,condo-insurance,,,6600,model,65,commercial,property-core,"sonnet, ratehub, rates.ca",/condo-insurance/,1,
+insurance quotes,national,,,,6600,model,75,transactional,brand-instant,"ratehub, rates.ca, kanetix",/quote/,1,
+car insurance toronto,local,car-insurance,on,toronto,6600,model,84,local,auto-local,"rates.ca, ratehub, sonnet, mychoice/squareone/thinkinsure",/car-insurance/ontario/toronto/,1,
+whole life insurance,national,whole-life-insurance,,,5400,model,70,commercial,life-core,"policyadvisor, sun life, ratehub",/whole-life-insurance/,1,
+car insurance alberta,provincial,car-insurance,ab,,4500,model,67,commercial,auto-province,"ratehub, rates.ca",/car-insurance/alberta/,1,
+life insurance quotes,national,life-insurance,,,4400,model,70,transactional,life-core,"policyadvisor (""instantly""), policyme, ratehub, sun life",/quote/life-insurance/,1,"Money term: instant estimate, then a licensed advisor."
+disability insurance,national,disability-insurance,,,4400,model,60,commercial,living-benefits,"policyadvisor, sun life",/disability-insurance/,1,
+ontario auto insurance changes 2026,provincial,car-insurance,on,,4400,model,45,informational,auto-regulation,"rates.ca, ratelab, thinkinsure, intact, IBC, RIBO, CP24",/guides/ontario-auto-insurance-changes-july-2026/,1,Every Ontario renewal from July 2026 to June 2027 forces the opt-out decision.
+home insurance ontario,provincial,home-insurance,on,,3000,model,69,commercial,property-province,"ratehub, rates.ca, sonnet",/home-insurance/ontario/,1,
+average car insurance cost canada,national,car-insurance,,,2900,model,55,informational,auto-cost,"ratehub, rates.ca, sonnet, hellosafe barometer",/insights/rate-index/,1,Rate Index page. It stays noindex until a product × province cell has 25 quote requests; the province pages carry the published averages meanwhile.
+small business insurance,national,business-insurance,,,2900,model,60,commercial,business,"rates.ca, ratehub",/business-insurance/,1,
+car insurance brampton,local,car-insurance,on,brampton,2900,model,76,local,auto-local,"rates.ca, ratehub, mychoice/squareone/thinkinsure",/car-insurance/ontario/brampton/,1,
+car insurance calgary,local,car-insurance,ab,calgary,2800,model,76,local,auto-local,"rates.ca, ratehub",/car-insurance/alberta/calgary/,1,
+life insurance calculator,national,life-insurance,,,2400,model,60,transactional,life-tools,"sun life, policyme, hardbacon",/calculators/life-insurance-needs/,1,
+mortgage life insurance,national,mortgage-life-insurance,,,2400,model,55,commercial,life-mortgage,"policyadvisor, ratehub, policyme, banks",/mortgage-life-insurance/,1,"About 1.15M mortgage renewals in 2026 (CMHC via MPA, verify)."
+health and dental insurance,national,health-dental-insurance,,,2400,model,55,commercial,health-dental,"policyadvisor, sun life, blue cross",/health-dental-insurance/,1,
+car insurance mississauga,local,car-insurance,on,mississauga,2400,model,84,local,auto-local,"rates.ca, ratehub, sonnet, mychoice/squareone/thinkinsure",/car-insurance/ontario/mississauga/,1,
+cheap car insurance toronto,local,car-insurance,on,toronto,2300,model,79,transactional,auto-local,"rates.ca, ratehub, sonnet, mychoice/squareone/thinkinsure",/car-insurance/ontario/toronto/,1,"Rates.ca titles lead with ""Cheap""; answer with factors and FSA data, not a price promise."
+car insurance edmonton,local,car-insurance,ab,edmonton,2100,model,76,local,auto-local,"rates.ca, ratehub",/car-insurance/alberta/edmonton/,1,
+how much life insurance do i need,national,life-insurance,,,1900,model,55,informational,life-tools,"policyme, ratehub, policyadvisor",/calculators/life-insurance-needs/,1,Guide twin: /guides/how-much-life-insurance-do-i-need-canada/.
+term vs whole life insurance,national,term-life-insurance,,,1900,model,50,informational,life-compare,"policyadvisor, sun life, ratehub",/guides/term-vs-whole-life-insurance-canada/,1,
+alberta car insurance increase 2026,provincial,car-insurance,ab,,1900,model,35,informational,auto-regulation,"globalnews, daily hive, brokers",/guides/alberta-car-insurance-2026-care-first/,1,"Alberta auto premiums rose 22.6% year over year in Q2 2026 (Applied, verify). Few aggregator pages."
+home insurance toronto,local,home-insurance,on,toronto,1900,model,68,local,property-local,"ratehub, rates.ca, local brokers (#1)",/home-insurance/ontario/toronto/,1,
+why is my car insurance going up,national,car-insurance,,,1600,model,35,informational,auto-regulation,"onlia, rates.ca",/guides/why-is-my-car-insurance-going-up-2026/,1,Renewal-notice searches. Refresh each quarter with the Applied Rating Index.
+how much does life insurance cost,national,life-insurance,,,1600,model,55,informational,life-cost,"policyadvisor, policyme, sun life (rates pages)",/guides/how-much-does-life-insurance-cost-canada/,1,
+super visa insurance cost,national,super-visa-insurance,,,1600,model,40,commercial,travel-visitors,"policyadvisor, hellosafe, bestquote",/guides/super-visa-insurance-requirements-cost/,1,
+does home insurance cover water damage,national,home-insurance,,,1600,model,40,informational,property-coverage,"ratehub, CAA, RBC, westland",/guides/does-home-insurance-cover-water-damage-canada/,1,Peaks after storms. A strong AI-citation format.
+professional liability insurance,national,professional-liability-insurance,,,1600,model,50,commercial,business,"ratehub, rates.ca",/professional-liability-insurance/,1,
+care first auto insurance alberta,provincial,car-insurance,ab,,1600,model,30,informational,auto-regulation,"alberta.ca, western financial",/guides/alberta-car-insurance-2026-care-first/,1,"Starts January 1, 2027."
+car insurance scarborough,local,car-insurance,on,toronto,1600,model,50,local,auto-local,"rates.ca, sonnet ($330/mo)",,1,Planned Toronto sub-area page (/car-insurance/ontario/toronto/scarborough/). Ratehub has none. Needs a verified population figure or no population fact.
+no medical life insurance,national,no-medical-life-insurance,,,1300,model,45,commercial,life-instant,"policyadvisor, sun life go, coverme",/no-medical-life-insurance/,1,"Core ""instant"" brand cluster."
+mortgage insurance vs life insurance,national,mortgage-life-insurance,,,1300,model,50,informational,life-mortgage,"policyadvisor, ratehub, policyme, money.ca",/guides/mortgage-life-insurance-vs-term-life-insurance/,1,
+average home insurance cost canada,national,home-insurance,,,1300,model,50,informational,property-cost,"ratehub, rates.ca",/insights/rate-index/,1,
+tenant insurance cost,national,tenant-insurance,,,1300,model,40,informational,property-cost,"ratehub, sonnet",/tenant-insurance/,1,
+contractor insurance,national,contractor-insurance,,,1300,model,45,commercial,business,"ratehub, rates.ca (15+ trades)",/contractor-insurance/,1,
+group benefits for small business,national,group-benefits,,,1300,model,50,commercial,business-benefits,"policyadvisor, manulife, canada life",/group-benefits/,1,Highest lead value on the site.
+insurance advisor near me,national,,,,1300,model,40,local,advisors,"policyadvisor (advisor pages), sun life advisor microsites",/advisors/,1,
+health insurance ontario,provincial,health-dental-insurance,on,,1300,model,61,commercial,health-province,policyadvisor,/health-dental-insurance/ontario/,1,
+optional accident benefits ontario,provincial,car-insurance,on,,1300,model,35,informational,auto-regulation,"intact, northbridge, thebig.ca",/guides/ontario-auto-insurance-changes-july-2026/,1,
+car insurance vaughan,local,car-insurance,on,vaughan,1300,model,72,local,auto-local,rates.ca,/car-insurance/ontario/vaughan/,1,
+business insurance ontario,provincial,business-insurance,on,,1200,model,52,commercial,business-province,(none seen),/business-insurance/ontario/,1,
+car insurance halifax,local,car-insurance,ns,halifax,1200,model,64,local,auto-local,ratehub,/car-insurance/nova-scotia/halifax/,1,
+car insurance for newcomers to canada,national,car-insurance,,,1000,model,35,commercial,auto-persona,"ratehub, rates.ca guide",,1,"Planned: /car-insurance/newcomers/. Pair with multilingual advisors (Punjabi, Hindi, Tagalog, Mandarin)."
+mortgage protection insurance,national,mortgage-life-insurance,,,1000,model,45,commercial,life-mortgage,"policyadvisor, manulife mortgage protection plan",/mortgage-life-insurance/,1,
+is tenant insurance mandatory,national,tenant-insurance,,,1000,model,35,informational,property-coverage,"sonnet faq, tenantrights.ca",/guides/tenant-insurance-ontario-landlord-require/,1,
+home insurance bc,provincial,home-insurance,bc,,1000,model,53,commercial,property-province,sonnet,/home-insurance/british-columbia/,1,
+is tenant insurance mandatory in ontario,provincial,tenant-insurance,on,,1000,model,35,informational,property-coverage,"tenantrights.ca, marathon, insurely, sonnet",/guides/tenant-insurance-ontario-landlord-require/,1,
+car insurance north york,local,car-insurance,on,toronto,1000,model,45,local,auto-local,"rates.ca (generic title, no city name)",,1,Planned Toronto sub-area page. Rates.ca's title omits the city: easy to beat.
+life insurance ontario,provincial,life-insurance,on,,910,model,56,commercial,life-province,policyadvisor,/life-insurance/ontario/,1,
+life insurance cost by age,national,life-insurance,,,880,model,45,informational,life-cost,policyadvisor (20/40/50 pages),/guides/how-much-does-life-insurance-cost-canada/,1,Planned: one page per age band (/life-insurance/cost/age-35/) once the Rate Index has quote data.
+critical illness insurance cost,national,critical-illness-insurance,,,880,model,45,informational,living-benefits,"policyadvisor, policyme",/critical-illness-insurance/,1,
+super visa insurance requirements,national,super-visa-insurance,,,880,model,35,informational,travel-visitors,"policyadvisor, rbc",/guides/super-visa-insurance-requirements-cost/,1,
+overland flood insurance,national,home-insurance,,,880,model,40,informational,property-coverage,"ratehub, CAA",/guides/does-home-insurance-cover-water-damage-canada/,1,
+life insurance toronto,local,life-insurance,on,toronto,880,model,47,local,life-local,policyadvisor (stale 2024/25 titles),/life-insurance/ontario/toronto/,1,Competitor city page carries a stale year in its title: freshness opening.
+canadian dental care plan vs private insurance,national,health-dental-insurance,,,720,model,25,informational,health-dental,dental clinics (weak),/guides/private-dental-insurance-vs-cdcp/,1,Weak SERP. CDCP opened to adults 18 to 64 in 2026.
+small business insurance cost,national,business-insurance,,,720,model,40,informational,business,"ratehub blog, rates.ca (price anchors)",/guides/small-business-insurance-cost-canada/,1,
+employee benefits for small business,national,group-benefits,,,720,model,45,commercial,business-benefits,policyadvisor,/group-benefits/,1,
+alberta good driver rate cap,provincial,car-insurance,ab,,720,model,30,informational,auto-regulation,"globalnews, alberta.ca",/guides/alberta-car-insurance-2026-care-first/,1,
+insurance advisor toronto,local,,on,toronto,680,model,30,local,advisors,"local brokers, thinkinsure, rates.ca (broker pages)",/insurance/ontario/toronto/,1,City hub. Add a Google Business Profile only where an advisor really works from that city.
+buy life insurance online,national,no-medical-life-insurance,,,590,model,40,transactional,life-instant,"sun life go, coverme, policyme, policyadvisor",/no-medical-life-insurance/,1,"Brand fit. Say ""instant"" only where a product truly binds online in that province."
+disability insurance for self employed,national,disability-insurance,,,590,model,35,commercial,living-benefits,policyadvisor,/disability-insurance/,1,Tie-in with the Ontario income-replacement opt-out.
+business insurance toronto,local,business-insurance,on,toronto,590,model,41,local,business-local,(none seen),/business-insurance/ontario/toronto/,1,
+life insurance for newcomers to canada,national,life-insurance,,,480,model,30,commercial,life-audience,"policyadvisor, mychoice, iA",/guides/life-insurance-for-newcomers-to-canada/,1,"Underserved and high converting. Planned translations: Punjabi, Hindi, Mandarin, Tagalog."
+income replacement benefit ontario opt out,provincial,car-insurance,on,,480,model,25,informational,auto-regulation,"thebig.ca, thinkinsure",/guides/ontario-auto-insurance-changes-july-2026/,1,Pair with the disability insurance page for self-employed drivers.
+life insurance calgary,local,life-insurance,ab,calgary,480,model,43,local,life-local,(none seen),/life-insurance/alberta/calgary/,1,
+business insurance bc,provincial,business-insurance,bc,,430,model,44,commercial,business-province,(none seen),/business-insurance/british-columbia/,1,
+critical illness vs disability insurance,national,critical-illness-insurance,,,390,model,35,informational,living-benefits,"policyadvisor, sun life",/guides/critical-illness-vs-disability-insurance/,1,
+condo insurance deductible coverage,national,condo-insurance,,,390,model,25,informational,property-coverage,sonnet,/guides/condo-insurance-deductible-assessment-explained/,1,
+life insurance ottawa,local,life-insurance,on,ottawa,390,model,47,local,life-local,policyadvisor (stale 2024/25 titles),/life-insurance/ontario/ottawa/,1,Competitor city page carries a stale year in its title: freshness opening.
+life insurance edmonton,local,life-insurance,ab,edmonton,390,model,43,local,life-local,(none seen),/life-insurance/alberta/edmonton/,1,
+hail insurance calgary,local,home-insurance,ab,calgary,390,model,25,local,property-coverage,"IBC data, local brokers",/guides/calgary-hail-insurance-guide/,1,"Calgary hail on August 5, 2024 cost about $3.29B (CatIQ, verify)."
+business insurance alberta,provincial,business-insurance,ab,,370,model,44,commercial,business-province,(none seen),/business-insurance/alberta/,1,
+insurance advisor calgary,local,,ab,calgary,370,model,30,local,advisors,"local brokers, thinkinsure, rates.ca (broker pages)",/insurance/alberta/calgary/,1,City hub. Add a Google Business Profile only where an advisor really works from that city.
+instant insurance quote,national,,,,320,model,30,transactional,brand-instant,(fragmented),/quote/,1,Brand-defining term for instasure.ca.
+life insurance bc,provincial,life-insurance,bc,,320,model,48,commercial,life-province,policyadvisor,/life-insurance/british-columbia/,1,
+business insurance calgary,local,business-insurance,ab,calgary,320,model,41,local,business-local,(none seen),/business-insurance/alberta/calgary/,1,
+life insurance winnipeg,local,life-insurance,mb,winnipeg,310,model,35,local,life-local,(none seen),/life-insurance/manitoba/winnipeg/,1,
+life insurance mississauga,local,life-insurance,on,mississauga,300,model,47,local,life-local,policyadvisor (stale 2024/25 titles),/life-insurance/ontario/mississauga/,1,Competitor city page carries a stale year in its title: freshness opening.
+life insurance alberta,provincial,life-insurance,ab,,280,model,48,commercial,life-province,policyadvisor,/life-insurance/alberta/,1,
+life insurance vancouver,local,life-insurance,bc,vancouver,280,model,47,local,life-local,policyadvisor (stale 2024/25 titles),/life-insurance/british-columbia/vancouver/,1,Competitor city page carries a stale year in its title: freshness opening.
+disability insurance ontario,provincial,disability-insurance,on,,270,model,40,commercial,living-benefits,(none seen),/disability-insurance/ontario/,1,
+life insurance brampton,local,life-insurance,on,brampton,270,model,47,local,life-local,policyadvisor (stale 2024/25 titles),/life-insurance/ontario/brampton/,1,Competitor city page carries a stale year in its title: freshness opening.
+life insurance work permit canada,national,life-insurance,,,260,model,20,commercial,life-audience,"policyadvisor, yahoo finance",/guides/life-insurance-for-newcomers-to-canada/,1,
+business insurance ottawa,local,business-insurance,on,ottawa,260,model,41,local,business-local,(none seen),/business-insurance/ontario/ottawa/,1,
+business insurance edmonton,local,business-insurance,ab,edmonton,260,model,41,local,business-local,(none seen),/business-insurance/alberta/edmonton/,1,
+life insurance hamilton,local,life-insurance,on,hamilton,250,model,47,local,life-local,policyadvisor (stale 2024/25 titles),/life-insurance/ontario/hamilton/,1,Competitor city page carries a stale year in its title: freshness opening.
+life insurance surrey,local,life-insurance,bc,surrey,240,model,35,local,life-local,(none seen),/life-insurance/british-columbia/surrey/,1,
+critical illness insurance ontario,provincial,critical-illness-insurance,on,,220,model,37,commercial,living-benefits,(none seen),/critical-illness-insurance/ontario/,1,
+business insurance winnipeg,local,business-insurance,mb,winnipeg,210,model,33,local,business-local,(none seen),/business-insurance/manitoba/winnipeg/,1,
+life insurance halifax,local,life-insurance,ns,halifax,200,model,35,local,life-local,(none seen),/life-insurance/nova-scotia/halifax/,1,
+life insurance london ontario,local,life-insurance,on,london,190,model,43,local,life-local,(none seen),/life-insurance/ontario/london/,1,
+group benefits ontario,provincial,group-benefits,on,,150,model,37,commercial,business-benefits,(none seen),/group-benefits/ontario/,1,
+car insurance,national,car-insurance,,,74000,model,85,commercial,auto-core,"ratehub, rates.ca, kanetix, mychoice, insurer brands",/car-insurance/,2,Head term. Win through province and city depth rather than head-on.
+cheap car insurance,national,car-insurance,,,9900,model,75,transactional,auto-cost,"ratehub (15 ways), rates.ca, mychoice",/car-insurance/,2,"Answer with savings factors and compare. No ""cheapest"" claim without a published methodology."
+renters insurance,national,tenant-insurance,,,9900,model,65,commercial,property-core,"sonnet, ratehub",/tenant-insurance/,2,"Synonym used in titles (""Tenant (Renters) Insurance"")."
+dental insurance,national,health-dental-insurance,,,8100,model,65,commercial,health-dental,"sun life, manulife, blue cross, policyadvisor",/health-dental-insurance/,2,Much of the volume is CDCP navigation; target the self-employed and CDCP-ineligible.
+house insurance,national,home-insurance,,,8100,model,75,commercial,property-core,"ratehub, rates.ca",/home-insurance/,2,
+insurance broker near me,national,,,,6600,model,60,local,advisors,"local brokers, thinkinsure",/advisors/,2,"Needs Google Business Profiles. Say ""licensed advisor"" unless the entity is a registered brokerage."
+visitors insurance canada,national,travel-insurance,,,4400,model,55,transactional,travel-visitors,"ratehub, rates.ca, policyadvisor, sun life",/super-visa-insurance/,2,Planned: dedicated /travel-insurance/visitors-to-canada/.
+private health insurance canada,national,health-dental-insurance,,,2900,model,60,commercial,health-dental,"policyadvisor, sun life, manulife, blue cross",/health-dental-insurance/,2,
+car insurance calculator,national,car-insurance,,,2400,model,55,transactional,auto-tools,"rates.ca (ON, AB), lowestrates (ON)",/quote/car-insurance/,2,Instant estimate covers the intent. Planned: /calculators/car-insurance-cost/ with province selector.
+most stolen cars canada,national,car-insurance,,,2400,model,40,informational,auto-data,"sonnet, equite association, insurancehotline",,2,Planned: /guides/most-stolen-cars-canada/ refreshed with each Équité report.
+best life insurance companies canada,national,life-insurance,,,2400,model,65,commercial,life-reviews,"policyadvisor, wealthnorth, hellosafe",,2,Planned: /life-insurance/best-companies/. Publish the methodology first.
+landlord insurance,national,home-insurance,,,2400,model,50,commercial,property-niche,"ratehub, rates.ca",,2,Planned: /home-insurance/landlord-rental-property/.
+general liability insurance,national,business-insurance,,,2400,model,55,commercial,business,"ratehub (CGL), rates.ca",/business-insurance/,2,
+car insurance bc,provincial,car-insurance,bc,,2200,model,63,commercial,auto-province,ratehub,/car-insurance/british-columbia/,2,ICBC sells basic auto; target optional coverage. Low lead value.
+car insurance for new drivers,national,car-insurance,,,1900,model,50,commercial,auto-persona,"rates.ca guide, ratehub blog",,2,"Planned: /car-insurance/new-drivers/ (G1/G2/G, Class 7, L/N by province)."
+high risk car insurance,national,car-insurance,,,1600,model,45,commercial,auto-persona,"ratehub, rates.ca guide, facility association",,2,"Planned: /car-insurance/high-risk/ plus sub-pages: after an accident, tickets, impaired, lapsed or cancelled."
+life insurance for seniors,national,life-insurance,,,1600,model,50,commercial,life-audience,"policyadvisor, sun life",,2,"Planned: /life-insurance/seniors/ (no-medical, guaranteed issue, final expense)."
+car insurance ottawa,local,car-insurance,on,ottawa,1600,model,84,local,auto-local,"rates.ca, ratehub, sonnet, mychoice/squareone/thinkinsure",/car-insurance/ontario/ottawa/,2,
+car insurance hamilton,local,car-insurance,on,hamilton,1500,model,70,local,auto-local,"rates.ca, ratehub, sonnet, mychoice/squareone/thinkinsure",/car-insurance/ontario/hamilton/,2,
+flood insurance canada,national,home-insurance,,,1300,model,45,informational,property-coverage,"money.ca, mychoice, IBC",/guides/does-home-insurance-cover-water-damage-canada/,2,The national flood program is delayed. Planned: a tracker page.
+icbc optional insurance,provincial,car-insurance,bc,,1300,model,40,informational,auto-regulation,"ICBC, BC brokers",/guides/icbc-optional-insurance-explained/,2,ICBC basic rates are frozen through 2027; optional coverage still varies.
+how much is car insurance in toronto,local,car-insurance,on,toronto,1300,model,79,informational,auto-local,"rates.ca, ratehub, sonnet, mychoice/squareone/thinkinsure",/car-insurance/ontario/toronto/,2,Ratehub ranks a blog post for this. The city page answers it in the first two sentences with a dated average.
+car insurance markham,local,car-insurance,on,markham,1200,model,76,local,auto-local,"rates.ca, ratehub",/car-insurance/ontario/markham/,2,
+car insurance rates by province,national,car-insurance,,,1000,model,45,informational,auto-cost,"sonnet, rates.ca",/insights/rate-index/,2,
+uber insurance canada,national,car-insurance,,,1000,model,40,commercial,auto-persona,"ratehub, mychoice, thinkinsure",/guides/gig-driver-insurance-uber-doordash-ontario/,2,
+final expense insurance canada,national,life-insurance,,,1000,model,40,commercial,life-audience,policyadvisor,,2,Planned: /life-insurance/final-expense/.
+home insurance calculator,national,home-insurance,,,1000,model,45,transactional,property-tools,rates.ca (AB),/quote/home-insurance/,2,
+errors and omissions insurance,national,professional-liability-insurance,,,1000,model,50,commercial,business,rates.ca,/professional-liability-insurance/,2,
+compare insurance quotes canada,national,,,,1000,model,55,commercial,brand-instant,"ratehub, rates.ca",/compare/,2,
+cheap car insurance brampton,local,car-insurance,on,brampton,1000,model,71,transactional,auto-local,"rates.ca, ratehub, mychoice/squareone/thinkinsure",/car-insurance/ontario/brampton/,2,"Rates.ca titles lead with ""Cheap""; answer with factors and FSA data, not a price promise."
+home insurance calgary,local,home-insurance,ab,calgary,1000,model,68,local,property-local,"ratehub, rates.ca, sonnet",/home-insurance/alberta/calgary/,2,
+car insurance nova scotia,provincial,car-insurance,ns,,990,model,57,commercial,auto-province,"ratehub, sonnet",/car-insurance/nova-scotia/,2,
+cheap car insurance calgary,local,car-insurance,ab,calgary,970,model,71,transactional,auto-local,"rates.ca, ratehub",/car-insurance/alberta/calgary/,2,"Rates.ca titles lead with ""Cheap""; answer with factors and FSA data, not a price promise."
+home insurance alberta,provincial,home-insurance,ab,,900,model,57,commercial,property-province,"ratehub, sonnet",/home-insurance/alberta/,2,
+term life insurance rates,national,term-life-insurance,,,880,model,55,commercial,life-cost,"sun life (rates page), policyadvisor",/term-life-insurance/,2,
+ontario car insurance calculator,provincial,car-insurance,on,,880,model,45,transactional,auto-tools,"rates.ca, lowestrates",/quote/car-insurance/,2,
+g2 car insurance ontario,provincial,car-insurance,on,,880,model,40,commercial,auto-persona,"rates.ca (money page), ratehub blog",,2,Planned: /car-insurance/ontario/g2-drivers/ (also G1 and G).
+car insurance etobicoke,local,car-insurance,on,toronto,880,model,45,local,auto-local,rates.ca,,2,Planned Toronto sub-area page.
+home insurance ottawa,local,home-insurance,on,ottawa,850,model,52,local,property-local,"rates.ca, local brokers (#1)",/home-insurance/ontario/ottawa/,2,
+car insurance richmond hill,local,car-insurance,on,richmond-hill,850,model,64,local,auto-local,rates.ca,/car-insurance/ontario/richmond-hill/,2,
+home insurance edmonton,local,home-insurance,ab,edmonton,840,model,68,local,property-local,"ratehub, rates.ca, sonnet",/home-insurance/alberta/edmonton/,2,
+car insurance london ontario,local,car-insurance,on,london,830,model,76,local,auto-local,"rates.ca, ratehub",/car-insurance/ontario/london/,2,
+car insurance new brunswick,provincial,car-insurance,nb,,810,model,57,commercial,auto-province,"ratehub, sonnet",/car-insurance/new-brunswick/,2,
+cheap car insurance edmonton,local,car-insurance,ab,edmonton,730,model,71,transactional,auto-local,"rates.ca, ratehub",/car-insurance/alberta/edmonton/,2,"Rates.ca titles lead with ""Cheap""; answer with factors and FSA data, not a price promise."
+why is home insurance going up,national,home-insurance,,,720,model,30,informational,property-cost,(news),,2,"Property premiums rose 5.8% year over year in Q2 2026 (Applied, verify). Planned guide."
+condo insurance cost,national,condo-insurance,,,720,model,40,informational,property-cost,"ratehub, rates.ca",/condo-insurance/,2,
+home insurance winnipeg,local,home-insurance,mb,winnipeg,660,model,52,local,property-local,ratehub,/home-insurance/manitoba/winnipeg/,2,
+home insurance mississauga,local,home-insurance,on,mississauga,640,model,64,local,property-local,"ratehub, rates.ca",/home-insurance/ontario/mississauga/,2,
+home insurance brampton,local,home-insurance,on,brampton,600,model,56,local,property-local,"ratehub, rates.ca, local brokers (#1)",/home-insurance/ontario/brampton/,2,
+home insurance vancouver,local,home-insurance,bc,vancouver,600,model,60,local,property-local,ratehub,/home-insurance/british-columbia/vancouver/,2,
+guaranteed issue life insurance,national,no-medical-life-insurance,,,590,model,40,commercial,life-instant,"policyadvisor, sun life go guaranteed",/no-medical-life-insurance/,2,
+health insurance for self employed,national,health-dental-insurance,,,590,model,35,commercial,health-dental,policyadvisor,/health-dental-insurance/,2,
+sewer backup insurance,national,home-insurance,,,590,model,35,informational,property-coverage,(brokers),/guides/does-home-insurance-cover-water-damage-canada/,2,
+hail damage insurance,national,home-insurance,,,590,model,30,informational,property-coverage,"IBC data, local brokers",/guides/calgary-hail-insurance-guide/,2,
+is home insurance mandatory in ontario,provincial,home-insurance,on,,590,model,30,informational,property-coverage,sonnet faq,/home-insurance/ontario/,2,
+earthquake insurance bc,provincial,home-insurance,bc,,590,model,35,informational,property-coverage,sonnet (optional in BC),/home-insurance/british-columbia/,2,
+condo insurance toronto,local,condo-insurance,on,toronto,590,model,52,local,property-local,rates.ca,/condo-insurance/ontario/toronto/,2,
+car insurance newfoundland,provincial,car-insurance,nl,,560,model,53,commercial,auto-province,ratehub,/car-insurance/newfoundland-and-labrador/,2,
+super visa insurance ontario,provincial,super-visa-insurance,on,,550,model,42,commercial,travel-visitors,(none seen),/super-visa-insurance/ontario/,2,Province page targets super visa buyers sponsoring parents locally.
+home insurance hamilton,local,home-insurance,on,hamilton,530,model,56,local,property-local,"ratehub, rates.ca",/home-insurance/ontario/hamilton/,2,
+home insurance surrey,local,home-insurance,bc,surrey,530,model,48,local,property-local,(none seen),/home-insurance/british-columbia/surrey/,2,
+doordash insurance canada,national,car-insurance,,,480,model,25,commercial,auto-persona,"everlance, thinkinsure",/guides/gig-driver-insurance-uber-doordash-ontario/,2,Gig drivers are the group most exposed by the Ontario accident-benefits opt-out.
+best critical illness insurance canada,national,critical-illness-insurance,,,480,model,45,commercial,living-benefits,policyadvisor,,2,Planned: /critical-illness-insurance/best-companies/ with methodology.
+key person insurance,national,life-insurance,,,480,model,35,commercial,business-benefits,policyadvisor,,2,"Planned: /business-insurance/key-person/ (life product, business buyer)."
+contractor liability insurance,national,contractor-insurance,,,480,model,35,commercial,business-trades,"ratehub, rates.ca",/contractor-insurance/,2,
+strata insurance deductible bc,provincial,condo-insurance,bc,,480,model,30,informational,property-coverage,BC brokers,/guides/condo-insurance-deductible-assessment-explained/,2,BC strata deductibles are the national extreme. BC banned strata referral fees in 2020.
+health insurance bc,provincial,health-dental-insurance,bc,,470,model,53,commercial,health-province,policyadvisor,/health-dental-insurance/british-columbia/,2,
+home insurance halifax,local,home-insurance,ns,halifax,430,model,48,local,property-local,(none seen),/home-insurance/nova-scotia/halifax/,2,
+home insurance london ontario,local,home-insurance,on,london,420,model,56,local,property-local,(none seen),/home-insurance/ontario/london/,2,
+health insurance alberta,provincial,health-dental-insurance,ab,,410,model,53,commercial,health-province,policyadvisor,/health-dental-insurance/alberta/,2,
+500000 life insurance cost,national,term-life-insurance,,,390,model,35,informational,life-cost,policyadvisor,/guides/how-much-does-life-insurance-cost-canada/,2,
+alberta car insurance calculator,provincial,car-insurance,ab,,390,model,35,transactional,auto-tools,rates.ca,/quote/car-insurance/,2,
+home insurance markham,local,home-insurance,on,markham,350,model,56,local,property-local,(none seen),/home-insurance/ontario/markham/,2,
+home insurance vaughan,local,home-insurance,on,vaughan,340,model,56,local,property-local,(none seen),/home-insurance/ontario/vaughan/,2,
+1 million life insurance cost,national,term-life-insurance,,,320,model,35,informational,life-cost,policyadvisor,/guides/how-much-does-life-insurance-cost-canada/,2,
+home insurance manitoba,provincial,home-insurance,mb,,320,model,39,commercial,property-province,(none seen),/home-insurance/manitoba/,2,
+super visa insurance toronto,local,super-visa-insurance,on,toronto,320,model,36,local,travel-visitors,(none seen),/super-visa-insurance/ontario/toronto/,2,
+insurance advisor ottawa,local,,on,ottawa,300,model,30,local,advisors,"local brokers, thinkinsure, rates.ca (broker pages)",/insurance/ontario/ottawa/,2,City hub. Add a Google Business Profile only where an advisor really works from that city.
+super visa insurance brampton,local,super-visa-insurance,on,brampton,300,model,36,local,travel-visitors,(none seen),/super-visa-insurance/ontario/brampton/,2,
+insurance advisor edmonton,local,,ab,edmonton,300,model,30,local,advisors,"local brokers, thinkinsure, rates.ca (broker pages)",/insurance/alberta/edmonton/,2,City hub. Add a Google Business Profile only where an advisor really works from that city.
+home insurance saskatoon,local,home-insurance,sk,saskatoon,290,model,48,local,property-local,(none seen),/home-insurance/saskatchewan/saskatoon/,2,
+home insurance saskatchewan,provincial,home-insurance,sk,,270,model,39,commercial,property-province,(none seen),/home-insurance/saskatchewan/,2,
+super visa insurance surrey,local,super-visa-insurance,bc,surrey,270,model,28,local,travel-visitors,(none seen),/super-visa-insurance/british-columbia/surrey/,2,
+home insurance burnaby,local,home-insurance,bc,burnaby,270,model,48,local,property-local,(none seen),/home-insurance/british-columbia/burnaby/,2,
+mortgage life insurance calculator,national,mortgage-life-insurance,,,260,model,25,transactional,life-tools,(none seen),/calculators/mortgage-protection/,2,No competitor tool seen.
+how much contents insurance do i need,national,tenant-insurance,,,260,model,20,transactional,property-tools,(none seen),/calculators/tenant-condo-coverage/,2,
+home insurance regina,local,home-insurance,sk,regina,250,model,48,local,property-local,(none seen),/home-insurance/saskatchewan/regina/,2,
+term life insurance ontario,provincial,term-life-insurance,on,,240,model,46,commercial,life-province,policyadvisor,/term-life-insurance/ontario/,2,
+contractor insurance ontario,provincial,contractor-insurance,on,,240,model,37,commercial,business-province,(none seen),/contractor-insurance/ontario/,2,
+home insurance richmond bc,local,home-insurance,bc,richmond,240,model,40,local,property-local,(none seen),/home-insurance/british-columbia/richmond/,2,
+insurance advisor winnipeg,local,,mb,winnipeg,240,model,30,local,advisors,"local brokers, thinkinsure, rates.ca (broker pages)",/insurance/manitoba/winnipeg/,2,City hub. Add a Google Business Profile only where an advisor really works from that city.
+insurance advisor mississauga,local,,on,mississauga,230,model,30,local,advisors,"local brokers, thinkinsure, rates.ca (broker pages)",/insurance/ontario/mississauga/,2,City hub. Add a Google Business Profile only where an advisor really works from that city.
+super visa insurance calgary,local,super-visa-insurance,ab,calgary,230,model,36,local,travel-visitors,(none seen),/super-visa-insurance/alberta/calgary/,2,
+insurance advisor vancouver,local,,bc,vancouver,220,model,30,local,advisors,"local brokers, thinkinsure, rates.ca (broker pages)",/insurance/british-columbia/vancouver/,2,City hub. Add a Google Business Profile only where an advisor really works from that city.
+insurance advisor brampton,local,,on,brampton,210,model,30,local,advisors,"local brokers, thinkinsure, rates.ca (broker pages)",/insurance/ontario/brampton/,2,City hub. Add a Google Business Profile only where an advisor really works from that city.
+basement flood insurance toronto,local,home-insurance,on,toronto,210,model,25,local,property-coverage,"mcdougall, brokers",/guides/does-home-insurance-cover-water-damage-canada/,2,
+business insurance mississauga,local,business-insurance,on,mississauga,200,model,41,local,business-local,(none seen),/business-insurance/ontario/mississauga/,2,
+business insurance brampton,local,business-insurance,on,brampton,190,model,41,local,business-local,(none seen),/business-insurance/ontario/brampton/,2,
+insurance advisor hamilton,local,,on,hamilton,190,model,30,local,advisors,"local brokers, thinkinsure, rates.ca (broker pages)",/insurance/ontario/hamilton/,2,City hub. Add a Google Business Profile only where an advisor really works from that city.
+business insurance vancouver,local,business-insurance,bc,vancouver,190,model,41,local,business-local,(none seen),/business-insurance/british-columbia/vancouver/,2,
+insurance advisor surrey,local,,bc,surrey,190,model,30,local,advisors,"local brokers, thinkinsure, rates.ca (broker pages)",/insurance/british-columbia/surrey/,2,City hub. Add a Google Business Profile only where an advisor really works from that city.
+mortgage life insurance ontario,provincial,mortgage-life-insurance,on,,170,model,37,commercial,life-mortgage,(none seen),/mortgage-life-insurance/ontario/,2,
+business insurance hamilton,local,business-insurance,on,hamilton,170,model,41,local,business-local,(none seen),/business-insurance/ontario/hamilton/,2,
+business insurance surrey,local,business-insurance,bc,surrey,170,model,33,local,business-local,(none seen),/business-insurance/british-columbia/surrey/,2,
+life insurance markham,local,life-insurance,on,markham,160,model,43,local,life-local,(none seen),/life-insurance/ontario/markham/,2,
+life insurance vaughan,local,life-insurance,on,vaughan,160,model,43,local,life-local,(none seen),/life-insurance/ontario/vaughan/,2,
+insurance advisor halifax,local,,ns,halifax,160,model,30,local,advisors,"local brokers, thinkinsure, rates.ca (broker pages)",/insurance/nova-scotia/halifax/,2,City hub. Add a Google Business Profile only where an advisor really works from that city.
+insurance advisor london ontario,local,,on,london,150,model,30,local,advisors,"local brokers, thinkinsure, rates.ca (broker pages)",/insurance/ontario/london/,2,City hub. Add a Google Business Profile only where an advisor really works from that city.
+business insurance manitoba,provincial,business-insurance,mb,,130,model,34,commercial,business-province,(none seen),/business-insurance/manitoba/,2,
+business insurance london ontario,local,business-insurance,on,london,130,model,41,local,business-local,(none seen),/business-insurance/ontario/london/,2,
+life insurance kitchener,local,life-insurance,on,kitchener,130,model,43,local,life-local,(none seen),/life-insurance/ontario/kitchener/,2,
+life insurance burnaby,local,life-insurance,bc,burnaby,130,model,35,local,life-local,(none seen),/life-insurance/british-columbia/burnaby/,2,
+life insurance saskatoon,local,life-insurance,sk,saskatoon,130,model,35,local,life-local,(none seen),/life-insurance/saskatchewan/saskatoon/,2,
+business insurance halifax,local,business-insurance,ns,halifax,130,model,33,local,business-local,(none seen),/business-insurance/nova-scotia/halifax/,2,
+life insurance windsor,local,life-insurance,on,windsor,120,model,43,local,life-local,(none seen),/life-insurance/ontario/windsor/,2,
+life insurance regina,local,life-insurance,sk,regina,120,model,35,local,life-local,(none seen),/life-insurance/saskatchewan/regina/,2,
+business insurance saskatchewan,provincial,business-insurance,sk,,110,model,34,commercial,business-province,(none seen),/business-insurance/saskatchewan/,2,
+business insurance markham,local,business-insurance,on,markham,110,model,41,local,business-local,(none seen),/business-insurance/ontario/markham/,2,
+business insurance vaughan,local,business-insurance,on,vaughan,110,model,41,local,business-local,(none seen),/business-insurance/ontario/vaughan/,2,
+life insurance manitoba,provincial,life-insurance,mb,,98,model,38,commercial,life-province,policyadvisor,/life-insurance/manitoba/,2,
+business insurance nova scotia,provincial,business-insurance,ns,,97,model,34,commercial,business-province,(none seen),/business-insurance/nova-scotia/,2,
+disability insurance bc,provincial,disability-insurance,bc,,94,model,32,commercial,living-benefits,(none seen),/disability-insurance/british-columbia/,2,
+business insurance saskatoon,local,business-insurance,sk,saskatoon,90,model,33,local,business-local,(none seen),/business-insurance/saskatchewan/saskatoon/,2,
+business insurance burnaby,local,business-insurance,bc,burnaby,86,model,33,local,business-local,(none seen),/business-insurance/british-columbia/burnaby/,2,
+life insurance saskatchewan,provincial,life-insurance,sk,,84,model,34,commercial,life-province,(none seen),/life-insurance/saskatchewan/,2,
+life insurance kelowna,local,life-insurance,bc,kelowna,82,model,35,local,life-local,(none seen),/life-insurance/british-columbia/kelowna/,2,
+disability insurance alberta,provincial,disability-insurance,ab,,81,model,32,commercial,living-benefits,(none seen),/disability-insurance/alberta/,2,
+critical illness insurance bc,provincial,critical-illness-insurance,bc,,77,model,29,commercial,living-benefits,(none seen),/critical-illness-insurance/british-columbia/,2,
+life insurance nova scotia,provincial,life-insurance,ns,,73,model,34,commercial,life-province,(none seen),/life-insurance/nova-scotia/,2,
+critical illness insurance alberta,provincial,critical-illness-insurance,ab,,66,model,29,commercial,living-benefits,(none seen),/critical-illness-insurance/alberta/,2,
+life insurance st johns,local,life-insurance,nl,st-johns,66,model,35,local,life-local,(none seen),/life-insurance/newfoundland-and-labrador/st-johns/,2,
+life insurance new brunswick,provincial,life-insurance,nb,,60,model,34,commercial,life-province,(none seen),/life-insurance/new-brunswick/,2,
+group benefits bc,provincial,group-benefits,bc,,51,model,33,commercial,business-benefits,policyadvisor,/group-benefits/british-columbia/,2,
+group benefits alberta,provincial,group-benefits,ab,,44,model,33,commercial,business-benefits,policyadvisor,/group-benefits/alberta/,2,
+travel insurance,national,travel-insurance,,,40000,model,80,commercial,travel,"sun life, manulife, credit cards, ratehub",/travel-insurance/,3,"Huge but low lead value. Capture through super visa, snowbird and visitors."
+auto insurance,national,car-insurance,,,33000,model,82,commercial,auto-core,"ratehub, rates.ca, insurer brands",/car-insurance/,3,"Synonym. Use in H2s and meta descriptions, not a separate page."
+assurance auto,provincial,car-insurance,qc,,33000,model,75,transactional,fr-quebec,"sonnet, desjardins, belairdirect, beneva",,3,"Planned: /fr/assurance-auto/. Needs AMF registration (Alternative Distribution Methods regulation), French pages and hreflang."
+assurance habitation,provincial,home-insurance,qc,,22000,model,70,transactional,fr-quebec,"sonnet, desjardins, intact",,3,Planned: /fr/assurance-habitation/.
+assurance vie,provincial,life-insurance,qc,,9900,model,65,commercial,fr-quebec,"desjardins, iA, beneva, sun life",,3,Planned: /fr/assurance-vie/. No competitor geo page seen for Quebec life insurance; PolicyAdvisor is not licensed there.
+soumission assurance auto,provincial,car-insurance,qc,,6600,model,65,transactional,fr-quebec,"sonnet (""soumission 100% en ligne"")",,3,"Planned: /fr/soumission/ (quote flow in French). Use ""soumission"" in French titles."
+liability insurance,national,business-insurance,,,5400,model,65,commercial,business,"ratehub, rates.ca",/business-insurance/,3,
+assurance locataire,provincial,tenant-insurance,qc,,4400,model,55,commercial,fr-quebec,sonnet,,3,Planned: /fr/assurance-locataire/.
+long term disability insurance,national,disability-insurance,,,2900,model,55,informational,living-benefits,policyadvisor,/disability-insurance/,3,Much of the volume is about group or claims; qualify carefully.
+car insurance quebec,provincial,car-insurance,qc,,2200,model,71,commercial,auto-province,"ratehub, rates.ca, sonnet",/car-insurance/quebec/,3,Quebec waitlist until AMF registration; English phrase only (French terms listed separately).
+best car insurance companies canada,national,car-insurance,,,1900,model,60,commercial,auto-reviews,"ratehub blog, mychoice, moneygeek",,3,"Planned: /car-insurance/best-companies/. Needs a published ranking methodology first (Competition Act, RIBO)."
+comprehensive vs collision insurance,national,car-insurance,,,1600,model,40,informational,auto-coverage,rates.ca coverage pages,,3,Planned guide. The glossary covers the terms meanwhile.
+tenant insurance ontario,provincial,tenant-insurance,on,,1600,model,62,commercial,property-province,"ratehub, rates.ca, sonnet",/tenant-insurance/ontario/,3,
+assurance auto montréal,local,car-insurance,qc,montreal,1600,model,55,local,fr-quebec,ratehub (EN only),,3,Planned: /fr/assurance-auto/quebec/montreal/.
+car insurance after accident,national,car-insurance,,,1300,model,35,informational,auto-persona,rates.ca,,3,Planned guide under the high-risk cluster.
+universal life insurance,national,whole-life-insurance,,,1300,model,55,commercial,life-core,"policyadvisor, sun life, ratehub",,3,Planned section on /whole-life-insurance/ or a separate page.
+snowbird travel insurance,national,travel-insurance,,,1300,model,45,commercial,travel,(not seen),,3,Planned: /travel-insurance/snowbird/.
+travel insurance for seniors,national,travel-insurance,,,1300,model,50,commercial,travel,sun life,,3,Planned: /travel-insurance/seniors/ (with the snowbird page).
+commercial auto insurance,national,business-insurance,,,1300,model,50,commercial,business,rates.ca,,3,Planned: /business-insurance/commercial-auto/.
+trucking insurance,national,business-insurance,,,1300,model,50,commercial,business-trades,"brokers, specialty MGAs",,3,Planned: /business-insurance/trucking/ (commercial auto).
+assurance maladies graves,provincial,critical-illness-insurance,qc,,1300,model,40,commercial,fr-quebec,"desjardins, sun life",,3,Planned: /fr/assurance-maladies-graves/.
+tenant insurance toronto,local,tenant-insurance,on,toronto,1300,model,56,local,property-local,"ratehub, rates.ca",/tenant-insurance/ontario/toronto/,3,
+car insurance montreal,local,car-insurance,qc,montreal,1200,model,64,local,auto-local,ratehub,/car-insurance/quebec/montreal/,3,Quebec waitlist until AMF registration.
+assurance invalidité,provincial,disability-insurance,qc,,1000,model,40,commercial,fr-quebec,"desjardins, iA",,3,Planned: /fr/assurance-invalidite/.
+assurance habitation montréal,local,home-insurance,qc,montreal,1000,model,50,local,fr-quebec,sonnet,,3,Planned: /fr/assurance-habitation/quebec/montreal/.
+home and auto insurance bundle,national,car-insurance,,,880,model,45,commercial,auto-core,"ratehub, rates.ca",,3,Planned: /car-insurance/home-and-auto-bundle/.
+cottage insurance,national,home-insurance,,,880,model,40,commercial,property-niche,rates.ca (cottage rental),,3,Planned: /home-insurance/cottage-seasonal/.
+sonnet insurance review,national,car-insurance,,,880,model,30,commercial,brand-reviews,"youset, policyme, lowestrates, comparewise",,3,Planned: /reviews/{insurer}/. Brand-review SERPs looked soft.
+assurance auto québec,local,car-insurance,qc,quebec-city,880,model,50,local,fr-quebec,sonnet,,3,Planned: /fr/assurance-auto/quebec/ville-de-quebec/.
+cheap car insurance mississauga,local,car-insurance,on,mississauga,840,model,79,transactional,auto-local,"rates.ca, ratehub, sonnet, mychoice/squareone/thinkinsure",/car-insurance/ontario/mississauga/,3,"Rates.ca titles lead with ""Cheap""; answer with factors and FSA data, not a price promise."
+car insurance winnipeg,local,car-insurance,mb,winnipeg,820,model,64,local,auto-local,ratehub,/car-insurance/manitoba/winnipeg/,3,MPI sells basic auto; target optional coverage. Low lead value.
+condo insurance ontario,provincial,condo-insurance,on,,730,model,59,commercial,property-province,"ratehub, rates.ca, sonnet",/condo-insurance/ontario/,3,
+is life insurance taxable in canada,national,life-insurance,,,720,model,40,informational,life-tax,policyadvisor,,3,Planned guide.
+international student health insurance canada,national,travel-insurance,,,720,model,40,commercial,travel-visitors,policyadvisor,,3,Planned: /travel-insurance/international-students/.
+airbnb insurance canada,national,home-insurance,,,720,model,35,commercial,property-niche,(not seen),,3,Planned: short-term rental insurance page.
+car insurance surrey,local,car-insurance,bc,surrey,710,model,60,local,auto-local,(none seen),/car-insurance/british-columbia/surrey/,3,ICBC sells basic auto; target optional coverage. Low lead value.
+tenant insurance calgary,local,tenant-insurance,ab,calgary,710,model,56,local,property-local,"ratehub, rates.ca",/tenant-insurance/alberta/calgary/,3,
+car insurance oakville,local,car-insurance,on,oakville,650,model,68,local,auto-local,"rates.ca, ratehub",/car-insurance/ontario/oakville/,3,
+car insurance windsor,local,car-insurance,on,windsor,640,model,76,local,auto-local,"rates.ca, ratehub",/car-insurance/ontario/windsor/,3,
+car insurance oshawa,local,car-insurance,on,oshawa,610,model,68,local,auto-local,"rates.ca, ratehub",/car-insurance/ontario/oshawa/,3,
+senior car insurance,national,car-insurance,,,590,model,35,commercial,auto-persona,"ratehub, rates.ca guide",,3,Planned: /car-insurance/seniors/.
+joint life insurance,national,life-insurance,,,590,model,40,commercial,life-audience,"sun life, policyadvisor",,3,Planned: /life-insurance/joint/.
+cyber insurance canada,national,business-insurance,,,590,model,45,commercial,business,ratehub,,3,Planned: /business-insurance/cyber/.
+restaurant insurance,national,business-insurance,,,590,model,40,commercial,business-trades,rates.ca (food & beverage),,3,Planned: /business-insurance/restaurant/.
+cheap car insurance ottawa,local,car-insurance,on,ottawa,580,model,79,transactional,auto-local,"rates.ca, ratehub, sonnet, mychoice/squareone/thinkinsure",/car-insurance/ontario/ottawa/,3,"Rates.ca titles lead with ""Cheap""; answer with factors and FSA data, not a price promise."
+tenant insurance ottawa,local,tenant-insurance,on,ottawa,580,model,48,local,property-local,(none seen),/tenant-insurance/ontario/ottawa/,3,
+tenant insurance bc,provincial,tenant-insurance,bc,,570,model,46,commercial,property-province,sonnet,/tenant-insurance/british-columbia/,3,
+how much is car insurance in brampton,local,car-insurance,on,brampton,570,model,71,informational,auto-local,"rates.ca, ratehub, mychoice/squareone/thinkinsure",/car-insurance/ontario/brampton/,3,Ratehub ranks a blog post for this. The city page answers it in the first two sentences with a dated average.
+car insurance kitchener,local,car-insurance,on,kitchener,560,model,76,local,auto-local,"rates.ca, ratehub",/car-insurance/ontario/kitchener/,3,
+how much is car insurance in calgary,local,car-insurance,ab,calgary,550,model,71,informational,auto-local,"rates.ca, ratehub",/car-insurance/alberta/calgary/,3,Ratehub ranks a blog post for this. The city page answers it in the first two sentences with a dated average.
+home insurance quebec,provincial,home-insurance,qc,,520,model,53,commercial,property-province,sonnet,/home-insurance/quebec/,3,Quebec waitlist until AMF registration; English phrase only (French terms listed separately).
+cheap car insurance hamilton,local,car-insurance,on,hamilton,520,model,65,transactional,auto-local,"rates.ca, ratehub, sonnet, mychoice/squareone/thinkinsure",/car-insurance/ontario/hamilton/,3,"Rates.ca titles lead with ""Cheap""; answer with factors and FSA data, not a price promise."
+car insurance burlington,local,car-insurance,on,burlington,500,model,68,local,auto-local,"rates.ca, ratehub",/car-insurance/ontario/burlington/,3,
+car insurance whitby,local,car-insurance,on,whitby,490,model,56,local,auto-local,rates.ca,/car-insurance/ontario/whitby/,3,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+car insurance ajax,local,car-insurance,on,ajax,490,model,56,local,auto-local,rates.ca,/car-insurance/ontario/ajax/,3,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+20 year term life insurance,national,term-life-insurance,,,480,model,40,commercial,life-core,sun life,/term-life-insurance/,3,
+out of province travel insurance,national,travel-insurance,,,480,model,35,informational,travel,sun life,/travel-insurance/,3,
+home based business insurance,national,business-insurance,,,480,model,30,commercial,business,"ratehub blog, sonnet blog",,3,Planned: /business-insurance/home-based/.
+manulife life insurance review,national,life-insurance,,,480,model,35,commercial,brand-reviews,policyadvisor,,3,Planned: /reviews/manulife/.
+icbc low kilometre discount,provincial,car-insurance,bc,,480,model,30,informational,auto-regulation,ICBC,/guides/icbc-optional-insurance-explained/,3,
+how much is car insurance in mississauga,local,car-insurance,on,mississauga,480,model,79,informational,auto-local,"rates.ca, ratehub, sonnet, mychoice/squareone/thinkinsure",/car-insurance/ontario/mississauga/,3,Ratehub ranks a blog post for this. The city page answers it in the first two sentences with a dated average.
+assurance auto laval,local,car-insurance,qc,laval,480,model,45,local,fr-quebec,sonnet,,3,Planned: /fr/assurance-auto/quebec/laval/.
+cheap car insurance vaughan,local,car-insurance,on,vaughan,460,model,67,transactional,auto-local,rates.ca,/car-insurance/ontario/vaughan/,3,"Rates.ca titles lead with ""Cheap""; answer with factors and FSA data, not a price promise."
+tenant insurance winnipeg,local,tenant-insurance,mb,winnipeg,450,model,40,local,property-local,(none seen),/tenant-insurance/manitoba/winnipeg/,3,
+cheap car insurance markham,local,car-insurance,on,markham,430,model,71,transactional,auto-local,"rates.ca, ratehub",/car-insurance/ontario/markham/,3,"Rates.ca titles lead with ""Cheap""; answer with factors and FSA data, not a price promise."
+cheap car insurance halifax,local,car-insurance,ns,halifax,430,model,59,transactional,auto-local,ratehub,/car-insurance/nova-scotia/halifax/,3,"Rates.ca titles lead with ""Cheap""; answer with factors and FSA data, not a price promise."
+how much is car insurance in edmonton,local,car-insurance,ab,edmonton,420,model,71,informational,auto-local,"rates.ca, ratehub",/car-insurance/alberta/edmonton/,3,Ratehub ranks a blog post for this. The city page answers it in the first two sentences with a dated average.
+tenant insurance brampton,local,tenant-insurance,on,brampton,410,model,48,local,property-local,(none seen),/tenant-insurance/ontario/brampton/,3,
+car insurance barrie,local,car-insurance,on,barrie,400,model,72,local,auto-local,"rates.ca, ratehub, sonnet",/car-insurance/ontario/barrie/,3,
+life insurance for smokers,national,life-insurance,,,390,model,35,commercial,life-conditions,policyadvisor,,3,Planned: /life-insurance/conditions/smokers/.
+sun life vs manulife,national,life-insurance,,,390,model,30,commercial,life-reviews,policyadvisor,,3,Planned: /compare/sun-life-vs-manulife-term-life/.
+cleaning business insurance,national,contractor-insurance,,,390,model,25,commercial,business-trades,rates.ca,,3,Planned: /contractor-insurance/cleaning/.
+sun life life insurance review,national,life-insurance,,,390,model,35,commercial,brand-reviews,policyadvisor,,3,Planned: /reviews/sun-life/.
+car insurance st catharines,local,car-insurance,on,st-catharines,360,model,64,local,auto-local,rates.ca,/car-insurance/ontario/st-catharines/,3,
+tenant insurance surrey,local,tenant-insurance,bc,surrey,360,model,40,local,property-local,(none seen),/tenant-insurance/british-columbia/surrey/,3,
+car insurance st johns,local,car-insurance,nl,st-johns,360,model,64,local,auto-local,ratehub,/car-insurance/newfoundland-and-labrador/st-johns/,3,
+car insurance guelph,local,car-insurance,on,guelph,330,model,68,local,auto-local,"rates.ca, ratehub",/car-insurance/ontario/guelph/,3,
+life insurance for diabetics,national,life-insurance,,,320,model,30,commercial,life-conditions,policyadvisor,,3,Planned conditions hub: /life-insurance/conditions/{condition}/.
+landscaping insurance,national,contractor-insurance,,,320,model,25,commercial,business-trades,ratehub blog,,3,Planned: /contractor-insurance/landscaping/.
+coverme insurance review,national,life-insurance,,,320,model,30,commercial,brand-reviews,policyadvisor,,3,"Direct-to-consumer ""instant"" competitor; compare honestly."
+condo insurance calgary,local,condo-insurance,ab,calgary,320,model,52,local,property-local,rates.ca,/condo-insurance/alberta/calgary/,3,
+car insurance red deer,local,car-insurance,ab,red-deer,310,model,56,local,auto-local,ratehub,/car-insurance/alberta/red-deer/,3,
+car insurance waterloo,local,car-insurance,on,waterloo,300,model,64,local,auto-local,ratehub,/car-insurance/ontario/waterloo/,3,
+cheap car insurance london ontario,local,car-insurance,on,london,290,model,71,transactional,auto-local,"rates.ca, ratehub",/car-insurance/ontario/london/,3,"Rates.ca titles lead with ""Cheap""; answer with factors and FSA data, not a price promise."
+home insurance kitchener,local,home-insurance,on,kitchener,280,model,56,local,property-local,(none seen),/home-insurance/ontario/kitchener/,3,
+car insurance kingston,local,car-insurance,on,kingston,280,model,68,local,auto-local,"rates.ca, ratehub",/car-insurance/ontario/kingston/,3,
+car insurance lethbridge,local,car-insurance,ab,lethbridge,280,model,56,local,auto-local,ratehub,/car-insurance/alberta/lethbridge/,3,
+car insurance moncton,local,car-insurance,nb,moncton,270,model,56,local,auto-local,ratehub,/car-insurance/new-brunswick/moncton/,3,
+plumber insurance,national,contractor-insurance,,,260,model,25,commercial,business-trades,rates.ca,/contractor-insurance/,3,"Planned trade pages: /contractor-insurance/{trade}/ (plumber, HVAC, electrician, cleaning, landscaping)."
+electrician insurance,national,contractor-insurance,,,260,model,25,commercial,business-trades,(not seen),,3,Planned: /contractor-insurance/electrician/.
+roofing insurance,national,contractor-insurance,,,260,model,25,commercial,business-trades,(not seen),,3,Planned: /contractor-insurance/roofing/.
+handyman insurance,national,contractor-insurance,,,260,model,20,commercial,business-trades,(not seen),/contractor-insurance/,3,
+condo insurance bc,provincial,condo-insurance,bc,,260,model,43,commercial,property-province,sonnet,/condo-insurance/british-columbia/,3,
+is tenant insurance mandatory in alberta,provincial,tenant-insurance,ab,,260,model,25,informational,property-coverage,sonnet faq,/tenant-insurance/alberta/,3,
+condo insurance ottawa,local,condo-insurance,on,ottawa,260,model,52,local,property-local,rates.ca,/condo-insurance/ontario/ottawa/,3,
+how much is car insurance in vaughan,local,car-insurance,on,vaughan,260,model,67,informational,auto-local,rates.ca,/car-insurance/ontario/vaughan/,3,Ratehub ranks a blog post for this. The city page answers it in the first two sentences with a dated average.
+home insurance windsor,local,home-insurance,on,windsor,260,model,64,local,property-local,"ratehub, rates.ca",/home-insurance/ontario/windsor/,3,
+condo insurance edmonton,local,condo-insurance,ab,edmonton,260,model,52,local,property-local,rates.ca,/condo-insurance/alberta/edmonton/,3,
+assurance vie montréal,local,life-insurance,qc,montreal,260,model,25,local,fr-quebec,(none seen),,3,Planned: /fr/assurance-vie/quebec/montreal/.
+how much is car insurance in halifax,local,car-insurance,ns,halifax,250,model,59,informational,auto-local,ratehub,/car-insurance/nova-scotia/halifax/,3,Ratehub ranks a blog post for this. The city page answers it in the first two sentences with a dated average.
+car insurance saint john,local,car-insurance,nb,saint-john,250,model,56,local,auto-local,ratehub,/car-insurance/new-brunswick/saint-john/,3,
+home insurance nova scotia,provincial,home-insurance,ns,,240,model,43,commercial,property-province,ratehub,/home-insurance/nova-scotia/,3,
+home insurance oakville,local,home-insurance,on,oakville,240,model,48,local,property-local,(none seen),/home-insurance/ontario/oakville/,3,
+home insurance richmond hill,local,home-insurance,on,richmond-hill,230,model,48,local,property-local,(none seen),/home-insurance/ontario/richmond-hill/,3,
+home insurance burlington,local,home-insurance,on,burlington,220,model,48,local,property-local,(none seen),/home-insurance/ontario/burlington/,3,
+hvac insurance,national,contractor-insurance,,,210,model,25,commercial,business-trades,rates.ca,,3,Planned: /contractor-insurance/hvac/.
+business insurance quebec,provincial,business-insurance,qc,,210,model,44,commercial,business-province,(none seen),/business-insurance/quebec/,3,Quebec waitlist until AMF registration; English phrase only (French terms listed separately).
+home insurance oshawa,local,home-insurance,on,oshawa,210,model,52,local,property-local,rates.ca,/home-insurance/ontario/oshawa/,3,
+condo insurance winnipeg,local,condo-insurance,mb,winnipeg,210,model,40,local,property-local,(none seen),/condo-insurance/manitoba/winnipeg/,3,
+car insurance fredericton,local,car-insurance,nb,fredericton,210,model,56,local,auto-local,ratehub,/car-insurance/new-brunswick/fredericton/,3,
+condo insurance mississauga,local,condo-insurance,on,mississauga,200,model,48,local,property-local,(none seen),/condo-insurance/ontario/mississauga/,3,
+super visa insurance bc,provincial,super-visa-insurance,bc,,190,model,34,commercial,travel-visitors,(none seen),/super-visa-insurance/british-columbia/,3,Province page targets super visa buyers sponsoring parents locally.
+home insurance new brunswick,provincial,home-insurance,nb,,190,model,43,commercial,property-province,sonnet,/home-insurance/new-brunswick/,3,
+super visa insurance mississauga,local,super-visa-insurance,on,mississauga,190,model,36,local,travel-visitors,(none seen),/super-visa-insurance/ontario/mississauga/,3,
+condo insurance brampton,local,condo-insurance,on,brampton,190,model,48,local,property-local,(none seen),/condo-insurance/ontario/brampton/,3,
+home insurance abbotsford,local,home-insurance,bc,abbotsford,190,model,40,local,property-local,(none seen),/home-insurance/british-columbia/abbotsford/,3,
+home insurance barrie,local,home-insurance,on,barrie,180,model,48,local,property-local,(none seen),/home-insurance/ontario/barrie/,3,
+home insurance guelph,local,home-insurance,on,guelph,180,model,48,local,property-local,(none seen),/home-insurance/ontario/guelph/,3,
+life insurance montreal,local,life-insurance,qc,montreal,180,model,35,local,life-local,(none seen),/life-insurance/quebec/montreal/,3,Quebec waitlist until AMF registration.
+home insurance coquitlam,local,home-insurance,bc,coquitlam,180,model,40,local,property-local,(none seen),/home-insurance/british-columbia/coquitlam/,3,
+home insurance kelowna,local,home-insurance,bc,kelowna,180,model,48,local,property-local,(none seen),/home-insurance/british-columbia/kelowna/,3,
+super visa insurance edmonton,local,super-visa-insurance,ab,edmonton,180,model,36,local,travel-visitors,(none seen),/super-visa-insurance/alberta/edmonton/,3,
+super visa insurance alberta,provincial,super-visa-insurance,ab,,170,model,34,commercial,travel-visitors,(none seen),/super-visa-insurance/alberta/,3,Province page targets super visa buyers sponsoring parents locally.
+condo insurance hamilton,local,condo-insurance,on,hamilton,170,model,48,local,property-local,(none seen),/condo-insurance/ontario/hamilton/,3,
+home insurance st catharines,local,home-insurance,on,st-catharines,170,model,52,local,property-local,rates.ca,/home-insurance/ontario/st-catharines/,3,
+home insurance kingston,local,home-insurance,on,kingston,170,model,48,local,property-local,(none seen),/home-insurance/ontario/kingston/,3,
+condo insurance surrey,local,condo-insurance,bc,surrey,170,model,40,local,property-local,(none seen),/condo-insurance/british-columbia/surrey/,3,
+home insurance langley,local,home-insurance,bc,langley,170,model,32,local,property-local,(none seen),/home-insurance/british-columbia/langley/,3,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+super visa insurance winnipeg,local,super-visa-insurance,mb,winnipeg,170,model,28,local,travel-visitors,(none seen),/super-visa-insurance/manitoba/winnipeg/,3,
+life insurance quebec,provincial,life-insurance,qc,,160,model,44,commercial,life-province,(none seen),/life-insurance/quebec/,3,Quebec waitlist until AMF registration; English phrase only (French terms listed separately).
+home insurance waterloo,local,home-insurance,on,waterloo,150,model,52,local,property-local,rates.ca,/home-insurance/ontario/waterloo/,3,
+car insurance charlottetown,local,car-insurance,pe,charlottetown,150,model,52,local,auto-local,(none seen),/car-insurance/prince-edward-island/charlottetown/,3,
+business insurance calculator,national,business-insurance,,,140,model,15,transactional,business,(none seen),/calculators/business-coverage/,3,
+health insurance manitoba,provincial,health-dental-insurance,mb,,140,model,39,commercial,health-province,(none seen),/health-dental-insurance/manitoba/,3,
+home insurance st johns,local,home-insurance,nl,st-johns,140,model,48,local,property-local,(none seen),/home-insurance/newfoundland-and-labrador/st-johns/,3,
+home insurance newfoundland,provincial,home-insurance,nl,,130,model,39,commercial,property-province,(none seen),/home-insurance/newfoundland-and-labrador/,3,
+insurance advisor markham,local,,on,markham,130,model,30,local,advisors,"local brokers, thinkinsure, rates.ca (broker pages)",/insurance/ontario/markham/,3,City hub. Add a Google Business Profile only where an advisor really works from that city.
+home insurance red deer,local,home-insurance,ab,red-deer,130,model,40,local,property-local,(none seen),/home-insurance/alberta/red-deer/,3,
+home insurance lethbridge,local,home-insurance,ab,lethbridge,130,model,40,local,property-local,(none seen),/home-insurance/alberta/lethbridge/,3,
+health insurance saskatchewan,provincial,health-dental-insurance,sk,,120,model,39,commercial,health-province,(none seen),/health-dental-insurance/saskatchewan/,3,
+insurance advisor vaughan,local,,on,vaughan,120,model,30,local,advisors,"local brokers, thinkinsure, rates.ca (broker pages)",/insurance/ontario/vaughan/,3,City hub. Add a Google Business Profile only where an advisor really works from that city.
+business insurance montreal,local,business-insurance,qc,montreal,120,model,33,local,business-local,(none seen),/business-insurance/quebec/montreal/,3,Quebec waitlist until AMF registration.
+home insurance victoria,local,home-insurance,bc,victoria,120,model,48,local,property-local,(none seen),/home-insurance/british-columbia/victoria/,3,
+health insurance nova scotia,provincial,health-dental-insurance,ns,,110,model,39,commercial,health-province,(none seen),/health-dental-insurance/nova-scotia/,3,
+super visa insurance ottawa,local,super-visa-insurance,on,ottawa,110,model,36,local,travel-visitors,(none seen),/super-visa-insurance/ontario/ottawa/,3,
+life insurance oakville,local,life-insurance,on,oakville,110,model,35,local,life-local,(none seen),/life-insurance/ontario/oakville/,3,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+life insurance richmond hill,local,life-insurance,on,richmond-hill,110,model,35,local,life-local,(none seen),/life-insurance/ontario/richmond-hill/,3,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+life insurance richmond bc,local,life-insurance,bc,richmond,110,model,27,local,life-local,(none seen),/life-insurance/british-columbia/richmond/,3,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+home insurance moncton,local,home-insurance,nb,moncton,110,model,40,local,property-local,(none seen),/home-insurance/new-brunswick/moncton/,3,
+insurance advisor kitchener,local,,on,kitchener,100,model,30,local,advisors,"local brokers, thinkinsure, rates.ca (broker pages)",/insurance/ontario/kitchener/,3,City hub. Add a Google Business Profile only where an advisor really works from that city.
+life insurance burlington,local,life-insurance,on,burlington,100,model,35,local,life-local,(none seen),/life-insurance/ontario/burlington/,3,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+super visa insurance vancouver,local,super-visa-insurance,bc,vancouver,100,model,36,local,travel-visitors,(none seen),/super-visa-insurance/british-columbia/vancouver/,3,
+insurance advisor saskatoon,local,,sk,saskatoon,100,model,30,local,advisors,"local brokers, thinkinsure, rates.ca (broker pages)",/insurance/saskatchewan/saskatoon/,3,City hub. Add a Google Business Profile only where an advisor really works from that city.
+insurance advisor burnaby,local,,bc,burnaby,99,model,30,local,advisors,"local brokers, thinkinsure, rates.ca (broker pages)",/insurance/british-columbia/burnaby/,3,City hub. Add a Google Business Profile only where an advisor really works from that city.
+home insurance saint john,local,home-insurance,nb,saint-john,99,model,40,local,property-local,(none seen),/home-insurance/new-brunswick/saint-john/,3,
+life insurance oshawa,local,life-insurance,on,oshawa,96,model,35,local,life-local,(none seen),/life-insurance/ontario/oshawa/,3,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+insurance advisor windsor,local,,on,windsor,92,model,30,local,advisors,"local brokers, thinkinsure, rates.ca (broker pages)",/insurance/ontario/windsor/,3,City hub. Add a Google Business Profile only where an advisor really works from that city.
+life insurance sudbury,local,life-insurance,on,sudbury,92,model,27,local,life-local,(none seen),/life-insurance/ontario/sudbury/,3,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+home insurance fredericton,local,home-insurance,nb,fredericton,92,model,40,local,property-local,(none seen),/home-insurance/new-brunswick/fredericton/,3,
+insurance advisor regina,local,,sk,regina,91,model,30,local,advisors,"local brokers, thinkinsure, rates.ca (broker pages)",/insurance/saskatchewan/regina/,3,City hub. Add a Google Business Profile only where an advisor really works from that city.
+hail damage red deer,local,home-insurance,ab,red-deer,90,model,15,local,property-coverage,(none seen),/guides/calgary-hail-insurance-guide/,3,
+health insurance new brunswick,provincial,health-dental-insurance,nb,,88,model,39,commercial,health-province,(none seen),/health-dental-insurance/new-brunswick/,3,
+business insurance kitchener,local,business-insurance,on,kitchener,88,model,41,local,business-local,(none seen),/business-insurance/ontario/kitchener/,3,
+life insurance abbotsford,local,life-insurance,bc,abbotsford,86,model,27,local,life-local,(none seen),/life-insurance/british-columbia/abbotsford/,3,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+term life insurance bc,provincial,term-life-insurance,bc,,85,model,38,commercial,life-province,policyadvisor,/term-life-insurance/british-columbia/,3,
+contractor insurance bc,provincial,contractor-insurance,bc,,85,model,29,commercial,business-province,(none seen),/contractor-insurance/british-columbia/,3,
+life insurance coquitlam,local,life-insurance,bc,coquitlam,84,model,27,local,life-local,(none seen),/life-insurance/british-columbia/coquitlam/,3,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+life insurance barrie,local,life-insurance,on,barrie,83,model,35,local,life-local,(none seen),/life-insurance/ontario/barrie/,3,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+life insurance guelph,local,life-insurance,on,guelph,82,model,35,local,life-local,(none seen),/life-insurance/ontario/guelph/,3,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+business insurance new brunswick,provincial,business-insurance,nb,,80,model,34,commercial,business-province,(none seen),/business-insurance/new-brunswick/,3,
+business insurance windsor,local,business-insurance,on,windsor,80,model,41,local,business-local,(none seen),/business-insurance/ontario/windsor/,3,
+life insurance cambridge,local,life-insurance,on,cambridge,79,model,27,local,life-local,(none seen),/life-insurance/ontario/cambridge/,3,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+life insurance whitby,local,life-insurance,on,whitby,79,model,27,local,life-local,(none seen),/life-insurance/ontario/whitby/,3,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+business insurance regina,local,business-insurance,sk,regina,79,model,33,local,business-local,(none seen),/business-insurance/saskatchewan/regina/,3,
+life insurance st catharines,local,life-insurance,on,st-catharines,78,model,35,local,life-local,(none seen),/life-insurance/ontario/st-catharines/,3,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+life insurance milton,local,life-insurance,on,milton,77,model,27,local,life-local,(none seen),/life-insurance/ontario/milton/,3,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+life insurance kingston,local,life-insurance,on,kingston,76,model,35,local,life-local,(none seen),/life-insurance/ontario/kingston/,3,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+life insurance langley,local,life-insurance,bc,langley,76,model,19,local,life-local,(none seen),/life-insurance/british-columbia/langley/,3,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+business insurance richmond bc,local,business-insurance,bc,richmond,75,model,25,local,business-local,(none seen),/business-insurance/british-columbia/richmond/,3,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+term life insurance alberta,provincial,term-life-insurance,ab,,74,model,38,commercial,life-province,policyadvisor,/term-life-insurance/alberta/,3,
+contractor insurance alberta,provincial,contractor-insurance,ab,,74,model,29,commercial,business-province,(none seen),/contractor-insurance/alberta/,3,
+life insurance ajax,local,life-insurance,on,ajax,74,model,27,local,life-local,(none seen),/life-insurance/ontario/ajax/,3,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+life insurance waterloo,local,life-insurance,on,waterloo,71,model,35,local,life-local,(none seen),/life-insurance/ontario/waterloo/,3,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+life insurance thunder bay,local,life-insurance,on,thunder-bay,65,model,27,local,life-local,(none seen),/life-insurance/ontario/thunder-bay/,3,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+insurance advisor kelowna,local,,bc,kelowna,64,model,30,local,advisors,"local brokers, thinkinsure, rates.ca (broker pages)",/insurance/british-columbia/kelowna/,3,City hub. Add a Google Business Profile only where an advisor really works from that city.
+life insurance pickering,local,life-insurance,on,pickering,61,model,27,local,life-local,(none seen),/life-insurance/ontario/pickering/,3,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+life insurance red deer,local,life-insurance,ab,red-deer,61,model,27,local,life-local,(none seen),/life-insurance/alberta/red-deer/,3,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+mortgage life insurance bc,provincial,mortgage-life-insurance,bc,,60,model,29,commercial,life-mortgage,(none seen),/mortgage-life-insurance/british-columbia/,3,
+life insurance lethbridge,local,life-insurance,ab,lethbridge,60,model,27,local,life-local,(none seen),/life-insurance/alberta/lethbridge/,3,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+life insurance victoria,local,life-insurance,bc,victoria,57,model,35,local,life-local,(none seen),/life-insurance/british-columbia/victoria/,3,
+business insurance newfoundland,provincial,business-insurance,nl,,55,model,34,commercial,business-province,(none seen),/business-insurance/newfoundland-and-labrador/,3,
+business insurance kelowna,local,business-insurance,bc,kelowna,55,model,33,local,business-local,(none seen),/business-insurance/british-columbia/kelowna/,3,
+mortgage life insurance alberta,provincial,mortgage-life-insurance,ab,,52,model,29,commercial,life-mortgage,(none seen),/mortgage-life-insurance/alberta/,3,
+business insurance langley,local,business-insurance,bc,langley,52,model,17,local,business-local,(none seen),/business-insurance/british-columbia/langley/,3,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+life insurance moncton,local,life-insurance,nb,moncton,51,model,27,local,life-local,(none seen),/life-insurance/new-brunswick/moncton/,3,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+life insurance airdrie,local,life-insurance,ab,airdrie,48,model,19,local,life-local,(none seen),/life-insurance/alberta/airdrie/,3,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+life insurance saint john,local,life-insurance,nb,saint-john,46,model,27,local,life-local,(none seen),/life-insurance/new-brunswick/saint-john/,3,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+business insurance st johns,local,business-insurance,nl,st-johns,45,model,33,local,business-local,(none seen),/business-insurance/newfoundland-and-labrador/st-johns/,3,
+life insurance newfoundland,provincial,life-insurance,nl,,41,model,34,commercial,life-province,(none seen),/life-insurance/newfoundland-and-labrador/,3,
+business insurance victoria,local,business-insurance,bc,victoria,39,model,33,local,business-local,(none seen),/business-insurance/british-columbia/victoria/,3,
+life insurance brandon,local,life-insurance,mb,brandon,36,model,19,local,life-local,(none seen),/life-insurance/manitoba/brandon/,3,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+disability insurance manitoba,provincial,disability-insurance,mb,,29,model,22,commercial,living-benefits,(none seen),/disability-insurance/manitoba/,3,
+contractor insurance manitoba,provincial,contractor-insurance,mb,,26,model,19,commercial,business-province,(none seen),/contractor-insurance/manitoba/,3,
+disability insurance saskatchewan,provincial,disability-insurance,sk,,25,model,22,commercial,living-benefits,(none seen),/disability-insurance/saskatchewan/,3,
+critical illness insurance manitoba,provincial,critical-illness-insurance,mb,,23,model,19,commercial,living-benefits,(none seen),/critical-illness-insurance/manitoba/,3,
+term life insurance saskatchewan,provincial,term-life-insurance,sk,,22,model,24,commercial,life-province,(none seen),/term-life-insurance/saskatchewan/,3,
+disability insurance nova scotia,provincial,disability-insurance,ns,,21,model,22,commercial,living-benefits,(none seen),/disability-insurance/nova-scotia/,3,
+critical illness insurance saskatchewan,provincial,critical-illness-insurance,sk,,20,model,19,commercial,living-benefits,(none seen),/critical-illness-insurance/saskatchewan/,3,
+classic car insurance,national,car-insurance,,,1300,model,50,commercial,auto-persona,ratehub,,4,Specialty market with low advisor fit.
+gap insurance canada,national,car-insurance,,,1000,model,40,informational,auto-coverage,"rates.ca, ratehub",,4,FSRA warned in 2026 about unlicensed GAP sales. Explainer only.
+saaq car insurance,provincial,car-insurance,qc,,1000,model,40,informational,auto-regulation,sonnet (3+ posts),,4,Quebec is waitlisted until AMF registration and French pages exist.
+car insurance deductible,national,car-insurance,,,880,model,35,informational,auto-coverage,sonnet,/glossary/,4,
+car insurance vancouver,local,car-insurance,bc,vancouver,860,model,76,local,auto-local,"rates.ca, ratehub",/car-insurance/british-columbia/vancouver/,4,ICBC sells basic auto; target optional coverage. Low lead value.
+children's life insurance,national,life-insurance,,,720,model,40,commercial,life-audience,policyadvisor,,4,Planned: /life-insurance/children/.
+car insurance manitoba,provincial,car-insurance,mb,,660,model,53,commercial,auto-province,ratehub,/car-insurance/manitoba/,4,MPI sells basic auto; target optional coverage. Low lead value.
+usage based insurance canada,national,car-insurance,,,590,model,35,informational,auto-coverage,"sonnet shift, ratehub survey",,4,Planned guide: /guides/usage-based-car-insurance-canada/.
+intact insurance review,national,car-insurance,,,590,model,35,commercial,brand-reviews,"ratehub, rates.ca",,4,Planned: /reviews/intact/ with a published review method.
+car insurance saskatchewan,provincial,car-insurance,sk,,570,model,53,commercial,auto-province,ratehub,/car-insurance/saskatchewan/,4,SGI sells basic auto; target optional coverage. Low lead value.
+tenant insurance edmonton,local,tenant-insurance,ab,edmonton,570,model,56,local,property-local,"ratehub, rates.ca",/tenant-insurance/alberta/edmonton/,4,
+tenant insurance alberta,provincial,tenant-insurance,ab,,500,model,50,commercial,property-province,"ratehub, sonnet",/tenant-insurance/alberta/,4,
+tenant insurance mississauga,local,tenant-insurance,on,mississauga,440,model,52,local,property-local,rates.ca,/tenant-insurance/ontario/mississauga/,4,
+car insurance milton,local,car-insurance,on,milton,440,model,56,local,auto-local,rates.ca,/car-insurance/ontario/milton/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+tenant insurance vancouver,local,tenant-insurance,bc,vancouver,410,model,52,local,property-local,rates.ca,/tenant-insurance/british-columbia/vancouver/,4,
+car insurance pickering,local,car-insurance,on,pickering,400,model,56,local,auto-local,rates.ca,/car-insurance/ontario/pickering/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+home insurance montreal,local,home-insurance,qc,montreal,390,model,52,local,property-local,sonnet,/home-insurance/quebec/montreal/,4,Quebec waitlist until AMF registration.
+assurance auto gatineau,local,car-insurance,qc,gatineau,390,model,35,local,fr-quebec,(none seen),,4,Planned: /fr/assurance-auto/quebec/gatineau/.
+car insurance laval,local,car-insurance,qc,laval,370,model,64,local,auto-local,sonnet,/car-insurance/quebec/laval/,4,Quebec waitlist until AMF registration.
+car insurance burnaby,local,car-insurance,bc,burnaby,370,model,60,local,auto-local,(none seen),/car-insurance/british-columbia/burnaby/,4,ICBC sells basic auto; target optional coverage. Low lead value.
+tenant insurance hamilton,local,tenant-insurance,on,hamilton,360,model,48,local,property-local,(none seen),/tenant-insurance/ontario/hamilton/,4,
+car insurance cambridge,local,car-insurance,on,cambridge,340,model,56,local,auto-local,rates.ca,/car-insurance/ontario/cambridge/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+car insurance sudbury,local,car-insurance,on,sudbury,340,model,60,local,auto-local,"rates.ca, ratehub",/car-insurance/ontario/sudbury/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+how much is car insurance in ottawa,local,car-insurance,on,ottawa,330,model,79,informational,auto-local,"rates.ca, ratehub, sonnet, mychoice/squareone/thinkinsure",/car-insurance/ontario/ottawa/,4,Ratehub ranks a blog post for this. The city page answers it in the first two sentences with a dated average.
+car insurance richmond bc,local,car-insurance,bc,richmond,320,model,52,local,auto-local,(none seen),/car-insurance/british-columbia/richmond/,4,ICBC sells basic auto; target optional coverage. Low lead value.
+assurance habitation laval,local,home-insurance,qc,laval,320,model,40,local,fr-quebec,sonnet,,4,Planned: /fr/assurance-habitation/quebec/laval/.
+how much is car insurance in hamilton,local,car-insurance,on,hamilton,300,model,65,informational,auto-local,"rates.ca, ratehub, sonnet, mychoice/squareone/thinkinsure",/car-insurance/ontario/hamilton/,4,Ratehub ranks a blog post for this. The city page answers it in the first two sentences with a dated average.
+tenant insurance halifax,local,tenant-insurance,ns,halifax,300,model,40,local,property-local,(none seen),/tenant-insurance/nova-scotia/halifax/,4,
+tenant insurance london ontario,local,tenant-insurance,on,london,290,model,48,local,property-local,(none seen),/tenant-insurance/ontario/london/,4,
+insurance glossary,national,,,,260,model,25,informational,brand-instant,rates.ca (car glossary),/glossary/,4,
+mpi optional insurance,provincial,car-insurance,mb,,260,model,25,informational,auto-regulation,MPI,,4,Planned explainer in the style of the ICBC guide.
+car insurance airdrie,local,car-insurance,ab,airdrie,260,model,44,local,auto-local,(none seen),/car-insurance/alberta/airdrie/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+health insurance quebec,provincial,health-dental-insurance,qc,,240,model,49,commercial,health-province,(none seen),/health-dental-insurance/quebec/,4,Quebec waitlist until AMF registration; English phrase only (French terms listed separately).
+how much is car insurance in markham,local,car-insurance,on,markham,240,model,71,informational,auto-local,"rates.ca, ratehub",/car-insurance/ontario/markham/,4,Ratehub ranks a blog post for this. The city page answers it in the first two sentences with a dated average.
+tenant insurance markham,local,tenant-insurance,on,markham,240,model,48,local,property-local,(none seen),/tenant-insurance/ontario/markham/,4,
+tenant insurance vaughan,local,tenant-insurance,on,vaughan,230,model,48,local,property-local,(none seen),/tenant-insurance/ontario/vaughan/,4,
+condo insurance alberta,provincial,condo-insurance,ab,,220,model,47,commercial,property-province,"ratehub, sonnet",/condo-insurance/alberta/,4,
+cheap car insurance windsor,local,car-insurance,on,windsor,220,model,71,transactional,auto-local,"rates.ca, ratehub",/car-insurance/ontario/windsor/,4,"Rates.ca titles lead with ""Cheap""; answer with factors and FSA data, not a price promise."
+car insurance longueuil,local,car-insurance,qc,longueuil,220,model,52,local,auto-local,(none seen),/car-insurance/quebec/longueuil/,4,Quebec waitlist until AMF registration.
+sgi auto fund optional coverage,provincial,car-insurance,sk,,210,model,25,informational,auto-regulation,SGI,,4,Planned explainer in the style of the ICBC guide.
+car insurance gatineau,local,car-insurance,qc,gatineau,210,model,52,local,auto-local,(none seen),/car-insurance/quebec/gatineau/,4,Quebec waitlist until AMF registration.
+home insurance sudbury,local,home-insurance,on,sudbury,200,model,40,local,property-local,(none seen),/home-insurance/ontario/sudbury/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+tenant insurance saskatoon,local,tenant-insurance,sk,saskatoon,200,model,40,local,property-local,(none seen),/tenant-insurance/saskatchewan/saskatoon/,4,
+car insurance pei,provincial,car-insurance,pe,,190,model,57,commercial,auto-province,"ratehub, sonnet",/car-insurance/prince-edward-island/,4,
+cheap car insurance kitchener,local,car-insurance,on,kitchener,190,model,71,transactional,auto-local,"rates.ca, ratehub",/car-insurance/ontario/kitchener/,4,"Rates.ca titles lead with ""Cheap""; answer with factors and FSA data, not a price promise."
+tenant insurance kitchener,local,tenant-insurance,on,kitchener,190,model,48,local,property-local,(none seen),/tenant-insurance/ontario/kitchener/,4,
+condo insurance vancouver,local,condo-insurance,bc,vancouver,190,model,52,local,property-local,rates.ca,/condo-insurance/british-columbia/vancouver/,4,
+tenant insurance burnaby,local,tenant-insurance,bc,burnaby,190,model,40,local,property-local,(none seen),/tenant-insurance/british-columbia/burnaby/,4,
+tenant insurance manitoba,provincial,tenant-insurance,mb,,180,model,32,commercial,property-province,(none seen),/tenant-insurance/manitoba/,4,
+tenant insurance windsor,local,tenant-insurance,on,windsor,180,model,48,local,property-local,(none seen),/tenant-insurance/ontario/windsor/,4,
+how much is car insurance in london ontario,local,car-insurance,on,london,170,model,71,informational,auto-local,"rates.ca, ratehub",/car-insurance/ontario/london/,4,Ratehub ranks a blog post for this. The city page answers it in the first two sentences with a dated average.
+tenant insurance oakville,local,tenant-insurance,on,oakville,170,model,40,local,property-local,(none seen),/tenant-insurance/ontario/oakville/,4,
+home insurance cambridge,local,home-insurance,on,cambridge,170,model,44,local,property-local,rates.ca,/home-insurance/ontario/cambridge/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+home insurance whitby,local,home-insurance,on,whitby,170,model,40,local,property-local,(none seen),/home-insurance/ontario/whitby/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+home insurance milton,local,home-insurance,on,milton,170,model,40,local,property-local,(none seen),/home-insurance/ontario/milton/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+tenant insurance regina,local,tenant-insurance,sk,regina,170,model,40,local,property-local,(none seen),/tenant-insurance/saskatchewan/regina/,4,
+tenant insurance richmond hill,local,tenant-insurance,on,richmond-hill,160,model,40,local,property-local,(none seen),/tenant-insurance/ontario/richmond-hill/,4,
+home insurance ajax,local,home-insurance,on,ajax,160,model,40,local,property-local,(none seen),/home-insurance/ontario/ajax/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+home insurance quebec city,local,home-insurance,qc,quebec-city,160,model,48,local,property-local,(none seen),/home-insurance/quebec/quebec-city/,4,Quebec waitlist until AMF registration.
+tenant insurance richmond bc,local,tenant-insurance,bc,richmond,160,model,32,local,property-local,(none seen),/tenant-insurance/british-columbia/richmond/,4,
+tenant insurance saskatchewan,provincial,tenant-insurance,sk,,150,model,32,commercial,property-province,(none seen),/tenant-insurance/saskatchewan/,4,
+tenant insurance burlington,local,tenant-insurance,on,burlington,150,model,40,local,property-local,(none seen),/tenant-insurance/ontario/burlington/,4,
+assurance habitation nouveau-brunswick,provincial,home-insurance,nb,,140,model,20,commercial,fr-quebec,sonnet,,4,French pages for New Brunswick francophones.
+tenant insurance oshawa,local,tenant-insurance,on,oshawa,140,model,40,local,property-local,(none seen),/tenant-insurance/ontario/oshawa/,4,
+home insurance thunder bay,local,home-insurance,on,thunder-bay,140,model,40,local,property-local,(none seen),/home-insurance/ontario/thunder-bay/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+condo insurance london ontario,local,condo-insurance,on,london,130,model,48,local,property-local,(none seen),/condo-insurance/ontario/london/,4,
+how much is car insurance in windsor,local,car-insurance,on,windsor,130,model,71,informational,auto-local,"rates.ca, ratehub",/car-insurance/ontario/windsor/,4,Ratehub ranks a blog post for this. The city page answers it in the first two sentences with a dated average.
+home insurance pickering,local,home-insurance,on,pickering,130,model,40,local,property-local,(none seen),/home-insurance/ontario/pickering/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+tenant insurance abbotsford,local,tenant-insurance,bc,abbotsford,130,model,32,local,property-local,(none seen),/tenant-insurance/british-columbia/abbotsford/,4,
+condo insurance halifax,local,condo-insurance,ns,halifax,130,model,40,local,property-local,(none seen),/condo-insurance/nova-scotia/halifax/,4,
+tenant insurance coquitlam,local,tenant-insurance,bc,coquitlam,120,model,32,local,property-local,(none seen),/tenant-insurance/british-columbia/coquitlam/,4,
+cheap car insurance st johns,local,car-insurance,nl,st-johns,120,model,59,transactional,auto-local,ratehub,/car-insurance/newfoundland-and-labrador/st-johns/,4,"Rates.ca titles lead with ""Cheap""; answer with factors and FSA data, not a price promise."
+condo insurance markham,local,condo-insurance,on,markham,110,model,48,local,property-local,(none seen),/condo-insurance/ontario/markham/,4,
+condo insurance vaughan,local,condo-insurance,on,vaughan,110,model,48,local,property-local,(none seen),/condo-insurance/ontario/vaughan/,4,
+home insurance airdrie,local,home-insurance,ab,airdrie,100,model,32,local,property-local,(none seen),/home-insurance/alberta/airdrie/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+condo insurance saskatoon,local,condo-insurance,sk,saskatoon,90,model,40,local,property-local,(none seen),/condo-insurance/saskatchewan/saskatoon/,4,
+super visa insurance markham,local,super-visa-insurance,on,markham,88,model,36,local,travel-visitors,(none seen),/super-visa-insurance/ontario/markham/,4,
+condo insurance kitchener,local,condo-insurance,on,kitchener,88,model,48,local,property-local,(none seen),/condo-insurance/ontario/kitchener/,4,
+condo insurance burnaby,local,condo-insurance,bc,burnaby,86,model,40,local,property-local,(none seen),/condo-insurance/british-columbia/burnaby/,4,
+condo insurance windsor,local,condo-insurance,on,windsor,80,model,48,local,property-local,(none seen),/condo-insurance/ontario/windsor/,4,
+condo insurance regina,local,condo-insurance,sk,regina,79,model,40,local,property-local,(none seen),/condo-insurance/saskatchewan/regina/,4,
+condo insurance manitoba,provincial,condo-insurance,mb,,78,model,29,commercial,property-province,(none seen),/condo-insurance/manitoba/,4,
+home insurance brandon,local,home-insurance,mb,brandon,78,model,32,local,property-local,(none seen),/home-insurance/manitoba/brandon/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+condo insurance oakville,local,condo-insurance,on,oakville,76,model,40,local,property-local,(none seen),/condo-insurance/ontario/oakville/,4,
+business insurance oakville,local,business-insurance,on,oakville,76,model,33,local,business-local,(none seen),/business-insurance/ontario/oakville/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+condo insurance richmond bc,local,condo-insurance,bc,richmond,75,model,32,local,property-local,(none seen),/condo-insurance/british-columbia/richmond/,4,
+condo insurance richmond hill,local,condo-insurance,on,richmond-hill,72,model,40,local,property-local,(none seen),/condo-insurance/ontario/richmond-hill/,4,
+business insurance richmond hill,local,business-insurance,on,richmond-hill,72,model,33,local,business-local,(none seen),/business-insurance/ontario/richmond-hill/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+life insurance quebec city,local,life-insurance,qc,quebec-city,72,model,35,local,life-local,(none seen),/life-insurance/quebec/quebec-city/,4,Quebec waitlist until AMF registration.
+super visa insurance abbotsford,local,super-visa-insurance,bc,abbotsford,69,model,20,local,travel-visitors,(none seen),/super-visa-insurance/british-columbia/abbotsford/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+condo insurance burlington,local,condo-insurance,on,burlington,68,model,40,local,property-local,(none seen),/condo-insurance/ontario/burlington/,4,
+business insurance burlington,local,business-insurance,on,burlington,68,model,33,local,business-local,(none seen),/business-insurance/ontario/burlington/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+condo insurance saskatchewan,provincial,condo-insurance,sk,,67,model,29,commercial,property-province,(none seen),/condo-insurance/saskatchewan/,4,
+condo insurance oshawa,local,condo-insurance,on,oshawa,65,model,40,local,property-local,(none seen),/condo-insurance/ontario/oshawa/,4,
+business insurance oshawa,local,business-insurance,on,oshawa,65,model,33,local,business-local,(none seen),/business-insurance/ontario/oshawa/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+business insurance sudbury,local,business-insurance,on,sudbury,62,model,25,local,business-local,(none seen),/business-insurance/ontario/sudbury/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+home insurance charlottetown,local,home-insurance,pe,charlottetown,62,model,40,local,property-local,(none seen),/home-insurance/prince-edward-island/charlottetown/,4,
+health insurance newfoundland,provincial,health-dental-insurance,nl,,60,model,39,commercial,health-province,(none seen),/health-dental-insurance/newfoundland-and-labrador/,4,
+life insurance laval,local,life-insurance,qc,laval,60,model,35,local,life-local,(none seen),/life-insurance/quebec/laval/,4,Quebec waitlist until AMF registration.
+super visa insurance burnaby,local,super-visa-insurance,bc,burnaby,60,model,28,local,travel-visitors,(none seen),/super-visa-insurance/british-columbia/burnaby/,4,
+super visa insurance richmond bc,local,super-visa-insurance,bc,richmond,60,model,20,local,travel-visitors,(none seen),/super-visa-insurance/british-columbia/richmond/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+super visa insurance manitoba,provincial,super-visa-insurance,mb,,59,model,24,commercial,travel-visitors,(none seen),/super-visa-insurance/manitoba/,4,Province page targets super visa buyers sponsoring parents locally.
+condo insurance abbotsford,local,condo-insurance,bc,abbotsford,58,model,32,local,property-local,(none seen),/condo-insurance/british-columbia/abbotsford/,4,
+business insurance abbotsford,local,business-insurance,bc,abbotsford,58,model,25,local,business-local,(none seen),/business-insurance/british-columbia/abbotsford/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+condo insurance coquitlam,local,condo-insurance,bc,coquitlam,57,model,32,local,property-local,(none seen),/condo-insurance/british-columbia/coquitlam/,4,
+business insurance coquitlam,local,business-insurance,bc,coquitlam,57,model,25,local,business-local,(none seen),/business-insurance/british-columbia/coquitlam/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+business insurance barrie,local,business-insurance,on,barrie,56,model,33,local,business-local,(none seen),/business-insurance/ontario/barrie/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+business insurance guelph,local,business-insurance,on,guelph,55,model,33,local,business-local,(none seen),/business-insurance/ontario/guelph/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+business insurance cambridge,local,business-insurance,on,cambridge,53,model,25,local,business-local,(none seen),/business-insurance/ontario/cambridge/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+business insurance whitby,local,business-insurance,on,whitby,53,model,25,local,business-local,(none seen),/business-insurance/ontario/whitby/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+business insurance st catharines,local,business-insurance,on,st-catharines,53,model,33,local,business-local,(none seen),/business-insurance/ontario/st-catharines/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+business insurance milton,local,business-insurance,on,milton,52,model,25,local,business-local,(none seen),/business-insurance/ontario/milton/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+business insurance kingston,local,business-insurance,on,kingston,52,model,33,local,business-local,(none seen),/business-insurance/ontario/kingston/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+insurance advisor st johns,local,,nl,st-johns,52,model,30,local,advisors,"local brokers, thinkinsure, rates.ca (broker pages)",/insurance/newfoundland-and-labrador/st-johns/,4,City hub. Add a Google Business Profile only where an advisor really works from that city.
+super visa insurance saskatchewan,provincial,super-visa-insurance,sk,,50,model,24,commercial,travel-visitors,(none seen),/super-visa-insurance/saskatchewan/,4,Province page targets super visa buyers sponsoring parents locally.
+business insurance ajax,local,business-insurance,on,ajax,50,model,25,local,business-local,(none seen),/business-insurance/ontario/ajax/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+super visa insurance saskatoon,local,super-visa-insurance,sk,saskatoon,49,model,28,local,travel-visitors,(none seen),/super-visa-insurance/saskatchewan/saskatoon/,4,
+business insurance waterloo,local,business-insurance,on,waterloo,48,model,33,local,business-local,(none seen),/business-insurance/ontario/waterloo/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+disability insurance quebec,provincial,disability-insurance,qc,,47,model,32,commercial,living-benefits,(none seen),/disability-insurance/quebec/,4,Quebec waitlist until AMF registration; English phrase only (French terms listed separately).
+home insurance pei,provincial,home-insurance,pe,,46,model,39,commercial,property-province,(none seen),/home-insurance/prince-edward-island/,4,
+super visa insurance hamilton,local,super-visa-insurance,on,hamilton,45,model,36,local,travel-visitors,(none seen),/super-visa-insurance/ontario/hamilton/,4,
+super visa insurance nova scotia,provincial,super-visa-insurance,ns,,44,model,24,commercial,travel-visitors,(none seen),/super-visa-insurance/nova-scotia/,4,Province page targets super visa buyers sponsoring parents locally.
+business insurance thunder bay,local,business-insurance,on,thunder-bay,44,model,25,local,business-local,(none seen),/business-insurance/ontario/thunder-bay/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+insurance advisor victoria,local,,bc,victoria,44,model,30,local,advisors,"local brokers, thinkinsure, rates.ca (broker pages)",/insurance/british-columbia/victoria/,4,City hub. Add a Google Business Profile only where an advisor really works from that city.
+super visa insurance halifax,local,super-visa-insurance,ns,halifax,44,model,28,local,travel-visitors,(none seen),/super-visa-insurance/nova-scotia/halifax/,4,
+term life insurance quebec,provincial,term-life-insurance,qc,,43,model,34,commercial,life-province,(none seen),/term-life-insurance/quebec/,4,Quebec waitlist until AMF registration; English phrase only (French terms listed separately).
+super visa insurance regina,local,super-visa-insurance,sk,regina,43,model,28,local,travel-visitors,(none seen),/super-visa-insurance/saskatchewan/regina/,4,
+life insurance fredericton,local,life-insurance,nb,fredericton,42,model,27,local,life-local,(none seen),/life-insurance/new-brunswick/fredericton/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+business insurance pickering,local,business-insurance,on,pickering,41,model,25,local,business-local,(none seen),/business-insurance/ontario/pickering/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+business insurance red deer,local,business-insurance,ab,red-deer,41,model,25,local,business-local,(none seen),/business-insurance/alberta/red-deer/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+business insurance lethbridge,local,business-insurance,ab,lethbridge,41,model,25,local,business-local,(none seen),/business-insurance/alberta/lethbridge/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+critical illness insurance quebec,provincial,critical-illness-insurance,qc,,39,model,29,commercial,living-benefits,(none seen),/critical-illness-insurance/quebec/,4,Quebec waitlist until AMF registration; English phrase only (French terms listed separately).
+super visa insurance new brunswick,provincial,super-visa-insurance,nb,,36,model,24,commercial,travel-visitors,(none seen),/super-visa-insurance/new-brunswick/,4,Province page targets super visa buyers sponsoring parents locally.
+business insurance moncton,local,business-insurance,nb,moncton,34,model,25,local,business-local,(none seen),/business-insurance/new-brunswick/moncton/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+business insurance airdrie,local,business-insurance,ab,airdrie,32,model,17,local,business-local,(none seen),/business-insurance/alberta/airdrie/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+business insurance saint john,local,business-insurance,nb,saint-john,31,model,25,local,business-local,(none seen),/business-insurance/new-brunswick/saint-john/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+business insurance fredericton,local,business-insurance,nb,fredericton,29,model,25,local,business-local,(none seen),/business-insurance/new-brunswick/fredericton/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+life insurance charlottetown,local,life-insurance,pe,charlottetown,29,model,27,local,life-local,(none seen),/life-insurance/prince-edward-island/charlottetown/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+group benefits quebec,provincial,group-benefits,qc,,26,model,29,commercial,business-benefits,(none seen),/group-benefits/quebec/,4,Quebec waitlist until AMF registration; English phrase only (French terms listed separately).
+term life insurance manitoba,provincial,term-life-insurance,mb,,26,model,28,commercial,life-province,policyadvisor,/term-life-insurance/manitoba/,4,
+business insurance brandon,local,business-insurance,mb,brandon,24,model,17,local,business-local,(none seen),/business-insurance/manitoba/brandon/,4,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+contractor insurance saskatchewan,provincial,contractor-insurance,sk,,22,model,19,commercial,business-province,(none seen),/contractor-insurance/saskatchewan/,4,
+car insurance saskatoon,local,car-insurance,sk,saskatoon,360,model,64,local,auto-local,ratehub,/car-insurance/saskatchewan/saskatoon/,5,SGI sells basic auto; target optional coverage. Low lead value.
+car insurance regina,local,car-insurance,sk,regina,320,model,64,local,auto-local,ratehub,/car-insurance/saskatchewan/regina/,5,SGI sells basic auto; target optional coverage. Low lead value.
+car insurance quebec city,local,car-insurance,qc,quebec-city,300,model,64,local,auto-local,sonnet,/car-insurance/quebec/quebec-city/,5,Quebec waitlist until AMF registration.
+tenant insurance quebec,provincial,tenant-insurance,qc,,290,model,46,commercial,property-province,sonnet,/tenant-insurance/quebec/,5,Quebec waitlist until AMF registration; English phrase only (French terms listed separately).
+tenant insurance montreal,local,tenant-insurance,qc,montreal,270,model,40,local,property-local,(none seen),/tenant-insurance/quebec/montreal/,5,Quebec waitlist until AMF registration.
+car insurance thunder bay,local,car-insurance,on,thunder-bay,240,model,60,local,auto-local,"rates.ca, ratehub",/car-insurance/ontario/thunder-bay/,5,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+car insurance coquitlam,local,car-insurance,bc,coquitlam,230,model,52,local,auto-local,(none seen),/car-insurance/british-columbia/coquitlam/,5,ICBC sells basic auto; target optional coverage. Low lead value.
+car insurance abbotsford,local,car-insurance,bc,abbotsford,210,model,52,local,auto-local,(none seen),/car-insurance/british-columbia/abbotsford/,5,ICBC sells basic auto; target optional coverage. Low lead value.
+car insurance kelowna,local,car-insurance,bc,kelowna,200,model,60,local,auto-local,(none seen),/car-insurance/british-columbia/kelowna/,5,ICBC sells basic auto; target optional coverage. Low lead value.
+car insurance langley,local,car-insurance,bc,langley,200,model,44,local,auto-local,(none seen),/car-insurance/british-columbia/langley/,5,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides). ICBC sells basic auto; target optional coverage. Low lead value.
+tenant insurance sudbury,local,tenant-insurance,on,sudbury,140,model,32,local,property-local,(none seen),/tenant-insurance/ontario/sudbury/,5,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+condo insurance quebec,provincial,condo-insurance,qc,,130,model,43,commercial,property-province,sonnet,/condo-insurance/quebec/,5,Quebec waitlist until AMF registration; English phrase only (French terms listed separately).
+tenant insurance nova scotia,provincial,tenant-insurance,ns,,130,model,36,commercial,property-province,ratehub,/tenant-insurance/nova-scotia/,5,
+home insurance laval,local,home-insurance,qc,laval,130,model,52,local,property-local,sonnet,/home-insurance/quebec/laval/,5,Quebec waitlist until AMF registration.
+car insurance victoria,local,car-insurance,bc,victoria,130,model,60,local,auto-local,(none seen),/car-insurance/british-columbia/victoria/,5,ICBC sells basic auto; target optional coverage. Low lead value.
+tenant insurance barrie,local,tenant-insurance,on,barrie,120,model,40,local,property-local,(none seen),/tenant-insurance/ontario/barrie/,5,
+tenant insurance guelph,local,tenant-insurance,on,guelph,120,model,40,local,property-local,(none seen),/tenant-insurance/ontario/guelph/,5,
+tenant insurance cambridge,local,tenant-insurance,on,cambridge,120,model,32,local,property-local,(none seen),/tenant-insurance/ontario/cambridge/,5,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+tenant insurance whitby,local,tenant-insurance,on,whitby,120,model,32,local,property-local,(none seen),/tenant-insurance/ontario/whitby/,5,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+tenant insurance st catharines,local,tenant-insurance,on,st-catharines,120,model,40,local,property-local,(none seen),/tenant-insurance/ontario/st-catharines/,5,
+condo insurance montreal,local,condo-insurance,qc,montreal,120,model,40,local,property-local,(none seen),/condo-insurance/quebec/montreal/,5,Quebec waitlist until AMF registration.
+car insurance sherbrooke,local,car-insurance,qc,sherbrooke,120,model,44,local,auto-local,(none seen),/car-insurance/quebec/sherbrooke/,5,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides). Quebec waitlist until AMF registration.
+tenant insurance kelowna,local,tenant-insurance,bc,kelowna,120,model,40,local,property-local,(none seen),/tenant-insurance/british-columbia/kelowna/,5,
+tenant insurance new brunswick,provincial,tenant-insurance,nb,,110,model,36,commercial,property-province,sonnet,/tenant-insurance/new-brunswick/,5,
+how much is car insurance in kitchener,local,car-insurance,on,kitchener,110,model,71,informational,auto-local,"rates.ca, ratehub",/car-insurance/ontario/kitchener/,5,Ratehub ranks a blog post for this. The city page answers it in the first two sentences with a dated average.
+tenant insurance milton,local,tenant-insurance,on,milton,110,model,32,local,property-local,(none seen),/tenant-insurance/ontario/milton/,5,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+tenant insurance kingston,local,tenant-insurance,on,kingston,110,model,40,local,property-local,(none seen),/tenant-insurance/ontario/kingston/,5,
+tenant insurance ajax,local,tenant-insurance,on,ajax,110,model,32,local,property-local,(none seen),/tenant-insurance/ontario/ajax/,5,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+tenant insurance waterloo,local,tenant-insurance,on,waterloo,110,model,40,local,property-local,(none seen),/tenant-insurance/ontario/waterloo/,5,
+tenant insurance quebec city,local,tenant-insurance,qc,quebec-city,110,model,40,local,property-local,(none seen),/tenant-insurance/quebec/quebec-city/,5,Quebec waitlist until AMF registration.
+tenant insurance langley,local,tenant-insurance,bc,langley,110,model,24,local,property-local,(none seen),/tenant-insurance/british-columbia/langley/,5,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+tenant insurance st johns,local,tenant-insurance,nl,st-johns,98,model,40,local,property-local,(none seen),/tenant-insurance/newfoundland-and-labrador/st-johns/,5,
+tenant insurance thunder bay,local,tenant-insurance,on,thunder-bay,97,model,32,local,property-local,(none seen),/tenant-insurance/ontario/thunder-bay/,5,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+super visa insurance quebec,provincial,super-visa-insurance,qc,,96,model,34,commercial,travel-visitors,(none seen),/super-visa-insurance/quebec/,5,Quebec waitlist until AMF registration; English phrase only (French terms listed separately). Province page targets super visa buyers sponsoring parents locally.
+home insurance gatineau,local,home-insurance,qc,gatineau,93,model,40,local,property-local,(none seen),/home-insurance/quebec/gatineau/,5,Quebec waitlist until AMF registration.
+tenant insurance red deer,local,tenant-insurance,ab,red-deer,91,model,32,local,property-local,(none seen),/tenant-insurance/alberta/red-deer/,5,
+tenant insurance pickering,local,tenant-insurance,on,pickering,90,model,32,local,property-local,(none seen),/tenant-insurance/ontario/pickering/,5,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+tenant insurance lethbridge,local,tenant-insurance,ab,lethbridge,89,model,32,local,property-local,(none seen),/tenant-insurance/alberta/lethbridge/,5,
+car insurance brandon,local,car-insurance,mb,brandon,89,model,44,local,auto-local,(none seen),/car-insurance/manitoba/brandon/,5,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides). MPI sells basic auto; target optional coverage. Low lead value.
+tenant insurance laval,local,tenant-insurance,qc,laval,88,model,40,local,property-local,(none seen),/tenant-insurance/quebec/laval/,5,Quebec waitlist until AMF registration.
+home insurance longueuil,local,home-insurance,qc,longueuil,84,model,40,local,property-local,(none seen),/home-insurance/quebec/longueuil/,5,Quebec waitlist until AMF registration.
+tenant insurance victoria,local,tenant-insurance,bc,victoria,84,model,40,local,property-local,(none seen),/tenant-insurance/british-columbia/victoria/,5,
+tenant insurance moncton,local,tenant-insurance,nb,moncton,75,model,32,local,property-local,(none seen),/tenant-insurance/new-brunswick/moncton/,5,
+tenant insurance newfoundland,provincial,tenant-insurance,nl,,74,model,32,commercial,property-province,(none seen),/tenant-insurance/newfoundland-and-labrador/,5,
+tenant insurance airdrie,local,tenant-insurance,ab,airdrie,71,model,24,local,property-local,(none seen),/tenant-insurance/alberta/airdrie/,5,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+how much is car insurance in st johns,local,car-insurance,nl,st-johns,71,model,59,informational,auto-local,ratehub,/car-insurance/newfoundland-and-labrador/st-johns/,5,Ratehub ranks a blog post for this. The city page answers it in the first two sentences with a dated average.
+tenant insurance saint john,local,tenant-insurance,nb,saint-john,68,model,32,local,property-local,(none seen),/tenant-insurance/new-brunswick/saint-john/,5,
+tenant insurance gatineau,local,tenant-insurance,qc,gatineau,64,model,32,local,property-local,(none seen),/tenant-insurance/quebec/gatineau/,5,Quebec waitlist until AMF registration.
+tenant insurance fredericton,local,tenant-insurance,nb,fredericton,63,model,32,local,property-local,(none seen),/tenant-insurance/new-brunswick/fredericton/,5,
+condo insurance sudbury,local,condo-insurance,on,sudbury,62,model,32,local,property-local,(none seen),/condo-insurance/ontario/sudbury/,5,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+home insurance sherbrooke,local,home-insurance,qc,sherbrooke,62,model,32,local,property-local,(none seen),/home-insurance/quebec/sherbrooke/,5,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides). Quebec waitlist until AMF registration.
+condo insurance nova scotia,provincial,condo-insurance,ns,,58,model,33,commercial,property-province,ratehub,/condo-insurance/nova-scotia/,5,
+tenant insurance longueuil,local,tenant-insurance,qc,longueuil,57,model,32,local,property-local,(none seen),/tenant-insurance/quebec/longueuil/,5,Quebec waitlist until AMF registration.
+condo insurance barrie,local,condo-insurance,on,barrie,56,model,40,local,property-local,(none seen),/condo-insurance/ontario/barrie/,5,
+condo insurance guelph,local,condo-insurance,on,guelph,55,model,40,local,property-local,(none seen),/condo-insurance/ontario/guelph/,5,
+condo insurance kelowna,local,condo-insurance,bc,kelowna,55,model,40,local,property-local,(none seen),/condo-insurance/british-columbia/kelowna/,5,
+condo insurance cambridge,local,condo-insurance,on,cambridge,53,model,32,local,property-local,(none seen),/condo-insurance/ontario/cambridge/,5,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+condo insurance whitby,local,condo-insurance,on,whitby,53,model,32,local,property-local,(none seen),/condo-insurance/ontario/whitby/,5,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+condo insurance st catharines,local,condo-insurance,on,st-catharines,53,model,40,local,property-local,(none seen),/condo-insurance/ontario/st-catharines/,5,
+tenant insurance brandon,local,tenant-insurance,mb,brandon,53,model,24,local,property-local,(none seen),/tenant-insurance/manitoba/brandon/,5,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+condo insurance milton,local,condo-insurance,on,milton,52,model,32,local,property-local,(none seen),/condo-insurance/ontario/milton/,5,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+condo insurance kingston,local,condo-insurance,on,kingston,52,model,40,local,property-local,(none seen),/condo-insurance/ontario/kingston/,5,
+condo insurance langley,local,condo-insurance,bc,langley,52,model,24,local,property-local,(none seen),/condo-insurance/british-columbia/langley/,5,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+condo insurance ajax,local,condo-insurance,on,ajax,50,model,32,local,property-local,(none seen),/condo-insurance/ontario/ajax/,5,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+condo insurance new brunswick,provincial,condo-insurance,nb,,48,model,33,commercial,property-province,sonnet,/condo-insurance/new-brunswick/,5,
+condo insurance waterloo,local,condo-insurance,on,waterloo,48,model,40,local,property-local,(none seen),/condo-insurance/ontario/waterloo/,5,
+condo insurance quebec city,local,condo-insurance,qc,quebec-city,48,model,40,local,property-local,(none seen),/condo-insurance/quebec/quebec-city/,5,Quebec waitlist until AMF registration.
+business insurance quebec city,local,business-insurance,qc,quebec-city,48,model,33,local,business-local,(none seen),/business-insurance/quebec/quebec-city/,5,Quebec waitlist until AMF registration.
+super visa insurance montreal,local,super-visa-insurance,qc,montreal,46,model,28,local,travel-visitors,(none seen),/super-visa-insurance/quebec/montreal/,5,Quebec waitlist until AMF registration.
+condo insurance st johns,local,condo-insurance,nl,st-johns,45,model,40,local,property-local,(none seen),/condo-insurance/newfoundland-and-labrador/st-johns/,5,
+condo insurance thunder bay,local,condo-insurance,on,thunder-bay,44,model,32,local,property-local,(none seen),/condo-insurance/ontario/thunder-bay/,5,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+contractor insurance quebec,provincial,contractor-insurance,qc,,43,model,29,commercial,business-province,(none seen),/contractor-insurance/quebec/,5,Quebec waitlist until AMF registration; English phrase only (French terms listed separately).
+life insurance gatineau,local,life-insurance,qc,gatineau,43,model,27,local,life-local,(none seen),/life-insurance/quebec/gatineau/,5,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides). Quebec waitlist until AMF registration.
+tenant insurance sherbrooke,local,tenant-insurance,qc,sherbrooke,42,model,24,local,property-local,(none seen),/tenant-insurance/quebec/sherbrooke/,5,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides). Quebec waitlist until AMF registration.
+tenant insurance charlottetown,local,tenant-insurance,pe,charlottetown,42,model,32,local,property-local,(none seen),/tenant-insurance/prince-edward-island/charlottetown/,5,
+condo insurance pickering,local,condo-insurance,on,pickering,41,model,32,local,property-local,(none seen),/condo-insurance/ontario/pickering/,5,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+condo insurance red deer,local,condo-insurance,ab,red-deer,41,model,32,local,property-local,(none seen),/condo-insurance/alberta/red-deer/,5,
+condo insurance lethbridge,local,condo-insurance,ab,lethbridge,41,model,32,local,property-local,(none seen),/condo-insurance/alberta/lethbridge/,5,
+condo insurance laval,local,condo-insurance,qc,laval,40,model,40,local,property-local,(none seen),/condo-insurance/quebec/laval/,5,Quebec waitlist until AMF registration.
+business insurance laval,local,business-insurance,qc,laval,40,model,33,local,business-local,(none seen),/business-insurance/quebec/laval/,5,Quebec waitlist until AMF registration.
+life insurance longueuil,local,life-insurance,qc,longueuil,39,model,27,local,life-local,(none seen),/life-insurance/quebec/longueuil/,5,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides). Quebec waitlist until AMF registration.
+condo insurance victoria,local,condo-insurance,bc,victoria,39,model,40,local,property-local,(none seen),/condo-insurance/british-columbia/victoria/,5,
+super visa insurance london ontario,local,super-visa-insurance,on,london,35,model,36,local,travel-visitors,(none seen),/super-visa-insurance/ontario/london/,5,
+condo insurance moncton,local,condo-insurance,nb,moncton,34,model,32,local,property-local,(none seen),/condo-insurance/new-brunswick/moncton/,5,
+condo insurance newfoundland,provincial,condo-insurance,nl,,33,model,29,commercial,property-province,(none seen),/condo-insurance/newfoundland-and-labrador/,5,
+condo insurance airdrie,local,condo-insurance,ab,airdrie,32,model,24,local,property-local,(none seen),/condo-insurance/alberta/airdrie/,5,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+condo insurance saint john,local,condo-insurance,nb,saint-john,31,model,32,local,property-local,(none seen),/condo-insurance/new-brunswick/saint-john/,5,
+mortgage life insurance quebec,provincial,mortgage-life-insurance,qc,,30,model,29,commercial,life-mortgage,(none seen),/mortgage-life-insurance/quebec/,5,Quebec waitlist until AMF registration; English phrase only (French terms listed separately).
+condo insurance gatineau,local,condo-insurance,qc,gatineau,29,model,32,local,property-local,(none seen),/condo-insurance/quebec/gatineau/,5,Quebec waitlist until AMF registration.
+business insurance gatineau,local,business-insurance,qc,gatineau,29,model,25,local,business-local,(none seen),/business-insurance/quebec/gatineau/,5,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides). Quebec waitlist until AMF registration.
+condo insurance fredericton,local,condo-insurance,nb,fredericton,29,model,32,local,property-local,(none seen),/condo-insurance/new-brunswick/fredericton/,5,
+super visa insurance vaughan,local,super-visa-insurance,on,vaughan,28,model,36,local,travel-visitors,(none seen),/super-visa-insurance/ontario/vaughan/,5,
+life insurance sherbrooke,local,life-insurance,qc,sherbrooke,28,model,19,local,life-local,(none seen),/life-insurance/quebec/sherbrooke/,5,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides). Quebec waitlist until AMF registration.
+condo insurance longueuil,local,condo-insurance,qc,longueuil,26,model,32,local,property-local,(none seen),/condo-insurance/quebec/longueuil/,5,Quebec waitlist until AMF registration.
+business insurance longueuil,local,business-insurance,qc,longueuil,26,model,25,local,business-local,(none seen),/business-insurance/quebec/longueuil/,5,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides). Quebec waitlist until AMF registration.
+super visa insurance newfoundland,provincial,super-visa-insurance,nl,,25,model,24,commercial,travel-visitors,(none seen),/super-visa-insurance/newfoundland-and-labrador/,5,Province page targets super visa buyers sponsoring parents locally.
+tenant insurance pei,provincial,tenant-insurance,pe,,25,model,32,commercial,property-province,(none seen),/tenant-insurance/prince-edward-island/,5,
+super visa insurance kitchener,local,super-visa-insurance,on,kitchener,24,model,36,local,travel-visitors,(none seen),/super-visa-insurance/ontario/kitchener/,5,
+condo insurance brandon,local,condo-insurance,mb,brandon,24,model,24,local,property-local,(none seen),/condo-insurance/manitoba/brandon/,5,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
+super visa insurance windsor,local,super-visa-insurance,on,windsor,22,model,36,local,travel-visitors,(none seen),/super-visa-insurance/ontario/windsor/,5,
+health insurance pei,provincial,health-dental-insurance,pe,,20,model,39,commercial,health-province,(none seen),/health-dental-insurance/prince-edward-island/,5,
+super visa insurance oakville,local,super-visa-insurance,on,oakville,20,model,28,local,travel-visitors,(none seen),/super-visa-insurance/ontario/oakville/,5,Page exists but is noindex until an editor adds a 300+ character local intro (Admin → SEO → Page overrides).
