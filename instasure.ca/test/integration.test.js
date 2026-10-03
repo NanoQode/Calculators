@@ -404,3 +404,11 @@ test('guide files publish once: new slugs go live with the default author, exist
   assert.equal((await client()('/guides/test-pipeline-guide/')).status, 200);
   db.run("DELETE FROM posts WHERE slug = 'test-pipeline-guide'");
 });
+
+test('startup seeding never back-dates a new guide file on a site that already has guides', () => {
+  const { importGuides } = require('../src/db/seed');
+  const before = db.value('SELECT COUNT(*) FROM posts');
+  assert.ok(before > 0);
+  assert.equal(importGuides(), 0, 'nothing imported on an existing site');
+  assert.equal(db.value('SELECT COUNT(*) FROM posts'), before);
+});

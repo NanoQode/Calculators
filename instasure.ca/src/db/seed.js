@@ -170,6 +170,9 @@ async function publishGuideFiles(dir, { update = false, only = null } = {}) {
 function importGuides({ force = false } = {}) {
   const dir = path.join(config.ROOT, 'src', 'content', 'guides');
   if (!fs.existsSync(dir)) return 0;
+  // Startup seeding only fills an empty site (with launch dates spread out). Once guides exist, new files are
+  // published by scripts/publish-guides.js (the content sync), which stamps the real date and pings IndexNow.
+  if (!force && db.value('SELECT COUNT(*) FROM posts')) return 0;
   let n = 0;
   const files = fs.readdirSync(dir).filter((f) => f.endsWith('.md')).sort();
   files.forEach((f, idx) => {
