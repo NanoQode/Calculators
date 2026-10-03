@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% block content %}
+{# Design source: content/data/design-track_record_risk.html #}
+{% set perf = site.performance %}
+<section class="bg-gradient-to-b from-surface-container to-surface">
+  <div class="container-site pt-6 md:pt-10 pb-8 grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-end">
+    <div>
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="chip bg-maple-red-tint text-on-tertiary-container shadow-sm">{{ m.icon('security', 'text-[13px]') }}Section 130.1 governance</span>
+        <span class="chip bg-sky-subtle text-secondary">Published net returns</span>
+      </div>
+      <h1 class="mt-3 font-serif text-display-hero-mobile md:text-display-hero text-on-surface tracking-tight">{{ page.title }}</h1>
+      <p class="mt-4 font-sans text-body-lg text-on-surface-variant max-w-2xl">Mortgage underwriting secured by Canadian residential real estate in Ontario, British Columbia and Alberta. Below: what the fund has actually paid each fiscal year, how every loan is tested before it is funded, and who checks the work.</p>
+    </div>
+    <div class="grid grid-cols-2 gap-3">
+      {% set last = perf.series[-1] %}
+      <div class="card p-4"><div class="flex items-center justify-between text-on-surface-variant"><span class="font-sans text-label-caps uppercase">{{ last.year }} net return paid</span>{{ m.icon('verified_user', 'text-secondary text-[20px]') }}</div><div class="mt-2 font-sans text-stat-metric-mobile font-bold tracking-tight text-on-surface">{{ '%.2f' % last.rate }}%</div><p class="font-sans text-body-sm text-secondary font-medium">Against a {{ perf.target }} target</p></div>
+      <div class="card p-4"><div class="flex items-center justify-between text-on-surface-variant"><span class="font-sans text-label-caps uppercase">Loan terms</span>{{ m.icon('event_repeat', 'text-secondary text-[20px]') }}</div><div class="mt-2 font-sans text-stat-metric-mobile font-bold tracking-tight text-on-surface">3–12 mo</div><p class="font-sans text-body-sm text-on-surface-variant">Short duration, staggered maturities</p></div>
+      <p class="col-span-2 font-sans text-[12px] text-on-surface-variant">Past performance does not indicate future results. Distributions are not guaranteed and principal can be lost.</p>
+    </div>
+  </div>
+</section>
+
+<section class="container-site py-8 grid gap-6 lg:grid-cols-[1.2fr_1fr]">
+  <div class="rounded-2xl bg-navy-surface text-white p-5 md:p-7 shadow-md">
+    <div class="flex items-start justify-between">
+      <div><span class="font-sans text-label-caps text-sky-bright uppercase tracking-wider">Historical yield trajectory</span><h2 class="mt-1 font-serif text-headline-md">Net rate of return paid, FY2020–FY2025</h2></div>
+      <span class="chip bg-sky-subtle/20 text-sky-bright">Rates paid</span>
+    </div>
+    <div class="mt-4">{{ m.performance_chart(site, dark=True) }}</div>
+    <div class="mt-5 grid gap-3 sm:grid-cols-3 font-sans text-body-sm text-primary-fixed-dim">
+      <div><p class="font-semibold text-white">How the return is generated</p><p class="mt-1">Interest on the mortgages in the book plus lender fees earned at origination, less operating costs, provisions and any losses.</p></div>
+      <div><p class="font-semibold text-white">Why a bonus distribution</p><p class="mt-1">A MIC distributes its taxable income to keep its flow-through treatment, so earnings above the regular dividend rate are paid out rather than retained.</p></div>
+      <div><p class="font-semibold text-white">What would reduce it</p><p class="mt-1">Rising arrears, enforcement costs, falling property values, or capital sitting undeployed.</p></div>
+    </div>
+  </div>
+
+  <div class="card p-5 md:p-6 flex flex-col gap-3" data-growth-sim>
+    <div class="flex items-center justify-between"><div class="flex items-center gap-2">{{ m.icon('calculate', 'text-secondary text-[22px]') }}<h2 class="font-sans text-headline-sm text-on-surface">5-year growth simulation</h2></div><span class="font-sans text-label-caps uppercase text-secondary font-bold">DRIP</span></div>
+    <p class="font-sans text-body-sm text-on-surface-variant">Compare quarterly-compounded reinvestment at a rate you assume with a deposit compounding annually at a rate you enter. Illustration only — not a forecast.</p>
+    <div class="flex gap-1.5" role="group" aria-label="Amount">
+      {% for v in [50000, 100000, 250000] %}<button type="button" class="tab-btn flex-1 py-2 rounded-lg font-sans text-label-md bg-surface-container text-on-surface-variant" aria-selected="{{ 'true' if loop.first else 'false' }}" data-amount="{{ v }}">${{ '{:,}'.format(v) }}</button>{% endfor %}
+    </div>
+    <div class="grid grid-cols-2 gap-3">
+      <label class="font-sans text-label-caps uppercase text-on-surface-variant">MIC rate assumed (%)<input class="field-input mt-1" type="number" step="0.25" min="0" max="20" value="9" data-rate-a></label>
+      <label class="font-sans text-label-caps uppercase text-on-surface-variant">Deposit rate (%)<input class="field-input mt-1" type="number" step="0.05" min="0" max="15" value="3.5" data-rate-b></label>
+    </div>
+    <div class="p-3 rounded-xl bg-surface-container-low grid gap-3">
+      <div><div class="flex justify-between font-sans text-label-caps"><span class="flex items-center gap-1 text-on-surface"><span class="w-2 h-2 rounded-full bg-secondary"></span>MIC with DRIP</span><span class="text-secondary font-bold" data-total-a>—</span></div><div class="mt-1 h-3 bg-surface-container-high rounded-full overflow-hidden"><div class="h-full bg-secondary rounded-full transition-all" data-bar-a style="width:100%"></div></div></div>
+      <div><div class="flex justify-between font-sans text-label-caps"><span class="flex items-center gap-1 text-on-surface-variant"><span class="w-2 h-2 rounded-full bg-outline"></span>Deposit at your rate</span><span class="text-on-surface font-semibold" data-total-b>—</span></div><div class="mt-1 h-3 bg-surface-container-high rounded-full overflow-hidden"><div class="h-full bg-outline rounded-full transition-all" data-bar-b style="width:80%"></div></div></div>
+    </div>
+    <p class="font-sans text-[11px] text-on-surface-variant leading-4">Assumes a constant rate, no fees and no tax, which no real investment delivers. A GIC from a CDIC member is deposit-insured up to $100,000 per insured category; MIC shares are not deposits, are not CDIC-insured, can lose value and are illiquid. Higher potential returns come with higher risk. <a class="underline text-secondary" href="/tools/drip-compounding-calculator/">Full DRIP calculator</a>.</p>
+  </div>
+</section>
+
+<section class="container-site py-8" aria-labelledby="mandate-heading">
+  {{ m.eyebrow('Lending mandate') }}
+  <h2 id="mandate-heading" class="mt-2 font-serif text-headline-lg text-on-surface">What the mortgage book lends on</h2>
+  <p class="mt-1 font-sans text-body-md text-on-surface-variant max-w-3xl">Residential property that appeals to an end buyer, in markets with real transaction volume — so the security can be sold if it ever has to be.</p>
+  <div class="mt-4 p-1 rounded-xl bg-surface-container-high flex max-w-xl" role="tablist" aria-label="Lending mandate" data-tabs>
+    <button type="button" role="tab" aria-selected="true" class="tab-btn flex-1 py-2 rounded-lg font-sans text-label-md" data-tab="m-asset">Property type</button>
+    <button type="button" role="tab" aria-selected="false" class="tab-btn flex-1 py-2 rounded-lg font-sans text-label-md" data-tab="m-geo">Geography</button>
+    <button type="button" role="tab" aria-selected="false" class="tab-btn flex-1 py-2 rounded-lg font-sans text-label-md" data-tab="m-pos">Loan position</button>
+  </div>
+  {% for id, title, badge, rows, note in [
+    ('m-asset', 'Property composition', 'Residential, 1–4 units', [('home', 'Single-family homes and townhomes', 'Owner-occupied and rental.'), ('apartment', 'Small multi-unit rentals (1–4 units)', 'Rental and investment property under the rental program.'), ('location_city', 'Condominiums', 'Urban condominium units.')], 'Marketability is reviewed on rural and non-standard property before any approval.'),
+    ('m-geo', 'Provincial footprint', 'ON · BC · AB', [('explore', 'Ontario', 'Including the Greater Toronto Area and Golden Horseshoe.'), ('terrain', 'British Columbia', 'Including Metro Vancouver.'), ('landscape', 'Alberta', 'Including Calgary and Edmonton.')], 'Concentration limits apply by region, position and borrower.'),
+    ('m-pos', 'Lien priority', '1st & 2nd mortgages', [('looks_one', 'First mortgages', 'The first registered charge on title.'), ('looks_two', 'Second mortgages', 'Behind an institutional first mortgage, with a combined loan-to-value limit.')], 'A second mortgage is repaid only after the first, so it carries more risk and usually a higher rate.')] %}
+  <div id="{{ id }}" class="mt-4 card p-5 md:p-6 max-w-3xl{% if not loop.first %} hidden{% endif %}" data-panel role="tabpanel">
+    <div class="flex items-center justify-between"><span class="font-sans text-headline-sm text-on-surface">{{ title }}</span><span class="chip bg-secondary-fixed text-on-secondary-fixed-variant">{{ badge }}</span></div>
+    <ul class="mt-3 space-y-3">{% for ic, t, d in rows %}<li class="flex items-start gap-3">{{ m.icon(ic, 'text-secondary text-[20px]') }}<span class="font-sans text-body-md"><strong class="text-on-surface">{{ t }}</strong> — <span class="text-on-surface-variant">{{ d }}</span></span></li>{% endfor %}</ul>
+    <p class="mt-3 font-sans text-body-sm text-on-surface-variant">{{ note }}</p>
+  </div>
+  {% endfor %}
+</section>
+
+<section class="container-site py-8" aria-labelledby="defense-heading">
+  {{ m.eyebrow('Underwriting methodology') }}
+  <h2 id="defense-heading" class="mt-2 font-serif text-headline-lg text-on-surface">Three lines of defence</h2>
+  <p class="mt-1 font-sans text-body-md text-on-surface-variant max-w-3xl">Every mortgage is filtered through three questions in the same order. A file that fails any one is declined, however attractive the yield.</p>
+  <div class="mt-5 grid gap-3 md:grid-cols-3">
+    {% for n, t, d, items in [
+      ('01', 'Asset risk', 'Security is only as good as the ability to realise on it. Markets with demonstrated transaction volume, stable or growing population, and property that appeals to an end user.', ['Conservative loan-to-value against appraised value', 'Marketability review on rural and non-standard property', 'Diversification across ON, BC and AB']),
+      ('02', 'Borrower risk', 'The property is the fallback; the borrower is the primary source of repayment, so the file has to make sense for them.', ['Verified cash flow where it exists', 'Credit history read for behaviour, not just a score', 'Equity contribution and identity / source-of-funds checks']),
+      ('03', 'Exit risk', 'The most common failure in private lending is a loan with no way out. Every file names its repayment source, timeline and fallback.', ['Refinance to an institutional lender, or sale', 'Structured payout or repositioning', 'A documented plan B if the first exit slips'])] %}
+    <div class="card p-5 flex flex-col gap-2">
+      <div class="flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-sky-subtle flex items-center justify-center text-secondary font-sans text-label-caps font-bold">{{ n }}</span><h3 class="font-sans text-headline-sm text-on-surface">{{ t }}</h3></div>
+      <p class="font-sans text-body-md text-on-surface-variant">{{ d }}</p>
+      <ul class="mt-1 space-y-1">{% for i in items %}<li class="flex items-start gap-1.5 font-sans text-label-md text-secondary">{{ m.icon('task_alt', 'text-[16px]') }}<span>{{ i }}</span></li>{% endfor %}</ul>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="mt-5 grid gap-3 md:grid-cols-2">
+    <div class="card p-5"><p class="font-sans text-label-caps uppercase text-secondary">Portfolio-level controls</p><ul class="mt-2 space-y-1.5 font-sans text-body-sm text-on-surface-variant list-disc pl-5"><li>Short duration — {{ site.loan_terms }} terms</li><li>Staggered maturities across the book</li><li>Concentration limits by region, position and borrower</li><li>Board review of arrears and enforcement files</li></ul></div>
+    <div class="card p-5"><p class="font-sans text-label-caps uppercase text-maple-red">What underwriting cannot control</p><ul class="mt-2 space-y-1.5 font-sans text-body-sm text-on-surface-variant list-disc pl-5"><li>Property values in a falling market</li><li>A borrower's circumstances changing mid-term</li><li>The time and cost of enforcement</li><li>Interest rates and refinancing conditions at maturity</li></ul></div>
+  </div>
+  <p class="mt-3 font-sans text-body-sm text-on-surface-variant">Go deeper: <a class="text-secondary underline" href="/learn/how-mortgages-are-underwritten/">how mortgages are underwritten</a> · <a class="text-secondary underline" href="/learn/loan-to-value-for-mortgage-investors/">loan-to-value explained</a> · <a class="text-secondary underline" href="/learn/mortgage-investment-risks/">the risks of mortgage investing</a>.</p>
+</section>
+
+<section class="bg-surface-container-low py-10 mt-4" aria-labelledby="gov-heading">
+  <div class="container-site">
+    {{ m.eyebrow('Institutional integrity') }}
+    <h2 id="gov-heading" class="mt-2 font-serif text-headline-lg text-on-surface">Governance and published research</h2>
+    <div class="mt-5 grid gap-3 grid-cols-2 lg:grid-cols-4">
+      {% for ic, t, d in [
+        ('fact_check', 'Auditor', 'A licensed public accounting firm audits the corporation’s financial statements annually; they accompany the offering memorandum.'),
+        ('account_balance', 'Administrator', site.administrator ~ ', ' ~ site.fsra_licence_label ~ ', collects and remits mortgage payments through trust.'),
+        ('handshake', 'Exempt market dealer', 'Shares are distributed only through a registered exempt market dealer, which assesses suitability for each investor.'),
+        ('gavel', 'Real estate counsel', 'A real estate lawyer reviews title, registers the charge, handles payouts and discharges, and acts on enforcement.')] %}
+      <div class="card p-4"><div class="flex items-center gap-1.5 text-secondary">{{ m.icon(ic, 'text-[18px]') }}<span class="font-sans text-label-caps uppercase font-bold">{{ t }}</span></div><p class="mt-2 font-sans text-body-sm text-on-surface-variant">{{ d }}</p></div>
+      {% endfor %}
+    </div>
+    <div class="mt-4 card p-5 grid gap-3 md:grid-cols-[1fr_auto] md:items-center">
+      <div><p class="font-sans text-headline-sm text-on-surface">Thought leadership <span class="font-sans text-label-caps text-secondary">by Ali Zaidi</span></p><p class="mt-1 font-sans text-body-sm text-on-surface-variant">Published papers on the Canadian alternative-lending asset class, including <em>MIC vs REIT</em>, first vs second mortgage investments, loan-to-value, liquidity and redemption, and where returns come from.</p></div>
+      <a class="btn-ghost" href="{{ site.published_papers_url }}" rel="noopener">{{ m.icon('description', 'text-[18px] text-secondary') }}Read the papers</a>
+    </div>
+  </div>
+</section>
+
+<section class="container-site py-10">
+  <div class="rounded-2xl bg-primary-container text-white p-5 md:p-8 grid gap-4 md:grid-cols-[1.3fr_1fr] md:items-center shadow-md">
+    <div><div class="flex items-center gap-2">{{ m.icon('verified', 'text-secondary-container text-[24px]') }}<span class="font-sans text-label-caps text-sky-bright uppercase tracking-wider">Accredited &amp; eligible investors</span></div><h2 class="mt-2 font-serif text-headline-md">Request the audited financial statements</h2><p class="mt-2 font-sans text-body-sm text-inverse-on-surface/90">The offering memorandum includes the corporation's audited financial statements and its risk factors. Ask the investor desk for the current version, arrears and enforcement reporting, and the redemption terms.</p></div>
+    <a class="btn-red" href="/contact/#intake">{{ m.icon('lock_open', 'text-[20px]') }}Request the OM and financials</a>
+  </div>
+</section>
+
+{{ m.faq_list(perf_faq, 'Questions about returns and risk') }}
+{{ m.standard_cta(site) }}
+{% endblock %}

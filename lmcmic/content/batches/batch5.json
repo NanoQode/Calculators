@@ -1,0 +1,389 @@
+[
+ {
+  "id": 39,
+  "title": "Residential vs Commercial Mortgage Investing",
+  "url": "/learn/residential-vs-commercial-mortgage-investing/",
+  "type": "Comparison",
+  "stage": "4 Comparisons",
+  "primary_keyword": "residential vs commercial mortgage investing",
+  "secondary_keywords": [
+   "residential mortgage investing",
+   "commercial mortgage investing Canada"
+  ],
+  "question_keyword": "which is safer residential or commercial mortgage investing",
+  "intent": "Comparison",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2000,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Comparison must present trade-offs both ways; no 'better than' verdict; deposit-insurance position stated where a GIC or savings product is named.",
+  "verify_before_publishing": "Appraisal methodology; GAP on the investor side",
+  "links_to": [
+   "/learn/commercial-mortgage-investing/ (Commercial Mortgage Investing in Canada)",
+   "/learn/property-marketability-risk/ (Property Value and Marketability Risk)",
+   "/learn/residential-mortgage-investing/ (Residential Mortgage Investing in Canada)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "commercial mortgage investing Canada",
+   "residential mortgage investing",
+   "residential vs commercial mortgage investing"
+  ],
+  "investor_questions_for_faq": [
+   "which is safer residential or commercial mortgage investing"
+  ]
+ },
+ {
+  "id": 40,
+  "title": "Fixed vs Variable Rate Mortgage Investments",
+  "url": "/learn/fixed-vs-variable-rate-mortgage-investments/",
+  "type": "Comparison",
+  "stage": "4 Comparisons",
+  "primary_keyword": "fixed rate vs variable rate mortgage investment",
+  "secondary_keywords": [
+   "interest rate risk mortgage investing",
+   "mortgage investment term length"
+  ],
+  "question_keyword": "does a variable rate mortgage investment pay more",
+  "intent": "Comparison",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 1600,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Comparison must present trade-offs both ways; no 'better than' verdict; deposit-insurance position stated where a GIC or savings product is named.",
+  "verify_before_publishing": "None for mechanics",
+  "links_to": [
+   "/learn/interest-rate-risk-mortgage-investing/ (Interest Rate Risk for Mortgage Investors)",
+   "/learn/mortgage-investment-returns/ (Where Do Mortgage Investment Returns Actually Come From?)",
+   "/learn/mortgage-investment-terms-renewals-and-exits/ (Terms, Renewals, Early Repayment and Discharge)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "fixed rate vs variable rate mortgage investment",
+   "interest rate risk mortgage investing",
+   "mortgage investment term length"
+  ],
+  "investor_questions_for_faq": [
+   "how is interest paid to a mortgage investor",
+   "what are the risks of investing in a MIC",
+   "is mortgage investing safe",
+   "are MIC investments guaranteed",
+   "is my principal guaranteed mortgage investment",
+   "can you lose money investing in mortgages",
+   "how do I get paid mortgage investment",
+   "how do I get paid on a mortgage investment",
+   "what is reinvestment risk in mortgage investing",
+   "is investing in mortgages safe in Canada",
+   "is my money safe in a mortgage investment corporation",
+   "is a MIC guaranteed",
+   "what are the risks of investing in a mortgage investment corporation",
+   "what are the risks of private mortgage investing",
+   "what happens if the borrower does not renew",
+   "can I lose my whole investment in a mortgage"
+  ]
+ },
+ {
+  "id": 41,
+  "title": "Alternative Fixed Income in Canada: Where Mortgage Investments Sit",
+  "url": "/learn/alternative-fixed-income-canada/",
+  "type": "Pillar page",
+  "stage": "4 Comparisons",
+  "primary_keyword": "alternative fixed income investments Canada",
+  "secondary_keywords": [
+   "high yield investments Canada",
+   "income producing investments Canada"
+  ],
+  "question_keyword": "what are the alternatives to GICs and bonds in Canada",
+  "intent": "Comparison",
+  "investor_stage": "Problem-aware",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2400,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Comparison must present trade-offs both ways; no 'better than' verdict; deposit-insurance position stated where a GIC or savings product is named. Higher potential yield must be tied explicitly to additional risk wherever it appears.",
+  "verify_before_publishing": "Current yields only if dated and sourced; prefer relative positioning over figures",
+  "links_to": [
+   "/learn/mortgage-investing-vs-bonds/ (Mortgage Investing vs Bonds: Two Kinds of Fixed Income)",
+   "/learn/mortgage-investing-vs-gics/ (Mortgage Investing vs GICs: Yield, Insurance and What You Give Up)",
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)",
+   "/learn/what-is-mortgage-investing/ (What Is Mortgage Investing in Canada?)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "alternative fixed income investments Canada",
+   "high yield investments Canada",
+   "income producing investments Canada"
+  ],
+  "investor_questions_for_faq": []
+ },
+ {
+  "id": 42,
+  "title": "The Risks of Mortgage Investing in Canada",
+  "url": "/learn/mortgage-investment-risks/",
+  "type": "Pillar page",
+  "stage": "5 Risk and due diligence",
+  "primary_keyword": "mortgage investment risks",
+  "secondary_keywords": [
+   "risks of private mortgage investing",
+   "what are the risks of investing in a MIC"
+  ],
+  "question_keyword": "is investing in mortgages safe in Canada",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 3000,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Risk content must not be softened by a reassurance that undercuts it.",
+  "verify_before_publishing": "CMHC MIE delinquency data; FSRA private-lending report, both with periods stated",
+  "links_to": [
+   "/learn/borrower-default-mortgage-investment/ (What Happens When a Borrower Defaults on Your Mortgage Investment)",
+   "/learn/liquidity-and-redemption/ (Liquidity and Redemption: Getting Your Money Out)",
+   "/learn/loan-to-value-for-mortgage-investors/ (Loan-to-Value for Mortgage Investors: How to Read It and Where It Misleads)"
+  ],
+  "linked_from": [
+   "/ (/)",
+   "/learn/ (/learn/)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "mortgage investment risks",
+   "risks of private mortgage investing",
+   "what are the risks of investing in a MIC"
+  ],
+  "investor_questions_for_faq": [
+   "what are the risks of investing in a MIC",
+   "is mortgage investing safe",
+   "are MIC investments guaranteed",
+   "is my principal guaranteed mortgage investment",
+   "can you lose money investing in mortgages",
+   "is investing in mortgages safe in Canada",
+   "is my money safe in a mortgage investment corporation",
+   "is a MIC guaranteed",
+   "what are the risks of investing in a mortgage investment corporation",
+   "what are the risks of private mortgage investing",
+   "can I lose my whole investment in a mortgage"
+  ]
+ },
+ {
+  "id": 43,
+  "title": "Are Mortgage Investments Guaranteed? No — Here Is What That Means",
+  "url": "/learn/are-mortgage-investments-guaranteed/",
+  "type": "Explainer",
+  "stage": "5 Risk and due diligence",
+  "primary_keyword": "are MIC investments guaranteed",
+  "secondary_keywords": [
+   "is my principal guaranteed mortgage investment",
+   "is a MIC CDIC insured"
+  ],
+  "question_keyword": "is a MIC guaranteed",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 1600,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Risk content must not be softened by a reassurance that undercuts it. This page must never be softened. No deposit insurance, no principal guarantee, no exceptions.",
+  "verify_before_publishing": "CDIC coverage scope to state the contrast accurately",
+  "links_to": [
+   "/learn/capital-preservation-and-loss-of-principal/ (Capital Preservation and Loss of Principal: Both Sides Stated Plainly)",
+   "/learn/liquidity-and-redemption/ (Liquidity and Redemption: Getting Your Money Out)",
+   "/learn/mortgage-investing-vs-gics/ (Mortgage Investing vs GICs: Yield, Insurance and What You Give Up)",
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)"
+  ],
+  "linked_from": [
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "are MIC investments guaranteed",
+   "is a MIC CDIC insured",
+   "is my principal guaranteed mortgage investment"
+  ],
+  "investor_questions_for_faq": [
+   "what are the risks of investing in a MIC",
+   "is mortgage investing safe",
+   "are MIC investments guaranteed",
+   "is my principal guaranteed mortgage investment",
+   "can you lose money investing in mortgages",
+   "best alternative to GIC Canada",
+   "is investing in mortgages safe in Canada",
+   "is my money safe in a mortgage investment corporation",
+   "is a MIC guaranteed",
+   "is a MIC CDIC insured",
+   "is a MIC the same as a GIC",
+   "what are the risks of investing in a mortgage investment corporation",
+   "what are the risks of private mortgage investing",
+   "which is better mortgage investing or a GIC",
+   "can I lose my whole investment in a mortgage"
+  ]
+ },
+ {
+  "id": 44,
+  "title": "Loan-to-Value for Mortgage Investors: How to Read It and Where It Misleads",
+  "url": "/learn/loan-to-value-for-mortgage-investors/",
+  "type": "Pillar page",
+  "stage": "5 Risk and due diligence",
+  "primary_keyword": "loan to value mortgage investing",
+  "secondary_keywords": [
+   "what is a good LTV for mortgage investing",
+   "combined loan to value second mortgage",
+   "weighted average LTV MIC"
+  ],
+  "question_keyword": "how does LTV protect my capital",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2400,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Risk content must not be softened by a reassurance that undercuts it.",
+  "verify_before_publishing": "Appraisal basis (as-is vs as-complete); NI 45-106 s.2.9(19.1) appraisal requirements for syndicated mortgages",
+  "links_to": [
+   "/learn/appraisals-for-mortgage-investors/ (Appraisals for Mortgage Investors: As-Is vs As-Complete)",
+   "/learn/first-vs-second-mortgage-investments/ (First vs Second Mortgage Investments: What Position Really Costs)",
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)",
+   "/learn/reading-mic-financial-statements/ (Reading a MIC's Financial Statements and Offering Memorandum)"
+  ],
+  "linked_from": [
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)",
+   "/learn/mortgage-investor-due-diligence-checklist/ (The Mortgage Investor's Due Diligence Checklist)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "combined loan to value second mortgage",
+   "loan to value mortgage investing",
+   "weighted average LTV MIC",
+   "what is a good LTV for mortgage investing"
+  ],
+  "investor_questions_for_faq": [
+   "how to read a MIC offering memorandum",
+   "how to read a MIC financial statement",
+   "what is a good LTV for mortgage investing",
+   "how to calculate loan to value",
+   "what is loan to value in mortgage investing",
+   "how does LTV protect my capital",
+   "what should I look for in a MIC's financial statements",
+   "what should be in a mortgage investment offering memorandum"
+  ]
+ },
+ {
+  "id": 45,
+  "title": "What Happens When a Borrower Defaults on Your Mortgage Investment",
+  "url": "/learn/borrower-default-mortgage-investment/",
+  "type": "Pillar page",
+  "stage": "5 Risk and due diligence",
+  "primary_keyword": "borrower default mortgage investment",
+  "secondary_keywords": [
+   "mortgage default risk investor",
+   "what happens if a borrower stops paying",
+   "do foreclosures affect MIC returns"
+  ],
+  "question_keyword": "what happens if the borrower defaults on my mortgage investment",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2800,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Risk content must not be softened by a reassurance that undercuts it.",
+  "verify_before_publishing": "Provincial enforcement statutes; verify notice periods against the primary statute, not secondary summaries",
+  "links_to": [
+   "/learn/cost-of-mortgage-enforcement/ (What Enforcement Actually Costs a Mortgage Investor)",
+   "/learn/first-vs-second-mortgage-investments/ (First vs Second Mortgage Investments: What Position Really Costs)",
+   "/learn/mortgage-enforcement-across-canada/ (Mortgage Enforcement Across Canada: Power of Sale, Judicial Sale and Quebec's Recourses)",
+   "/learn/power-of-sale-for-mortgage-investors/ (Power of Sale: What It Means for a Mortgage Investor)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)",
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "borrower default mortgage investment",
+   "do foreclosures affect MIC returns",
+   "mortgage default risk investor",
+   "what happens if a borrower stops paying"
+  ],
+  "investor_questions_for_faq": [
+   "what happens if a borrower stops paying",
+   "do foreclosures affect MIC returns",
+   "how much does enforcement cost if a borrower defaults",
+   "what happens if the borrower defaults on my mortgage investment",
+   "what happens if the property is worth less than the mortgage",
+   "what happens if there are foreclosures in the portfolio"
+  ]
+ },
+ {
+  "id": 46,
+  "title": "Mortgage Enforcement Across Canada: Power of Sale, Judicial Sale and Quebec's Recourses",
+  "url": "/learn/mortgage-enforcement-across-canada/",
+  "type": "Pillar page",
+  "stage": "5 Risk and due diligence",
+  "primary_keyword": "foreclosure process for mortgage investors",
+  "secondary_keywords": [
+   "power of sale vs foreclosure Canada",
+   "deficiency judgment mortgage Canada"
+  ],
+  "question_keyword": "how does foreclosure work in British Columbia",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 3200,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Risk content must not be softened by a reassurance that undercuts it. No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Regulatory claims verified against the primary statute/regulator page cited, with a 'current as of' date.",
+  "verify_before_publishing": "ON Mortgages Act; NB Property Act; NL Conveyancing Act ss.5-9; PEI Real Property Act; BC Law and Equity Act; AB Law of Property Act; SK LCAA; NS judicial process; QC CCQ arts.2748 et seq. MANITOBA IS DISPUTED — describe mechanics, do not assign a label",
+  "links_to": [
+   "/learn/borrower-default-mortgage-investment/ (What Happens When a Borrower Defaults on Your Mortgage Investment)",
+   "/learn/mortgage-investing-quebec/ (Mortgage Investing in Quebec: A Different Legal System)",
+   "/learn/mortgage-investment-regulation-alberta/ (Mortgage Investment Regulation in Alberta)",
+   "/learn/mortgage-investment-regulation-british-columbia/ (Mortgage Investment Regulation in British Columbia — and the October 2026 Change)",
+   "/learn/power-of-sale-for-mortgage-investors/ (Power of Sale: What It Means for a Mortgage Investor)"
+  ],
+  "linked_from": [
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "deficiency judgment mortgage Canada",
+   "foreclosure process for mortgage investors",
+   "power of sale vs foreclosure Canada"
+  ],
+  "investor_questions_for_faq": []
+ },
+ {
+  "id": 47,
+  "title": "Power of Sale: What It Means for a Mortgage Investor",
+  "url": "/learn/power-of-sale-for-mortgage-investors/",
+  "type": "Guide",
+  "stage": "5 Risk and due diligence",
+  "primary_keyword": "power of sale Canada investor",
+  "secondary_keywords": [
+   "what is power of sale",
+   "how long does power of sale take"
+  ],
+  "question_keyword": "how does power of sale work for an investor",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Ontario",
+  "geo_note": "Applies to ON, NB, NL and PEI; NOT to BC, AB, SK, NS or QC",
+  "target_words": 2200,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Risk content must not be softened by a reassurance that undercuts it. No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Regulatory claims verified against the primary statute/regulator page cited, with a 'current as of' date.",
+  "verify_before_publishing": "Ontario Mortgages Act RSO 1990 c.M.40; verify notice periods and day-counts against the statute — sources are inconsistent",
+  "links_to": [
+   "/learn/cost-of-mortgage-enforcement/ (What Enforcement Actually Costs a Mortgage Investor)",
+   "/learn/first-vs-second-mortgage-investments/ (First vs Second Mortgage Investments: What Position Really Costs)",
+   "/learn/mortgage-enforcement-across-canada/ (Mortgage Enforcement Across Canada: Power of Sale, Judicial Sale and Quebec's Recourses)"
+  ],
+  "linked_from": [
+   "/learn/mortgage-investing-ontario/ (Mortgage Investing in Ontario)",
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "how long does power of sale take",
+   "power of sale Canada investor",
+   "what is power of sale"
+  ],
+  "investor_questions_for_faq": [
+   "what is power of sale",
+   "how long does power of sale take",
+   "how does power of sale work for an investor"
+  ]
+ }
+]

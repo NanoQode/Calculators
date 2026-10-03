@@ -1,0 +1,375 @@
+[
+ {
+  "id": 57,
+  "title": "Title, Insurance and the Legal File a Mortgage Investor Should See",
+  "url": "/learn/title-insurance-and-legal-file/",
+  "type": "Checklist",
+  "stage": "5 Risk and due diligence",
+  "primary_keyword": "title search mortgage investment",
+  "secondary_keywords": [
+   "title insurance mortgage investor",
+   "property insurance mortgage investor",
+   "independent legal advice mortgage investment"
+  ],
+  "question_keyword": "what happens if the property burns down",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Ready to invest",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 1800,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Risk content must not be softened by a reassurance that undercuts it.",
+  "verify_before_publishing": "Provincial land registry practice; standard mortgagee insurance requirements",
+  "links_to": [
+   "/how-to-invest/ (How to Invest in Mortgages: The Process Step by Step)",
+   "/learn/how-mortgage-investments-are-secured/ (How Are Canadian Mortgages Secured Against Real Estate?)",
+   "/learn/mortgage-investor-due-diligence-checklist/ (The Mortgage Investor's Due Diligence Checklist)"
+  ],
+  "linked_from": [
+   "/learn/mortgage-investor-due-diligence-checklist/ (The Mortgage Investor's Due Diligence Checklist)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "independent legal advice mortgage investment",
+   "property insurance mortgage investor",
+   "title insurance mortgage investor",
+   "title search mortgage investment"
+  ],
+  "investor_questions_for_faq": [
+   "how to start investing in mortgages",
+   "what documents do I need to invest in a MIC",
+   "can I use my own lawyer mortgage investment",
+   "how do I check that my mortgage investment actually closed",
+   "what happens if the property burns down",
+   "what should I check in a mortgage investment before I commit"
+  ]
+ },
+ {
+  "id": 58,
+  "title": "Interest Rate Risk for Mortgage Investors",
+  "url": "/learn/interest-rate-risk-mortgage-investing/",
+  "type": "Explainer",
+  "stage": "5 Risk and due diligence",
+  "primary_keyword": "interest rate risk mortgage investing",
+  "secondary_keywords": [
+   "fixed rate vs variable rate mortgage investment",
+   "reinvestment risk mortgage investing"
+  ],
+  "question_keyword": "what happens to mortgage investments when rates change",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 1600,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Risk content must not be softened by a reassurance that undercuts it.",
+  "verify_before_publishing": "None for mechanics",
+  "links_to": [
+   "/learn/fixed-vs-variable-rate-mortgage-investments/ (Fixed vs Variable Rate Mortgage Investments)",
+   "/learn/mortgage-investing-vs-bonds/ (Mortgage Investing vs Bonds: Two Kinds of Fixed Income)",
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)",
+   "/learn/reinvestment-risk-mortgage-investing/ (Reinvestment Risk: The Cost of Money Coming Back Too Soon)"
+  ],
+  "linked_from": [
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "fixed rate vs variable rate mortgage investment",
+   "interest rate risk mortgage investing",
+   "reinvestment risk mortgage investing"
+  ],
+  "investor_questions_for_faq": [
+   "how is interest paid to a mortgage investor",
+   "what are the risks of investing in a MIC",
+   "is mortgage investing safe",
+   "are MIC investments guaranteed",
+   "is my principal guaranteed mortgage investment",
+   "can you lose money investing in mortgages",
+   "how do I get paid mortgage investment",
+   "how do I get paid on a mortgage investment",
+   "what is reinvestment risk in mortgage investing",
+   "is investing in mortgages safe in Canada",
+   "is my money safe in a mortgage investment corporation",
+   "is a MIC guaranteed",
+   "what are the risks of investing in a mortgage investment corporation",
+   "what are the risks of private mortgage investing",
+   "what happens if the borrower does not renew",
+   "can I lose my whole investment in a mortgage"
+  ]
+ },
+ {
+  "id": 59,
+  "title": "How Mortgage Investing Is Regulated in Canada",
+  "url": "/learn/mortgage-investment-regulation-canada/",
+  "type": "Pillar page",
+  "stage": "6 Rules and regulations",
+  "primary_keyword": "mortgage investment regulations Canada",
+  "secondary_keywords": [
+   "how is the MIC market regulated",
+   "mortgage broker licensing by province"
+  ],
+  "question_keyword": "is private mortgage investing regulated in Canada",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 3000,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Regulatory claims verified against the primary statute/regulator page cited, with a 'current as of' date.",
+  "verify_before_publishing": "There is NO federal mortgage brokering regulator — never imply one. Verify every regulator name and statute against its own site",
+  "links_to": [
+   "/learn/accredited-investor-canada/ (Are You an Accredited Investor? Canadian Eligibility Explained)",
+   "/learn/exempt-market-and-offering-memorandums/ (The Exempt Market and Offering Memorandums)",
+   "/learn/mortgage-administrators/ (Mortgage Administrators: Who Services Your Investment and Why It Matters)",
+   "/learn/mortgage-investment-rules-by-province/ (Mortgage Investment Rules by Province: A Verified Comparison)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)",
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "how is the MIC market regulated",
+   "mortgage broker licensing by province",
+   "mortgage investment regulations Canada"
+  ],
+  "investor_questions_for_faq": [
+   "how is the MIC market regulated",
+   "is private mortgage investing regulated in Canada",
+   "what oversight is there on a MIC"
+  ]
+ },
+ {
+  "id": 60,
+  "title": "Mortgage Investment Rules by Province: A Verified Comparison",
+  "url": "/learn/mortgage-investment-rules-by-province/",
+  "type": "Data / research",
+  "stage": "6 Rules and regulations",
+  "primary_keyword": "mortgage broker licensing by province",
+  "secondary_keywords": [
+   "mortgage administrator licence Canada",
+   "single regulator provinces mortgage securities"
+  ],
+  "question_keyword": "which provinces license mortgage administrators",
+  "intent": "Comparison",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 3400,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Regulatory claims verified against the primary statute/regulator page cited, with a 'current as of' date. Every row needs its own source link and a 'current as of' date. Do not assume one province's rules apply elsewhere.",
+  "verify_before_publishing": "ON: FSRA / MBLAA 2006 (FSCO is defunct). BC: BCFSA / Mortgage Brokers Act — MSA in force 13 Oct 2026. AB: RECA / Real Estate Act. QC: AMF (moved from OACIQ 1 May 2020). MB: Manitoba Securities Commission / Mortgage Brokers Act. SK: FCAA / MBMAA. NB: FCNB / Mortgage Brokers Act. NS: Registrar of Mortgage Regulation / Mortgage Regulation Act SNS 2012 c.11 in force 1 Nov 2021. NL: Mortgage Brokerages and Brokers Act in force 1 Apr 2025. PEI: appears to have no licensing regime — VERIFY",
+  "links_to": [
+   "/learn/mortgage-enforcement-across-canada/ (Mortgage Enforcement Across Canada: Power of Sale, Judicial Sale and Quebec's Recourses)"
+  ],
+  "linked_from": [
+   "/learn/mortgage-investment-regulation-canada/ (How Mortgage Investing Is Regulated in Canada)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "mortgage administrator licence Canada",
+   "mortgage broker licensing by province",
+   "single regulator provinces mortgage securities"
+  ],
+  "investor_questions_for_faq": [
+   "how is the MIC market regulated",
+   "what is a mortgage administrator",
+   "who holds the mortgage on my behalf",
+   "what is a mortgage administrator and why does it matter to me",
+   "what is a trustee in a mortgage investment",
+   "is private mortgage investing regulated in Canada",
+   "what oversight is there on a MIC"
+  ]
+ },
+ {
+  "id": 61,
+  "title": "Mortgage Administrators: Who Services Your Investment and Why It Matters",
+  "url": "/learn/mortgage-administrators/",
+  "type": "Guide",
+  "stage": "6 Rules and regulations",
+  "primary_keyword": "what is a mortgage administrator",
+  "secondary_keywords": [
+   "mortgage administrator licence Canada",
+   "who holds the mortgage on my behalf"
+  ],
+  "question_keyword": "what is a trustee in a mortgage investment",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2000,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Regulatory claims verified against the primary statute/regulator page cited, with a 'current as of' date.",
+  "verify_before_publishing": "MBLAA s.5(2) for Ontario; SK MBMAA s.5(4); NB and NS administrator classes; confirm AB, MB, NL negatives; BC becomes a licensed category 13 Oct 2026",
+  "links_to": [
+   "/learn/direct-mortgage-investing/ (Direct Mortgage Investing: Holding the Charge in Your Own Name)",
+   "/learn/mortgage-investment-rules-by-province/ (Mortgage Investment Rules by Province: A Verified Comparison)",
+   "/learn/mortgage-investor-due-diligence-checklist/ (The Mortgage Investor's Due Diligence Checklist)"
+  ],
+  "linked_from": [
+   "/learn/mortgage-investment-regulation-canada/ (How Mortgage Investing Is Regulated in Canada)",
+   "/learn/mortgage-investor-due-diligence-checklist/ (The Mortgage Investor's Due Diligence Checklist)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "mortgage administrator licence Canada",
+   "what is a mortgage administrator",
+   "who holds the mortgage on my behalf"
+  ],
+  "investor_questions_for_faq": [
+   "what is a mortgage administrator",
+   "who holds the mortgage on my behalf",
+   "what is a mortgage administrator and why does it matter to me",
+   "what is a trustee in a mortgage investment"
+  ]
+ },
+ {
+  "id": 62,
+  "title": "Are You an Accredited Investor? Canadian Eligibility Explained",
+  "url": "/learn/accredited-investor-canada/",
+  "type": "Guide",
+  "stage": "6 Rules and regulations",
+  "primary_keyword": "accredited investor Canada",
+  "secondary_keywords": [
+   "am I an accredited investor Canada",
+   "eligible investor definition Canada",
+   "who can invest in a MIC"
+  ],
+  "question_keyword": "can I invest in a MIC without being accredited",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2400,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Regulatory claims verified against the primary statute/regulator page cited, with a 'current as of' date. Eligibility is not suitability — state that explicitly.",
+  "verify_before_publishing": "NI 45-106 s.2.3 accredited investor; s.1.1 'eligible investor' is a DEFINED TERM not an exemption — thresholds include net assets over $400,000, income over $75,000 individually or $125,000 with a spouse in each of the two most recent years; s.2.9 OM; s.2.10 minimum amount",
+  "links_to": [
+   "/how-to-invest/ (How to Invest in Mortgages: The Process Step by Step)",
+   "/learn/exempt-market-and-offering-memorandums/ (The Exempt Market and Offering Memorandums)",
+   "/learn/mortgage-investment-rules-by-province/ (Mortgage Investment Rules by Province: A Verified Comparison)"
+  ],
+  "linked_from": [
+   "/how-to-invest/ (How to Invest in Mortgages: The Process Step by Step)",
+   "/learn/ (/learn/)",
+   "/learn/mortgage-investment-regulation-canada/ (How Mortgage Investing Is Regulated in Canada)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "accredited investor Canada",
+   "am I an accredited investor Canada",
+   "eligible investor definition Canada",
+   "who can invest in a MIC"
+  ],
+  "investor_questions_for_faq": [
+   "am I an accredited investor Canada",
+   "do I need to be accredited to invest in a MIC",
+   "who can invest in a MIC",
+   "what is an accredited investor in Canada",
+   "can I invest in a MIC without being accredited"
+  ]
+ },
+ {
+  "id": 63,
+  "title": "The Exempt Market and Offering Memorandums",
+  "url": "/learn/exempt-market-and-offering-memorandums/",
+  "type": "Guide",
+  "stage": "6 Rules and regulations",
+  "primary_keyword": "exempt market mortgage investment",
+  "secondary_keywords": [
+   "offering memorandum exemption mortgage",
+   "prospectus exemption mortgage investment",
+   "exempt market dealer mortgage"
+  ],
+  "question_keyword": "what is an exempt market security",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2200,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Regulatory claims verified against the primary statute/regulator page cited, with a 'current as of' date.",
+  "verify_before_publishing": "NI 45-106 ss.2.3, 2.4, 2.5, 2.9, 2.36; NI 31-103 registration; name exemptions exactly",
+  "links_to": [
+   "/learn/accredited-investor-canada/ (Are You an Accredited Investor? Canadian Eligibility Explained)",
+   "/learn/mortgage-investment-rules-by-province/ (Mortgage Investment Rules by Province: A Verified Comparison)",
+   "/learn/reading-mic-financial-statements/ (Reading a MIC's Financial Statements and Offering Memorandum)",
+   "/learn/syndicated-mortgage-rules/ (Syndicated Mortgage Rules in Canada After the 2021 Reforms)"
+  ],
+  "linked_from": [
+   "/learn/mortgage-investment-regulation-canada/ (How Mortgage Investing Is Regulated in Canada)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "exempt market dealer mortgage",
+   "exempt market mortgage investment",
+   "offering memorandum exemption mortgage",
+   "prospectus exemption mortgage investment"
+  ],
+  "investor_questions_for_faq": [
+   "what is an exempt market security"
+  ]
+ },
+ {
+  "id": 64,
+  "title": "Syndicated Mortgage Rules in Canada After the 2021 Reforms",
+  "url": "/learn/syndicated-mortgage-rules/",
+  "type": "Guide",
+  "stage": "6 Rules and regulations",
+  "primary_keyword": "syndicated mortgage investment",
+  "secondary_keywords": [
+   "qualified syndicated mortgage",
+   "non-qualified syndicated mortgage",
+   "syndicated mortgage risks"
+  ],
+  "question_keyword": "what is a syndicated mortgage",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2600,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Regulatory claims verified against the primary statute/regulator page cited, with a 'current as of' date.",
+  "verify_before_publishing": "NI 45-106 s.2.36(3) removes the mortgages exemption; s.2.4(4) removes the private issuer exemption; ss.2.9(19.1)-(19.4) add appraisal requirements; NI 31-103 s.8.12(4) repealed. Effective 1 Mar 2021, and 1 Jul 2021 in ON and QC. In Ontario, FSRA supervises NQSMIs with permitted clients and the OSC supervises the rest",
+  "links_to": [
+   "/learn/appraisals-for-mortgage-investors/ (Appraisals for Mortgage Investors: As-Is vs As-Complete)",
+   "/learn/fractional-and-syndicated-mortgage-investing/ (Fractional and Syndicated Mortgage Investments)",
+   "/learn/mortgage-investment-red-flags/ (Mortgage Investment Red Flags and Fraud Prevention)",
+   "/learn/mortgage-investment-rules-by-province/ (Mortgage Investment Rules by Province: A Verified Comparison)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)",
+   "/learn/mortgage-investment-regulation-canada/ (How Mortgage Investing Is Regulated in Canada)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "non-qualified syndicated mortgage",
+   "qualified syndicated mortgage",
+   "syndicated mortgage investment",
+   "syndicated mortgage risks"
+  ],
+  "investor_questions_for_faq": [
+   "what is a syndicated mortgage"
+  ]
+ },
+ {
+  "id": 65,
+  "title": "Mortgage Investment Regulation in Ontario",
+  "url": "/learn/mortgage-investment-regulation-ontario/",
+  "type": "Location page",
+  "stage": "6 Rules and regulations",
+  "primary_keyword": "FSRA private mortgage investor",
+  "secondary_keywords": [
+   "mortgage investor disclosure form Ontario",
+   "mortgage investing Ontario"
+  ],
+  "question_keyword": "who regulates private mortgage investing in Ontario",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Ontario",
+  "geo_note": "Ontario only",
+  "target_words": 2000,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Regulatory claims verified against the primary statute/regulator page cited, with a 'current as of' date.",
+  "verify_before_publishing": "FSRA under MBLAA 2006 S.O. 2006 c.29; O.Reg 188/08 and 189/08. FSCO ceased to exist 8 June 2019 — never name it as current. Verify current investor disclosure form numbers with FSRA",
+  "links_to": [
+   "/learn/mortgage-investing-ontario/ (Mortgage Investing in Ontario)",
+   "/learn/mortgage-investment-rules-by-province/ (Mortgage Investment Rules by Province: A Verified Comparison)",
+   "/learn/power-of-sale-for-mortgage-investors/ (Power of Sale: What It Means for a Mortgage Investor)"
+  ],
+  "linked_from": [
+   "/learn/mortgage-investing-ontario/ (Mortgage Investing in Ontario)",
+   "/learn/mortgage-investment-regulation-canada/ (How Mortgage Investing Is Regulated in Canada)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "FSRA private mortgage investor",
+   "mortgage investing Ontario",
+   "mortgage investor disclosure form Ontario"
+  ],
+  "investor_questions_for_faq": []
+ }
+]

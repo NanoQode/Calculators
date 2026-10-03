@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="container-site pt-6 md:pt-10 pb-10">
+  <h1 class="font-serif text-display-hero-mobile md:text-[40px] md:leading-[48px] text-on-surface">{{ page.title }}</h1>
+  <p class="mt-2 font-sans text-body-sm text-on-surface-variant">Effective {{ site.content_updated_label }}</p>
+  <div class="prose-lmc mt-6">
+    <p>This notice explains how {{ site.legal_name }} and its mortgage administrator, {{ site.administrator }} (together, “Lendmax Capital”, “we”), handle personal information collected through lmcmic.ca. We follow the <em>Personal Information Protection and Electronic Documents Act</em> (PIPEDA) and applicable provincial privacy law.</p>
+    <h2 id="what-we-collect">What we collect</h2>
+    <p>When you submit the investor intake form we collect what you enter: your name, email address, phone number, province of residence, how you would invest, your planned allocation range, your preferred contact method, the best time and days to reach you, any message, and your consent. We also record technical context that helps us respond and measure our marketing: the page you submitted from, the referring page, campaign tags in the link you followed (such as <code>utm_source</code>), your browser time zone, your IP address, browser type and the date and time of submission.</p>
+    <h2 id="how-we-use-it">How we use it</h2>
+    <ul>
+      <li>To respond to your enquiry at the time you asked for, and to send you the current offering memorandum.</li>
+      <li>To pass your enquiry to the registered exempt market dealer that distributes our shares, which must complete know-your-client and suitability work before any investment.</li>
+      <li>To keep a record of investor enquiries as required by our regulatory obligations.</li>
+      <li>To understand which pages and campaigns bring investors to the site.</li>
+    </ul>
+    <p>We do not sell personal information. We do not use it to make lending decisions about you.</p>
+    <h2 id="where-it-goes">Where it goes</h2>
+    <p>Your enquiry is emailed to the Lendmax Capital deal desk and stored on our own server. After you submit, you continue to the secure investor application at app.lendmaxcapital.ca, which has its own notice. Email delivery may use a third-party email service provider acting on our behalf.</p>
+    <h2 id="retention">How long we keep it</h2>
+    <p>Enquiries are kept for as long as needed to respond and to meet record-keeping obligations, then deleted or anonymised.</p>
+    <h2 id="your-choices">Your choices</h2>
+    <p>You may ask to see, correct or withdraw consent for the use of your personal information, subject to legal and regulatory limits. Contact our privacy officer at <a href="mailto:{{ site.email_investors }}">{{ site.email_investors }}</a>, by phone at {{ site.phone }}, or by mail at {{ site.address.street }}, {{ site.address.city }}, Ontario {{ site.address.postal }}.</p>
+    <h2 id="cookies">Cookies and embedded content</h2>
+    <p>This site does not set advertising cookies. The video on the home page loads from YouTube only when you press play, using YouTube's privacy-enhanced mode; YouTube's own terms then apply. Fonts are served by Google Fonts.</p>
+  </div>
+</section>
+{% endblock %}

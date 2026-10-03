@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,600;0,8..60,700;1,8..60,600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "on-surface-variant": "#44474c", "primary-fixed": "#d6e3fe", "secondary-fixed": "#cce5ff", "surface-container-lowest": "#ffffff", "surface": "#f8f9ff", "navy-surface": "#132742", "primary-fixed-dim": "#bac7e1", "canvas-light": "#F8FAFC", "on-tertiary-fixed-variant": "#93000b", "on-surface": "#0b1c30", "navy-darkest": "#070E18", "on-tertiary": "#ffffff", "inverse-on-surface": "#eaf1ff", "on-secondary-fixed-variant": "#004b73", "surface-container-highest": "#d3e4fe", "surface-container": "#e5eeff", "on-background": "#0b1c30", "secondary-container": "#5bb8fe", "on-primary-fixed-variant": "#3a475c", "primary-container": "#0e1c2f", "on-primary-fixed": "#0e1c2f", "error": "#ba1a1a", "secondary-fixed-dim": "#93ccff", "surface-variant": "#d3e4fe", "surface-bright": "#f8f9ff", "surface-dim": "#cbdbf5", "on-error": "#ffffff", "background": "#f8f9ff", "primary": "#000000", "tertiary-fixed": "#ffdad6", "sky-bright": "#38BDF8", "on-error-container": "#93000a", "on-primary-container": "#77849c", "secondary": "#006398", "outline": "#75777d", "sky-subtle": "#E0F2FE", "on-secondary-container": "#00476e", "surface-container-low": "#eff4ff", "maple-red-hover": "#B91C1C", "surface-tint": "#525f75", "on-tertiary-fixed": "#410002", "tertiary-container": "#410002", "error-container": "#ffdad6", "maple-red-tint": "#FEF2F2", "outline-variant": "#c5c6cd", "on-primary": "#ffffff", "on-secondary": "#ffffff", "border-dark-subtle": "#1E3A5F", "on-tertiary-container": "#f63a35", "border-hairline": "#E2E8F0", "surface-container-high": "#dce9ff", "tertiary": "#000000", "tertiary-fixed-dim": "#ffb4ab", "on-secondary-fixed": "#001d31", "inverse-surface": "#213145", "inverse-primary": "#bac7e1" }, borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, spacing: { "space-lg": "1.5rem", "gutter": "1rem", "space-sm": "0.5rem", "space-md": "1rem", "space-xl": "2.25rem", "margin": "1.25rem", "space-xs": "0.25rem" }, fontFamily: { "headline-md": ["\"Source Serif 4\""], "label-caps": ["Inter"], "display-hero": ["\"Source Serif 4\""], "label-md": ["Inter"], "body-md": ["Inter"], "display-hero-mobile": ["\"Source Serif 4\""], "body-sm": ["Inter"], "label-lg": ["Inter"], "headline-sm": ["Inter"], "stat-metric": ["Inter"], "headline-lg": ["\"Source Serif 4\""], "body-lg": ["Inter"], "stat-metric-mobile": ["Inter"] }, fontSize: { "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }], "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.08em", "fontWeight": "700" }], "display-hero": ["36px", { "lineHeight": "44px", "fontWeight": "700" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }], "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }], "display-hero-mobile": ["30px", { "lineHeight": "38px", "fontWeight": "700" }], "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }], "label-lg": ["14px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "600" }], "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }], "stat-metric": ["32px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-lg": ["26px", { "lineHeight": "34px", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "26px", "fontWeight": "400" }], "stat-metric-mobile": ["28px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }] } } } };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-md text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] pt-safe"><div class="h-20 px-margin flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm"><img alt="logo (2).png" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VfIsK9s_SNz3N5ZXtpmhlSMYb6RVfWs-YeSUuWU-vwNnLzzbBkUy5hyC2McUmGu3JGw1vd5mX-krz_UNwyr7LPl-MCZyn21aEdFtT3zEnZd8mmKaUYlW4gTSfBVhQ6POGm_ZoQvSeueMNNT2OTxdNRTsjnvRMXa4IEC_sKaxZU8eVCD4Yx2vVSIl8ZHHBTraU8XxdjPBUv-MVtrFx7UhQlXzpnoAgWhcSfVaaavUi6iTq1TjaRFWd9PuMemnBxQo8r7_gBm8qcFA"/><div class="flex flex-col"><span class="font-label-caps text-label-caps uppercase text-on-surface">Lendmax Capital</span><div class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span><span class="font-label-caps text-[10px] text-on-surface-variant">FSRA #13002</span></div></div></div><div class="flex items-center gap-space-xs"><div class="hidden xs:flex flex-col items-end mr-1"><span class="font-label-caps text-label-caps text-secondary font-bold uppercase tracking-wider">Investor Portal</span><span class="font-body-sm text-[11px] text-on-surface-variant">Why Mic</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-20 pb-40 bg-surface"><div class="flex flex-col w-full">
+<!-- Educational Hero Banner with High-Trust Tone & Interactive Badge -->
+<section class="px-margin pt-space-md pb-space-lg flex flex-col gap-space-sm">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-maple-red-tint rounded-full w-fit">
+<span class="w-1.5 h-1.5 rounded-full bg-error animate-pulse"></span>
+<span class="font-label-caps text-label-caps text-error tracking-wider uppercase">Section 130.1 Income Tax Act</span>
+</div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">
+      Understand the Structure: How Lendmax MIC Works
+    </h1>
+<p class="font-body-md text-body-md text-on-surface-variant">
+      A Mortgage Investment Corporation is not a speculative fund. It is a strictly governed Canadian conduit where 100% of net mortgage interest flows directly to investors without corporate-level tax friction.
+    </p>
+<!-- Trust Strip Metric Tokens -->
+<div class="grid grid-cols-2 gap-space-sm mt-space-xs">
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Flow-Through Rate</span>
+<span class="font-stat-metric-mobile text-stat-metric-mobile text-on-surface mt-1">100%</span>
+<span class="font-body-sm text-body-sm text-secondary font-medium mt-0.5">Zero Double-Taxation</span>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Regulatory Oversight</span>
+<span class="font-stat-metric-mobile text-stat-metric-mobile text-on-surface mt-1">#13002</span>
+<span class="font-body-sm text-body-sm text-secondary font-medium mt-0.5">FSRA Licensed Admin</span>
+</div>
+</div>
+</section>
+<!-- Interactive Tax Conduit Mechanics: Section 130.1 -->
+<section class="px-margin mb-space-xl">
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm">
+<div class="flex items-center justify-between pb-space-sm mb-space-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[22px]">account_tree</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">The 100% Tax Conduit</h2>
+</div>
+<span class="px-2 py-0.5 bg-secondary-container/20 text-on-secondary-container font-label-caps text-label-caps rounded-full">Legal Anatomy</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">
+        Under Canadian tax law, standard corporations are taxed on net earnings before paying out dividends. Under <span class="text-on-surface font-semibold">Section 130.1</span>, an eligible MIC deducts its distributed profits as an operational expense:
+      </p>
+<!-- Visual Conduit Flow Diagram -->
+<div class="bg-surface-container-low rounded-lg p-space-sm flex flex-col gap-2 relative">
+<div class="flex items-center justify-between bg-surface-container-lowest p-2.5 rounded-lg shadow-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[18px]">real_estate_agent</span>
+<span class="font-label-md text-label-md text-on-surface">Contractual Borrower Interest</span>
+</div>
+<span class="font-label-caps text-label-caps text-secondary font-bold">100% Inflow</span>
+</div>
+<div class="flex justify-center -my-1">
+<span class="material-symbols-outlined text-on-surface-variant text-[16px]">arrow_downward</span>
+</div>
+<div class="flex items-center justify-between bg-surface-container-lowest p-2.5 rounded-lg shadow-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-outline text-[18px]">handyman</span>
+<span class="font-label-md text-label-md text-on-surface">Audit, Admin &amp; Management Desk</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant">Net Fee Subtracted</span>
+</div>
+<div class="flex justify-center -my-1">
+<span class="material-symbols-outlined text-on-surface-variant text-[16px]">arrow_downward</span>
+</div>
+<div class="flex items-center justify-between bg-primary-container p-2.5 rounded-lg text-on-primary">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sky-bright text-[18px]">payments</span>
+<span class="font-label-md text-label-md font-semibold text-surface-container-lowest">0% Corporate Tax Paid</span>
+</div>
+<span class="font-label-caps text-label-caps text-sky-bright uppercase tracking-wider">Flowed to You</span>
+</div>
+</div>
+<div class="mt-space-md p-space-sm bg-sky-subtle rounded-lg flex items-start gap-2">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0 mt-0.5">info</span>
+<p class="font-body-sm text-body-sm text-on-secondary-container">
+          Distributions are treated as <strong>taxable interest income</strong> in non-registered accounts, or fully protected when held within your registered vehicles.
+        </p>
+</div>
+</div>
+</section>
+<!-- Model Comparison Matrix: Direct vs MIC vs REIT -->
+<section class="px-margin mb-space-xl">
+<div class="flex flex-col gap-1 mb-space-md">
+<span class="font-label-caps text-label-caps text-secondary uppercase tracking-wider">Comparative Analysis</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Direct Mortgage vs. MIC vs. REIT</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+        Not all real estate income models carry the same friction, liquidity, or capital safeguards.
+      </p>
+</div>
+<!-- Interactive Model Selector -->
+<div class="bg-surface-container rounded-lg p-1 flex mb-space-md" id="compTabContainer">
+<button class="flex-1 py-1.5 rounded-lg font-label-md text-label-md font-semibold transition-all bg-surface-container-lowest text-on-surface shadow-sm" id="tab-mic" onclick="selectComparison('mic')">
+        Lendmax MIC
+      </button>
+<button class="flex-1 py-1.5 rounded-lg font-label-md text-label-md font-medium text-on-surface-variant transition-all" id="tab-direct" onclick="selectComparison('direct')">
+        Direct Private
+      </button>
+<button class="flex-1 py-1.5 rounded-lg font-label-md text-label-md font-medium text-on-surface-variant transition-all" id="tab-reit" onclick="selectComparison('reit')">
+        Public REIT
+      </button>
+</div>
+<!-- Comparative Card Deck -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-sm" id="comp-mic-card">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-secondary uppercase font-bold tracking-wider">Lendmax Capital MIC</span>
+<span class="px-2 py-0.5 bg-maple-red-tint text-maple-red-hover font-label-caps text-label-caps rounded-full">Optimized</span>
+</div>
+<div class="space-y-2">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0">check_circle</span>
+<span class="font-body-sm text-body-sm text-on-surface"><strong>Broad Pool Diversification:</strong> Capital spread across dozens of Canadian residential 1st &amp; 2nd mortgages.</span>
+</div>
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0">check_circle</span>
+<span class="font-body-sm text-body-sm text-on-surface"><strong>Pure Passive Yield:</strong> Underwriting, legal collection, arrears, and property inspections fully outsourced to licensed desk.</span>
+</div>
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0">check_circle</span>
+<span class="font-body-sm text-body-sm text-on-surface"><strong>Insulated Share Value:</strong> Asset value anchored by verified appraisals and mortgage liens, unaffected by public market swings.</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex-col gap-space-sm hidden" id="comp-direct-card">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase font-bold tracking-wider">Direct Private Mortgage</span>
+<span class="px-2 py-0.5 bg-surface-container text-on-surface-variant font-label-caps text-label-caps rounded-full">High Concentration</span>
+</div>
+<div class="space-y-2">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-error text-[18px] shrink-0">cancel</span>
+<span class="font-body-sm text-body-sm text-on-surface"><strong>Binary Default Risk:</strong> 100% of your capital is tied to one specific property and one single borrower.</span>
+</div>
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-error text-[18px] shrink-0">cancel</span>
+<span class="font-body-sm text-body-sm text-on-surface"><strong>Active Management Burden:</strong> You must retain your own lawyers, order appraisals, enforce power of sale, and oversee arrears.</span>
+</div>
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-outline text-[18px] shrink-0">remove_circle</span>
+<span class="font-body-sm text-body-sm text-on-surface"><strong>Total Illiquidity:</strong> Capital locked until borrower refinances or term matures.</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex-col gap-space-sm hidden" id="comp-reit-card">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase font-bold tracking-wider">Public Real Estate (REIT)</span>
+<span class="px-2 py-0.5 bg-surface-container text-on-surface-variant font-label-caps text-label-caps rounded-full">Public Equity</span>
+</div>
+<div class="space-y-2">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-error text-[18px] shrink-0">trending_down</span>
+<span class="font-body-sm text-body-sm text-on-surface"><strong>Stock Market Volatility:</strong> Traded share prices fluctuate daily with broader sentiment, independent of underlying brick-and-mortar equity.</span>
+</div>
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0">check_circle</span>
+<span class="font-body-sm text-body-sm text-on-surface"><strong>High Daily Liquidity:</strong> Shares can be sold instantly during exchange open hours.</span>
+</div>
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-outline text-[18px] shrink-0">remove_circle</span>
+<span class="font-body-sm text-body-sm text-on-surface"><strong>Development &amp; Tenancy Drag:</strong> Direct exposure to tenant vacancies, property management overhead, and project cost overruns.</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Registered Tax Advantages: TFSA, RRSP, RRIF & Compounding DRIP -->
+<section class="px-margin mb-space-xl">
+<div class="bg-primary-container text-on-primary rounded-xl p-space-md shadow-md relative overflow-hidden">
+<div class="relative z-10 flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-sky-bright uppercase tracking-wider">Tax-Advantaged Shelters</span>
+<span class="material-symbols-outlined text-sky-bright text-[20px]">shield_with_heart</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-surface-container-lowest">
+          RRSP, TFSA &amp; RRIF Eligibility
+        </h2>
+<p class="font-body-sm text-body-sm text-primary-fixed-dim">
+          Eliminate annual tax drag entirely. Lendmax Capital MIC shares are structured to qualify under registered accounts with major Canadian self-directed custodians (Olympia Trust, Western Union, Computershare).
+        </p>
+<!-- Interactive DRIP Compounding Pill Box -->
+<div class="bg-navy-surface rounded-lg p-space-sm mt-space-xs flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-surface-container-lowest font-medium">Reinvestment (DRIP) Power</span>
+<span class="font-label-caps text-label-caps text-sky-bright">Zero Fee Compounding</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-primary-fixed-variant">
+            By opting into our Dividend Reinvestment Plan (DRIP), your quarterly dividends are instantly deployed into fractional pool shares, compounding contractual returns without idle cash balances.
+          </p>
+</div>
+<!-- The 10% Shareholder Rule Warning Box -->
+<div class="bg-tertiary-container/30 rounded-lg p-space-sm flex items-start gap-2">
+<span class="material-symbols-outlined text-on-tertiary-container text-[18px] shrink-0 mt-0.5">lock_clock</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-tertiary-fixed">The Canadian 10% Rule</span>
+<p class="font-body-sm text-body-sm text-on-tertiary">
+              Under ITA Section 130.1, no single investor (along with related parties) may own more than 10% of total issued shares, guaranteeing a broad democratic fund structure that permanently protects registered status.
+            </p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- The Administrator's Role & Governance (Lendmax Inc.) -->
+<section class="px-margin mb-space-xl">
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-secondary uppercase tracking-wider">Operational Integrity</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">The Administrator's Role</h2>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-[22px]">policy</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">
+      Lendmax Inc. acts as the fully licensed Mortgage Administrator under <span class="text-on-surface font-semibold">FSRA Licence #13002</span>. Investor funds are strictly segregated and shielded by institutional governance:
+    </p>
+<div class="grid grid-cols-1 gap-space-sm">
+<!-- Pillar 1 -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex items-start gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary text-[18px]">gavel</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-on-surface">Title &amp; Mortgage Registration</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">All residential first and second charges are registered legally on Canadian land registries naming the MIC, protecting collateral.</span>
+</div>
+</div>
+<!-- Pillar 2 -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex items-start gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary text-[18px]">currency_exchange</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-on-surface">Collection &amp; Automated Disbursal</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">We automate all monthly borrower ACH payments, escrow holdbacks, and distribution accounting via dedicated trust accounts.</span>
+</div>
+</div>
+<!-- Pillar 3 -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex items-start gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary text-[18px]">balance</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-on-surface">Independent Audits &amp; Compliance</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">The loan portfolio undergoes annual certified third-party accounting audits and strict continuous reporting to provincial securities commissions.</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Underwriting Discipline: Exit Before Advance -->
+<section class="px-margin mb-space-xl">
+<div class="bg-surface-container-low rounded-xl p-space-md">
+<div class="flex items-center gap-2 mb-space-xs">
+<span class="material-symbols-outlined text-maple-red-hover text-[20px]">verified_user</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Exit Before Advance Discipline</h2>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">
+        Short-term mortgage money is a temporary bridge, not a permanent trap. Ali Zaidi and the Lendmax credit committee follow an uncompromising underwriting rule:
+      </p>
+<div class="bg-surface-container-lowest p-space-md rounded-lg shadow-sm">
+<blockquote class="font-headline-md italic text-headline-md text-on-surface mb-2">
+          "A loan a borrower cannot leave is a loan we should not have made."
+        </blockquote>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+          No file is funded simply based on equity. Every mortgage must demonstrate a verified institutional refinance roadmap, planned asset sale, or liquidity catalyst. Value today is appraised realistically — never predicated on future market speculation.
+        </p>
+<!-- Metric highlights -->
+<div class="grid grid-cols-2 gap-space-sm mt-space-md pt-space-sm">
+<div>
+<span class="font-label-caps text-label-caps text-on-surface-variant block uppercase">Geography Target</span>
+<span class="font-label-md text-label-md font-bold text-on-surface">ON • BC • AB Urban</span>
+</div>
+<div>
+<span class="font-label-caps text-label-caps text-on-surface-variant block uppercase">Loan Limits</span>
+<span class="font-label-md text-label-md font-bold text-on-surface">Strict 75–80% Max LTV</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Interactive Portfolio Briefing / Explainer Guide Lead Widget -->
+<section class="px-margin mb-space-xl">
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-md flex flex-col gap-space-sm relative">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[22px]">download</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Investor Explainer Kit</h2>
+</div>
+<span class="font-label-caps text-label-caps text-secondary font-bold uppercase tracking-wider">PDF + Desk Briefing</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+        Receive our comprehensive 24-page guide: <em>"Navigating Canadian MIC Investing &amp; Tax Flow-Through"</em>, plus direct access to Ali Zaidi’s desk for a 15-minute allocation briefing.
+      </p>
+<form class="flex flex-col gap-space-sm mt-space-xs" id="explainerForm" onsubmit="event.preventDefault(); submitExplainer();">
+<div class="flex flex-col gap-1">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase" for="investorEmail">Investor Work Email</label>
+<div class="relative flex items-center">
+<input class="w-full h-12 bg-surface-container-low px-3 rounded-lg text-body-md font-body-md text-on-surface focus:outline-none focus:bg-surface-container-lowest shadow-inner" id="investorEmail" placeholder="name@domain.ca" required="" type="email"/>
+<span class="material-symbols-outlined text-outline text-[18px] absolute right-3">mail</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase" for="investorPhone">Phone (Optional for SMS Dispatch)</label>
+<div class="relative flex items-center">
+<input class="w-full h-12 bg-surface-container-low px-3 rounded-lg text-body-md font-body-md text-on-surface focus:outline-none focus:bg-surface-container-lowest shadow-inner" id="investorPhone" placeholder="(416) 000-0000" type="tel"/>
+<span class="material-symbols-outlined text-outline text-[18px] absolute right-3">phone_iphone</span>
+</div>
+</div>
+<button class="w-full h-12 bg-on-surface text-surface-container-lowest font-label-lg text-label-lg rounded-xl flex items-center justify-center gap-2 hover:bg-navy-darkest transition-colors mt-space-xs shadow-sm" id="submitBtn" type="submit">
+<span class="material-symbols-outlined text-[18px]">send</span>
+<span>Download Explainer Guide</span>
+</button>
+<div class="hidden p-space-sm bg-sky-subtle rounded-lg flex items-center gap-2 text-on-secondary-container" id="formSuccess">
+<span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+<span class="font-body-sm text-body-sm font-semibold">Guide dispatched! Check your inbox momentarily.</span>
+</div>
+</form>
+</div>
+</section>
+<!-- Legal & Regulatory Attribution Footer Disclosures -->
+<footer class="px-margin mb-space-md">
+<div class="p-space-sm rounded-lg bg-surface-container-low text-on-surface-variant flex flex-col gap-1.5">
+<span class="font-label-caps text-label-caps text-on-surface font-bold uppercase tracking-wider">Regulatory Compliance &amp; Status</span>
+<p class="font-body-sm text-[11px] leading-relaxed">
+        Lendmax Capital Mortgage Investment Corp. operates under strict compliance with the Ontario Securities Commission and FSRA (Licence #13002). Investments in MIC shares are offered strictly through registered Exempt Market Dealers (EMDs) under National Instrument 45-106. Past yields do not guarantee future returns. Not CDIC insured.
+      </p>
+</div>
+</footer>
+</div>
+<script>
+  function selectComparison(type) {
+    const tabs = ['mic', 'direct', 'reit'];
+    tabs.forEach(t => {
+      const tabEl = document.getElementById('tab-' + t);
+      const cardEl = document.getElementById('comp-' + t + '-card');
+      if (t === type) {
+        tabEl.className = 'flex-1 py-1.5 rounded-lg font-label-md text-label-md font-semibold transition-all bg-surface-container-lowest text-on-surface shadow-sm';
+        cardEl.classList.remove('hidden');
+        cardEl.classList.add('flex');
+      } else {
+        tabEl.className = 'flex-1 py-1.5 rounded-lg font-label-md text-label-md font-medium text-on-surface-variant transition-all';
+        cardEl.classList.add('hidden');
+        cardEl.classList.remove('flex');
+      }
+    });
+  }
+
+  function submitExplainer() {
+    const email = document.getElementById('investorEmail').value;
+    if (email) {
+      document.getElementById('submitBtn').classList.add('opacity-50', 'pointer-events-none');
+      document.getElementById('submitBtn').innerText = 'Dispatching Package...';
+      setTimeout(() => {
+        document.getElementById('submitBtn').classList.add('hidden');
+        document.getElementById('formSuccess').classList.remove('hidden');
+      }, 700);
+    }
+  }
+</script></main><div class="fixed bottom-16 inset-x-0 z-40 px-margin py-space-xs pointer-events-none"><div class="pointer-events-auto max-w-md mx-auto"><a class="w-full h-12 bg-on-tertiary-container hover:bg-maple-red-hover text-on-tertiary font-label-lg text-label-lg rounded-xl flex items-center justify-center gap-2 shadow-[0_4px_16px_rgba(186,26,26,0.25)] transition-colors" data-path="request-om" href="#"><span class="material-symbols-outlined text-[20px]">verified</span><span>Request Offering Memorandum</span></a></div></div><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.04)]" data-active-classes="text-secondary font-semibold"><div class="flex justify-around items-center h-16 px-space-xs"><a class="flex flex-col items-center justify-center min-w-[56px] h-12 text-on-surface-variant hover:text-on-surface transition-colors" data-path="overview" href="#"><span class="material-symbols-outlined text-[22px]">dashboard</span><span class="font-label-caps text-[10px] mt-0.5">Overview</span></a><a aria-current="page" class="flex flex-col items-center justify-center min-w-[56px] h-12 transition-colors text-secondary font-semibold" data-path="why-mic" href="#"><span class="material-symbols-outlined text-[22px]">domain</span><span class="font-label-caps text-[10px] mt-0.5">Why MIC</span></a><a class="flex flex-col items-center justify-center min-w-[56px] h-12 text-on-surface-variant hover:text-on-surface transition-colors" data-path="performance-and-risk" href="#"><span class="material-symbols-outlined text-[22px]">monitoring</span><span class="font-label-caps text-[10px] mt-0.5">Risk</span></a><a class="flex flex-col items-center justify-center min-w-[56px] h-12 text-on-surface-variant hover:text-on-surface transition-colors" data-path="how-to-invest" href="#"><span class="material-symbols-outlined text-[22px]">account_balance</span><span class="font-label-caps text-[10px] mt-0.5">Invest</span></a><a class="flex flex-col items-center justify-center min-w-[56px] h-12 text-on-surface-variant hover:text-on-surface transition-colors" data-path="contact-and-connect" href="#"><span class="material-symbols-outlined text-[22px]">support_agent</span><span class="font-label-caps text-[10px] mt-0.5">Contact</span></a></div></nav></body></html>

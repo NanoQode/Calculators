@@ -1,0 +1,21 @@
+<div class="not-prose my-8 rounded-2xl bg-white border border-border-hairline shadow-sm p-5 md:p-6" data-calc="after-tax">
+  <div class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-[22px]" aria-hidden="true">calculate</span><h2 class="!mt-0 !mb-0 font-sans text-headline-sm text-on-surface" id="calculator">After-tax yield calculator</h2></div>
+  <p class="mt-1 font-sans text-body-sm text-on-surface-variant">Enter your own assumptions. Nothing here is a forecast or an offer.</p>
+  <div class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 font-sans">
+    <label class="field-label normal-case">Amount invested ($)<input class="field-input mt-1" type="number" min="0" step="1000" value="100000" data-in="amount"></label>
+    <label class="field-label normal-case">Gross yield before fees (% a year)<input class="field-input mt-1" type="number" min="0" max="30" step="0.1" value="10" data-in="gross"></label>
+    <label class="field-label normal-case">Fees and costs (% of capital a year)<input class="field-input mt-1" type="number" min="0" max="10" step="0.1" value="1.5" data-in="fees"></label>
+    <label class="field-label normal-case">Your marginal tax rate (%)<input class="field-input mt-1" type="number" min="0" max="60" step="0.5" value="43.41" data-in="tax"></label>
+    <label class="field-label normal-case sm:col-span-2">Account type<select class="field-input mt-1" data-in="account"><option value="open">Non-registered (taxed as interest each year)</option><option value="rrsp">RRSP / RRIF (tax deferred until withdrawal)</option><option value="tfsa">TFSA (tax-free under plan rules)</option></select></label>
+  </div>
+  <div class="mt-5 overflow-x-auto"><table class="w-full font-sans text-body-sm min-w-[420px]">
+    <tbody>
+      <tr class="border-b border-border-hairline"><th class="text-left py-2 font-normal text-on-surface-variant">Gross income</th><td class="text-right py-2 tabular-nums" data-out="grossAmt">—</td><td class="text-right py-2 tabular-nums text-on-surface-variant w-24" data-out="grossPct">—</td></tr>
+      <tr class="border-b border-border-hairline"><th class="text-left py-2 font-normal text-on-surface-variant">Less fees and costs</th><td class="text-right py-2 tabular-nums" data-out="feeAmt">—</td><td class="text-right py-2 tabular-nums text-on-surface-variant" data-out="feePct">—</td></tr>
+      <tr class="border-b border-border-hairline"><th class="text-left py-2 font-semibold">Net income before tax</th><td class="text-right py-2 tabular-nums font-semibold" data-out="netAmt">—</td><td class="text-right py-2 tabular-nums font-semibold" data-out="netPct">—</td></tr>
+      <tr class="border-b border-border-hairline"><th class="text-left py-2 font-normal text-on-surface-variant">Less tax this year</th><td class="text-right py-2 tabular-nums" data-out="taxAmt">—</td><td class="text-right py-2 tabular-nums text-on-surface-variant" data-out="taxPct">—</td></tr>
+      <tr><th class="text-left py-2 font-semibold text-secondary">After-tax income this year</th><td class="text-right py-2 tabular-nums font-bold text-secondary" data-out="afterAmt">—</td><td class="text-right py-2 tabular-nums font-bold text-secondary" data-out="afterPct">—</td></tr>
+    </tbody></table></div>
+  <p class="mt-3 font-sans text-[12px] text-on-surface-variant" data-out="note"></p>
+  <p class="mt-2 font-sans text-[12px] text-on-surface-variant">MIC dividends are deemed interest under subsection 130.1(2) of the <em>Income Tax Act</em>, so outside a registered plan they are taxed at your full marginal rate with no dividend tax credit. The default 43.41% is only an example rate; use your own. Tax information as at October 2026 — confirm with a Canadian tax professional. Mortgage investments are not guaranteed, and higher yields come with higher risk.</p>
+</div>

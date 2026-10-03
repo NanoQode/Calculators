@@ -1,0 +1,349 @@
+[
+ {
+  "id": 1,
+  "title": "What Is Mortgage Investing in Canada?",
+  "url": "/learn/what-is-mortgage-investing/",
+  "type": "Pillar page",
+  "stage": "1 Understanding mortgage investing",
+  "primary_keyword": "mortgage investing",
+  "secondary_keywords": [
+   "invest in mortgages Canada",
+   "mortgage investment Canada",
+   "real estate debt investing"
+  ],
+  "question_keyword": "what is mortgage investing",
+  "intent": "Educational",
+  "investor_stage": "Unaware",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2200,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date.",
+  "verify_before_publishing": "CMHC Residential Mortgage Industry Report for market context; ITA s.130.1 for the MIC definition",
+  "links_to": [
+   "/glossary/ (Canadian Mortgage Investment Glossary: 120 Terms Defined)",
+   "/learn/how-mortgage-investors-make-money/ (How Do Mortgage Investors Actually Make Money?)",
+   "/learn/how-private-mortgage-investing-works/ (How Does Private Mortgage Investing Work?)",
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)"
+  ],
+  "linked_from": [
+   "/ (/)",
+   "/learn/ (/learn/)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "invest in mortgages Canada",
+   "mortgage investing",
+   "mortgage investment Canada"
+  ],
+  "investor_questions_for_faq": []
+ },
+ {
+  "id": 2,
+  "title": "How Does Private Mortgage Investing Work?",
+  "url": "/learn/how-private-mortgage-investing-works/",
+  "type": "Pillar page",
+  "stage": "1 Understanding mortgage investing",
+  "primary_keyword": "private mortgage investing",
+  "secondary_keywords": [
+   "private mortgage investments",
+   "private lending Canada",
+   "how to invest in private mortgages"
+  ],
+  "question_keyword": "how does private mortgage investing work in Canada",
+  "intent": "Educational",
+  "investor_stage": "Solution-aware",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2400,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date.",
+  "verify_before_publishing": "Provincial land registry terminology; FSRA private-lending report for Ontario scale",
+  "links_to": [
+   "/how-to-invest/ (How to Invest in Mortgages: The Process Step by Step)",
+   "/learn/borrower-default-mortgage-investment/ (What Happens When a Borrower Defaults on Your Mortgage Investment)",
+   "/learn/first-vs-second-mortgage-investments/ (First vs Second Mortgage Investments: What Position Really Costs)",
+   "/learn/how-mortgage-investments-are-secured/ (How Are Canadian Mortgages Secured Against Real Estate?)"
+  ],
+  "linked_from": [
+   "/learn/what-is-mortgage-investing/ (What Is Mortgage Investing in Canada?)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "how to invest in private mortgages",
+   "private lending Canada",
+   "private mortgage investing",
+   "private mortgage investments"
+  ],
+  "investor_questions_for_faq": [
+   "what is a private mortgage investment",
+   "how does private mortgage investing work in Canada"
+  ]
+ },
+ {
+  "id": 3,
+  "title": "How Do Mortgage Investors Actually Make Money?",
+  "url": "/learn/how-mortgage-investors-make-money/",
+  "type": "Guide",
+  "stage": "1 Understanding mortgage investing",
+  "primary_keyword": "how do mortgage investors make money",
+  "secondary_keywords": [
+   "mortgage investment income",
+   "where returns come from",
+   "mortgage interest income"
+  ],
+  "question_keyword": "how does a mortgage investment generate income",
+  "intent": "Educational",
+  "investor_stage": "Unaware",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 1800,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Any return figure needs a stated period, source and a past-performance caveat. Publish mechanics, not rate promises.",
+  "verify_before_publishing": "None required for mechanics; do not publish rate figures",
+  "links_to": [
+   "/learn/gross-vs-net-vs-after-tax-yield/ (Gross Yield, Net Yield and After-Tax Yield: The Three Numbers That Matter)",
+   "/learn/monthly-income-from-mortgage-investments/ (Monthly Income From Mortgage Investments: How the Cash Flow Works)",
+   "/learn/mortgage-investment-fees/ (The Real Fee Stack in a Mortgage Investment, Itemised)"
+  ],
+  "linked_from": [
+   "/learn/mortgage-investing-passive-income/ (Mortgage Investing as Passive Income in Canada)",
+   "/learn/what-is-mortgage-investing/ (What Is Mortgage Investing in Canada?)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "how do mortgage investors make money",
+   "mortgage investment income"
+  ],
+  "investor_questions_for_faq": [
+   "how do mortgage investors make money",
+   "how is interest paid to a mortgage investor",
+   "how do I get paid mortgage investment",
+   "how do I get paid on a mortgage investment",
+   "what is a realistic return on a private mortgage investment",
+   "how much can I earn investing in mortgages",
+   "how does a mortgage investment generate income"
+  ]
+ },
+ {
+  "id": 4,
+  "title": "How Is Interest Paid to a Private Mortgage Investor?",
+  "url": "/learn/how-interest-is-paid-to-mortgage-investors/",
+  "type": "Explainer",
+  "stage": "1 Understanding mortgage investing",
+  "primary_keyword": "how is interest paid to a mortgage investor",
+  "secondary_keywords": [
+   "monthly distribution investment Canada",
+   "interest only mortgage investment"
+  ],
+  "question_keyword": "how often are interest payments paid out",
+  "intent": "Educational",
+  "investor_stage": "Solution-aware",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 1400,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Any return figure needs a stated period, source and a past-performance caveat. Publish mechanics, not rate promises.",
+  "verify_before_publishing": "Mortgage administrator role per provincial statute",
+  "links_to": [
+   "/learn/liquidity-and-redemption/ (Liquidity and Redemption: Getting Your Money Out)",
+   "/learn/monthly-income-from-mortgage-investments/ (Monthly Income From Mortgage Investments: How the Cash Flow Works)",
+   "/learn/what-to-expect-as-a-mortgage-investor/ (What to Expect as a Mortgage Investor: Reporting, Statements and Communication)"
+  ],
+  "linked_from": [
+   "/learn/how-private-mortgage-investing-works/ (How Does Private Mortgage Investing Work?)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "how is interest paid to a mortgage investor",
+   "interest only mortgage investment",
+   "monthly distribution investment Canada"
+  ],
+  "investor_questions_for_faq": [
+   "how is interest paid to a mortgage investor",
+   "how do I get paid mortgage investment",
+   "how do I get paid on a mortgage investment"
+  ]
+ },
+ {
+  "id": 5,
+  "title": "How Are Canadian Mortgages Secured Against Real Estate?",
+  "url": "/learn/how-mortgage-investments-are-secured/",
+  "type": "Pillar page",
+  "stage": "1 Understanding mortgage investing",
+  "primary_keyword": "how is a mortgage investment secured",
+  "secondary_keywords": [
+   "registered charge against title",
+   "mortgage priority Canada",
+   "title search mortgage investment"
+  ],
+  "question_keyword": "how is my investment secured",
+  "intent": "Educational",
+  "investor_stage": "Solution-aware",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2000,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date.",
+  "verify_before_publishing": "Provincial land titles terminology; use 'Charge/Mortgage of Land' for Ontario, not UK 'first charge'",
+  "links_to": [
+   "/learn/appraisals-for-mortgage-investors/ (Appraisals for Mortgage Investors: As-Is vs As-Complete)",
+   "/learn/first-vs-second-mortgage-investments/ (First vs Second Mortgage Investments: What Position Really Costs)",
+   "/learn/power-of-sale-for-mortgage-investors/ (Power of Sale: What It Means for a Mortgage Investor)",
+   "/learn/title-insurance-and-legal-file/ (Title, Insurance and the Legal File a Mortgage Investor Should See)"
+  ],
+  "linked_from": [
+   "/learn/how-private-mortgage-investing-works/ (How Does Private Mortgage Investing Work?)",
+   "/learn/what-is-mortgage-investing/ (What Is Mortgage Investing in Canada?)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "how is a mortgage investment secured",
+   "mortgage priority Canada",
+   "registered charge against title",
+   "title search mortgage investment"
+  ],
+  "investor_questions_for_faq": [
+   "how is a mortgage investment secured",
+   "what happens if the property burns down",
+   "what should I check in a mortgage investment before I commit"
+  ]
+ },
+ {
+  "id": 6,
+  "title": "A Beginner's Guide to Mortgage Investing in Canada",
+  "url": "/learn/mortgage-investing-for-beginners/",
+  "type": "Guide",
+  "stage": "1 Understanding mortgage investing",
+  "primary_keyword": "mortgage investing for beginners",
+  "secondary_keywords": [
+   "first time mortgage investor Canada",
+   "mortgage investing explained"
+  ],
+  "question_keyword": "how do I start investing in mortgages with a small amount",
+  "intent": "Educational",
+  "investor_stage": "Unaware",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2600,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Beginner content carries a heightened duty not to understate risk.",
+  "verify_before_publishing": "None; this is synthesis of the other verified pages",
+  "links_to": [
+   "/glossary/ (Canadian Mortgage Investment Glossary: 120 Terms Defined)",
+   "/learn/mic-minimum-investment/ (Minimum Investments and Getting Started: What It Actually Takes)",
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)",
+   "/learn/mortgage-investor-due-diligence-checklist/ (The Mortgage Investor's Due Diligence Checklist)",
+   "/learn/what-is-mortgage-investing/ (What Is Mortgage Investing in Canada?)"
+  ],
+  "linked_from": [
+   "/ (/)",
+   "/learn/ (/learn/)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "first time mortgage investor Canada",
+   "mortgage investing explained",
+   "mortgage investing for beginners"
+  ],
+  "investor_questions_for_faq": [
+   "how do I start investing in mortgages with a small amount"
+  ]
+ },
+ {
+  "id": 7,
+  "title": "Canadian Mortgage Investment Glossary: 120 Terms Defined",
+  "url": "/glossary/",
+  "type": "Guide",
+  "stage": "1 Understanding mortgage investing",
+  "primary_keyword": "mortgage investment glossary Canada",
+  "secondary_keywords": [
+   "mortgage investing terminology",
+   "LTV",
+   "power of sale",
+   "retraction",
+   "MIE"
+  ],
+  "question_keyword": "what does arrears mean in an investing context",
+  "intent": "Informational",
+  "investor_stage": "Problem-aware",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 4000,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date.",
+  "verify_before_publishing": "Each regulatory term verified against its statute or regulator page; GAP — no such glossary currently exists in Canada",
+  "links_to": [],
+  "linked_from": [],
+  "tab1_keywords_same_cluster": [
+   "mortgage investment glossary Canada"
+  ],
+  "investor_questions_for_faq": []
+ },
+ {
+  "id": 8,
+  "title": "First Mortgage Investments Explained",
+  "url": "/learn/first-mortgage-investments/",
+  "type": "Guide",
+  "stage": "2 Investment types and structures",
+  "primary_keyword": "first mortgage investments",
+  "secondary_keywords": [
+   "first position mortgage investment",
+   "mortgage priority Canada"
+  ],
+  "question_keyword": "what is a first position mortgage investment",
+  "intent": "Educational",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 1800,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date.",
+  "verify_before_publishing": "Provincial priority rules",
+  "links_to": [
+   "/learn/first-vs-second-mortgage-investments/ (First vs Second Mortgage Investments: What Position Really Costs)",
+   "/learn/how-mortgage-investments-are-secured/ (How Are Canadian Mortgages Secured Against Real Estate?)",
+   "/learn/loan-to-value-for-mortgage-investors/ (Loan-to-Value for Mortgage Investors: How to Read It and Where It Misleads)",
+   "/learn/power-of-sale-for-mortgage-investors/ (Power of Sale: What It Means for a Mortgage Investor)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)",
+   "/learn/what-is-mortgage-investing/ (What Is Mortgage Investing in Canada?)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "first mortgage investments",
+   "first position mortgage investment",
+   "mortgage priority Canada"
+  ],
+  "investor_questions_for_faq": [
+   "how is a mortgage investment secured"
+  ]
+ },
+ {
+  "id": 9,
+  "title": "Second Mortgage Investments: The Yield and the Trade-Off",
+  "url": "/learn/second-mortgage-investments/",
+  "type": "Guide",
+  "stage": "2 Investment types and structures",
+  "primary_keyword": "second mortgage investments",
+  "secondary_keywords": [
+   "second position mortgage investment",
+   "combined loan to value second mortgage"
+  ],
+  "question_keyword": "what are the risks of a second mortgage investment",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2000,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Risk content must not be softened by a reassurance that undercuts it.",
+  "verify_before_publishing": "Provincial enforcement order and deficiency treatment",
+  "links_to": [
+   "/learn/borrower-default-mortgage-investment/ (What Happens When a Borrower Defaults on Your Mortgage Investment)",
+   "/learn/first-vs-second-mortgage-investments/ (First vs Second Mortgage Investments: What Position Really Costs)",
+   "/learn/loan-to-value-for-mortgage-investors/ (Loan-to-Value for Mortgage Investors: How to Read It and Where It Misleads)",
+   "/learn/power-of-sale-for-mortgage-investors/ (Power of Sale: What It Means for a Mortgage Investor)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)",
+   "/learn/first-mortgage-investments/ (First Mortgage Investments Explained)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "combined loan to value second mortgage",
+   "second mortgage investments",
+   "second position mortgage investment"
+  ],
+  "investor_questions_for_faq": [
+   "what is a good LTV for mortgage investing",
+   "how to calculate loan to value",
+   "what is loan to value in mortgage investing",
+   "how does LTV protect my capital"
+  ]
+ }
+]

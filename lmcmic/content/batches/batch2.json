@@ -1,0 +1,369 @@
+[
+ {
+  "id": 10,
+  "title": "Residential Mortgage Investing in Canada",
+  "url": "/learn/residential-mortgage-investing/",
+  "type": "Guide",
+  "stage": "2 Investment types and structures",
+  "primary_keyword": "residential mortgage investing",
+  "secondary_keywords": [
+   "residential vs commercial mortgage investing",
+   "housing collateral"
+  ],
+  "question_keyword": "is residential mortgage investing safer",
+  "intent": "Educational",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 1800,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date.",
+  "verify_before_publishing": "ITA s.130.1(6)(f) residential/cash test and the National Housing Act definitions it borrows",
+  "links_to": [
+   "/learn/mic-qualification-requirements/ (The Nine Conditions a MIC Must Meet to Keep Its Tax Status)",
+   "/learn/property-marketability-risk/ (Property Value and Marketability Risk)",
+   "/learn/residential-vs-commercial-mortgage-investing/ (Residential vs Commercial Mortgage Investing)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "residential mortgage investing",
+   "residential vs commercial mortgage investing"
+  ],
+  "investor_questions_for_faq": [
+   "which is safer residential or commercial mortgage investing"
+  ]
+ },
+ {
+  "id": 11,
+  "title": "Commercial Mortgage Investing in Canada",
+  "url": "/learn/commercial-mortgage-investing/",
+  "type": "Guide",
+  "stage": "2 Investment types and structures",
+  "primary_keyword": "commercial mortgage investing Canada",
+  "secondary_keywords": [
+   "multi-residential mortgage investing",
+   "mixed use property mortgage investment"
+  ],
+  "question_keyword": "is commercial mortgage investing riskier than residential",
+  "intent": "Educational",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2000,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date.",
+  "verify_before_publishing": "Appraisal methodology differences (income vs comparable)",
+  "links_to": [
+   "/learn/how-mortgages-are-underwritten/ (How Mortgages Are Underwritten — From an Investor's Side of the Table)",
+   "/learn/property-marketability-risk/ (Property Value and Marketability Risk)",
+   "/learn/residential-vs-commercial-mortgage-investing/ (Residential vs Commercial Mortgage Investing)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "commercial mortgage investing Canada",
+   "mixed use property mortgage investment",
+   "multi-residential mortgage investing"
+  ],
+  "investor_questions_for_faq": []
+ },
+ {
+  "id": 12,
+  "title": "Construction Mortgage Investments: Draws, Holdbacks and Cost to Complete",
+  "url": "/learn/construction-mortgage-investments/",
+  "type": "Pillar page",
+  "stage": "2 Investment types and structures",
+  "primary_keyword": "construction mortgage investments",
+  "secondary_keywords": [
+   "construction loan investment risk",
+   "development financing investment Canada"
+  ],
+  "question_keyword": "what are the risks of a construction mortgage investment",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2800,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Risk content must not be softened by a reassurance that undercuts it.",
+  "verify_before_publishing": "Provincial construction lien legislation; GAP — investor-facing construction education is effectively absent in Canada",
+  "links_to": [
+   "/learn/borrower-default-mortgage-investment/ (What Happens When a Borrower Defaults on Your Mortgage Investment)",
+   "/learn/development-financing-investment/ (Development Financing as an Investment: Land, Servicing and Entitlement Risk)",
+   "/learn/mortgage-investor-due-diligence-checklist/ (The Mortgage Investor's Due Diligence Checklist)",
+   "/learn/property-marketability-risk/ (Property Value and Marketability Risk)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)",
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "construction loan investment risk",
+   "construction mortgage investments",
+   "development financing investment Canada"
+  ],
+  "investor_questions_for_faq": [
+   "what are the risks of a construction mortgage investment"
+  ]
+ },
+ {
+  "id": 13,
+  "title": "Development Financing as an Investment: Land, Servicing and Entitlement Risk",
+  "url": "/learn/development-financing-investment/",
+  "type": "Guide",
+  "stage": "2 Investment types and structures",
+  "primary_keyword": "development financing investment Canada",
+  "secondary_keywords": [
+   "land loan investment Canada",
+   "project equity loans"
+  ],
+  "question_keyword": "how risky is land development lending",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2200,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Risk content must not be softened by a reassurance that undercuts it.",
+  "verify_before_publishing": "Municipal entitlement process; provincial lien rules",
+  "links_to": [
+   "/learn/construction-mortgage-investments/ (Construction Mortgage Investments: Draws, Holdbacks and Cost to Complete)",
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)",
+   "/learn/property-marketability-risk/ (Property Value and Marketability Risk)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "development financing investment Canada",
+   "land loan investment Canada"
+  ],
+  "investor_questions_for_faq": []
+ },
+ {
+  "id": 14,
+  "title": "Bridge Mortgage Investments: Short Terms, Fast Turnover",
+  "url": "/learn/bridge-mortgage-investing/",
+  "type": "Guide",
+  "stage": "2 Investment types and structures",
+  "primary_keyword": "bridge mortgage investing",
+  "secondary_keywords": [
+   "bridge financing investment returns",
+   "short term mortgage investment Canada"
+  ],
+  "question_keyword": "how does a bridge mortgage investment work",
+  "intent": "Educational",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 1800,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Any return figure needs a stated period, source and a past-performance caveat. Publish mechanics, not rate promises.",
+  "verify_before_publishing": "None for mechanics",
+  "links_to": [
+   "/learn/mortgage-investment-terms-renewals-and-exits/ (Terms, Renewals, Early Repayment and Discharge)",
+   "/learn/reinvestment-risk-mortgage-investing/ (Reinvestment Risk: The Cost of Money Coming Back Too Soon)",
+   "/learn/short-term-mortgage-investments/ (Short-Duration Mortgage Investments for Investors Who Need Flexibility)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "bridge financing investment returns",
+   "bridge mortgage investing",
+   "short term mortgage investment Canada"
+  ],
+  "investor_questions_for_faq": []
+ },
+ {
+  "id": 15,
+  "title": "What Is a Mortgage Investment Corporation (MIC)?",
+  "url": "/learn/what-is-a-mortgage-investment-corporation/",
+  "type": "Pillar page",
+  "stage": "2 Investment types and structures",
+  "primary_keyword": "what is a mortgage investment corporation",
+  "secondary_keywords": [
+   "mortgage investment corporation",
+   "MIC investment",
+   "how do MICs work"
+  ],
+  "question_keyword": "what is a mortgage investment corporation in Canada",
+  "intent": "Informational",
+  "investor_stage": "Unaware",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2600,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date.",
+  "verify_before_publishing": "ITA s.130.1(6) — paste the literal statutory text from Justice Laws; do not paraphrase",
+  "links_to": [
+   "/how-to-invest/ (How to Invest in Mortgages: The Process Step by Step)",
+   "/learn/mic-qualification-requirements/ (The Nine Conditions a MIC Must Meet to Keep Its Tax Status)",
+   "/learn/mic-share-structure/ (MIC Share Structure: Preferred, Common and Multiple Classes)",
+   "/learn/mic-vs-direct-mortgage-investing/ (MIC vs Investing in Mortgages Directly)",
+   "/learn/mortgage-investment-tax-treatment/ (How Mortgage Investment Income Is Taxed in Canada)"
+  ],
+  "linked_from": [
+   "/ (/)",
+   "/learn/ (/learn/)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "MIC investment",
+   "how do MICs work",
+   "mortgage investment corporation",
+   "what is a mortgage investment corporation"
+  ],
+  "investor_questions_for_faq": [
+   "what is a mortgage investment corporation",
+   "how do MICs work",
+   "what is a mortgage investment corporation in Canada",
+   "how does a MIC work"
+  ]
+ },
+ {
+  "id": 16,
+  "title": "The Nine Conditions a MIC Must Meet to Keep Its Tax Status",
+  "url": "/learn/mic-qualification-requirements/",
+  "type": "Explainer",
+  "stage": "2 Investment types and structures",
+  "primary_keyword": "MIC qualification requirements Canada",
+  "secondary_keywords": [
+   "section 130.1 Income Tax Act",
+   "MIC 20 shareholder rule",
+   "MIC 25 percent shareholder limit"
+  ],
+  "question_keyword": "how does a MIC keep its tax status",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2400,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Tax content must be reviewed by a Canadian tax professional and carry a 'current as of' date. No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Regulatory claims verified against the primary statute/regulator page cited, with a 'current as of' date.",
+  "verify_before_publishing": "ITA s.130.1(6) literal text from laws-lois.justice.gc.ca, including the paragraph (g) foreclosure carve-out",
+  "links_to": [
+   "/learn/mortgage-investment-tax-treatment/ (How Mortgage Investment Income Is Taxed in Canada)",
+   "/learn/prohibited-investment-rrsp-mic/ (The Registered-Plan Trap: When a MIC Becomes a Prohibited Investment)",
+   "/learn/reading-mic-financial-statements/ (Reading a MIC's Financial Statements and Offering Memorandum)",
+   "/learn/what-is-a-mortgage-investment-corporation/ (What Is a Mortgage Investment Corporation (MIC)?)"
+  ],
+  "linked_from": [
+   "/learn/what-is-a-mortgage-investment-corporation/ (What Is a Mortgage Investment Corporation (MIC)?)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "MIC 20 shareholder rule",
+   "MIC 25 percent shareholder limit",
+   "MIC qualification requirements Canada",
+   "section 130.1 Income Tax Act"
+  ],
+  "investor_questions_for_faq": [
+   "is leverage used in a MIC",
+   "how does a MIC keep its tax status"
+  ]
+ },
+ {
+  "id": 17,
+  "title": "MIC Share Structure: Preferred, Common and Multiple Classes",
+  "url": "/learn/mic-share-structure/",
+  "type": "Explainer",
+  "stage": "2 Investment types and structures",
+  "primary_keyword": "MIC shares",
+  "secondary_keywords": [
+   "MIC preferred shares",
+   "MIC Class A vs Class B shares",
+   "pari passu"
+  ],
+  "question_keyword": "what is the difference between MIC share classes",
+  "intent": "Educational",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 1600,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date.",
+  "verify_before_publishing": "ITA s.130.1(6)(e) pari passu participation condition",
+  "links_to": [
+   "/learn/liquidity-and-redemption/ (Liquidity and Redemption: Getting Your Money Out)",
+   "/learn/mic-qualification-requirements/ (The Nine Conditions a MIC Must Meet to Keep Its Tax Status)",
+   "/learn/reading-mic-financial-statements/ (Reading a MIC's Financial Statements and Offering Memorandum)"
+  ],
+  "linked_from": [
+   "/learn/what-is-a-mortgage-investment-corporation/ (What Is a Mortgage Investment Corporation (MIC)?)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "MIC Class A vs Class B shares",
+   "MIC preferred shares",
+   "MIC shares"
+  ],
+  "investor_questions_for_faq": []
+ },
+ {
+  "id": 18,
+  "title": "MIC or MIE? Why the Industry and the Regulators Use Different Words",
+  "url": "/learn/mic-vs-mie/",
+  "type": "Explainer",
+  "stage": "2 Investment types and structures",
+  "primary_keyword": "mortgage investment entity",
+  "secondary_keywords": [
+   "what is an MIE",
+   "MIC vs MIE difference"
+  ],
+  "question_keyword": "what is an MIE",
+  "intent": "Informational",
+  "investor_stage": "Problem-aware",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 1200,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date.",
+  "verify_before_publishing": "CMHC Residential Mortgage Industry Report terminology; provincial MIC association usage",
+  "links_to": [
+   "/learn/canadian-mic-market-data/ (The Canadian Mortgage Investment Market in Numbers)",
+   "/learn/mortgage-investment-rules-by-province/ (Mortgage Investment Rules by Province: A Verified Comparison)",
+   "/learn/what-is-a-mortgage-investment-corporation/ (What Is a Mortgage Investment Corporation (MIC)?)"
+  ],
+  "linked_from": [
+   "/learn/canadian-mic-market-data/ (The Canadian Mortgage Investment Market in Numbers)",
+   "/learn/what-is-a-mortgage-investment-corporation/ (What Is a Mortgage Investment Corporation (MIC)?)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "MIC vs MIE difference",
+   "mortgage investment entity",
+   "what is an MIE"
+  ],
+  "investor_questions_for_faq": [
+   "what is an MIE"
+  ]
+ },
+ {
+  "id": 19,
+  "title": "Mortgage Funds in Canada: How They Differ From a MIC",
+  "url": "/learn/mortgage-funds-canada/",
+  "type": "Guide",
+  "stage": "2 Investment types and structures",
+  "primary_keyword": "mortgage funds Canada",
+  "secondary_keywords": [
+   "mortgage income fund",
+   "pooled mortgage investment",
+   "senior fund vs junior fund"
+  ],
+  "question_keyword": "what is a mortgage income fund",
+  "intent": "Educational",
+  "investor_stage": "Solution-aware",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 1800,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date.",
+  "verify_before_publishing": "NI 81-106 where applicable; fund structure vs corporation tax treatment",
+  "links_to": [
+   "/learn/liquidity-and-redemption/ (Liquidity and Redemption: Getting Your Money Out)",
+   "/learn/mortgage-investment-structures-compared/ (Comparing Mortgage Investment Structures: MIC, Fund, LP, Trust and Syndicated)",
+   "/learn/what-is-a-mortgage-investment-corporation/ (What Is a Mortgage Investment Corporation (MIC)?)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "mortgage funds Canada",
+   "mortgage income fund",
+   "pooled mortgage investment"
+  ],
+  "investor_questions_for_faq": [
+   "what is a mortgage income fund"
+  ]
+ }
+]

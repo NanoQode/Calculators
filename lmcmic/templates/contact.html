@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+{# Design source: content/data/design-investor_connect_intake.html #}
+<section class="container-site pt-6 md:pt-10 pb-6 grid gap-8 lg:grid-cols-[1fr_1.15fr] lg:items-start">
+  <div class="lg:sticky lg:top-28">
+    <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-maple-red-tint text-on-tertiary-container font-sans text-label-caps uppercase">{{ m.icon('shield_person', 'text-[14px]') }}Accredited &amp; eligible investor relations</div>
+    <h1 class="mt-3 font-serif text-headline-lg md:text-[38px] md:leading-[46px] text-on-surface tracking-tight">{{ page.title }}</h1>
+    <p class="mt-3 font-sans text-body-lg text-on-surface-variant">Ask about current mortgage investment opportunities in Canada with Lendmax Capital MIC. Tell us the best time to reach you; a member of the investor desk follows up, and you continue straight to the secure investor application.</p>
+    <div class="mt-5 grid grid-cols-3 gap-2 p-3 rounded-2xl bg-surface-container-low">
+      <div class="flex flex-col items-center text-center"><span class="font-sans text-[22px] font-bold text-on-surface">FSRA</span><span class="font-sans text-[10px] font-bold text-on-surface-variant uppercase mt-0.5">Admin. licence {{ site.fsra_licence }}</span></div>
+      <div class="flex flex-col items-center text-center border-x border-border-hairline"><span class="font-sans text-[22px] font-bold text-secondary">s.130.1</span><span class="font-sans text-[10px] font-bold text-on-surface-variant uppercase mt-0.5">Income Tax Act MIC</span></div>
+      <div class="flex flex-col items-center text-center"><span class="font-sans text-[22px] font-bold text-on-tertiary-container">ON·BC·AB</span><span class="font-sans text-[10px] font-bold text-on-surface-variant uppercase mt-0.5">Residential mortgages</span></div>
+    </div>
+    <div class="mt-5 relative rounded-2xl overflow-hidden bg-primary-container text-white p-5">
+      <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_80%_20%,#38BDF8,transparent_55%)]"></div>
+      <div class="relative">
+        <div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-sky-subtle/20 text-sky-bright font-sans text-[10px] font-bold uppercase">{{ m.icon('domain_add', 'text-[13px]') }}ON · BC · AB portfolio</div>
+        <p class="mt-2 font-sans text-headline-sm">Diversified first and second residential mortgages</p>
+        <p class="mt-1 font-sans text-body-sm text-primary-fixed-dim">Capital is lent against residential property at conservative loan-to-value ratios, and every loan names its exit — refinance or sale — before it is funded.</p>
+      </div>
+    </div>
+    <div class="mt-5 rounded-2xl bg-navy-surface text-white p-5">
+      <div class="flex items-center justify-between"><span class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-sky-bright animate-pulse"></span><span class="font-sans text-label-caps uppercase text-sky-subtle tracking-wider">Investor desk</span></span><span class="font-sans text-[11px] text-primary-fixed-dim">Eastern time</span></div>
+      <h2 class="mt-2 font-serif text-headline-md">Speak directly to the capital team</h2>
+      <div class="mt-3 grid gap-2">
+        <a class="p-3 rounded-xl bg-border-dark-subtle/60 hover:bg-border-dark-subtle flex items-center justify-between" href="tel:{{ site.phone_e164 }}"><span class="flex items-center gap-3">{{ m.icon('call', 'text-sky-bright text-[22px]') }}<span><span class="block font-sans text-[10px] font-bold text-primary-fixed-dim uppercase">Phone</span><span class="font-sans text-label-lg">{{ site.phone }}</span></span></span>{{ m.icon('arrow_forward', 'text-primary-fixed-dim text-[18px]') }}</a>
+        <a class="p-3 rounded-xl bg-border-dark-subtle/60 hover:bg-border-dark-subtle flex items-center justify-between" href="mailto:{{ site.email_investors }}"><span class="flex items-center gap-3">{{ m.icon('mail', 'text-sky-bright text-[22px]') }}<span><span class="block font-sans text-[10px] font-bold text-primary-fixed-dim uppercase">Investor relations</span><span class="font-sans text-label-lg">{{ site.email_investors }}</span></span></span>{{ m.icon('arrow_forward', 'text-primary-fixed-dim text-[18px]') }}</a>
+        <a class="p-3 rounded-xl bg-border-dark-subtle/60 hover:bg-border-dark-subtle flex items-center justify-between" href="mailto:{{ site.email_deals }}"><span class="flex items-center gap-3">{{ m.icon('real_estate_agent', 'text-sky-bright text-[22px]') }}<span><span class="block font-sans text-[10px] font-bold text-primary-fixed-dim uppercase">Underwriting &amp; deals</span><span class="font-sans text-label-lg">{{ site.email_deals }}</span></span></span>{{ m.icon('arrow_forward', 'text-primary-fixed-dim text-[18px]') }}</a>
+      </div>
+      <div class="mt-3 pt-3 border-t border-border-dark-subtle font-sans text-body-sm text-primary-fixed-dim flex items-center gap-2">{{ m.icon('schedule', 'text-[18px]') }}{{ site.hours }}</div>
+      <p class="mt-2 font-sans text-[12px] text-primary-fixed-dim">{{ site.address.street }}, {{ site.address.city }}, Ontario {{ site.address.postal }}. Already invested? <a class="underline text-white" href="{{ site.investor_portal_url }}" rel="noopener">Investor portal</a>.</p>
+    </div>
+  </div>
+  {{ m.lead_form(site, form_id='contact-intake') }}
+</section>
+
+{{ m.faq_list(contact_faq, 'Before you enquire') }}
+
+<section class="container-site mb-6">
+  <div class="p-5 rounded-2xl bg-surface-container text-on-surface-variant font-sans text-[12px] leading-relaxed grid gap-2 max-w-4xl">
+    <p class="flex items-center gap-1.5 font-sans text-label-caps uppercase text-on-surface">{{ m.icon('info', 'text-[16px] text-secondary') }}Statutory offering disclaimer</p>
+    <p>Securities of {{ site.legal_name }} are offered exclusively through a registered exempt market dealer to qualified investors under prospectus exemptions in National Instrument 45-106. This page does not constitute an offer to sell or a solicitation of an offer to buy securities.</p>
+    <p>Past performance does not indicate future results. Mortgage investments are not insured by the CDIC or any government agency and are not guaranteed. Prospective investors must review the complete offering memorandum and consult their own legal and tax advisers before subscribing.</p>
+  </div>
+</section>
+{% endblock %}

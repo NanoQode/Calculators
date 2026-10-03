@@ -1,0 +1,382 @@
+[
+ {
+  "id": 48,
+  "title": "What Enforcement Actually Costs a Mortgage Investor",
+  "url": "/learn/cost-of-mortgage-enforcement/",
+  "type": "Explainer",
+  "stage": "5 Risk and due diligence",
+  "primary_keyword": "cost of enforcing a mortgage investment",
+  "secondary_keywords": [
+   "mortgage default risk investor",
+   "deficiency judgment mortgage Canada"
+  ],
+  "question_keyword": "how much does enforcement cost if a borrower defaults",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 1800,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Risk content must not be softened by a reassurance that undercuts it.",
+  "verify_before_publishing": "GAP — enforcement cost is almost never quantified for investors. Use ranges with stated assumptions, not invented precision",
+  "links_to": [
+   "/learn/borrower-default-mortgage-investment/ (What Happens When a Borrower Defaults on Your Mortgage Investment)",
+   "/learn/first-vs-second-mortgage-investments/ (First vs Second Mortgage Investments: What Position Really Costs)",
+   "/learn/loan-to-value-for-mortgage-investors/ (Loan-to-Value for Mortgage Investors: How to Read It and Where It Misleads)",
+   "/learn/mortgage-enforcement-across-canada/ (Mortgage Enforcement Across Canada: Power of Sale, Judicial Sale and Quebec's Recourses)"
+  ],
+  "linked_from": [
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "cost of enforcing a mortgage investment",
+   "deficiency judgment mortgage Canada",
+   "mortgage default risk investor"
+  ],
+  "investor_questions_for_faq": [
+   "what happens if a borrower stops paying",
+   "do foreclosures affect MIC returns",
+   "how much does enforcement cost if a borrower defaults",
+   "what happens if the borrower defaults on my mortgage investment",
+   "what happens if the property is worth less than the mortgage",
+   "what happens if there are foreclosures in the portfolio"
+  ]
+ },
+ {
+  "id": 49,
+  "title": "Liquidity and Redemption: Getting Your Money Out",
+  "url": "/learn/liquidity-and-redemption/",
+  "type": "Pillar page",
+  "stage": "5 Risk and due diligence",
+  "primary_keyword": "liquidity risk mortgage investment",
+  "secondary_keywords": [
+   "MIC redemption restrictions",
+   "lock up period mortgage investment",
+   "how liquid is a MIC investment"
+  ],
+  "question_keyword": "what happens if I need my money before the term ends",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2400,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Risk content must not be softened by a reassurance that undercuts it. Must state that redemptions can be delayed, gated or suspended.",
+  "verify_before_publishing": "GAP — liquidity mismatch is named as a risk sector-wide but never explained. Verify terms against live offering documents",
+  "links_to": [
+   "/learn/how-to-evaluate-a-mic/ (How to Evaluate a MIC Before You Invest)",
+   "/learn/mortgage-investing-vs-gics/ (Mortgage Investing vs GICs: Yield, Insurance and What You Give Up)",
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)",
+   "/learn/mortgage-investment-terms-renewals-and-exits/ (Terms, Renewals, Early Repayment and Discharge)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)",
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "MIC redemption restrictions",
+   "how liquid is a MIC investment",
+   "liquidity risk mortgage investment",
+   "lock up period mortgage investment"
+  ],
+  "investor_questions_for_faq": [
+   "how liquid is a MIC investment",
+   "how do I get my money back mortgage investment",
+   "how do I get my money out of a MIC",
+   "what happens to my money if the MIC fails",
+   "what is liquidity mismatch in a mortgage fund",
+   "what happens if I need my money before the term ends",
+   "what happens if a MIC suspends redemptions",
+   "can I sell my MIC shares early"
+  ]
+ },
+ {
+  "id": 50,
+  "title": "Property Value and Marketability Risk",
+  "url": "/learn/property-marketability-risk/",
+  "type": "Guide",
+  "stage": "5 Risk and due diligence",
+  "primary_keyword": "property marketability risk mortgage",
+  "secondary_keywords": [
+   "real estate market risk mortgage investment",
+   "rural property mortgage investment risk"
+  ],
+  "question_keyword": "what happens if the property is worth less than the mortgage",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 1800,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Risk content must not be softened by a reassurance that undercuts it.",
+  "verify_before_publishing": "Regional market liquidity data if cited, with period stated",
+  "links_to": [
+   "/learn/appraisals-for-mortgage-investors/ (Appraisals for Mortgage Investors: As-Is vs As-Complete)",
+   "/learn/borrower-default-mortgage-investment/ (What Happens When a Borrower Defaults on Your Mortgage Investment)",
+   "/learn/loan-to-value-for-mortgage-investors/ (Loan-to-Value for Mortgage Investors: How to Read It and Where It Misleads)",
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)"
+  ],
+  "linked_from": [
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "property marketability risk mortgage",
+   "real estate market risk mortgage investment",
+   "rural property mortgage investment risk"
+  ],
+  "investor_questions_for_faq": [
+   "what are the risks of investing in a MIC",
+   "is mortgage investing safe",
+   "are MIC investments guaranteed",
+   "is my principal guaranteed mortgage investment",
+   "can you lose money investing in mortgages",
+   "is investing in mortgages safe in Canada",
+   "is my money safe in a mortgage investment corporation",
+   "is a MIC guaranteed",
+   "what are the risks of investing in a mortgage investment corporation",
+   "what are the risks of private mortgage investing",
+   "can I lose my whole investment in a mortgage"
+  ]
+ },
+ {
+  "id": 51,
+  "title": "Appraisals for Mortgage Investors: As-Is vs As-Complete",
+  "url": "/learn/appraisals-for-mortgage-investors/",
+  "type": "Explainer",
+  "stage": "5 Risk and due diligence",
+  "primary_keyword": "property appraisal mortgage investment",
+  "secondary_keywords": [
+   "as is value vs as complete value appraisal",
+   "how does an appraisal protect a mortgage investor"
+  ],
+  "question_keyword": "how does an appraisal protect a mortgage investor",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2000,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Risk content must not be softened by a reassurance that undercuts it. No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Regulatory claims verified against the primary statute/regulator page cited, with a 'current as of' date.",
+  "verify_before_publishing": "NI 45-106 s.2.9(19.1)-(19.4): independent appraiser, value within the preceding 6 months, as-is basis without improvements or development",
+  "links_to": [
+   "/learn/construction-mortgage-investments/ (Construction Mortgage Investments: Draws, Holdbacks and Cost to Complete)",
+   "/learn/loan-to-value-for-mortgage-investors/ (Loan-to-Value for Mortgage Investors: How to Read It and Where It Misleads)",
+   "/learn/mortgage-investor-due-diligence-checklist/ (The Mortgage Investor's Due Diligence Checklist)",
+   "/learn/syndicated-mortgage-rules/ (Syndicated Mortgage Rules in Canada After the 2021 Reforms)"
+  ],
+  "linked_from": [
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)",
+   "/learn/mortgage-investor-due-diligence-checklist/ (The Mortgage Investor's Due Diligence Checklist)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "as is value vs as complete value appraisal",
+   "how does an appraisal protect a mortgage investor",
+   "property appraisal mortgage investment"
+  ],
+  "investor_questions_for_faq": [
+   "how does an appraisal protect a mortgage investor"
+  ]
+ },
+ {
+  "id": 52,
+  "title": "Concentration and Diversification in a Mortgage Portfolio",
+  "url": "/learn/mortgage-investment-diversification/",
+  "type": "Guide",
+  "stage": "5 Risk and due diligence",
+  "primary_keyword": "mortgage investment diversification",
+  "secondary_keywords": [
+   "borrower concentration risk MIC",
+   "geographic concentration risk mortgage fund"
+  ],
+  "question_keyword": "how much of my portfolio should be in mortgage investments",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2000,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Risk content must not be softened by a reassurance that undercuts it.",
+  "verify_before_publishing": "CMHC has attributed part of MIE delinquency deterioration to concentrated regional exposure — cite with period",
+  "links_to": [
+   "/learn/canadian-mic-market-data/ (The Canadian Mortgage Investment Market in Numbers)",
+   "/learn/how-to-evaluate-a-mic/ (How to Evaluate a MIC Before You Invest)",
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)",
+   "/learn/reading-mic-financial-statements/ (Reading a MIC's Financial Statements and Offering Memorandum)"
+  ],
+  "linked_from": [
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)",
+   "/learn/mortgage-investor-due-diligence-checklist/ (The Mortgage Investor's Due Diligence Checklist)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "borrower concentration risk MIC",
+   "geographic concentration risk mortgage fund",
+   "mortgage investment diversification"
+  ],
+  "investor_questions_for_faq": [
+   "how much of my portfolio should be in mortgage investments"
+  ]
+ },
+ {
+  "id": 53,
+  "title": "The Mortgage Investor's Due Diligence Checklist",
+  "url": "/learn/mortgage-investor-due-diligence-checklist/",
+  "type": "Checklist",
+  "stage": "5 Risk and due diligence",
+  "primary_keyword": "mortgage investor due diligence",
+  "secondary_keywords": [
+   "mortgage investment red flags",
+   "what should I check in a mortgage investment before I commit"
+  ],
+  "question_keyword": "what should I check in a mortgage investment before I commit",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2600,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Risk content must not be softened by a reassurance that undercuts it.",
+  "verify_before_publishing": "GAP — only one Canadian site publishes anything comparable. Highest-value ownable asset",
+  "links_to": [
+   "/learn/appraisals-for-mortgage-investors/ (Appraisals for Mortgage Investors: As-Is vs As-Complete)",
+   "/learn/how-to-evaluate-a-mic/ (How to Evaluate a MIC Before You Invest)",
+   "/learn/loan-to-value-for-mortgage-investors/ (Loan-to-Value for Mortgage Investors: How to Read It and Where It Misleads)",
+   "/learn/mortgage-investment-red-flags/ (Mortgage Investment Red Flags and Fraud Prevention)",
+   "/learn/title-insurance-and-legal-file/ (Title, Insurance and the Legal File a Mortgage Investor Should See)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)",
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "mortgage investment red flags",
+   "what should I check in a mortgage investment before I commit"
+  ],
+  "investor_questions_for_faq": [
+   "what happens if the property burns down",
+   "what should I check in a mortgage investment before I commit",
+   "what are the warning signs of a bad mortgage investment"
+  ]
+ },
+ {
+  "id": 54,
+  "title": "How to Evaluate a MIC Before You Invest",
+  "url": "/learn/how-to-evaluate-a-mic/",
+  "type": "Checklist",
+  "stage": "5 Risk and due diligence",
+  "primary_keyword": "how to choose a MIC",
+  "secondary_keywords": [
+   "MIC due diligence checklist",
+   "questions to ask before investing in a MIC",
+   "what should I look for when choosing a MIC"
+  ],
+  "question_keyword": "what questions should I ask before investing in a MIC",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2800,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Risk content must not be softened by a reassurance that undercuts it.",
+  "verify_before_publishing": "GAP — no operator has published a credible evaluation framework",
+  "links_to": [
+   "/learn/liquidity-and-redemption/ (Liquidity and Redemption: Getting Your Money Out)",
+   "/learn/mic-qualification-requirements/ (The Nine Conditions a MIC Must Meet to Keep Its Tax Status)",
+   "/learn/mortgage-investment-fees/ (The Real Fee Stack in a Mortgage Investment, Itemised)",
+   "/learn/reading-mic-financial-statements/ (Reading a MIC's Financial Statements and Offering Memorandum)"
+  ],
+  "linked_from": [
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)",
+   "/learn/mortgage-investor-due-diligence-checklist/ (The Mortgage Investor's Due Diligence Checklist)",
+   "/learn/what-is-a-mortgage-investment-corporation/ (What Is a Mortgage Investment Corporation (MIC)?)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "MIC due diligence checklist",
+   "how to choose a MIC",
+   "questions to ask before investing in a MIC",
+   "what should I look for when choosing a MIC"
+  ],
+  "investor_questions_for_faq": [
+   "how to choose a MIC",
+   "questions to ask before investing in a MIC",
+   "how do I know if a MIC is well run",
+   "what should I look for when choosing a MIC",
+   "what questions should I ask before investing in a MIC"
+  ]
+ },
+ {
+  "id": 55,
+  "title": "Reading a MIC's Financial Statements and Offering Memorandum",
+  "url": "/learn/reading-mic-financial-statements/",
+  "type": "Guide",
+  "stage": "5 Risk and due diligence",
+  "primary_keyword": "how to read a MIC financial statement",
+  "secondary_keywords": [
+   "how to read a MIC offering memorandum",
+   "loan loss reserve MIC",
+   "expected credit loss mortgage fund IFRS 9",
+   "weighted average LTV MIC"
+  ],
+  "question_keyword": "what should I look for in a MIC's financial statements",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 3000,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Risk content must not be softened by a reassurance that undercuts it.",
+  "verify_before_publishing": "IFRS 9 expected credit loss terminology; GAP — nothing exists on interpreting these for investors",
+  "links_to": [
+   "/learn/how-to-evaluate-a-mic/ (How to Evaluate a MIC Before You Invest)",
+   "/learn/loan-to-value-for-mortgage-investors/ (Loan-to-Value for Mortgage Investors: How to Read It and Where It Misleads)",
+   "/learn/mortgage-investment-diversification/ (Concentration and Diversification in a Mortgage Portfolio)",
+   "/learn/mortgage-investment-fees/ (The Real Fee Stack in a Mortgage Investment, Itemised)"
+  ],
+  "linked_from": [
+   "/learn/mortgage-investor-due-diligence-checklist/ (The Mortgage Investor's Due Diligence Checklist)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "expected credit loss mortgage fund IFRS 9",
+   "how to read a MIC financial statement",
+   "how to read a MIC offering memorandum",
+   "loan loss reserve MIC",
+   "weighted average LTV MIC"
+  ],
+  "investor_questions_for_faq": [
+   "how to read a MIC offering memorandum",
+   "how to read a MIC financial statement",
+   "what should I look for in a MIC's financial statements",
+   "what should be in a mortgage investment offering memorandum"
+  ]
+ },
+ {
+  "id": 56,
+  "title": "Mortgage Investment Red Flags and Fraud Prevention",
+  "url": "/learn/mortgage-investment-red-flags/",
+  "type": "Guide",
+  "stage": "5 Risk and due diligence",
+  "primary_keyword": "mortgage investment red flags",
+  "secondary_keywords": [
+   "mortgage investment fraud prevention",
+   "what are the warning signs of a bad mortgage investment"
+  ],
+  "question_keyword": "what are the warning signs of a bad mortgage investment",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2200,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Risk content must not be softened by a reassurance that undercuts it. Describe categories of warning sign; do not name or imply wrongdoing by any identifiable firm.",
+  "verify_before_publishing": "Regulator investor alerts and enforcement summaries; NI 45-106 syndicated-mortgage reforms and what prompted them",
+  "links_to": [
+   "/learn/appraisals-for-mortgage-investors/ (Appraisals for Mortgage Investors: As-Is vs As-Complete)",
+   "/learn/how-to-evaluate-a-mic/ (How to Evaluate a MIC Before You Invest)",
+   "/learn/mortgage-investment-rules-by-province/ (Mortgage Investment Rules by Province: A Verified Comparison)",
+   "/learn/mortgage-investor-due-diligence-checklist/ (The Mortgage Investor's Due Diligence Checklist)",
+   "/learn/syndicated-mortgage-rules/ (Syndicated Mortgage Rules in Canada After the 2021 Reforms)"
+  ],
+  "linked_from": [
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)",
+   "/learn/mortgage-investor-due-diligence-checklist/ (The Mortgage Investor's Due Diligence Checklist)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "mortgage investment fraud prevention",
+   "mortgage investment red flags",
+   "what are the warning signs of a bad mortgage investment"
+  ],
+  "investor_questions_for_faq": [
+   "what are the warning signs of a bad mortgage investment"
+  ]
+ }
+]

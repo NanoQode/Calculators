@@ -1,0 +1,401 @@
+[
+ {
+  "id": 20,
+  "title": "Direct Mortgage Investing: Holding the Charge in Your Own Name",
+  "url": "/learn/direct-mortgage-investing/",
+  "type": "Guide",
+  "stage": "2 Investment types and structures",
+  "primary_keyword": "direct mortgage investing",
+  "secondary_keywords": [
+   "individual mortgage investing",
+   "whole mortgage investment",
+   "arm's length mortgage investment"
+  ],
+  "question_keyword": "can I choose the specific mortgage I invest in",
+  "intent": "Educational",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2000,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date.",
+  "verify_before_publishing": "Provincial administrator licensing where a third party services the loan",
+  "links_to": [
+   "/learn/mic-vs-direct-mortgage-investing/ (MIC vs Investing in Mortgages Directly)",
+   "/learn/mortgage-administrators/ (Mortgage Administrators: Who Services Your Investment and Why It Matters)",
+   "/learn/mortgage-investor-due-diligence-checklist/ (The Mortgage Investor's Due Diligence Checklist)",
+   "/learn/rrsp-tfsa-rrif-mortgage-investments/ (Holding Mortgage Investments in an RRSP, TFSA or RRIF)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "arm's length mortgage investment",
+   "direct mortgage investing",
+   "individual mortgage investing",
+   "whole mortgage investment"
+  ],
+  "investor_questions_for_faq": [
+   "can I choose which mortgage to invest in",
+   "what is the difference between a MIC and an individual mortgage investment",
+   "which is better a MIC or lending directly",
+   "how does fractional mortgage investing work",
+   "can I choose the specific mortgage I invest in"
+  ]
+ },
+ {
+  "id": 21,
+  "title": "Fractional and Syndicated Mortgage Investments",
+  "url": "/learn/fractional-and-syndicated-mortgage-investing/",
+  "type": "Guide",
+  "stage": "2 Investment types and structures",
+  "primary_keyword": "fractional mortgage investing",
+  "secondary_keywords": [
+   "syndicated mortgage investment",
+   "what is a syndicated mortgage"
+  ],
+  "question_keyword": "how does fractional mortgage investing work",
+  "intent": "Educational",
+  "investor_stage": "Solution-aware",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2200,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Regulatory claims verified against the primary statute/regulator page cited, with a 'current as of' date.",
+  "verify_before_publishing": "NI 45-106 ss.2.36(3), 2.4(4), 2.9(19.1)-(19.4); effective 1 Mar 2021, and 1 Jul 2021 in ON and QC",
+  "links_to": [
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)",
+   "/learn/mortgage-investment-structures-compared/ (Comparing Mortgage Investment Structures: MIC, Fund, LP, Trust and Syndicated)",
+   "/learn/syndicated-mortgage-rules/ (Syndicated Mortgage Rules in Canada After the 2021 Reforms)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "fractional mortgage investing",
+   "syndicated mortgage investment",
+   "what is a syndicated mortgage"
+  ],
+  "investor_questions_for_faq": [
+   "what is a syndicated mortgage",
+   "how does fractional mortgage investing work"
+  ]
+ },
+ {
+  "id": 22,
+  "title": "Comparing Mortgage Investment Structures: MIC, Fund, LP, Trust and Syndicated",
+  "url": "/learn/mortgage-investment-structures-compared/",
+  "type": "Comparison",
+  "stage": "2 Investment types and structures",
+  "primary_keyword": "mortgage investment structures Canada",
+  "secondary_keywords": [
+   "mortgage fund vs MIC",
+   "MIC vs syndicated mortgage",
+   "mortgage limited partnership Canada"
+  ],
+  "question_keyword": "what is the difference between a MIC and a syndicated mortgage",
+  "intent": "Comparison",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2600,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Comparison must present trade-offs both ways; no 'better than' verdict; deposit-insurance position stated where a GIC or savings product is named.",
+  "verify_before_publishing": "ITA s.130.1 for MICs; NI 45-106 for syndicated; fund/trust tax treatment — GAP, nothing comprehensive exists",
+  "links_to": [
+   "/learn/fractional-and-syndicated-mortgage-investing/ (Fractional and Syndicated Mortgage Investments)",
+   "/learn/liquidity-and-redemption/ (Liquidity and Redemption: Getting Your Money Out)",
+   "/learn/mortgage-funds-canada/ (Mortgage Funds in Canada: How They Differ From a MIC)",
+   "/learn/mortgage-investment-tax-treatment/ (How Mortgage Investment Income Is Taxed in Canada)",
+   "/learn/what-is-a-mortgage-investment-corporation/ (What Is a Mortgage Investment Corporation (MIC)?)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "MIC vs syndicated mortgage",
+   "mortgage fund vs MIC",
+   "mortgage investment structures Canada",
+   "mortgage limited partnership Canada"
+  ],
+  "investor_questions_for_faq": [
+   "what is the difference between a MIC and a syndicated mortgage"
+  ]
+ },
+ {
+  "id": 23,
+  "title": "Where Do Mortgage Investment Returns Actually Come From?",
+  "url": "/learn/mortgage-investment-returns/",
+  "type": "Pillar page",
+  "stage": "3 Returns, income and cash flow",
+  "primary_keyword": "mortgage investment returns",
+  "secondary_keywords": [
+   "mortgage investment income",
+   "how do mortgage investors make money"
+  ],
+  "question_keyword": "what is a realistic return on a private mortgage investment",
+  "intent": "Income / cash-flow intent",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2400,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Any return figure needs a stated period, source and a past-performance caveat. Publish mechanics, not rate promises.",
+  "verify_before_publishing": "None for mechanics; do not publish rate figures",
+  "links_to": [
+   "/learn/gross-vs-net-vs-after-tax-yield/ (Gross Yield, Net Yield and After-Tax Yield: The Three Numbers That Matter)",
+   "/learn/mortgage-investment-fees/ (The Real Fee Stack in a Mortgage Investment, Itemised)",
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)",
+   "/tools/after-tax-yield-calculator/ (After-Tax Yield Calculator for Canadian Mortgage Investments)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "how do mortgage investors make money",
+   "mortgage investment income",
+   "mortgage investment returns"
+  ],
+  "investor_questions_for_faq": [
+   "how do mortgage investors make money",
+   "how is interest paid to a mortgage investor",
+   "how do I get paid mortgage investment",
+   "how do I get paid on a mortgage investment",
+   "what is a realistic return on a private mortgage investment",
+   "how much can I earn investing in mortgages",
+   "how does a mortgage investment generate income"
+  ]
+ },
+ {
+  "id": 24,
+  "title": "Gross Yield, Net Yield and After-Tax Yield: The Three Numbers That Matter",
+  "url": "/learn/gross-vs-net-vs-after-tax-yield/",
+  "type": "Pillar page",
+  "stage": "3 Returns, income and cash flow",
+  "primary_keyword": "net yield vs gross yield mortgage investment",
+  "secondary_keywords": [
+   "after tax return mortgage investment Canada",
+   "mortgage investment yield explained"
+  ],
+  "question_keyword": "how much tax will I pay on MIC dividends",
+  "intent": "Income / cash-flow intent",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2600,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Any return figure needs a stated period, source and a past-performance caveat. Publish mechanics, not rate promises. No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Tax content must be reviewed by a Canadian tax professional and carry a 'current as of' date.",
+  "verify_before_publishing": "ITA s.130.1(2) deemed-interest treatment; current marginal rates by province with a stated tax year",
+  "links_to": [
+   "/learn/mortgage-investing-vs-gics/ (Mortgage Investing vs GICs: Yield, Insurance and What You Give Up)",
+   "/learn/mortgage-investment-fees/ (The Real Fee Stack in a Mortgage Investment, Itemised)",
+   "/learn/mortgage-investment-tax-treatment/ (How Mortgage Investment Income Is Taxed in Canada)",
+   "/tools/after-tax-yield-calculator/ (After-Tax Yield Calculator for Canadian Mortgage Investments)"
+  ],
+  "linked_from": [
+   "/learn/mortgage-investment-returns/ (Where Do Mortgage Investment Returns Actually Come From?)",
+   "/learn/mortgage-investment-tax-treatment/ (How Mortgage Investment Income Is Taxed in Canada)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "after tax return mortgage investment Canada",
+   "mortgage investment yield explained",
+   "net yield vs gross yield mortgage investment"
+  ],
+  "investor_questions_for_faq": [
+   "how much tax will I pay on MIC dividends"
+  ]
+ },
+ {
+  "id": 25,
+  "title": "After-Tax Yield Calculator for Canadian Mortgage Investments",
+  "url": "/tools/after-tax-yield-calculator/",
+  "type": "Calculator / tool",
+  "stage": "3 Returns, income and cash flow",
+  "primary_keyword": "after tax return mortgage investment Canada",
+  "secondary_keywords": [
+   "MIC dividends taxed as interest income",
+   "mortgage investment tax treatment Canada"
+  ],
+  "question_keyword": "how much tax will I pay on MIC dividends",
+  "intent": "Income / cash-flow intent",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 1200,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Any return figure needs a stated period, source and a past-performance caveat. Publish mechanics, not rate promises. No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Tax content must be reviewed by a Canadian tax professional and carry a 'current as of' date. Calculator must state its assumptions on screen and disclaim that it is illustrative only.",
+  "verify_before_publishing": "Current federal and provincial marginal rates with the tax year stated; ITA s.130.1(2). HIGHEST-VALUE GAP — no Canadian site publishes this",
+  "links_to": [
+   "/learn/gross-vs-net-vs-after-tax-yield/ (Gross Yield, Net Yield and After-Tax Yield: The Three Numbers That Matter)",
+   "/learn/mortgage-investing-vs-gics/ (Mortgage Investing vs GICs: Yield, Insurance and What You Give Up)",
+   "/learn/mortgage-investment-tax-treatment/ (How Mortgage Investment Income Is Taxed in Canada)",
+   "/learn/rrsp-tfsa-rrif-mortgage-investments/ (Holding Mortgage Investments in an RRSP, TFSA or RRIF)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)",
+   "/learn/mortgage-investment-returns/ (Where Do Mortgage Investment Returns Actually Come From?)",
+   "/learn/mortgage-investment-tax-treatment/ (How Mortgage Investment Income Is Taxed in Canada)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "MIC dividends taxed as interest income",
+   "after tax return mortgage investment Canada",
+   "mortgage investment tax treatment Canada"
+  ],
+  "investor_questions_for_faq": [
+   "how are MIC dividends taxed",
+   "how much tax will I pay on MIC dividends"
+  ]
+ },
+ {
+  "id": 26,
+  "title": "The Real Fee Stack in a Mortgage Investment, Itemised",
+  "url": "/learn/mortgage-investment-fees/",
+  "type": "Explainer",
+  "stage": "3 Returns, income and cash flow",
+  "primary_keyword": "mortgage investment fees Canada",
+  "secondary_keywords": [
+   "MIC management fee",
+   "mortgage administration fee investor",
+   "lender fee mortgage investment"
+  ],
+  "question_keyword": "what are the hidden fees in a MIC",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2200,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Any return figure needs a stated period, source and a past-performance caveat. Publish mechanics, not rate promises.",
+  "verify_before_publishing": "GAP — no Canadian operator itemises the full stack. Verify each fee type against live offering documents",
+  "links_to": [
+   "/learn/gross-vs-net-vs-after-tax-yield/ (Gross Yield, Net Yield and After-Tax Yield: The Three Numbers That Matter)",
+   "/learn/how-to-evaluate-a-mic/ (How to Evaluate a MIC Before You Invest)",
+   "/learn/reading-mic-financial-statements/ (Reading a MIC's Financial Statements and Offering Memorandum)"
+  ],
+  "linked_from": [
+   "/learn/mortgage-investment-returns/ (Where Do Mortgage Investment Returns Actually Come From?)",
+   "/learn/mortgage-investor-due-diligence-checklist/ (The Mortgage Investor's Due Diligence Checklist)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "MIC management fee",
+   "lender fee mortgage investment",
+   "mortgage administration fee investor",
+   "mortgage investment fees Canada"
+  ],
+  "investor_questions_for_faq": [
+   "what are the hidden fees in a MIC"
+  ]
+ },
+ {
+  "id": 27,
+  "title": "Monthly Income From Mortgage Investments: How the Cash Flow Works",
+  "url": "/learn/monthly-income-from-mortgage-investments/",
+  "type": "Pillar page",
+  "stage": "3 Returns, income and cash flow",
+  "primary_keyword": "monthly income investments Canada",
+  "secondary_keywords": [
+   "mortgage cash flow investments",
+   "monthly distribution investment Canada",
+   "mortgage passive income"
+  ],
+  "question_keyword": "how do I get paid on a mortgage investment",
+  "intent": "Income / cash-flow intent",
+  "investor_stage": "Problem-aware",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2000,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Any return figure needs a stated period, source and a past-performance caveat. Publish mechanics, not rate promises. Must state plainly that distributions are not guaranteed and can be reduced or suspended.",
+  "verify_before_publishing": "None for mechanics",
+  "links_to": [
+   "/learn/liquidity-and-redemption/ (Liquidity and Redemption: Getting Your Money Out)",
+   "/learn/mortgage-investing-for-retirement-income/ (Mortgage Investing for Retirement Income)",
+   "/tools/drip-compounding-calculator/ (Compounding a Mortgage Investment: How DRIPs Change the Maths)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)",
+   "/learn/mortgage-investing-passive-income/ (Mortgage Investing as Passive Income in Canada)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "monthly distribution investment Canada",
+   "monthly income investments Canada",
+   "mortgage cash flow investments",
+   "mortgage passive income"
+  ],
+  "investor_questions_for_faq": [
+   "how is interest paid to a mortgage investor",
+   "how do I get paid mortgage investment",
+   "how do I get paid on a mortgage investment"
+  ]
+ },
+ {
+  "id": 28,
+  "title": "Compounding a Mortgage Investment: How DRIPs Change the Maths",
+  "url": "/tools/drip-compounding-calculator/",
+  "type": "Calculator / tool",
+  "stage": "3 Returns, income and cash flow",
+  "primary_keyword": "mortgage investment compound interest",
+  "secondary_keywords": [
+   "dividend reinvestment plan MIC",
+   "simple vs compound return mortgage investing"
+  ],
+  "question_keyword": "how do I reinvest my mortgage investment distributions",
+  "intent": "Income / cash-flow intent",
+  "investor_stage": "Existing investor",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 1600,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Any return figure needs a stated period, source and a past-performance caveat. Publish mechanics, not rate promises. Projections must be labelled illustrative and must not imply a guaranteed path.",
+  "verify_before_publishing": "Note that DRIP appears under three different expansions across Canadian sites — define the term used",
+  "links_to": [
+   "/learn/liquidity-and-redemption/ (Liquidity and Redemption: Getting Your Money Out)",
+   "/learn/mortgage-investment-returns/ (Where Do Mortgage Investment Returns Actually Come From?)",
+   "/tools/after-tax-yield-calculator/ (After-Tax Yield Calculator for Canadian Mortgage Investments)"
+  ],
+  "linked_from": [
+   "/contact/ (/contact/)",
+   "/learn/mortgage-investment-returns/ (Where Do Mortgage Investment Returns Actually Come From?)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "dividend reinvestment plan MIC",
+   "mortgage investment compound interest",
+   "simple vs compound return mortgage investing"
+  ],
+  "investor_questions_for_faq": [
+   "how do I reinvest my mortgage investment distributions",
+   "what is a DRIP in a MIC"
+  ]
+ },
+ {
+  "id": 29,
+  "title": "Terms, Renewals, Early Repayment and Discharge",
+  "url": "/learn/mortgage-investment-terms-renewals-and-exits/",
+  "type": "Guide",
+  "stage": "3 Returns, income and cash flow",
+  "primary_keyword": "mortgage investment term length",
+  "secondary_keywords": [
+   "mortgage renewal investor impact",
+   "early repayment mortgage investment",
+   "mortgage discharge investor"
+  ],
+  "question_keyword": "what happens if the borrower does not renew",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2000,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date.",
+  "verify_before_publishing": "Provincial discharge process",
+  "links_to": [
+   "/learn/borrower-default-mortgage-investment/ (What Happens When a Borrower Defaults on Your Mortgage Investment)",
+   "/learn/bridge-mortgage-investing/ (Bridge Mortgage Investments: Short Terms, Fast Turnover)",
+   "/learn/liquidity-and-redemption/ (Liquidity and Redemption: Getting Your Money Out)",
+   "/learn/reinvestment-risk-mortgage-investing/ (Reinvestment Risk: The Cost of Money Coming Back Too Soon)"
+  ],
+  "linked_from": [
+   "/learn/mortgage-investment-returns/ (Where Do Mortgage Investment Returns Actually Come From?)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "early repayment mortgage investment",
+   "mortgage discharge investor",
+   "mortgage investment term length",
+   "mortgage renewal investor impact"
+  ],
+  "investor_questions_for_faq": [
+   "what is reinvestment risk in mortgage investing",
+   "what happens if the borrower does not renew"
+  ]
+ }
+]

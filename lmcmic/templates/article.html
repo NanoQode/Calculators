@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="container-site pt-6 md:pt-8 pb-4 max-w-6xl">
+  <div class="eyebrow"><span class="eyebrow-dot"></span>{{ a.stage_name }}{% if a.geo and a.geo != 'Canada (national)' %} · {{ a.geo }}{% endif %}</div>
+  <h1 class="mt-3 font-serif text-display-hero-mobile md:text-[40px] md:leading-[48px] text-on-surface tracking-tight max-w-4xl">{{ page.title }}</h1>
+  <p class="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 font-sans text-body-sm text-on-surface-variant">
+    <span>By {{ site.author }}</span><span aria-hidden="true">·</span>
+    <span>Current as of <time datetime="{{ site.content_updated }}">{{ site.content_updated_label }}</time></span><span aria-hidden="true">·</span>
+    <span>Next scheduled review {{ site.next_review_label }}</span><span aria-hidden="true">·</span>
+    <span>{{ read_min }} min read</span>
+  </p>
+</header>
+
+<div class="container-site grid gap-10 lg:grid-cols-[minmax(0,1fr)_260px]">
+  <article class="min-w-0">
+    <div class="max-w-[72ch] rounded-2xl border-l-4 border-secondary bg-sky-subtle/60 p-5">
+      <p class="font-sans text-label-caps uppercase text-secondary">Short answer</p>
+      <div class="mt-1 font-sans text-body-lg text-on-surface [&_p]:m-0">{{ answer }}</div>
+    </div>
+
+    {% if toc|length > 2 %}
+    <details class="lg:hidden mt-6 card p-4">
+      <summary class="cursor-pointer font-sans text-label-lg text-on-surface">On this page</summary>
+      <ol class="mt-3 space-y-2 font-sans text-body-sm list-decimal pl-5">{% for t in toc %}<li><a class="text-secondary" href="#{{ t.id }}">{{ t.name }}</a></li>{% endfor %}</ol>
+    </details>
+    {% endif %}
+
+    <div class="prose-lmc mt-8{% if is_checklist %} checklist{% endif %}">
+      {% if is_checklist %}<p class="no-print"><button type="button" class="btn-ghost h-10" data-print>{{ m.icon('print', 'text-[18px] text-secondary') }}Print this checklist</button></p>{% endif %}
+      {{ body_html }}
+    </div>
+
+    {% if takeaways %}
+    <section class="mt-10 max-w-[72ch] rounded-2xl bg-white border border-border-hairline p-5 md:p-6" aria-labelledby="takeaways">
+      <h2 id="takeaways" class="flex items-center gap-2 font-sans text-label-caps uppercase text-secondary">{{ m.icon('lightbulb', 'text-[18px]') }}Key takeaways</h2>
+      <ul class="mt-3 space-y-2 font-sans text-body-md text-on-surface list-disc pl-5 marker:text-secondary">{% for t in takeaways %}<li>{{ t | striptags }}</li>{% endfor %}</ul>
+    </section>
+    {% endif %}
+
+    {{ m.disclosure_box(codes) }}
+
+    {% if sources %}
+    <section class="mt-8 max-w-[72ch]" aria-labelledby="sources">
+      <h2 id="sources" class="font-sans text-label-caps uppercase text-on-surface-variant">Sources</h2>
+      <ol class="mt-2 space-y-1.5 font-sans text-body-sm text-on-surface-variant list-decimal pl-5">
+        {% for s in sources %}<li>{% if s.url %}<a class="text-secondary underline" href="{{ s.url }}" rel="noopener">{{ s.title }}</a>{% else %}{{ s.title }}{% endif %}{% if s.publisher %} — {{ s.publisher }}{% endif %}</li>{% endfor %}
+      </ol>
+    </section>
+    {% endif %}
+  </article>
+
+  <aside class="hidden lg:block">
+    <div class="sticky top-28 space-y-5">
+      {% if toc|length > 2 %}
+      <nav aria-label="On this page"><p class="font-sans text-label-caps uppercase text-on-surface-variant">On this page</p><ol class="mt-3 space-y-2 font-sans text-body-sm border-l border-border-hairline">{% for t in toc %}<li><a class="block pl-3 -ml-px border-l-2 border-transparent text-on-surface-variant hover:text-secondary hover:border-secondary" href="#{{ t.id }}">{{ t.name }}</a></li>{% endfor %}</ol></nav>
+      {% endif %}
+      <div class="rounded-2xl bg-primary-container text-white p-4">
+        <p class="font-sans text-label-caps uppercase text-sky-bright">Lendmax Capital MIC</p>
+        <p class="mt-1 font-sans text-body-sm text-primary-fixed-dim">Residential 1st &amp; 2nd mortgages in ON, BC and AB. Quarterly distributions; RRSP and TFSA eligible.</p>
+        <a class="btn-red h-10 w-full mt-3 text-[13px]" href="/contact/#intake">Request the OM</a>
+      </div>
+    </div>
+  </aside>
+</div>
+
+{% if faq_items %}{{ m.faq_list(faq_items) }}{% endif %}
+
+{% if related %}
+<section class="container-site my-12" aria-labelledby="related-heading">
+  {{ m.eyebrow('Keep reading') }}
+  <h2 id="related-heading" class="mt-2 font-serif text-headline-lg text-on-surface">Related guides</h2>
+  <div class="mt-4 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+    {% for r in related %}<a class="card p-4 hover:shadow-md transition-shadow group" href="{{ r.url }}"><span class="font-sans text-[10px] font-bold uppercase text-secondary">{{ r.stage }}</span><span class="mt-1 flex items-start justify-between gap-2"><span class="font-sans text-label-lg text-on-surface group-hover:text-secondary">{{ r.title }}</span>{{ m.icon('chevron_right', 'text-on-surface-variant text-[20px]') }}</span></a>{% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{{ m.standard_cta(site) }}
+{% endblock %}

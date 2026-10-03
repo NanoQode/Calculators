@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en-CA"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>lmcmic.ca content checklist</title>
+<style>
+:root{--ink:#0b1c30;--muted:#44474c;--line:#e2e8f0;--ok:#0f7b4b;--bad:#b42318;--warn:#9a6700;--bg:#f8f9ff;--card:#fff;--accent:#006398}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Inter,system-ui,sans-serif}
+main{max-width:1200px;margin:0 auto;padding:24px 16px}
+h1{font:600 28px/1.2 Georgia,serif;margin:0 0 4px}h2{font:600 20px/1.3 Georgia,serif;margin:32px 0 8px}
+.meta{color:var(--muted)}.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));margin:16px 0}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}.tile b{display:block;font-size:26px}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:13px}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{background:#eff4ff;font-weight:600}
+.ok{color:var(--ok);font-weight:600}.bad{color:var(--bad);font-weight:600}.man{color:var(--warn);font-weight:600}
+.wrap{overflow-x:auto}td.c{text-align:center}code{font-size:12px}
+</style></head><body><main>
+<h1>lmcmic.ca — content checklist</h1>
+<p class="meta">Generated {{ data.generated }} from the SEO roadmap (Tab 3, section K pre-publication gate). Automated checks run on every build; the manual checks below must be signed off by a person and are never marked passed automatically.</p>
+{% set arts = data.articles %}
+{% set passed = arts | selectattr('status', 'equalto', 'PASS') | list | length %}
+{% set kw = data.keywords %}
+<div class="grid">
+  <div class="tile">Articles written<b>{{ arts | rejectattr('status', 'equalto', 'NOT WRITTEN') | list | length }} / {{ arts|length }}</b></div>
+  <div class="tile">Pass automated gate<b>{{ passed }}</b></div>
+  <div class="tile">Keywords mapped to a page<b>{{ kw | selectattr('url') | list | length }} / {{ kw|length }}</b></div>
+  <div class="tile">Keyword terms present on page<b>{{ kw | selectattr('on_page') | list | length }} / {{ kw|length }}</b></div>
+  <div class="tile">Total words<b>{{ '{:,}'.format(arts | sum(attribute='words')) }}</b></div>
+</div>
+<h2>Manual sign-off still required (every article)</h2>
+<ul>{% for m in data.manual_checks %}<li class="man">{{ m }}</li>{% endfor %}</ul>
+<h2>Automated checks by article</h2>
+{% set cols = ['FORMAT','META_TITLE','META_DESC','K1_ANSWER_FIRST_120_WORDS','K2_HEADINGS','K7_PROHIBITED_LANGUAGE','K8_DISCLOSURES_IN_BODY','K11_INTERNAL_LINKS','SOURCES_ALLOWED','J2_SEVEN_AXES','E7_FAQ','E9_TAKEAWAYS','LENGTH'] %}
+<div class="wrap"><table><thead><tr><th>#</th><th>Article</th><th>P</th><th>Words</th><th>Status</th>{% for c in cols %}<th title="{{ c }}">{{ c.split('_')[0] }}</th>{% endfor %}</tr></thead><tbody>
+{% for r in arts %}<tr><td>{{ r.id }}</td><td><a href="https://lmcmic.ca{{ r.url }}">{{ r.title }}</a><br><code>{{ r.primary_keyword }}</code></td><td>{{ r.priority }}</td><td>{{ r.words }}</td>
+<td class="{{ 'ok' if r.status == 'PASS' else 'bad' }}">{{ r.status }}</td>
+{% for c in cols %}{% set ch = r.checks.get(c) %}<td class="c {{ 'ok' if ch and ch.ok else 'bad' if ch else '' }}" title="{{ ch.detail if ch else '' }}">{{ '✓' if ch and ch.ok else '✗' if ch else '–' }}</td>{% endfor %}</tr>{% endfor %}
+</tbody></table></div>
+<h2>Keyword coverage (Tab 1)</h2>
+<div class="wrap"><table><thead><tr><th>Keyword</th><th>Tier</th><th>Intent</th><th>Target page (workbook)</th><th>URL on lmcmic.ca</th><th>Terms on page</th></tr></thead><tbody>
+{% for k in kw %}<tr><td>{{ k.keyword }}</td><td>{{ k.tier }}</td><td>{{ k.intent }}</td><td>{{ k.target_page }}</td><td>{% if k.url %}<a href="https://lmcmic.ca{{ k.url }}">{{ k.url }}</a>{% else %}<span class="man">not built (per workbook guidance)</span>{% endif %}</td><td class="c {{ 'ok' if k.on_page else 'bad' }}">{{ '✓' if k.on_page else '✗' }}</td></tr>{% endfor %}
+</tbody></table></div>
+</main></body></html>

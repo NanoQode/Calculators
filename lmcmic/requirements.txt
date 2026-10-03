@@ -1,0 +1,5 @@
+openpyxl
+markdown
+PyYAML
+Jinja2
+Pillow

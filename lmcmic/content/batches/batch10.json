@@ -1,0 +1,227 @@
+[
+ {
+  "id": 85,
+  "title": "Mortgage Investing in the Greater Toronto Area",
+  "url": "/learn/mortgage-investing-ontario/greater-toronto-area/",
+  "type": "Location page",
+  "stage": "8 Tools, data and reference",
+  "primary_keyword": "mortgage investing GTA",
+  "secondary_keywords": [
+   "mortgage investing Toronto",
+   "private mortgage investment Greater Toronto Area"
+  ],
+  "question_keyword": "how do I invest in mortgages in Toronto",
+  "intent": "Comparison",
+  "investor_stage": "Evaluating",
+  "geo": "GTA",
+  "geo_note": "Build as a region page UNDER Ontario, not as a standalone city page",
+  "target_words": 2000,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Regulatory claims verified against the primary statute/regulator page cited, with a 'current as of' date. No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Risk content must not be softened by a reassurance that undercuts it.",
+  "verify_before_publishing": "CMHC has attributed part of MIE delinquency deterioration to Toronto exposure — cite with period. Do NOT build 'private mortgage lender Toronto' pages: that phrase carries borrower intent",
+  "links_to": [
+   "/learn/canadian-mic-market-data/ (The Canadian Mortgage Investment Market in Numbers)",
+   "/learn/mortgage-investing-ontario/ (Mortgage Investing in Ontario)",
+   "/learn/mortgage-investment-diversification/ (Concentration and Diversification in a Mortgage Portfolio)"
+  ],
+  "linked_from": [
+   "/learn/mortgage-investing-ontario/ (Mortgage Investing in Ontario)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "mortgage investing GTA",
+   "mortgage investing Toronto",
+   "private mortgage investment Greater Toronto Area"
+  ],
+  "investor_questions_for_faq": []
+ },
+ {
+  "id": 86,
+  "title": "Mortgage Investing in British Columbia",
+  "url": "/learn/mortgage-investing-british-columbia/",
+  "type": "Location page",
+  "stage": "8 Tools, data and reference",
+  "primary_keyword": "mortgage investing British Columbia",
+  "secondary_keywords": [
+   "mortgage investment corporation BC",
+   "private lending BC",
+   "invest in mortgages BC"
+  ],
+  "question_keyword": "how do I invest in mortgages in BC",
+  "intent": "Comparison",
+  "investor_stage": "Evaluating",
+  "geo": "British Columbia",
+  "geo_note": "PRIORITY province page — clear second market",
+  "target_words": 2400,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Regulatory claims verified against the primary statute/regulator page cited, with a 'current as of' date. TIME-CRITICAL — needs a prominent review date because of the MSA.",
+  "verify_before_publishing": "BCFSA; Mortgage Brokers Act; Mortgage Services Act in force 13 Oct 2026; industry data on BC's share of MIC holdings with period stated",
+  "links_to": [
+   "/learn/canadian-mic-market-data/ (The Canadian Mortgage Investment Market in Numbers)",
+   "/learn/mortgage-investment-regulation-british-columbia/ (Mortgage Investment Regulation in British Columbia — and the October 2026 Change)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "invest in mortgages BC",
+   "mortgage investing British Columbia",
+   "mortgage investment corporation BC",
+   "private lending BC"
+  ],
+  "investor_questions_for_faq": []
+ },
+ {
+  "id": 87,
+  "title": "Mortgage Investing in Alberta",
+  "url": "/learn/mortgage-investing-alberta/",
+  "type": "Location page",
+  "stage": "8 Tools, data and reference",
+  "primary_keyword": "mortgage investing Alberta",
+  "secondary_keywords": [
+   "invest in mortgages Alberta",
+   "mortgage investment corporation Alberta",
+   "private mortgage investing BC and Alberta"
+  ],
+  "question_keyword": "how do I invest in mortgages in Alberta",
+  "intent": "Comparison",
+  "investor_stage": "Evaluating",
+  "geo": "Alberta",
+  "geo_note": "Secondary province page; several operators market BC and AB together — consider a combined page",
+  "target_words": 2000,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Regulatory claims verified against the primary statute/regulator page cited, with a 'current as of' date.",
+  "verify_before_publishing": "RECA; Real Estate Act; Law of Property Act judicial sale and the personal-covenant restriction for individual borrowers",
+  "links_to": [
+   "/learn/canadian-mic-market-data/ (The Canadian Mortgage Investment Market in Numbers)",
+   "/learn/mortgage-investment-regulation-alberta/ (Mortgage Investment Regulation in Alberta)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "invest in mortgages Alberta",
+   "mortgage investing Alberta",
+   "mortgage investment corporation Alberta",
+   "private mortgage investing BC and Alberta"
+  ],
+  "investor_questions_for_faq": []
+ },
+ {
+  "id": 88,
+  "title": "Mortgage Investing in Ottawa and the National Capital Region",
+  "url": "/learn/mortgage-investing-ontario/ottawa/",
+  "type": "Location page",
+  "stage": "8 Tools, data and reference",
+  "primary_keyword": "mortgage investing Ottawa",
+  "secondary_keywords": [
+   "mortgage investment opportunities Ontario",
+   "private mortgage investing Ontario"
+  ],
+  "question_keyword": "how do I invest in mortgages in Ottawa",
+  "intent": "Comparison",
+  "investor_stage": "Evaluating",
+  "geo": "Ottawa / NCR",
+  "geo_note": "One page, as a section under Ontario. Modest but real investor-side presence",
+  "target_words": 1600,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Regulatory claims verified against the primary statute/regulator page cited, with a 'current as of' date.",
+  "verify_before_publishing": "Ontario regional lending data if available with period stated",
+  "links_to": [
+   "/learn/mortgage-investing-ontario/ (Mortgage Investing in Ontario)",
+   "/learn/mortgage-investment-regulation-ontario/ (Mortgage Investment Regulation in Ontario)"
+  ],
+  "linked_from": [
+   "/learn/mortgage-investing-ontario/ (Mortgage Investing in Ontario)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "mortgage investing Ottawa",
+   "mortgage investment opportunities Ontario",
+   "private mortgage investing Ontario"
+  ],
+  "investor_questions_for_faq": []
+ },
+ {
+  "id": 89,
+  "title": "Mortgage Investing in Quebec, the Prairies and Atlantic Canada",
+  "url": "/learn/mortgage-investing-quebec-prairies-atlantic/",
+  "type": "Location page",
+  "stage": "8 Tools, data and reference",
+  "primary_keyword": "mortgage investing Quebec",
+  "secondary_keywords": [
+   "mortgage investing Manitoba",
+   "mortgage investing Saskatchewan",
+   "mortgage investing Atlantic Canada",
+   "mortgage investing Prairies Canada"
+  ],
+  "question_keyword": "how does mortgage investing differ outside Ontario BC and Alberta",
+  "intent": "Comparison",
+  "investor_stage": "Evaluating",
+  "geo": "QC / MB / SK / Atlantic",
+  "geo_note": "Consolidate rather than building separate thin province pages. Do NOT build Halifax, Hamilton, London or Kitchener-Waterloo investor pages",
+  "target_words": 2600,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Regulatory claims verified against the primary statute/regulator page cited, with a 'current as of' date.",
+  "verify_before_publishing": "QC CCQ arts.2748 et seq.; SK Land Contracts (Actions) Act leave requirement and deficiency bar; MB process is DISPUTED between sources — describe mechanics only; NS judicial; NB and NL and PEI power of sale; NL statute replaced 1 Apr 2025; PEI licensing regime UNVERIFIED",
+  "links_to": [
+   "/learn/mortgage-enforcement-across-canada/ (Mortgage Enforcement Across Canada: Power of Sale, Judicial Sale and Quebec's Recourses)",
+   "/learn/mortgage-investing-quebec/ (Mortgage Investing in Quebec: A Different Legal System)",
+   "/learn/mortgage-investment-rules-by-province/ (Mortgage Investment Rules by Province: A Verified Comparison)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)",
+   "/learn/mortgage-investment-regulation-canada/ (How Mortgage Investing Is Regulated in Canada)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "mortgage investing Atlantic Canada",
+   "mortgage investing Manitoba",
+   "mortgage investing Prairies Canada",
+   "mortgage investing Quebec",
+   "mortgage investing Saskatchewan"
+  ],
+  "investor_questions_for_faq": []
+ },
+ {
+  "id": 90,
+  "title": "Mortgage Investing FAQ: 60 Questions Canadian Investors Ask",
+  "url": "/faq/",
+  "type": "FAQ hub",
+  "stage": "8 Tools, data and reference",
+  "primary_keyword": "mortgage investment FAQ Canada",
+  "secondary_keywords": [
+   "mortgage investing questions",
+   "what is a MIC",
+   "are MIC investments guaranteed"
+  ],
+  "question_keyword": "what questions should I ask before investing in mortgages",
+  "intent": "Informational",
+  "investor_stage": "Problem-aware",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 4000,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Risk content must not be softened by a reassurance that undercuts it.",
+  "verify_before_publishing": "Questions sourced from live Canadian investor FAQ pages and forums. Each answer must be consistent with its full article — audit for contradictions before publishing",
+  "links_to": [
+   "/glossary/ (Canadian Mortgage Investment Glossary: 120 Terms Defined)",
+   "/learn/mortgage-investor-due-diligence-checklist/ (The Mortgage Investor's Due Diligence Checklist)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "are MIC investments guaranteed",
+   "what is a MIC"
+  ],
+  "investor_questions_for_faq": [
+   "what is a mortgage investment corporation",
+   "how do MICs work",
+   "what are the risks of investing in a MIC",
+   "is mortgage investing safe",
+   "are MIC investments guaranteed",
+   "is my principal guaranteed mortgage investment",
+   "can you lose money investing in mortgages",
+   "what is a mortgage investment corporation in Canada",
+   "is investing in mortgages safe in Canada",
+   "is my money safe in a mortgage investment corporation",
+   "is a MIC guaranteed",
+   "what are the risks of investing in a mortgage investment corporation",
+   "what are the risks of private mortgage investing",
+   "how does a MIC work",
+   "can I lose my whole investment in a mortgage"
+  ]
+ }
+]

@@ -1,0 +1,6 @@
+# lmcmic.ca
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://lmcmic.ca/sitemap.xml

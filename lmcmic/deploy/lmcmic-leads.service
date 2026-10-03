@@ -1,0 +1,24 @@
+[Unit]
+Description=lmcmic.ca investor lead endpoint (emails deals@, redirects to investor-start)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=lmcmic
+Group=lmcmic
+WorkingDirectory=/opt/lmcmic
+EnvironmentFile=-/etc/lmcmic/leads.env
+ExecStart=/usr/local/bin/node /opt/lmcmic/lead-server.mjs
+Restart=always
+RestartSec=3
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/var/lib/lmcmic
+StandardOutput=append:/var/log/lmcmic-leads.log
+StandardError=append:/var/log/lmcmic-leads.log
+
+[Install]
+WantedBy=multi-user.target

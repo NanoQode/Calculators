@@ -1,0 +1,60 @@
+{
+  "_comment": "Single source of truth for facts that appear on more than one page. Change a figure here and rebuild; never edit it in a template.",
+  "domain": "https://lmcmic.ca",
+  "site_name": "Lendmax Capital MIC",
+  "short_name": "LMC MIC",
+  "legal_name": "Lendmax Capital Mortgage Investment Corporation",
+  "administrator": "Lendmax Inc.",
+  "fsra_licence": "13002",
+  "fsra_licence_label": "FSRA Mortgage Administrator Licence 13002",
+  "fsra_registry_url": "https://mbsweblist.fsco.gov.on.ca/ShowLicence.aspx?13398~",
+  "corporate_site": "https://lendmaxcapital.ca",
+  "published_papers_url": "https://lendmaxcapital.ca/investors/published-papers",
+  "investor_portal_url": "https://lendmaxcapital.ca/investor-portal",
+  "youtube_channel": "https://www.youtube.com/@lmcmic8527",
+  "phone": "416-837-1414",
+  "phone_e164": "+14168371414",
+  "email_investors": "investors@lendmaxcapital.ca",
+  "email_deals": "deals@lendmaxcapital.ca",
+  "address": {
+    "street": "6 Indell Lane",
+    "city": "Brampton",
+    "province": "ON",
+    "postal": "L6T 3Y3",
+    "country": "CA"
+  },
+  "hours": "Monday to Friday, 9:00 a.m. to 6:00 p.m. Eastern",
+  "provinces": ["Ontario", "British Columbia", "Alberta"],
+  "lead": {
+    "endpoint": "/api/lead",
+    "redirect_url": "https://app.lendmaxcapital.ca/investor-start",
+    "notify_email": "deals@lendmaxcapital.ca"
+  },
+  "video": {
+    "id": "uztmlCMHPZ8",
+    "title": "LMC — Lendmax Capital Mortgage Investment Corp.",
+    "description": "An introduction to Lendmax Capital Mortgage Investment Corporation: how investor capital funds residential first and second mortgages in Ontario, British Columbia and Alberta, how underwriting and exits are handled, and how distributions are paid.",
+    "upload_date": ""
+  },
+  "performance": {
+    "source_label": "Lendmax Capital MIC, “Past performance”, updated 19 September 2026",
+    "source_url": "https://lendmaxcapital.ca/investors/past-performance",
+    "target_label": "FY2025 target annual return",
+    "target": "9%",
+    "series": [
+      {"year": "FY2020", "rate": 0.00},
+      {"year": "FY2021", "rate": 6.00},
+      {"year": "FY2022", "rate": 7.83},
+      {"year": "FY2023", "rate": 8.15},
+      {"year": "FY2024", "rate": 10.15},
+      {"year": "FY2025", "rate": 13.57}
+    ]
+  },
+  "loan_terms": "3 to 12 months",
+  "distribution_frequency": "Quarterly",
+  "content_updated": "2026-10-03",
+  "content_updated_label": "3 October 2026",
+  "next_review_label": "January 2027",
+  "author": "Lendmax Capital MIC Investor Education Desk",
+  "ga4_id": ""
+}

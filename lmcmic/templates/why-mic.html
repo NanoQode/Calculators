@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% block content %}
+{# Design source: content/data/design-why_invest_in_a_mic.html #}
+<section class="container-site pt-6 md:pt-10 pb-8 grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-end">
+  <div>
+    <div class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-maple-red-tint rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-error animate-pulse"></span><span class="font-sans text-label-caps text-error tracking-wider uppercase">Section 130.1 Income Tax Act</span></div>
+    <h1 class="mt-3 font-serif text-display-hero-mobile md:text-display-hero text-on-surface tracking-tight">{{ page.title }}</h1>
+    <p class="mt-4 font-sans text-body-lg text-on-surface-variant max-w-2xl">A mortgage investment corporation is not a speculative fund. It is a Canadian corporation governed by section 130.1 of the <em>Income Tax Act</em>: its only business is investing in mortgages, and the taxable income it distributes flows to shareholders without corporate-level tax — taxed in your hands as interest income.</p>
+  </div>
+  <div class="grid grid-cols-2 gap-3">
+    <div class="card p-4"><span class="font-sans text-label-caps text-on-surface-variant uppercase">Flow-through</span><span class="block font-sans text-stat-metric-mobile text-on-surface font-bold mt-1">s.130.1</span><span class="font-sans text-body-sm text-secondary font-medium">No double taxation on distributed income</span></div>
+    <div class="card p-4"><span class="font-sans text-label-caps text-on-surface-variant uppercase">Administration</span><span class="block font-sans text-stat-metric-mobile text-on-surface font-bold mt-1">#{{ site.fsra_licence }}</span><span class="font-sans text-body-sm text-secondary font-medium">FSRA-licensed mortgage administrator</span></div>
+  </div>
+</section>
+
+<section class="container-site mb-12 grid gap-6 lg:grid-cols-2">
+  <div class="card p-5 md:p-6">
+    <div class="flex items-center justify-between pb-3 mb-3">
+      <div class="flex items-center gap-2">{{ m.icon('account_tree', 'text-secondary text-[22px]') }}<h2 class="font-sans text-headline-sm text-on-surface">The tax conduit, step by step</h2></div>
+      <span class="chip bg-secondary-container/20 text-on-secondary-container">Legal anatomy</span>
+    </div>
+    <p class="font-sans text-body-sm text-on-surface-variant mb-4">An ordinary corporation pays tax on its earnings before it pays dividends. A MIC that meets the conditions in subsection 130.1(6) can deduct the taxable dividends it pays, so distributed income is not taxed twice:</p>
+    <div class="bg-surface-container-low rounded-xl p-3 flex flex-col gap-2">
+      <div class="flex items-center justify-between bg-white p-3 rounded-xl shadow-sm"><span class="flex items-center gap-2 font-sans text-label-md text-on-surface">{{ m.icon('real_estate_agent', 'text-secondary text-[18px]') }}Interest and lender fees paid by borrowers</span><span class="font-sans text-label-caps text-secondary">Income</span></div>
+      <div class="flex justify-center">{{ m.icon('arrow_downward', 'text-on-surface-variant text-[16px]') }}</div>
+      <div class="flex items-center justify-between bg-white p-3 rounded-xl shadow-sm"><span class="flex items-center gap-2 font-sans text-label-md text-on-surface">{{ m.icon('handyman', 'text-outline text-[18px]') }}Less administration, audit, management costs and any losses</span><span class="font-sans text-label-caps text-on-surface-variant">Costs</span></div>
+      <div class="flex justify-center">{{ m.icon('arrow_downward', 'text-on-surface-variant text-[16px]') }}</div>
+      <div class="flex items-center justify-between bg-primary-container p-3 rounded-xl text-white"><span class="flex items-center gap-2 font-sans text-label-md font-semibold">{{ m.icon('payments', 'text-sky-bright text-[18px]') }}Taxable income paid out as dividends</span><span class="font-sans text-label-caps text-sky-bright uppercase">To shareholders</span></div>
+    </div>
+    <div class="mt-4 p-3 bg-sky-subtle rounded-xl flex items-start gap-2">{{ m.icon('info', 'text-secondary text-[18px] mt-0.5') }}<p class="font-sans text-body-sm text-on-secondary-container">Under subsection 130.1(2), those dividends are deemed to be <strong>interest income</strong> in your hands: fully taxable at your marginal rate in a non-registered account, reported on a T5, and sheltered under the plan's rules inside an RRSP, RRIF or TFSA. Tax information as at October 2026; confirm with a Canadian tax professional. <a class="underline" href="/learn/mortgage-investment-tax-treatment/">How MIC income is taxed</a>.</p></div>
+  </div>
+
+  <div class="card p-5 md:p-6">
+    {{ m.eyebrow('The qualifying tests') }}
+    <h2 class="mt-2 font-sans text-headline-sm text-on-surface">What a corporation must do, all year, to be a MIC</h2>
+    <ul class="mt-3 space-y-2.5 font-sans text-body-sm text-on-surface-variant">
+      {% for t in [
+        'Be a Canadian corporation whose only undertaking is investing its funds — it may not manage or develop real property.',
+        'Have at least 20 shareholders, with no shareholder (together with related persons) holding more than 25% of the issued shares of any class.',
+        'Hold at least 50% of the cost amount of its property in residential mortgages, insured deposits and cash.',
+        'Hold no more than 25% in real property directly — property taken back through foreclosure or default does not count toward that limit.',
+        'Stay within leverage limits: liabilities up to 3 times equity, or 5 times when residential mortgages, deposits and cash make up at least two-thirds of assets.',
+        'Hold no foreign mortgages, foreign real property or shares of non-resident corporations.'] %}
+      <li class="flex items-start gap-2">{{ m.icon('check_circle', 'text-secondary text-[18px]') }}<span>{{ t }}</span></li>
+      {% endfor %}
+    </ul>
+    <p class="mt-3 font-sans text-[12px] text-on-surface-variant">Summarised from <a class="underline" href="https://laws-lois.justice.gc.ca/eng/acts/I-3.3/section-130.1.html" rel="noopener">subsection 130.1(6) of the Income Tax Act</a>, checked 3 October 2026. <a class="underline" href="/learn/mic-qualification-requirements/">All nine conditions explained</a>.</p>
+  </div>
+</section>
+
+<section class="container-site mb-12" aria-labelledby="compare-heading">
+  {{ m.eyebrow('Comparative analysis') }}
+  <h2 id="compare-heading" class="mt-2 font-serif text-headline-lg text-on-surface">Direct mortgage vs. MIC vs. REIT</h2>
+  <p class="mt-1 font-sans text-body-md text-on-surface-variant max-w-3xl">Three ways to put money into Canadian real estate income. Each carries different concentration, liquidity and price risk — none of them is right for everyone.</p>
+  <div class="mt-4 bg-surface-container rounded-xl p-1 flex max-w-xl" role="tablist" aria-label="Compare structures" data-tabs>
+    <button type="button" role="tab" aria-selected="true" aria-controls="cmp-mic" class="tab-btn flex-1 py-2 rounded-lg font-sans text-label-md" data-tab="cmp-mic">Mortgage investment corp.</button>
+    <button type="button" role="tab" aria-selected="false" aria-controls="cmp-direct" class="tab-btn flex-1 py-2 rounded-lg font-sans text-label-md" data-tab="cmp-direct">Direct private mortgage</button>
+    <button type="button" role="tab" aria-selected="false" aria-controls="cmp-reit" class="tab-btn flex-1 py-2 rounded-lg font-sans text-label-md" data-tab="cmp-reit">Public REIT</button>
+  </div>
+  {% set cards = [
+    ('cmp-mic', 'Mortgage investment corporation', [
+      ('check_circle', 'text-secondary', 'Pool diversification', 'Capital spread across many residential first and second mortgages, borrowers and regions.'),
+      ('check_circle', 'text-secondary', 'Professional servicing', 'Underwriting, legal, collections, arrears and enforcement handled by a licensed administrator.'),
+      ('check_circle', 'text-secondary', 'Not priced by a stock exchange', 'Share value depends on the mortgage book and its losses, not daily market sentiment.'),
+      ('remove_circle', 'text-outline', 'Illiquid', 'Redemption under the offering memorandum, with notice periods and possible deferral or suspension.'),
+      ('remove_circle', 'text-outline', 'Fees and manager risk', 'Management and administration costs come out of returns; results depend on the manager’s underwriting.')]),
+    ('cmp-direct', 'Direct private mortgage', [
+      ('check_circle', 'text-secondary', 'You choose the loan', 'You see the specific property, borrower, position and loan-to-value before committing.'),
+      ('cancel', 'text-error', 'Single-loan concentration', 'All of the capital rides on one property and one borrower.'),
+      ('cancel', 'text-error', 'Active management', 'You retain the lawyer, review the appraisal and title, and fund enforcement if the borrower defaults.'),
+      ('remove_circle', 'text-outline', 'Locked until repaid', 'Capital returns when the borrower refinances, sells or the term ends — or through enforcement.')]),
+    ('cmp-reit', 'Public real estate investment trust', [
+      ('check_circle', 'text-secondary', 'Daily liquidity', 'Units trade on an exchange and can usually be sold during market hours.'),
+      ('check_circle', 'text-secondary', 'Ownership exposure', 'You own a share of properties and their rent growth, not a fixed interest stream.'),
+      ('trending_down', 'text-error', 'Market price volatility', 'Unit prices move with the stock market, independent of the underlying buildings in the short run.'),
+      ('remove_circle', 'text-outline', 'Tenancy and development drag', 'Exposure to vacancies, operating costs and project overruns.')])] %}
+  {% for id, name, rows in cards %}
+  <div id="{{ id }}" role="tabpanel" class="mt-4 card p-5 md:p-6 max-w-3xl{% if not loop.first %} hidden{% endif %}" data-panel>
+    <p class="font-sans text-label-caps uppercase font-bold tracking-wider {{ 'text-secondary' if loop.first else 'text-on-surface-variant' }}">{{ name }}</p>
+    <ul class="mt-3 space-y-2.5">{% for ic, col, t, d in rows %}<li class="flex items-start gap-2">{{ m.icon(ic, col ~ ' text-[18px]') }}<span class="font-sans text-body-sm text-on-surface"><strong>{{ t }}:</strong> {{ d }}</span></li>{% endfor %}</ul>
+  </div>
+  {% endfor %}
+  <p class="mt-3 font-sans text-body-sm text-on-surface-variant">Read the full comparisons: <a class="text-secondary underline" href="/learn/mic-vs-direct-mortgage-investing/">MIC vs direct mortgage investing</a> · <a class="text-secondary underline" href="/learn/mic-vs-reit/">MIC vs REIT</a> · <a class="text-secondary underline" href="/learn/mortgage-investment-structures-compared/">all structures compared</a>.</p>
+</section>
+
+<section class="container-site mb-12 grid gap-6 lg:grid-cols-2">
+  <div class="bg-primary-container text-white rounded-2xl p-5 md:p-7 shadow-md">
+    <div class="flex items-center justify-between"><span class="font-sans text-label-caps text-sky-bright uppercase tracking-wider">Tax-advantaged accounts</span>{{ m.icon('shield_with_heart', 'text-sky-bright text-[20px]') }}</div>
+    <h2 class="mt-2 font-serif text-headline-md">RRSP, TFSA and RRIF eligibility</h2>
+    <p class="mt-2 font-sans text-body-sm text-primary-fixed-dim">Because MIC distributions are taxed as interest outside a plan, the account you hold them in matters more than usual. Lendmax Capital MIC shares can be held in self-directed RRSP, RRIF, TFSA, RESP, RDSP and FHSA accounts administered by Olympia Trust Company or Western Pacific Trust Company.</p>
+    <div class="mt-4 bg-navy-surface rounded-xl p-4">
+      <div class="flex items-center justify-between"><span class="font-sans text-label-md font-medium">Dividend reinvestment (DRIP)</span><span class="font-sans text-label-caps text-sky-bright">Quarterly compounding</span></div>
+      <p class="mt-1 font-sans text-body-sm text-primary-fixed-dim">Opt into the DRIP and each quarterly dividend buys additional shares instead of being paid in cash, so distributions compound. <a class="underline text-white" href="/tools/drip-compounding-calculator/">Model it</a>.</p>
+    </div>
+    <div class="mt-3 bg-tertiary-container/40 rounded-xl p-4 flex items-start gap-2">{{ m.icon('lock_clock', 'text-on-tertiary-container text-[18px] mt-0.5') }}<div><p class="font-sans text-label-md font-semibold text-tertiary-fixed">The 10% registered-plan rule</p><p class="mt-1 font-sans text-body-sm text-white/90">If you and non-arm's-length persons hold 10% or more of any class of a MIC's shares, those shares become a prohibited investment for your registered plans, with penalty tax. This is separate from the 25% cap in the MIC test itself. <a class="underline" href="/learn/prohibited-investment-rrsp-mic/">How the trap works</a>.</p></div></div>
+  </div>
+
+  <div>
+    <div class="flex items-center justify-between mb-3">
+      <div>{{ m.eyebrow('Operational integrity') }}<h2 class="mt-2 font-serif text-headline-md text-on-surface">The administrator's role</h2></div>
+      <div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center">{{ m.icon('policy', 'text-secondary text-[22px]') }}</div>
+    </div>
+    <p class="font-sans text-body-sm text-on-surface-variant mb-4">{{ site.administrator }} holds {{ site.fsra_licence_label }}. A mortgage administrator is licensed separately from a brokerage, with its own capital, insurance, trust-accounting and audit obligations — and the licence forbids guaranteeing a lender or investor anything in respect of a mortgage.</p>
+    <div class="grid gap-3">
+      {% for ic, t, d in [
+        ('gavel', 'Registered security', 'Each first or second mortgage is registered on title as a charge in favour of the lender, so the claim on the property is a matter of public record.'),
+        ('currency_exchange', 'Collection into trust', 'Borrower payments are collected by pre-authorized debit into a trust account, kept separate from the administrator’s own money and reconciled monthly.'),
+        ('balance', 'Audit and reporting', 'The corporation’s financial statements are audited annually; the administrator files audited statements, an internal-controls report and a trust-account report with FSRA.')] %}
+      <div class="card p-4 flex items-start gap-3"><div class="w-8 h-8 rounded-xl bg-surface-container flex items-center justify-center shrink-0">{{ m.icon(ic, 'text-secondary text-[18px]') }}</div><div><p class="font-sans text-label-md font-semibold text-on-surface">{{ t }}</p><p class="mt-0.5 font-sans text-body-sm text-on-surface-variant">{{ d }}</p></div></div>
+      {% endfor %}
+    </div>
+    <p class="mt-3 font-sans text-body-sm text-on-surface-variant"><a class="text-secondary underline" href="/learn/mortgage-administrators/">What a mortgage administrator does and why it matters</a>.</p>
+  </div>
+</section>
+
+<section class="container-site mb-12">
+  <div class="bg-surface-container-low rounded-2xl p-5 md:p-8 grid gap-6 lg:grid-cols-[1fr_1.2fr] lg:items-center">
+    <div>
+      <div class="flex items-center gap-2">{{ m.icon('verified_user', 'text-maple-red-hover text-[20px]') }}<h2 class="font-sans text-headline-sm text-on-surface">Exit-before-advance discipline</h2></div>
+      <p class="mt-2 font-sans text-body-md text-on-surface-variant">Short-term private mortgage money is a bridge, not a destination. Every file names its repayment source — a refinance to an institutional lender, a sale, or a structured payout — and a fallback, before any money is advanced. Value is the appraised value today, not a forecast of what a market might do.</p>
+      <div class="mt-4 grid grid-cols-2 gap-3">
+        <div><span class="font-sans text-label-caps text-on-surface-variant block uppercase">Lending markets</span><span class="font-sans text-label-md font-bold text-on-surface">Ontario · BC · Alberta</span></div>
+        <div><span class="font-sans text-label-caps text-on-surface-variant block uppercase">Loan terms</span><span class="font-sans text-label-md font-bold text-on-surface">{{ site.loan_terms }}</span></div>
+      </div>
+    </div>
+    <figure class="bg-white p-5 md:p-6 rounded-2xl shadow-sm">
+      <blockquote class="font-serif text-headline-md italic text-on-surface">“A loan a borrower cannot leave is a loan we should not have made.”</blockquote>
+      <figcaption class="mt-3 font-sans text-body-sm text-on-surface-variant">— Ali Zaidi, Managing Partner &amp; Chief Investment Officer</figcaption>
+    </figure>
+  </div>
+</section>
+
+{{ m.faq_list(why_faq, 'Questions about the MIC structure') }}
+{{ m.standard_cta(site) }}
+{% endblock %}

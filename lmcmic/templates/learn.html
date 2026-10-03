@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="container-site pt-6 md:pt-10 pb-6">
+  {{ m.eyebrow('Investor education') }}
+  <h1 class="mt-3 font-serif text-display-hero-mobile md:text-display-hero text-on-surface tracking-tight max-w-4xl">{{ page.title }}</h1>
+  <p class="mt-4 font-sans text-body-lg text-on-surface-variant max-w-3xl">Mortgage investing means lending money against Canadian real estate in return for interest — directly, or through a pooled vehicle such as a mortgage investment corporation. These guides explain how it works, where the return comes from, what can go wrong, and the rules that apply in each province, in plain language and with the risks stated as clearly as the benefits.</p>
+  <nav class="mt-6 flex flex-wrap gap-2" aria-label="Guide sections">
+    {% for g in groups %}<a class="chip bg-surface-container text-on-surface hover:bg-surface-container-high normal-case tracking-normal text-[13px] font-semibold" href="#{{ g.slug }}">{{ g.name }}</a>{% endfor %}
+    <a class="chip bg-sky-subtle text-secondary normal-case tracking-normal text-[13px] font-semibold" href="/glossary/">Glossary</a>
+    <a class="chip bg-sky-subtle text-secondary normal-case tracking-normal text-[13px] font-semibold" href="/faq/">Investor FAQ</a>
+  </nav>
+</section>
+
+<section class="container-site mb-10" id="tools" aria-labelledby="tools-heading">
+  <h2 id="tools-heading" class="font-serif text-headline-md text-on-surface">Tools and checklists</h2>
+  <div class="mt-3 grid gap-3 md:grid-cols-2 lg:grid-cols-4">
+    {% for ic, t, u, d in [
+      ('calculate', 'After-tax yield calculator', '/tools/after-tax-yield-calculator/', 'Gross to net to after-tax, by account type.'),
+      ('autorenew', 'DRIP compounding calculator', '/tools/drip-compounding-calculator/', 'Reinvested vs paid-out distributions over time.'),
+      ('checklist', 'Due-diligence checklist', '/learn/mortgage-investor-due-diligence-checklist/', 'What to check, and in which document.'),
+      ('fact_check', 'How to evaluate a MIC', '/learn/how-to-evaluate-a-mic/', 'Questions to ask before you invest.')] %}
+    <a class="card p-4 hover:shadow-md transition-shadow flex items-start gap-3" href="{{ u }}"><span class="w-10 h-10 rounded-xl bg-sky-subtle text-secondary flex items-center justify-center shrink-0">{{ m.icon(ic, 'text-[22px]') }}</span><span><span class="block font-sans text-label-lg text-on-surface">{{ t }}</span><span class="block mt-0.5 font-sans text-body-sm text-on-surface-variant">{{ d }}</span></span></a>
+    {% endfor %}
+  </div>
+</section>
+
+{% for g in groups %}
+<section class="container-site mb-12 scroll-mt-28" id="{{ g.slug }}" aria-labelledby="h-{{ g.slug }}">
+  <div class="flex items-baseline justify-between gap-3 border-b border-border-hairline pb-2">
+    <h2 id="h-{{ g.slug }}" class="font-serif text-headline-lg text-on-surface">{{ g.name }}</h2>
+    <span class="font-sans text-body-sm text-on-surface-variant">{{ g['items']|length }} guides</span>
+  </div>
+  <div class="mt-4 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+    {% for it in g['items'] %}
+    <a class="card p-4 hover:shadow-md transition-shadow group flex flex-col" href="{{ it.url }}">
+      <span class="font-sans text-[10px] font-bold uppercase text-secondary">{{ it.type }}{% if it.geo and it.geo != 'Canada (national)' %} · {{ it.geo }}{% endif %}</span>
+      <h3 class="mt-1 font-sans text-label-lg text-on-surface group-hover:text-secondary">{{ it.title }}</h3>
+      <p class="mt-1.5 font-sans text-body-sm text-on-surface-variant line-clamp-3">{{ it.answer }}</p>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endfor %}
+{{ m.standard_cta(site) }}
+{% endblock %}

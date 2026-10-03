@@ -1,0 +1,341 @@
+[
+ {
+  "id": 66,
+  "title": "Mortgage Investment Regulation in British Columbia — and the October 2026 Change",
+  "url": "/learn/mortgage-investment-regulation-british-columbia/",
+  "type": "Location page",
+  "stage": "6 Rules and regulations",
+  "primary_keyword": "BC Mortgage Services Act investors",
+  "secondary_keywords": [
+   "mortgage investing British Columbia",
+   "private lending BC"
+  ],
+  "question_keyword": "what is changing for mortgage lenders in BC",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "British Columbia",
+  "geo_note": "British Columbia only",
+  "target_words": 2200,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Regulatory claims verified against the primary statute/regulator page cited, with a 'current as of' date. TIME-CRITICAL: this page needs a prominent 'current as of' date and a scheduled review.",
+  "verify_before_publishing": "BCFSA; Mortgage Brokers Act RSBC 1996 c.313; Mortgage Services Act in force 13 Oct 2026 with four licence categories — dealing, trading, administering, and lending. Verify BC's current syndicated-mortgage exemption position (BCI 45-501) and the status of BCI 33-707 before publishing",
+  "links_to": [
+   "/learn/mortgage-investing-british-columbia/ (Mortgage Investing in British Columbia)",
+   "/learn/mortgage-investment-rules-by-province/ (Mortgage Investment Rules by Province: A Verified Comparison)"
+  ],
+  "linked_from": [
+   "/learn/mortgage-investing-british-columbia/ (Mortgage Investing in British Columbia)",
+   "/learn/mortgage-investment-regulation-canada/ (How Mortgage Investing Is Regulated in Canada)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "BC Mortgage Services Act investors",
+   "mortgage investing British Columbia",
+   "private lending BC"
+  ],
+  "investor_questions_for_faq": []
+ },
+ {
+  "id": 67,
+  "title": "Mortgage Investment Regulation in Alberta",
+  "url": "/learn/mortgage-investment-regulation-alberta/",
+  "type": "Location page",
+  "stage": "6 Rules and regulations",
+  "primary_keyword": "mortgage investing Alberta",
+  "secondary_keywords": [
+   "invest in mortgages Alberta",
+   "judicial sale Alberta mortgage investor"
+  ],
+  "question_keyword": "who regulates mortgage brokers in Alberta",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Alberta",
+  "geo_note": "Alberta only",
+  "target_words": 1800,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Regulatory claims verified against the primary statute/regulator page cited, with a 'current as of' date.",
+  "verify_before_publishing": "RECA under the Real Estate Act and its Rules; Mortgage Broker Industry Council. Alberta has NO administrator licence class. Law of Property Act ss.37-50.1 for judicial sale — verify current section numbers. Alberta investor disclosure requirements are UNVERIFIED — do not assert presence or absence",
+  "links_to": [
+   "/learn/mortgage-investing-alberta/ (Mortgage Investing in Alberta)",
+   "/learn/mortgage-investment-rules-by-province/ (Mortgage Investment Rules by Province: A Verified Comparison)"
+  ],
+  "linked_from": [
+   "/learn/mortgage-investing-alberta/ (Mortgage Investing in Alberta)",
+   "/learn/mortgage-investment-regulation-canada/ (How Mortgage Investing Is Regulated in Canada)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "invest in mortgages Alberta",
+   "judicial sale Alberta mortgage investor",
+   "mortgage investing Alberta"
+  ],
+  "investor_questions_for_faq": []
+ },
+ {
+  "id": 68,
+  "title": "Mortgage Investing in Quebec: A Different Legal System",
+  "url": "/learn/mortgage-investing-quebec/",
+  "type": "Location page",
+  "stage": "6 Rules and regulations",
+  "primary_keyword": "mortgage investing Quebec",
+  "secondary_keywords": [
+   "mortgage enforcement Quebec hypothecary recourse"
+  ],
+  "question_keyword": "how does mortgage enforcement work in Quebec",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Quebec",
+  "geo_note": "Quebec only",
+  "target_words": 1800,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Regulatory claims verified against the primary statute/regulator page cited, with a 'current as of' date.",
+  "verify_before_publishing": "AMF took over mortgage brokerage from OACIQ on 1 May 2020 — do not name OACIQ as current. CCQ arts.2748 et seq., 60-day prior notice for immovables, cannot be waived in advance. Verify article numbers at legisquebec.gouv.qc.ca. Quebec does NOT fit the power-of-sale / judicial-sale binary",
+  "links_to": [
+   "/learn/mortgage-enforcement-across-canada/ (Mortgage Enforcement Across Canada: Power of Sale, Judicial Sale and Quebec's Recourses)",
+   "/learn/mortgage-investing-quebec-prairies-atlantic/ (Mortgage Investing in Quebec, the Prairies and Atlantic Canada)",
+   "/learn/mortgage-investment-rules-by-province/ (Mortgage Investment Rules by Province: A Verified Comparison)"
+  ],
+  "linked_from": [
+   "/learn/mortgage-investment-regulation-canada/ (How Mortgage Investing Is Regulated in Canada)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "mortgage enforcement Quebec hypothecary recourse",
+   "mortgage investing Quebec"
+  ],
+  "investor_questions_for_faq": []
+ },
+ {
+  "id": 69,
+  "title": "How Mortgage Investment Income Is Taxed in Canada",
+  "url": "/learn/mortgage-investment-tax-treatment/",
+  "type": "Pillar page",
+  "stage": "6 Rules and regulations",
+  "primary_keyword": "mortgage investment tax treatment Canada",
+  "secondary_keywords": [
+   "how are MIC dividends taxed",
+   "MIC dividends taxed as interest income",
+   "MIC T5 slip"
+  ],
+  "question_keyword": "how much tax will I pay on MIC dividends",
+  "intent": "Educational",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2600,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Tax content must be reviewed by a Canadian tax professional and carry a 'current as of' date.",
+  "verify_before_publishing": "ITA s.130.1(2) deems taxable dividends to be interest on a bond — no gross-up, no dividend tax credit. s.130.1(1) 90-day distribution deduction; s.130.1(4) capital gains dividend election. Verify T5 box mechanics with a tax professional",
+  "links_to": [
+   "/learn/corporate-and-holdco-mortgage-investing/ (Investing in Mortgages Through a Corporation or Holding Company)",
+   "/learn/gross-vs-net-vs-after-tax-yield/ (Gross Yield, Net Yield and After-Tax Yield: The Three Numbers That Matter)",
+   "/learn/rrsp-tfsa-rrif-mortgage-investments/ (Holding Mortgage Investments in an RRSP, TFSA or RRIF)",
+   "/tools/after-tax-yield-calculator/ (After-Tax Yield Calculator for Canadian Mortgage Investments)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)",
+   "/learn/mortgage-investment-returns/ (Where Do Mortgage Investment Returns Actually Come From?)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "MIC T5 slip",
+   "MIC dividends taxed as interest income",
+   "how are MIC dividends taxed",
+   "mortgage investment tax treatment Canada"
+  ],
+  "investor_questions_for_faq": [
+   "how are MIC dividends taxed"
+  ]
+ },
+ {
+  "id": 70,
+  "title": "Holding Mortgage Investments in an RRSP, TFSA or RRIF",
+  "url": "/learn/rrsp-tfsa-rrif-mortgage-investments/",
+  "type": "Pillar page",
+  "stage": "6 Rules and regulations",
+  "primary_keyword": "RRSP mortgage investment rules Canada",
+  "secondary_keywords": [
+   "is a MIC RRSP eligible",
+   "is a MIC TFSA eligible",
+   "mortgage investment RRSP TFSA RRIF eligible",
+   "FHSA mortgage investment"
+  ],
+  "question_keyword": "can I invest in mortgages through my RRSP",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2600,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Tax content must be reviewed by a Canadian tax professional and carry a 'current as of' date.",
+  "verify_before_publishing": "Income Tax Regulations 4900(1)(c) for MIC shares as a qualified investment, including the connected-person condition; CRA Income Tax Folios S3-F10-C1 and S3-F10-C2",
+  "links_to": [
+   "/how-to-invest/ (How to Invest in Mortgages: The Process Step by Step)",
+   "/learn/mortgage-investment-tax-treatment/ (How Mortgage Investment Income Is Taxed in Canada)",
+   "/learn/prohibited-investment-rrsp-mic/ (The Registered-Plan Trap: When a MIC Becomes a Prohibited Investment)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)",
+   "/learn/mortgage-investment-tax-treatment/ (How Mortgage Investment Income Is Taxed in Canada)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "FHSA mortgage investment",
+   "RRSP mortgage investment rules Canada",
+   "is a MIC RRSP eligible",
+   "is a MIC TFSA eligible",
+   "mortgage investment RRSP TFSA RRIF eligible"
+  ],
+  "investor_questions_for_faq": [
+   "is a MIC RRSP eligible",
+   "is a MIC TFSA eligible",
+   "can I hold a mortgage in my RRSP",
+   "how do I transfer my RRSP to a mortgage investment",
+   "can I invest in mortgages through my RRSP",
+   "can I invest in a MIC with my TFSA"
+  ]
+ },
+ {
+  "id": 71,
+  "title": "The Registered-Plan Trap: When a MIC Becomes a Prohibited Investment",
+  "url": "/learn/prohibited-investment-rrsp-mic/",
+  "type": "Explainer",
+  "stage": "6 Rules and regulations",
+  "primary_keyword": "prohibited investment RRSP mortgage",
+  "secondary_keywords": [
+   "significant interest 10 percent rule registered plan",
+   "qualified investment mortgage investment corporation",
+   "non-arm's length mortgage RRSP"
+  ],
+  "question_keyword": "can my RRSP hold shares of a MIC I have a big stake in",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2400,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Tax content must be reviewed by a Canadian tax professional and carry a 'current as of' date. This page must carry a clear 'consult a tax professional' instruction.",
+  "verify_before_publishing": "ITA s.207.01(1) prohibited investment and significant interest — generally 10% or more of any class, counting non-arm's-length holdings. 50% tax on FMV plus 100% advantage tax; Form RC339. Contrast with s.130.1(6)(d)'s 25% MIC test. CRITICAL GAP — sites say 'RRSP eligible' and stop",
+  "links_to": [
+   "/learn/direct-mortgage-investing/ (Direct Mortgage Investing: Holding the Charge in Your Own Name)",
+   "/learn/mic-qualification-requirements/ (The Nine Conditions a MIC Must Meet to Keep Its Tax Status)",
+   "/learn/mortgage-investment-tax-treatment/ (How Mortgage Investment Income Is Taxed in Canada)",
+   "/learn/rrsp-tfsa-rrif-mortgage-investments/ (Holding Mortgage Investments in an RRSP, TFSA or RRIF)"
+  ],
+  "linked_from": [
+   "/learn/mortgage-investment-tax-treatment/ (How Mortgage Investment Income Is Taxed in Canada)",
+   "/learn/rrsp-tfsa-rrif-mortgage-investments/ (Holding Mortgage Investments in an RRSP, TFSA or RRIF)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "non-arm's length mortgage RRSP",
+   "prohibited investment RRSP mortgage",
+   "qualified investment mortgage investment corporation",
+   "significant interest 10 percent rule registered plan"
+  ],
+  "investor_questions_for_faq": []
+ },
+ {
+  "id": 72,
+  "title": "Investing in Mortgages Through a Corporation or Holding Company",
+  "url": "/learn/corporate-and-holdco-mortgage-investing/",
+  "type": "Guide",
+  "stage": "6 Rules and regulations",
+  "primary_keyword": "corporate investment mortgage Canada",
+  "secondary_keywords": [
+   "holding company mortgage investment",
+   "corporate investment opportunities"
+  ],
+  "question_keyword": "can I invest in mortgages through my corporation",
+  "intent": "Transactional / investment intent",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2000,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Tax content must be reviewed by a Canadian tax professional and carry a 'current as of' date. No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Explain who might CONSIDER this; never state or imply suitability for any reader.",
+  "verify_before_publishing": "Corporate investment income taxation and refundable tax mechanics — verify with a Canadian tax professional. GAP relative to demand",
+  "links_to": [
+   "/how-to-invest/ (How to Invest in Mortgages: The Process Step by Step)",
+   "/learn/accredited-investor-canada/ (Are You an Accredited Investor? Canadian Eligibility Explained)",
+   "/learn/mortgage-investment-tax-treatment/ (How Mortgage Investment Income Is Taxed in Canada)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)",
+   "/learn/mortgage-investment-tax-treatment/ (How Mortgage Investment Income Is Taxed in Canada)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "corporate investment mortgage Canada",
+   "holding company mortgage investment"
+  ],
+  "investor_questions_for_faq": [
+   "can I invest in mortgages through my corporation"
+  ]
+ },
+ {
+  "id": 73,
+  "title": "Non-Residents Investing in Canadian Mortgages",
+  "url": "/learn/non-resident-mortgage-investing/",
+  "type": "Guide",
+  "stage": "6 Rules and regulations",
+  "primary_keyword": "non-resident investing in Canadian MIC",
+  "secondary_keywords": [
+   "withholding tax MIC non resident"
+  ],
+  "question_keyword": "can I invest in Canadian mortgages if I live abroad",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 1800,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Tax content must be reviewed by a Canadian tax professional and carry a 'current as of' date. Withholding rates and treaty positions must be verified and dated.",
+  "verify_before_publishing": "ITA s.130.1(2) with para 214(3)(e) deemed interest; Part XIII withholding and treaty reduction; CRA participating-debt-interest treatment. VERIFY the rate before publishing. Also note s.130.1(6)(c) restricts a MIC from holding debts owing by non-residents",
+  "links_to": [
+   "/how-to-invest/ (How to Invest in Mortgages: The Process Step by Step)",
+   "/learn/accredited-investor-canada/ (Are You an Accredited Investor? Canadian Eligibility Explained)",
+   "/learn/mortgage-investment-tax-treatment/ (How Mortgage Investment Income Is Taxed in Canada)"
+  ],
+  "linked_from": [
+   "/learn/mortgage-investment-tax-treatment/ (How Mortgage Investment Income Is Taxed in Canada)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "non-resident investing in Canadian MIC",
+   "withholding tax MIC non resident"
+  ],
+  "investor_questions_for_faq": [
+   "can I invest in Canadian mortgages if I live abroad"
+  ]
+ },
+ {
+  "id": 74,
+  "title": "How to Invest in Mortgages: The Process Step by Step",
+  "url": "/how-to-invest/",
+  "type": "Pillar page",
+  "stage": "7 Investor profiles and process",
+  "primary_keyword": "how to start investing in mortgages",
+  "secondary_keywords": [
+   "mortgage investment process steps",
+   "what documents do I need to invest in a MIC",
+   "how to invest in a MIC"
+  ],
+  "question_keyword": "how do I invest in a MIC",
+  "intent": "Transactional / investment intent",
+  "investor_stage": "Ready to invest",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2400,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Describe the process; never imply a particular investment is appropriate for the reader.",
+  "verify_before_publishing": "NI 31-103 KYC / KYP / suitability process; provincial disclosure obligations",
+  "links_to": [
+   "/learn/accredited-investor-canada/ (Are You an Accredited Investor? Canadian Eligibility Explained)",
+   "/learn/mortgage-investor-due-diligence-checklist/ (The Mortgage Investor's Due Diligence Checklist)",
+   "/learn/rrsp-tfsa-rrif-mortgage-investments/ (Holding Mortgage Investments in an RRSP, TFSA or RRIF)",
+   "/learn/what-to-expect-as-a-mortgage-investor/ (What to Expect as a Mortgage Investor: Reporting, Statements and Communication)"
+  ],
+  "linked_from": [
+   "/ (/)",
+   "/learn/ (/learn/)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "how to invest in a MIC",
+   "how to start investing in mortgages",
+   "mortgage investment process steps",
+   "what documents do I need to invest in a MIC"
+  ],
+  "investor_questions_for_faq": [
+   "how to invest in a MIC",
+   "how to start investing in mortgages",
+   "what documents do I need to invest in a MIC",
+   "can I use my own lawyer mortgage investment",
+   "how do I invest in a MIC",
+   "how do I check that my mortgage investment actually closed"
+  ]
+ }
+]

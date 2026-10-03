@@ -1,0 +1,370 @@
+[
+ {
+  "id": 30,
+  "title": "Reinvestment Risk: The Cost of Money Coming Back Too Soon",
+  "url": "/learn/reinvestment-risk-mortgage-investing/",
+  "type": "Explainer",
+  "stage": "3 Returns, income and cash flow",
+  "primary_keyword": "reinvestment risk mortgage investing",
+  "secondary_keywords": [
+   "short term mortgage investment Canada",
+   "mortgage investment term length"
+  ],
+  "question_keyword": "what is reinvestment risk in mortgage investing",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 1400,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Any return figure needs a stated period, source and a past-performance caveat. Publish mechanics, not rate promises.",
+  "verify_before_publishing": "GAP — structural to private mortgages and almost never named",
+  "links_to": [
+   "/learn/bridge-mortgage-investing/ (Bridge Mortgage Investments: Short Terms, Fast Turnover)",
+   "/learn/mortgage-investment-returns/ (Where Do Mortgage Investment Returns Actually Come From?)",
+   "/learn/mortgage-investment-terms-renewals-and-exits/ (Terms, Renewals, Early Repayment and Discharge)"
+  ],
+  "linked_from": [
+   "/learn/mortgage-investment-returns/ (Where Do Mortgage Investment Returns Actually Come From?)",
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "mortgage investment term length",
+   "reinvestment risk mortgage investing",
+   "short term mortgage investment Canada"
+  ],
+  "investor_questions_for_faq": [
+   "what is reinvestment risk in mortgage investing",
+   "what happens if the borrower does not renew"
+  ]
+ },
+ {
+  "id": 31,
+  "title": "Capital Preservation and Loss of Principal: Both Sides Stated Plainly",
+  "url": "/learn/capital-preservation-and-loss-of-principal/",
+  "type": "Explainer",
+  "stage": "3 Returns, income and cash flow",
+  "primary_keyword": "capital preservation mortgage investment",
+  "secondary_keywords": [
+   "can you lose money investing in mortgages",
+   "mortgage investment risks"
+  ],
+  "question_keyword": "can I lose my whole investment in a mortgage",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 1800,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Risk content must not be softened by a reassurance that undercuts it. The phrase 'capital preservation' must never appear without the loss-of-principal disclosure adjacent to it.",
+  "verify_before_publishing": "CMHC MIE delinquency data with the reporting period stated",
+  "links_to": [
+   "/learn/borrower-default-mortgage-investment/ (What Happens When a Borrower Defaults on Your Mortgage Investment)",
+   "/learn/first-vs-second-mortgage-investments/ (First vs Second Mortgage Investments: What Position Really Costs)",
+   "/learn/loan-to-value-for-mortgage-investors/ (Loan-to-Value for Mortgage Investors: How to Read It and Where It Misleads)",
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)"
+  ],
+  "linked_from": [
+   "/learn/mortgage-investment-returns/ (Where Do Mortgage Investment Returns Actually Come From?)",
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "can you lose money investing in mortgages",
+   "capital preservation mortgage investment",
+   "mortgage investment risks"
+  ],
+  "investor_questions_for_faq": [
+   "what are the risks of investing in a MIC",
+   "is mortgage investing safe",
+   "are MIC investments guaranteed",
+   "is my principal guaranteed mortgage investment",
+   "can you lose money investing in mortgages",
+   "is investing in mortgages safe in Canada",
+   "is my money safe in a mortgage investment corporation",
+   "is a MIC guaranteed",
+   "what are the risks of investing in a mortgage investment corporation",
+   "what are the risks of private mortgage investing",
+   "can I lose my whole investment in a mortgage"
+  ]
+ },
+ {
+  "id": 32,
+  "title": "MIC vs REIT in Canada: Debt Income or Equity Ownership",
+  "url": "/learn/mic-vs-reit/",
+  "type": "Comparison",
+  "stage": "4 Comparisons",
+  "primary_keyword": "MIC vs REIT Canada",
+  "secondary_keywords": [
+   "MIC vs REIT",
+   "mortgage investing vs dividend stocks",
+   "real estate debt investing"
+  ],
+  "question_keyword": "which is better a MIC or a REIT",
+  "intent": "Comparison",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2600,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Comparison must present trade-offs both ways; no 'better than' verdict; deposit-insurance position stated where a GIC or savings product is named.",
+  "verify_before_publishing": "REIT tax treatment vs ITA s.130.1(2) deemed interest. SATURATED topic — win on depth and honesty",
+  "links_to": [
+   "/learn/mortgage-investing-vs-rental-property/ (Mortgage Investing vs Owning a Rental Property)",
+   "/learn/mortgage-investment-structures-compared/ (Comparing Mortgage Investment Structures: MIC, Fund, LP, Trust and Syndicated)",
+   "/learn/mortgage-investment-tax-treatment/ (How Mortgage Investment Income Is Taxed in Canada)",
+   "/learn/what-is-a-mortgage-investment-corporation/ (What Is a Mortgage Investment Corporation (MIC)?)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)",
+   "/learn/what-is-a-mortgage-investment-corporation/ (What Is a Mortgage Investment Corporation (MIC)?)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "MIC vs REIT",
+   "MIC vs REIT Canada",
+   "mortgage investing vs dividend stocks"
+  ],
+  "investor_questions_for_faq": [
+   "which is better a MIC or a REIT"
+  ]
+ },
+ {
+  "id": 33,
+  "title": "Mortgage Investing vs GICs: Yield, Insurance and What You Give Up",
+  "url": "/learn/mortgage-investing-vs-gics/",
+  "type": "Comparison",
+  "stage": "4 Comparisons",
+  "primary_keyword": "mortgage investing vs GIC",
+  "secondary_keywords": [
+   "MIC vs GIC Canada",
+   "mortgage investing vs high interest savings",
+   "best alternative to GIC Canada"
+  ],
+  "question_keyword": "is a MIC CDIC insured",
+  "intent": "Comparison",
+  "investor_stage": "Problem-aware",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2400,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Comparison must present trade-offs both ways; no 'better than' verdict; deposit-insurance position stated where a GIC or savings product is named. The absence of CDIC or provincial deposit insurance must be stated explicitly and prominently.",
+  "verify_before_publishing": "CDIC coverage scope; current GIC rates with date if cited at all",
+  "links_to": [
+   "/learn/liquidity-and-redemption/ (Liquidity and Redemption: Getting Your Money Out)",
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)",
+   "/tools/after-tax-yield-calculator/ (After-Tax Yield Calculator for Canadian Mortgage Investments)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)",
+   "/learn/alternative-fixed-income-canada/ (Alternative Fixed Income in Canada: Where Mortgage Investments Sit)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "MIC vs GIC Canada",
+   "best alternative to GIC Canada",
+   "mortgage investing vs GIC",
+   "mortgage investing vs high interest savings"
+  ],
+  "investor_questions_for_faq": [
+   "best alternative to GIC Canada",
+   "is a MIC CDIC insured",
+   "is a MIC the same as a GIC",
+   "which is better mortgage investing or a GIC"
+  ]
+ },
+ {
+  "id": 34,
+  "title": "Mortgage Investing vs Bonds: Two Kinds of Fixed Income",
+  "url": "/learn/mortgage-investing-vs-bonds/",
+  "type": "Comparison",
+  "stage": "4 Comparisons",
+  "primary_keyword": "mortgage investing vs bonds",
+  "secondary_keywords": [
+   "MIC vs bond ETF income",
+   "alternative fixed income investments Canada"
+  ],
+  "question_keyword": "which is better a mortgage fund or a bond fund",
+  "intent": "Comparison",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2400,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Comparison must present trade-offs both ways; no 'better than' verdict; deposit-insurance position stated where a GIC or savings product is named.",
+  "verify_before_publishing": "GAP — only one operator FAQ line addresses this anywhere in Canada",
+  "links_to": [
+   "/learn/alternative-fixed-income-canada/ (Alternative Fixed Income in Canada: Where Mortgage Investments Sit)",
+   "/learn/mortgage-investing-vs-dividend-stocks/ (Mortgage Investing vs Dividend Stocks for Income)",
+   "/learn/mortgage-investing-vs-gics/ (Mortgage Investing vs GICs: Yield, Insurance and What You Give Up)",
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "MIC vs bond ETF income",
+   "alternative fixed income investments Canada",
+   "mortgage investing vs bonds"
+  ],
+  "investor_questions_for_faq": [
+   "is mortgage investing riskier than a bond fund",
+   "which is better a mortgage fund or a bond fund"
+  ]
+ },
+ {
+  "id": 35,
+  "title": "Mortgage Investing vs Dividend Stocks for Income",
+  "url": "/learn/mortgage-investing-vs-dividend-stocks/",
+  "type": "Comparison",
+  "stage": "4 Comparisons",
+  "primary_keyword": "mortgage investing vs dividend stocks",
+  "secondary_keywords": [
+   "monthly income investments Canada",
+   "income producing investments Canada"
+  ],
+  "question_keyword": "is a mortgage investment better than a dividend portfolio",
+  "intent": "Comparison",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2200,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Comparison must present trade-offs both ways; no 'better than' verdict; deposit-insurance position stated where a GIC or savings product is named. No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Tax content must be reviewed by a Canadian tax professional and carry a 'current as of' date.",
+  "verify_before_publishing": "Dividend tax credit vs ITA s.130.1(2) deemed-interest treatment. GAP",
+  "links_to": [
+   "/learn/monthly-income-from-mortgage-investments/ (Monthly Income From Mortgage Investments: How the Cash Flow Works)",
+   "/learn/mortgage-investing-vs-bonds/ (Mortgage Investing vs Bonds: Two Kinds of Fixed Income)",
+   "/learn/mortgage-investment-tax-treatment/ (How Mortgage Investment Income Is Taxed in Canada)",
+   "/tools/after-tax-yield-calculator/ (After-Tax Yield Calculator for Canadian Mortgage Investments)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "income producing investments Canada",
+   "monthly income investments Canada",
+   "mortgage investing vs dividend stocks"
+  ],
+  "investor_questions_for_faq": []
+ },
+ {
+  "id": 36,
+  "title": "MIC vs Investing in Mortgages Directly",
+  "url": "/learn/mic-vs-direct-mortgage-investing/",
+  "type": "Comparison",
+  "stage": "4 Comparisons",
+  "primary_keyword": "MIC vs direct mortgage investing",
+  "secondary_keywords": [
+   "MIC vs private lender",
+   "individual mortgage investing",
+   "direct mortgage investing"
+  ],
+  "question_keyword": "which is better a MIC or lending directly",
+  "intent": "Comparison",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2400,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Comparison must present trade-offs both ways; no 'better than' verdict; deposit-insurance position stated where a GIC or savings product is named.",
+  "verify_before_publishing": "Provincial administrator licensing where servicing is delegated",
+  "links_to": [
+   "/learn/direct-mortgage-investing/ (Direct Mortgage Investing: Holding the Charge in Your Own Name)",
+   "/learn/mortgage-investor-due-diligence-checklist/ (The Mortgage Investor's Due Diligence Checklist)",
+   "/learn/rrsp-tfsa-rrif-mortgage-investments/ (Holding Mortgage Investments in an RRSP, TFSA or RRIF)",
+   "/learn/what-is-a-mortgage-investment-corporation/ (What Is a Mortgage Investment Corporation (MIC)?)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "MIC vs direct mortgage investing",
+   "MIC vs private lender",
+   "direct mortgage investing",
+   "individual mortgage investing"
+  ],
+  "investor_questions_for_faq": [
+   "can I choose which mortgage to invest in",
+   "what is the difference between a MIC and an individual mortgage investment",
+   "which is better a MIC or lending directly",
+   "can I choose the specific mortgage I invest in"
+  ]
+ },
+ {
+  "id": 37,
+  "title": "Mortgage Investing vs Owning a Rental Property",
+  "url": "/learn/mortgage-investing-vs-rental-property/",
+  "type": "Comparison",
+  "stage": "4 Comparisons",
+  "primary_keyword": "mortgage investing vs rental property",
+  "secondary_keywords": [
+   "real estate exposure without owning property",
+   "mortgage fund vs rental income"
+  ],
+  "question_keyword": "which is better a MIC or a rental property",
+  "intent": "Comparison",
+  "investor_stage": "Problem-aware",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2400,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Comparison must present trade-offs both ways; no 'better than' verdict; deposit-insurance position stated where a GIC or savings product is named.",
+  "verify_before_publishing": "None; ensure the appreciation trade-off is stated as plainly as the no-management benefit",
+  "links_to": [
+   "/learn/liquidity-and-redemption/ (Liquidity and Redemption: Getting Your Money Out)",
+   "/learn/mic-vs-reit/ (MIC vs REIT in Canada: Debt Income or Equity Ownership)",
+   "/learn/monthly-income-from-mortgage-investments/ (Monthly Income From Mortgage Investments: How the Cash Flow Works)",
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)",
+   "/learn/mortgage-investing-passive-income/ (Mortgage Investing as Passive Income in Canada)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "mortgage fund vs rental income",
+   "mortgage investing vs rental property",
+   "real estate exposure without owning property"
+  ],
+  "investor_questions_for_faq": [
+   "real estate exposure without owning property",
+   "is financing real estate as secure as owning it",
+   "which is better a MIC or a rental property"
+  ]
+ },
+ {
+  "id": 38,
+  "title": "First vs Second Mortgage Investments: What Position Really Costs",
+  "url": "/learn/first-vs-second-mortgage-investments/",
+  "type": "Comparison",
+  "stage": "4 Comparisons",
+  "primary_keyword": "first mortgage vs second mortgage investing",
+  "secondary_keywords": [
+   "first position mortgage investment",
+   "second position mortgage investment",
+   "combined loan to value second mortgage"
+  ],
+  "question_keyword": "what happens to a second mortgage in a power of sale",
+  "intent": "Comparison",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2600,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Comparison must present trade-offs both ways; no 'better than' verdict; deposit-insurance position stated where a GIC or savings product is named. No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Risk content must not be softened by a reassurance that undercuts it.",
+  "verify_before_publishing": "Provincial enforcement order and deficiency treatment. GAP — strongest under-served investor comparison",
+  "links_to": [
+   "/learn/first-mortgage-investments/ (First Mortgage Investments Explained)",
+   "/learn/loan-to-value-for-mortgage-investors/ (Loan-to-Value for Mortgage Investors: How to Read It and Where It Misleads)",
+   "/learn/power-of-sale-for-mortgage-investors/ (Power of Sale: What It Means for a Mortgage Investor)",
+   "/learn/second-mortgage-investments/ (Second Mortgage Investments: The Yield and the Trade-Off)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "combined loan to value second mortgage",
+   "first mortgage vs second mortgage investing",
+   "first position mortgage investment",
+   "second position mortgage investment"
+  ],
+  "investor_questions_for_faq": [
+   "what is a good LTV for mortgage investing",
+   "how to calculate loan to value",
+   "what is loan to value in mortgage investing",
+   "is a second mortgage investment too risky",
+   "what are the risks of a second mortgage investment",
+   "what happens to a second mortgage in a power of sale",
+   "which is better a first or second mortgage investment",
+   "how does LTV protect my capital"
+  ]
+ }
+]

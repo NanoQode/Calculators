@@ -1,0 +1,12 @@
+{
+  "name": "lmcmic-site",
+  "private": true,
+  "description": "lmcmic.ca — Lendmax Capital MIC investor site (static build)",
+  "scripts": {
+    "css": "tailwindcss -c src/tailwind.config.js -i src/site.css -o dist/assets/site.css --minify",
+    "build": "python3 build/build.py && npm run css"
+  },
+  "devDependencies": {
+    "tailwindcss": "3.4.17"
+  }
+}

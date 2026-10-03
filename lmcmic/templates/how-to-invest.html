@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="container-site pt-6 md:pt-10 pb-6">
+  <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-maple-red-tint text-on-tertiary-container font-sans text-label-caps uppercase">{{ m.icon('shield_person', 'text-[14px]') }}Through a registered exempt market dealer</div>
+  <h1 class="mt-3 font-serif text-display-hero-mobile md:text-display-hero text-on-surface tracking-tight max-w-4xl">{{ page.title }}</h1>
+  <p class="mt-3 font-sans text-body-sm text-on-surface-variant">By {{ site.author }} · Current as of {{ site.content_updated_label }} · Next review {{ site.next_review_label }}</p>
+  {% if answer %}<div class="mt-5 max-w-3xl rounded-2xl border-l-4 border-secondary bg-sky-subtle/60 p-5"><p class="font-sans text-label-caps uppercase text-secondary">Short answer</p><div class="mt-1 font-sans text-body-lg text-on-surface">{{ answer }}</div></div>{% endif %}
+</section>
+
+<section class="container-site mb-12" aria-labelledby="steps-heading">
+  {{ m.eyebrow('The process') }}
+  <h2 id="steps-heading" class="mt-2 font-serif text-headline-lg text-on-surface">Four steps from first question to quarterly distributions</h2>
+  <p class="mt-1 font-sans text-body-md text-on-surface-variant max-w-3xl">Every subscription runs through a registered exempt market dealer, and the suitability work happens before any money moves — not after.</p>
+  <ol class="mt-5 grid gap-3 md:grid-cols-2">
+    {% for t, d in steps %}
+    <li class="card p-5 flex items-start gap-3">
+      <span class="w-9 h-9 rounded-full {{ 'bg-maple-red-tint text-on-tertiary-container' if loop.last else 'bg-surface-container-high text-secondary' }} flex items-center justify-center font-sans text-label-caps font-bold shrink-0">0{{ loop.index }}</span>
+      <div><div class="flex items-center justify-between gap-2"><h3 class="font-sans text-label-lg text-on-surface">{{ t }}</h3>{{ m.icon(['verified_user','fact_check','draw','payments'][loop.index0], ('text-on-tertiary-container' if loop.last else 'text-secondary') ~ ' text-[18px]') }}</div><p class="mt-1 font-sans text-body-sm text-on-surface-variant">{{ d }}</p></div>
+    </li>
+    {% endfor %}
+  </ol>
+  <div class="mt-5 grid gap-3 md:grid-cols-2">
+    <div class="card p-5"><p class="font-sans text-label-caps uppercase text-secondary">What to have ready</p><ul class="mt-2 space-y-1.5 font-sans text-body-sm text-on-surface-variant list-disc pl-5"><li>Government photo identification</li><li>Details of the account you will invest from — cash, corporate, RRSP, RRIF, TFSA or FHSA</li><li>A view of your overall portfolio, so concentration can be assessed honestly</li><li>Your questions, written down — especially about liquidity and loss</li></ul></div>
+    <div class="card p-5"><p class="font-sans text-label-caps uppercase text-secondary">What you will be given</p><ul class="mt-2 space-y-1.5 font-sans text-body-sm text-on-surface-variant list-disc pl-5"><li>The offering memorandum, with audited financial statements and risk factors</li><li>The risk acknowledgement form required for your exemption</li><li>Relationship disclosure from the dealer, including how it is paid</li><li>Written confirmation of your subscription</li></ul></div>
+  </div>
+  <div class="mt-5 flex flex-col sm:flex-row gap-3"><a class="btn-red" href="/contact/#intake">{{ m.icon('assignment_turned_in', 'text-[20px]') }}Start with step 1</a><a class="btn-ghost" href="tel:{{ site.phone_e164 }}">{{ m.icon('call', 'text-[18px] text-secondary') }}Call {{ site.phone }}</a></div>
+</section>
+
+{% if body_html %}
+<div class="container-site grid gap-10 lg:grid-cols-[220px_minmax(0,1fr)]">
+  <aside class="hidden lg:block"><nav class="sticky top-28" aria-label="On this page"><p class="font-sans text-label-caps uppercase text-on-surface-variant">On this page</p><ol class="mt-3 space-y-2 font-sans text-body-sm">{% for t in toc %}<li><a class="text-on-surface-variant hover:text-secondary" href="#{{ t.id }}">{{ t.name }}</a></li>{% endfor %}</ol></nav></aside>
+  <article class="prose-lmc">
+    {{ body_html }}
+    {% if takeaways %}<div class="mt-10 rounded-2xl bg-white border border-border-hairline p-5"><p class="font-sans text-label-caps uppercase text-secondary">Key takeaways</p><ul class="mt-2">{% for t in takeaways %}<li>{{ t | striptags }}</li>{% endfor %}</ul></div>{% endif %}
+    {% if sources %}<div class="mt-8"><h2 id="sources">Sources</h2><ol class="text-body-sm">{% for s in sources %}<li>{% if s.url %}<a href="{{ s.url }}" rel="noopener">{{ s.title }}</a>{% else %}{{ s.title }}{% endif %}{% if s.publisher %} — {{ s.publisher }}{% endif %}</li>{% endfor %}</ol></div>{% endif %}
+    {{ m.disclosure_box(['liquidity', 'tax', 'regulatory']) }}
+  </article>
+</div>
+{% endif %}
+{% if faq_items %}{{ m.faq_list(faq_items, 'Questions about investing') }}{% endif %}
+{{ m.standard_cta(site) }}
+{% endblock %}

@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { -webkit-text-size-adjust: 100%; scroll-padding-top: 6rem; }
+  body { @apply bg-surface text-on-surface font-sans antialiased; }
+  :focus-visible { outline: 2px solid #006398; outline-offset: 2px; }
+  .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+  .pt-safe { padding-top: env(safe-area-inset-top, 0px); }
+  /* Icon ligatures render as words until the icon font arrives. Fixing the
+     box to 1em stops that text from shifting the layout (CLS). */
+  .material-symbols-outlined {
+    font-family: "Material Symbols Outlined"; font-weight: normal; font-style: normal;
+    display: inline-block; width: 1em; height: 1em; line-height: 1; overflow: hidden;
+    white-space: nowrap; direction: ltr; -webkit-font-feature-settings: "liga"; font-feature-settings: "liga";
+    -webkit-font-smoothing: antialiased; vertical-align: middle; flex-shrink: 0;
+  }
+  /* Grid tracks must not grow to fit a horizontally scrolling child. */
+  .grid > * { min-width: 0; }
+  .skip-link { @apply sr-only; }
+  .skip-link:focus { @apply not-sr-only fixed top-2 left-2 z-[100] bg-primary-container text-on-primary px-4 py-2 rounded-xl; }
+}
+
+@layer components {
+  .container-site { @apply mx-auto w-full max-w-6xl px-margin md:px-8; }
+  .eyebrow { @apply inline-flex items-center gap-2 font-sans text-label-caps uppercase tracking-wider text-secondary; }
+  .eyebrow-dot { @apply w-2 h-2 rounded-full bg-secondary; }
+  .card { @apply bg-surface-container-lowest rounded-2xl shadow-sm; }
+  .btn-red { @apply inline-flex items-center justify-center gap-2 rounded-2xl bg-maple-red hover:bg-maple-red-hover text-white font-sans text-label-lg px-5 h-12 shadow-md transition-colors; }
+  .btn-navy { @apply inline-flex items-center justify-center gap-2 rounded-2xl bg-primary-container hover:bg-navy-darkest text-white font-sans text-label-lg px-5 h-12 transition-colors; }
+  .btn-ghost { @apply inline-flex items-center justify-center gap-2 rounded-2xl border border-outline-variant text-on-surface hover:bg-surface-container font-sans text-label-lg px-5 h-12 transition-colors; }
+  .chip { @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-sans text-label-caps uppercase; }
+  .field-label { @apply block font-sans text-label-caps uppercase text-on-surface-variant mb-1; }
+  .field-input { @apply w-full h-12 px-3 rounded-xl bg-surface-container-low text-on-surface font-sans text-body-md border border-transparent focus:outline-none focus:ring-2 focus:ring-secondary focus:bg-white; }
+  .opt-card { @apply cursor-pointer p-3 rounded-xl bg-surface-container-low transition-all flex items-start gap-3 border border-transparent; }
+  .opt-card:has(input:checked) { @apply bg-primary-container text-on-primary; }
+  .opt-card:has(input:checked) .opt-sub { @apply text-primary-fixed-dim; }
+  .opt-card:has(input:focus-visible) { @apply ring-2 ring-secondary; }
+  .opt-pill { @apply cursor-pointer flex flex-col items-center justify-center p-2.5 rounded-xl bg-surface-container-low text-on-surface text-center transition-colors border border-transparent; }
+  .opt-pill:has(input:checked) { @apply bg-sky-subtle text-secondary border-secondary/30; }
+  .opt-pill:has(input:focus-visible) { @apply ring-2 ring-secondary; }
+  .opt-alloc { @apply cursor-pointer py-2.5 px-2 rounded-xl bg-surface-container-low text-on-surface font-sans text-label-md text-center transition-colors; }
+  .opt-alloc:has(input:checked) { @apply bg-primary-container text-on-primary; }
+  .opt-alloc:has(input:focus-visible) { @apply ring-2 ring-secondary; }
+  .tab-btn[aria-selected="true"] { @apply bg-primary-container text-on-primary shadow-sm; }
+  .nav-link[aria-current="page"] { @apply text-secondary font-semibold; }
+
+  /* Long-form article typography (Markdown output). */
+  .prose-lmc { @apply font-sans text-body-lg text-on-surface; max-width: 72ch; }
+  .prose-lmc > * + * { margin-top: 1.1em; }
+  .prose-lmc h2 { @apply font-serif text-[26px] leading-[34px] font-semibold text-on-surface mt-12 mb-3 scroll-mt-28; }
+  .prose-lmc h3 { @apply font-sans text-headline-sm text-on-surface mt-8 mb-2 scroll-mt-28; }
+  .prose-lmc h4 { @apply font-sans text-label-lg uppercase tracking-wide text-on-surface-variant mt-6; }
+  .prose-lmc p { @apply text-on-surface/90; }
+  .prose-lmc a { @apply text-secondary underline decoration-secondary/40 underline-offset-2 hover:decoration-secondary; }
+  .prose-lmc strong { @apply font-semibold text-on-surface; }
+  .prose-lmc ul { @apply list-disc pl-6 space-y-1.5; }
+  .prose-lmc ol { @apply list-decimal pl-6 space-y-1.5; }
+  .prose-lmc li::marker { @apply text-secondary; }
+  .prose-lmc blockquote { @apply border-l-4 border-secondary bg-sky-subtle/60 rounded-r-xl px-5 py-4 text-body-md text-on-secondary-container; }
+  .prose-lmc blockquote p { @apply text-on-secondary-container; }
+  .prose-lmc hr { @apply border-border-hairline my-10; }
+  .prose-lmc code { @apply font-mono text-[0.9em] bg-surface-container px-1 rounded; }
+  .prose-lmc .table-wrap { @apply overflow-x-auto rounded-2xl border border-border-hairline bg-white shadow-sm; }
+  .prose-lmc table { @apply w-full text-left text-body-sm border-collapse min-w-[520px]; }
+  .prose-lmc thead th { @apply bg-surface-container-low font-semibold text-on-surface px-4 py-3 align-bottom border-b border-border-hairline; }
+  .prose-lmc tbody td, .prose-lmc tbody th { @apply px-4 py-3 align-top border-b border-border-hairline; }
+  .prose-lmc tbody tr:last-child td { @apply border-b-0; }
+  .prose-lmc ul.task-list { @apply list-none pl-0 space-y-2; }
+  .prose-lmc li.task-item { @apply flex items-start gap-3 bg-white rounded-xl border border-border-hairline px-4 py-3; }
+  .prose-lmc li.task-item input { @apply mt-1 w-4 h-4 accent-secondary shrink-0; }
+  .prose-lmc .worked { @apply bg-surface-container-low rounded-2xl p-5; }
+
+  .faq-item summary { list-style: none; }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item[open] .faq-chevron { transform: rotate(180deg); }
+
+  .yt-lite { @apply relative w-full aspect-video rounded-2xl overflow-hidden bg-navy-darkest cursor-pointer; }
+  .yt-lite img { @apply absolute inset-0 w-full h-full object-cover; }
+  .yt-lite iframe { @apply absolute inset-0 w-full h-full; }
+
+  @media print {
+    header, footer, nav, .no-print, .floating-cta { display: none !important; }
+    .prose-lmc { max-width: none; }
+  }
+}

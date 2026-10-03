@@ -1,0 +1,396 @@
+[
+ {
+  "id": 75,
+  "title": "What to Expect as a Mortgage Investor: Reporting, Statements and Communication",
+  "url": "/learn/what-to-expect-as-a-mortgage-investor/",
+  "type": "Guide",
+  "stage": "7 Investor profiles and process",
+  "primary_keyword": "mortgage investment reporting to investors",
+  "secondary_keywords": [
+   "how do I monitor my mortgage investment",
+   "what documents should I receive as a mortgage investor"
+  ],
+  "question_keyword": "what kind of reporting will I get",
+  "intent": "Educational",
+  "investor_stage": "Existing investor",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 1600,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date.",
+  "verify_before_publishing": "NI 81-106 continuous disclosure where applicable; provincial administrator reporting obligations",
+  "links_to": [
+   "/how-to-invest/ (How to Invest in Mortgages: The Process Step by Step)",
+   "/learn/liquidity-and-redemption/ (Liquidity and Redemption: Getting Your Money Out)",
+   "/learn/reading-mic-financial-statements/ (Reading a MIC's Financial Statements and Offering Memorandum)"
+  ],
+  "linked_from": [
+   "/how-to-invest/ (How to Invest in Mortgages: The Process Step by Step)",
+   "/learn/ (/learn/)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "how do I monitor my mortgage investment",
+   "mortgage investment reporting to investors",
+   "what documents should I receive as a mortgage investor"
+  ],
+  "investor_questions_for_faq": [
+   "how do I monitor my mortgage investment",
+   "what documents should I receive as a mortgage investor"
+  ]
+ },
+ {
+  "id": 76,
+  "title": "How Mortgages Are Underwritten — From an Investor's Side of the Table",
+  "url": "/learn/how-mortgages-are-underwritten/",
+  "type": "Guide",
+  "stage": "7 Investor profiles and process",
+  "primary_keyword": "how are mortgages underwritten for investors",
+  "secondary_keywords": [
+   "borrower creditworthiness mortgage investment",
+   "how does a MIC decide which mortgages to fund"
+  ],
+  "question_keyword": "how do you decide which mortgages to invest in",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2200,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date.",
+  "verify_before_publishing": "Standard private-lending underwriting criteria; do not publish specific rate or fee figures",
+  "links_to": [
+   "/learn/appraisals-for-mortgage-investors/ (Appraisals for Mortgage Investors: As-Is vs As-Complete)",
+   "/learn/how-to-evaluate-a-mic/ (How to Evaluate a MIC Before You Invest)",
+   "/learn/loan-to-value-for-mortgage-investors/ (Loan-to-Value for Mortgage Investors: How to Read It and Where It Misleads)",
+   "/learn/mortgage-investor-due-diligence-checklist/ (The Mortgage Investor's Due Diligence Checklist)"
+  ],
+  "linked_from": [
+   "/how-to-invest/ (How to Invest in Mortgages: The Process Step by Step)",
+   "/learn/mortgage-investor-due-diligence-checklist/ (The Mortgage Investor's Due Diligence Checklist)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "borrower creditworthiness mortgage investment",
+   "how are mortgages underwritten for investors",
+   "how does a MIC decide which mortgages to fund"
+  ],
+  "investor_questions_for_faq": [
+   "how are mortgages underwritten for investors",
+   "what happens if the property burns down",
+   "how does a MIC decide which mortgages to fund",
+   "what should I check in a mortgage investment before I commit"
+  ]
+ },
+ {
+  "id": 77,
+  "title": "Minimum Investments and Getting Started: What It Actually Takes",
+  "url": "/learn/mic-minimum-investment/",
+  "type": "FAQ hub",
+  "stage": "7 Investor profiles and process",
+  "primary_keyword": "MIC minimum investment",
+  "secondary_keywords": [
+   "private mortgage investment minimum",
+   "how much money do I need to invest in mortgages",
+   "can I invest in mortgages with $10,000"
+  ],
+  "question_keyword": "how much do I need to start investing in a MIC",
+  "intent": "Comparison",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 1600,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Do not publish a specific minimum unless it is current and verified.",
+  "verify_before_publishing": "Verify against live offering documents; minimums change",
+  "links_to": [
+   "/how-to-invest/ (How to Invest in Mortgages: The Process Step by Step)",
+   "/learn/accredited-investor-canada/ (Are You an Accredited Investor? Canadian Eligibility Explained)",
+   "/learn/mortgage-investing-for-beginners/ (A Beginner's Guide to Mortgage Investing in Canada)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)",
+   "/learn/mortgage-investing-for-beginners/ (A Beginner's Guide to Mortgage Investing in Canada)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "MIC minimum investment",
+   "can I invest in mortgages with $10,000",
+   "how much money do I need to invest in mortgages",
+   "private mortgage investment minimum"
+  ],
+  "investor_questions_for_faq": [
+   "what is the minimum investment for a MIC",
+   "how much money do I need to invest in mortgages",
+   "how much do I need to start investing in a MIC",
+   "can I invest in mortgages with $10,000"
+  ]
+ },
+ {
+  "id": 78,
+  "title": "Who Might Consider Mortgage Investing — and Who Probably Should Not",
+  "url": "/learn/who-might-consider-mortgage-investing/",
+  "type": "Guide",
+  "stage": "7 Investor profiles and process",
+  "primary_keyword": "who should invest in mortgages",
+  "secondary_keywords": [
+   "mortgage investing for retirees Canada",
+   "diversify portfolio with mortgage investments"
+  ],
+  "question_keyword": "who should consider a MIC",
+  "intent": "Risk / due diligence",
+  "investor_stage": "Problem-aware",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2200,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Explain who might CONSIDER this; never state or imply suitability for any reader. No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Risk content must not be softened by a reassurance that undercuts it.",
+  "verify_before_publishing": "None; this page carries the highest suitability-language risk on the site. No reader-specific recommendation",
+  "links_to": [
+   "/how-to-invest/ (How to Invest in Mortgages: The Process Step by Step)",
+   "/learn/alternative-fixed-income-canada/ (Alternative Fixed Income in Canada: Where Mortgage Investments Sit)",
+   "/learn/liquidity-and-redemption/ (Liquidity and Redemption: Getting Your Money Out)",
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "diversify portfolio with mortgage investments",
+   "mortgage investing for retirees Canada",
+   "who should invest in mortgages"
+  ],
+  "investor_questions_for_faq": [
+   "who should invest in mortgages",
+   "how much of my portfolio should be in mortgage investments"
+  ]
+ },
+ {
+  "id": 79,
+  "title": "Mortgage Investing for Retirement Income",
+  "url": "/learn/mortgage-investing-for-retirement-income/",
+  "type": "Guide",
+  "stage": "7 Investor profiles and process",
+  "primary_keyword": "retirement income mortgage investing Canada",
+  "secondary_keywords": [
+   "monthly income investments Canada",
+   "mortgage investing for retirees Canada"
+  ],
+  "question_keyword": "can mortgage investments fund my retirement income",
+  "intent": "Income / cash-flow intent",
+  "investor_stage": "Problem-aware",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2000,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Explain who might CONSIDER this; never state or imply suitability for any reader. No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Risk content must not be softened by a reassurance that undercuts it. Retirement framing requires explicit liquidity and capital-loss warnings.",
+  "verify_before_publishing": "None; avoid any drawdown modelling that implies a guaranteed income stream",
+  "links_to": [
+   "/learn/liquidity-and-redemption/ (Liquidity and Redemption: Getting Your Money Out)",
+   "/learn/monthly-income-from-mortgage-investments/ (Monthly Income From Mortgage Investments: How the Cash Flow Works)",
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)",
+   "/learn/rrsp-tfsa-rrif-mortgage-investments/ (Holding Mortgage Investments in an RRSP, TFSA or RRIF)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "monthly income investments Canada",
+   "mortgage investing for retirees Canada",
+   "retirement income mortgage investing Canada"
+  ],
+  "investor_questions_for_faq": []
+ },
+ {
+  "id": 80,
+  "title": "Short-Duration Mortgage Investments for Investors Who Need Flexibility",
+  "url": "/learn/short-term-mortgage-investments/",
+  "type": "Guide",
+  "stage": "7 Investor profiles and process",
+  "primary_keyword": "short term mortgage investment Canada",
+  "secondary_keywords": [
+   "bridge mortgage investing",
+   "lock up period mortgage investment"
+  ],
+  "question_keyword": "are MIC funds a good option for short term investments",
+  "intent": "Transactional / investment intent",
+  "investor_stage": "Evaluating",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 1600,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Risk content must not be softened by a reassurance that undercuts it. Distinguish mortgage term from investor liquidity explicitly.",
+  "verify_before_publishing": "Verify redemption notice periods against live offering documents",
+  "links_to": [
+   "/learn/bridge-mortgage-investing/ (Bridge Mortgage Investments: Short Terms, Fast Turnover)",
+   "/learn/liquidity-and-redemption/ (Liquidity and Redemption: Getting Your Money Out)",
+   "/learn/reinvestment-risk-mortgage-investing/ (Reinvestment Risk: The Cost of Money Coming Back Too Soon)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "bridge mortgage investing",
+   "lock up period mortgage investment",
+   "short term mortgage investment Canada"
+  ],
+  "investor_questions_for_faq": [
+   "how liquid is a MIC investment",
+   "how do I get my money back mortgage investment",
+   "how do I get my money out of a MIC",
+   "what happens to my money if the MIC fails",
+   "what is liquidity mismatch in a mortgage fund",
+   "what happens if I need my money before the term ends",
+   "what happens if a MIC suspends redemptions",
+   "can I sell my MIC shares early"
+  ]
+ },
+ {
+  "id": 81,
+  "title": "Building Real-Estate Exposure Without Becoming a Landlord",
+  "url": "/learn/real-estate-exposure-without-being-a-landlord/",
+  "type": "Guide",
+  "stage": "7 Investor profiles and process",
+  "primary_keyword": "real estate exposure without owning property",
+  "secondary_keywords": [
+   "passive real estate investing Canada",
+   "mortgage passive income"
+  ],
+  "question_keyword": "how do I get real estate exposure without buying property",
+  "intent": "Comparison",
+  "investor_stage": "Problem-aware",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2000,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Comparison must present trade-offs both ways; no 'better than' verdict; deposit-insurance position stated where a GIC or savings product is named.",
+  "verify_before_publishing": "None; ensure the loss of appreciation upside is stated as clearly as the convenience benefit",
+  "links_to": [
+   "/learn/mic-vs-reit/ (MIC vs REIT in Canada: Debt Income or Equity Ownership)",
+   "/learn/monthly-income-from-mortgage-investments/ (Monthly Income From Mortgage Investments: How the Cash Flow Works)",
+   "/learn/mortgage-investing-vs-rental-property/ (Mortgage Investing vs Owning a Rental Property)",
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)",
+   "/learn/mortgage-investing-passive-income/ (Mortgage Investing as Passive Income in Canada)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "mortgage passive income",
+   "passive real estate investing Canada",
+   "real estate exposure without owning property"
+  ],
+  "investor_questions_for_faq": [
+   "real estate exposure without owning property",
+   "is financing real estate as secure as owning it",
+   "which is better a MIC or a rental property"
+  ]
+ },
+ {
+  "id": 82,
+  "title": "Mortgage Investing as Passive Income in Canada",
+  "url": "/learn/mortgage-investing-passive-income/",
+  "type": "Pillar page",
+  "stage": "7 Investor profiles and process",
+  "primary_keyword": "mortgage passive income",
+  "secondary_keywords": [
+   "passive income Canada mortgage",
+   "monthly income investments Canada",
+   "passive real estate investing Canada"
+  ],
+  "question_keyword": "could I use mortgage investing as a passive income source",
+  "intent": "Income / cash-flow intent",
+  "investor_stage": "Problem-aware",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2400,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Any return figure needs a stated period, source and a past-performance caveat. Publish mechanics, not rate promises. The word 'passive' must not be allowed to imply 'safe'.",
+  "verify_before_publishing": "None for mechanics",
+  "links_to": [
+   "/learn/monthly-income-from-mortgage-investments/ (Monthly Income From Mortgage Investments: How the Cash Flow Works)",
+   "/learn/mortgage-investing-vs-rental-property/ (Mortgage Investing vs Owning a Rental Property)",
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)",
+   "/tools/after-tax-yield-calculator/ (After-Tax Yield Calculator for Canadian Mortgage Investments)"
+  ],
+  "linked_from": [
+   "/ (/)",
+   "/learn/ (/learn/)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "monthly income investments Canada",
+   "mortgage passive income",
+   "passive income Canada mortgage",
+   "passive real estate investing Canada"
+  ],
+  "investor_questions_for_faq": []
+ },
+ {
+  "id": 83,
+  "title": "The Canadian Mortgage Investment Market in Numbers",
+  "url": "/learn/canadian-mic-market-data/",
+  "type": "Data / research",
+  "stage": "8 Tools, data and reference",
+  "primary_keyword": "MIC market size Canada",
+  "secondary_keywords": [
+   "how many MICs are there in Canada",
+   "largest MICs in Canada",
+   "MIC delinquency rate Canada"
+  ],
+  "question_keyword": "what is the size of the MIC market in Canada",
+  "intent": "Informational",
+  "investor_stage": "Problem-aware",
+  "geo": "Canada (national)",
+  "geo_note": "",
+  "target_words": 2400,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Every figure needs its source, reporting period and a note that it will age.",
+  "verify_before_publishing": "CMHC Residential Mortgage Industry Report for MIE share, assets, growth and delinquency; FSRA private residential mortgage lending report for Ontario volumes, lender counts and administrator counts. State the reporting period for each",
+  "links_to": [
+   "/learn/mic-vs-mie/ (MIC or MIE? Why the Industry and the Regulators Use Different Words)",
+   "/learn/mortgage-investment-diversification/ (Concentration and Diversification in a Mortgage Portfolio)",
+   "/learn/mortgage-investment-risks/ (The Risks of Mortgage Investing in Canada)",
+   "/learn/what-is-a-mortgage-investment-corporation/ (What Is a Mortgage Investment Corporation (MIC)?)"
+  ],
+  "linked_from": [
+   "/learn/ (/learn/)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "MIC delinquency rate Canada",
+   "MIC market size Canada",
+   "how many MICs are there in Canada",
+   "largest MICs in Canada"
+  ],
+  "investor_questions_for_faq": [
+   "how many MICs are there in Canada"
+  ]
+ },
+ {
+  "id": 84,
+  "title": "Mortgage Investing in Ontario",
+  "url": "/learn/mortgage-investing-ontario/",
+  "type": "Location page",
+  "stage": "8 Tools, data and reference",
+  "primary_keyword": "mortgage investing Ontario",
+  "secondary_keywords": [
+   "private mortgage investing Ontario",
+   "mortgage investment corporation Ontario",
+   "mortgage investment opportunities Ontario",
+   "invest in mortgages Ontario"
+  ],
+  "question_keyword": "how do I invest in mortgages in Ontario",
+  "intent": "Comparison",
+  "investor_stage": "Evaluating",
+  "geo": "Ontario",
+  "geo_note": "PRIORITY province page — deepest market by volume and lender count",
+  "target_words": 2400,
+  "disclosures": "No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date. Regulatory claims verified against the primary statute/regulator page cited, with a 'current as of' date. No-guarantee statement; loss-of-principal risk; 'educational, not investment advice'; author and review date.",
+  "verify_before_publishing": "FSRA private residential mortgage lending report with period stated; FSRA licensing data; MBLAA 2006",
+  "links_to": [
+   "/learn/canadian-mic-market-data/ (The Canadian Mortgage Investment Market in Numbers)",
+   "/learn/mortgage-investing-ontario/greater-toronto-area/ (Mortgage Investing in the Greater Toronto Area)",
+   "/learn/mortgage-investment-regulation-ontario/ (Mortgage Investment Regulation in Ontario)",
+   "/learn/power-of-sale-for-mortgage-investors/ (Power of Sale: What It Means for a Mortgage Investor)"
+  ],
+  "linked_from": [
+   "/ (/)",
+   "/learn/ (/learn/)"
+  ],
+  "tab1_keywords_same_cluster": [
+   "invest in mortgages Ontario",
+   "mortgage investing Ontario",
+   "mortgage investment corporation Ontario",
+   "mortgage investment opportunities Ontario",
+   "private mortgage investing Ontario"
+  ],
+  "investor_questions_for_faq": []
+ }
+]

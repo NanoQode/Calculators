@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block content %}
+{# Design source: content/data/design-investor_overview_video.html #}
+<section class="container-site pt-6 md:pt-12 pb-8 grid gap-8 lg:grid-cols-[1.1fr_1fr] lg:items-center">
+  <div>
+    <div class="flex flex-wrap items-center gap-2 mb-4">
+      <span class="chip bg-maple-red-tint text-on-tertiary-container shadow-sm">{{ m.icon('shield', 'text-[14px]') }}FSRA administrator licence {{ site.fsra_licence }}</span>
+      <span class="chip bg-sky-subtle text-secondary">{{ m.icon('assured_workload', 'text-[14px]') }}Sec. 130.1 Income Tax Act</span>
+    </div>
+    <p class="font-serif text-[22px] md:text-[26px] italic text-secondary">Own the lending, not the market's mood.</p>
+    <h1 class="mt-2 font-serif text-display-hero-mobile md:text-display-hero text-on-surface tracking-tight">{{ page.title }}</h1>
+    <p class="mt-4 font-sans text-body-lg text-on-surface-variant max-w-xl">Lendmax Capital Mortgage Investment Corporation (MIC) pools capital from accredited and eligible investors into residential first and second mortgages across Ontario, British Columbia and Alberta. Income comes from interest borrowers have contracted to pay, secured by registered charges on Canadian homes — not from a share price that moves with sentiment.</p>
+    <div class="mt-6 flex flex-col sm:flex-row gap-3">
+      <a href="#intake" class="btn-red">{{ m.icon('download', 'text-[20px]') }}Get the offering memorandum</a>
+      <a href="/why-invest-in-a-mic/" class="btn-ghost">How a MIC works{{ m.icon('arrow_forward', 'text-[18px]') }}</a>
+    </div>
+    <div class="mt-6 flex gap-2 overflow-x-auto pb-1">
+      {% for ic, t, s in [('account_balance_wallet', 'Registered plans', 'RRSP · TFSA · RRIF eligible'), ('payments', 'Distributions', 'Paid quarterly, cash or DRIP'), ('home_work', 'Lending markets', 'ON · BC · AB residential')] %}
+      <div class="shrink-0 flex items-center gap-2 px-3 py-2 card rounded-2xl">{{ m.icon(ic, 'text-secondary text-[20px]') }}<div class="flex flex-col"><span class="font-sans text-label-caps uppercase text-on-surface">{{ t }}</span><span class="font-sans text-[12px] text-on-surface-variant">{{ s }}</span></div></div>
+      {% endfor %}
+    </div>
+  </div>
+  <div>{{ m.video(site) }}</div>
+</section>
+
+<section class="container-site mb-12" aria-label="Key facts">
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+    {% set last = site.performance.series[-1] %}
+    {% for label, ic, value, sub in [
+      ('Target return', 'trending_up', site.performance.target, 'FY2025 annual target — a target, not a promise'),
+      ('Distributions', 'schedule', 'Quarterly', 'Cash, or reinvested through the DRIP'),
+      ('Loan terms', 'event_repeat', '3–12 mo', 'Short duration, staggered maturities'),
+      ('Security', 'security', '1st & 2nd', 'Registered charges on residential property')] %}
+    <div class="card p-4 flex flex-col justify-between">
+      <div class="flex items-center justify-between mb-2"><span class="font-sans text-label-caps uppercase text-secondary">{{ label }}</span>{{ m.icon(ic, 'text-secondary text-[18px]') }}</div>
+      <div><div class="font-sans text-stat-metric-mobile md:text-stat-metric text-on-surface font-bold tracking-tight">{{ value }}</div><p class="mt-0.5 font-sans text-body-sm text-on-surface-variant">{{ sub }}</p></div>
+    </div>
+    {% endfor %}
+  </div>
+  <p class="mt-3 font-sans text-[12px] text-on-surface-variant">Mortgage investments are not guaranteed. Returns are targets, not promises, and principal can be lost. Higher potential returns come with higher risk.</p>
+</section>
+
+<section class="container-site mb-12 grid gap-6 lg:grid-cols-2">
+  <div class="rounded-2xl bg-navy-surface text-white p-5 md:p-7 shadow-md">
+    <div class="flex items-center justify-between mb-2"><span class="font-sans text-label-caps uppercase tracking-wider text-sky-bright">Track record</span>{{ m.icon('monitoring', 'text-sky-bright text-[20px]') }}</div>
+    <h2 class="font-serif text-headline-md mb-4">What the fund has actually paid</h2>
+    {{ m.performance_chart(site, dark=True) }}
+  </div>
+  <div class="rounded-2xl bg-primary-container text-white p-5 md:p-7 shadow-md relative overflow-hidden" data-income-sim>
+    <div class="flex items-center justify-between mb-2"><span class="font-sans text-label-caps uppercase tracking-widest text-sky-bright">Interactive modeller</span>{{ m.icon('calculate', 'text-sky-bright text-[20px]') }}</div>
+    <h2 class="font-serif text-headline-md mb-1">Illustrative income simulation</h2>
+    <p class="font-sans text-body-sm text-primary-fixed-dim mb-5">See what a given annual distribution rate would pay per quarter. MIC dividends are paid without corporate tax deducted at source; you pay tax on them as interest income outside a registered plan.</p>
+    <div class="space-y-5">
+      <div>
+        <div class="flex justify-between items-center mb-1.5"><label for="simCapital" class="font-sans text-label-caps uppercase text-surface-container-highest">Capital allocated</label><output class="font-sans text-headline-sm font-bold text-sky-bright" data-sim-capital-out>$100,000</output></div>
+        <input id="simCapital" class="w-full accent-sky-bright" type="range" min="25000" max="500000" step="25000" value="100000" data-sim-capital>
+      </div>
+      <div>
+        <div class="flex justify-between items-center mb-1.5"><label for="simRate" class="font-sans text-label-caps uppercase text-surface-container-highest">Assumed annual rate</label><output class="font-sans text-headline-sm font-bold text-sky-bright" data-sim-rate-out>9.0%</output></div>
+        <input id="simRate" class="w-full accent-sky-bright" type="range" min="4" max="14" step="0.25" value="9" data-sim-rate>
+      </div>
+      <div class="grid grid-cols-2 gap-2 pt-1">
+        <div class="bg-navy-surface p-3 rounded-xl"><span class="font-sans text-[10px] font-bold text-primary-fixed-dim uppercase block">Quarterly distribution</span><span class="font-sans text-[22px] font-bold block mt-0.5" data-sim-q>$2,250</span></div>
+        <div class="bg-navy-surface p-3 rounded-xl"><span class="font-sans text-[10px] font-bold text-sky-bright uppercase block">Annual distribution</span><span class="font-sans text-[22px] font-bold text-sky-bright block mt-0.5" data-sim-a>$9,000</span></div>
+      </div>
+      <p class="font-sans text-[11px] text-primary-fixed-dim">Illustration only, before tax, at a constant rate you choose. Not a forecast or an offer; distributions vary, are not guaranteed and may be reduced or suspended. <a class="underline" href="/tools/drip-compounding-calculator/">Model compounding with the DRIP calculator</a>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="container-site mb-12 grid gap-8 lg:grid-cols-[1fr_1.1fr] lg:items-start" aria-labelledby="why-heading">
+  <div class="lg:sticky lg:top-28">
+    {{ m.eyebrow('Why investors look at a MIC') }}
+    <h2 id="why-heading" class="mt-2 font-serif text-headline-lg text-on-surface">A share of a mortgage book, not a single loan</h2>
+    <div class="mt-4 space-y-4 font-sans text-body-md text-on-surface-variant">
+      <p><strong class="text-on-surface">Income is contractual.</strong> A borrower's obligation to pay interest is written into a mortgage and secured against a property. That is a different kind of promise from a company's decision to declare a dividend.</p>
+      <p><strong class="text-on-surface">Diversification is built in.</strong> One private mortgage exposes you to one borrower and one property. A pooled book spreads that across many loans, positions, borrowers and regions — the structural case for a MIC over <a class="text-secondary underline" href="/learn/mic-vs-direct-mortgage-investing/">lending directly</a>.</p>
+      <p><strong class="text-on-surface">Liquidity is lower, by design.</strong> Capital is committed to real loans with defined terms, so it is not available on demand. Redemptions follow the offering memorandum, with notice periods and the board's right to defer. Understand this before you invest — it is the trade you are making.</p>
+      <p><strong class="text-on-surface">The account matters.</strong> MIC dividends are taxed as interest income, so holding shares in an <a class="text-secondary underline" href="/learn/rrsp-tfsa-rrif-mortgage-investments/">RRSP, RRIF or TFSA</a> changes the after-tax arithmetic more than it does for most investments.</p>
+    </div>
+  </div>
+  {{ m.lead_form(site, form_id='home-intake', heading='Request the confidential investor package and OM') }}
+</section>
+
+<section class="container-site mb-12" aria-labelledby="edu-heading">
+  <div class="flex items-end justify-between gap-4 mb-4">
+    <div>{{ m.eyebrow('Due diligence') }}<h2 id="edu-heading" class="mt-2 font-serif text-headline-lg text-on-surface">Structure, safeguards and risks</h2></div>
+    <a class="font-sans text-label-caps uppercase text-secondary font-bold hover:underline shrink-0" href="/learn/">Explore all guides</a>
+  </div>
+  <div class="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+    {% for e in edu %}
+    <a class="block card p-4 hover:shadow-md transition-shadow group" href="{{ e.url }}">
+      <div class="flex items-start gap-3">
+        <div class="w-10 h-10 rounded-xl {{ 'bg-maple-red-tint text-on-tertiary-container' if loop.index is even else 'bg-sky-subtle text-secondary' }} flex items-center justify-center shrink-0">{{ m.icon(['gavel','savings','health_and_safety','paid','compare_arrows','checklist'][loop.index0], 'text-[22px]') }}</div>
+        <div class="min-w-0"><span class="font-sans text-[10px] font-bold uppercase text-secondary">{{ e.stage_name }}</span><h3 class="font-sans text-label-lg text-on-surface group-hover:text-secondary transition-colors mt-0.5">{{ e.title }}</h3><p class="font-sans text-body-sm text-on-surface-variant mt-1">{{ {15:'How section 130.1 of the Income Tax Act makes a MIC a flow-through for mortgage income.',70:'Plan eligibility, the self-directed trustee, and the 10% prohibited-investment trap.',42:'Default, value declines, illiquidity, interest rates and structural risk, stated plainly.',3:'Interest, lender fees and renewals — and what each is reduced by before it reaches you.',32:'Debt income or equity ownership, compared fairly in both directions.',53:'The documents and figures to check before you commit capital.'}[e.id] }}</p></div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="container-site mb-12">
+  <div class="card p-5 md:p-8 grid gap-6 md:grid-cols-[auto_1fr] md:items-center">
+    <div class="w-16 h-16 rounded-full bg-navy-surface flex items-center justify-center text-white font-sans font-bold text-xl shadow">AZ</div>
+    <div>
+      <h2 class="font-sans text-headline-sm text-on-surface">Ali Zaidi</h2>
+      <p class="font-sans text-label-caps uppercase text-secondary">Managing Partner &amp; Chief Investment Officer</p>
+      <blockquote class="mt-3 font-serif text-[20px] leading-8 italic text-on-surface">“Ethical, common-sense lending and durable investor returns are the same job seen from two ends. We protect investor capital by ensuring every borrower has a transparent, viable exit.”</blockquote>
+      <a class="mt-4 inline-flex items-center gap-2 rounded-xl bg-surface-container-low px-3 py-2 font-sans text-body-sm text-on-surface hover:bg-surface-container" href="{{ site.published_papers_url }}" rel="noopener">{{ m.icon('menu_book', 'text-secondary text-[20px]') }}<span><strong>Research &amp; authorship</strong> — published papers on Canadian MIC mechanics</span>{{ m.icon('arrow_forward', 'text-[16px] text-secondary') }}</a>
+    </div>
+  </div>
+</section>
+
+{{ m.faq_list(home_faq, 'Questions investors ask first') }}
+{{ m.standard_cta(site) }}
+{% endblock %}
