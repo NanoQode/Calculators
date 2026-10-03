@@ -68,5 +68,6 @@ install -m 755 "$WORK/deploy/lmcmic-cert.sh" /usr/local/sbin/lmcmic-cert
 echo "*/5 * * * * root /usr/local/sbin/lmcmic-cert" > /etc/cron.d/lmcmic-cert
 /usr/local/sbin/lmcmic-cert || true
 
+bash "$WORK/deploy/smoke.sh" || echo "WARNING: smoke test found failures (see above)" >&2
 rm -rf "$WORK"
 echo "lmcmic.ca release $STAMP installed"
