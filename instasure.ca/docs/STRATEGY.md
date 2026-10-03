@@ -174,7 +174,7 @@ Coverage: ● dedicated pages at depth · ◐ partial (few pages, blog only, thi
 
 ## 5. Page hierarchy for lead generation (site skeleton)
 
-Built pages are in plain text; *planned* pages are in italics. 826 URLs exist today, 654 of them indexable. Thin programmatic pages are kept out of the index until an editor enriches them.
+Built pages are in plain text; *planned* pages are in italics. 827 URLs exist today (October 3, 2026), 658 of them indexable, and the guides grow by 3 a day. Thin programmatic pages are kept out of the index until an editor enriches them.
 
 ```
 /                                    Home: instant-quote portal (product picker, 60-second estimate, advisor promise)
