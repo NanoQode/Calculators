@@ -87,5 +87,6 @@
     "note": "Legal and regulatory review completed by Lendmax Capital and confirmed to the site build on 3 October 2026."
   },
   "ga4_property_id": "255904887",
-  "_ga4_comment": "ga4_id must be the web data stream's Measurement ID (G-XXXXXXXXXX) from GA4 property 255904887: Admin > Data streams > Web. The numeric property ID alone cannot be used in the page tag."
+  "_ga4_comment": "ga4_id must be the web data stream's Measurement ID (G-XXXXXXXXXX) from GA4 property 255904887: Admin > Data streams > Web. The numeric property ID alone cannot be used in the page tag.",
+  "google_site_verification": "9yPV68WVfjWdbw7G4ZJxI5JdSAnzLLmGbU_WinQdDEM"
 }
