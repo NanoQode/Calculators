@@ -138,7 +138,7 @@ Rules differ by insurer, so ask before you buy the vehicle. The Toronto Police S
 
 ## North York vs Scarborough, Etobicoke and nearby cities
 
-Our model doesn't split Toronto into districts, so our car insurance North York estimate is the same as for Scarborough and Etobicoke. Insurers' own territories can split them. North York borders Vaughan and Markham along Steeles Avenue, so here's how Toronto compares for the same example driver:
+Our model doesn't split Toronto into districts, so our car insurance North York estimate is the same as for [Scarborough](/guides/car-insurance-scarborough/) and Etobicoke. Insurers' own territories can split them. North York borders Vaughan and Markham along Steeles Avenue, so here's how Toronto compares for the same example driver:
 
 | Place | Typical monthly estimate | Monthly range |
 |---|---|---|

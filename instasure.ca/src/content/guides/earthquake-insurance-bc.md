@@ -157,7 +157,7 @@ Vancouver Island lies along the Cascadia subduction zone and had Canada's larges
 
 ## Michael's take
 
-As a planner, I judge earthquake insurance BC homeowners are offered by one test: could you recover from the loss without it? For many families, the home is the largest asset on the balance sheet and the mortgage is the largest debt. If a severe quake damaged the house without earthquake cover, the mortgage would still be there. My rule of thumb: if you couldn't repair or rebuild from savings, the endorsement belongs in the plan.
+As a planner, I put earthquake cover through one test: could you recover from the loss without it? For many families, the home is the largest asset on the balance sheet and the mortgage is the largest debt. If a severe quake damaged the house without earthquake cover, the mortgage would still be there. My rule of thumb: if you couldn't repair or rebuild from savings, the endorsement belongs in the plan.
 
 The part I'd plan for is the deductible. Treat it as the slice of risk you're keeping. Know the dollar figure, not just the percentage, and decide how you'd fund it: an emergency fund, investments or available credit. Strata owners should do that math twice, once for their own policy and once for their share of the building's deductible. Then set the assessment limit to match.
 

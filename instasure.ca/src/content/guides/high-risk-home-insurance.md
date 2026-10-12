@@ -123,7 +123,7 @@ IBC's [Code of Consumer Rights and Responsibilities](https://www.ibc.ca/insuranc
 
 ## Steps that move you back to a standard policy
 
-A high-risk home insurance policy works best as a bridge, not a destination. To get back to a standard policy:
+A high-risk home insurance policy is a bridge, not a destination. To get back to a standard policy:
 
 - **Fix the stated reason first:** rewire, replace the roof, remove the tank or finish the repair.
 - **Keep every receipt and inspection report.** IBC says upgrades that reduce the risk of a claim, such as better wiring, may [lower your premium](https://www.ibc.ca/insurance-basics/home/how-to-drive-down-your-home-insurance-rates).
