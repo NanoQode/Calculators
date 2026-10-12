@@ -17,6 +17,7 @@ src/site.js                             menu, tabs, calculators, video facade, l
 server/lead-server.mjs                  POST /api/lead → store → email deals@ → redirect
 deploy/                                 nginx vhost, systemd unit, installer, cert watcher
 reports/                                content checklist (QA gate) + keyword coverage, per build
+reports/lmcmic-seo-master.xlsx          SEO master sheet of the live site (python3 build/seo_master.py)
 ```
 
 ## Build

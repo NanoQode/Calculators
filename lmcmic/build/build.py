@@ -445,9 +445,9 @@ def build_core(arts):
     edu = [art(i) for i in (15, 70, 42, 3, 32, 53)]
     render("home.html", "/", {
         "title": "Invest in Canadian Mortgages Through a MIC",
-        "head_title": "MIC Investment in Canada | Lendmax Capital Mortgage Investment Corp.",
+        "head_title": "MIC Investment in Canada | Lendmax Capital MIC",
         "og_title": "Lendmax Capital MIC — invest in Canadian residential mortgages",
-        "description": "Lendmax Capital MIC pools qualified investors' capital into residential first and second mortgages in Ontario, BC and Alberta. Quarterly distributions; RRSP and TFSA eligible.",
+        "description": "Lendmax Capital MIC pools investor capital into residential first and second mortgages in Ontario, BC and Alberta. Quarterly distributions; RRSP/TFSA eligible.",
         "eyebrow": "Canadian mortgage investment corporation",
         "schema": [video_schema(), faq_schema(home_faq)],
     }, home_faq=home_faq, edu=edu)
@@ -460,7 +460,7 @@ def build_core(arts):
     render("why-mic.html", "/why-invest-in-a-mic/", {
         "title": "Why Invest in a MIC? How Lendmax Capital MIC Works",
         "head_title": "Why Invest in a MIC? How a Mortgage Investment Corporation Works",
-        "description": "How a mortgage investment corporation works under section 130.1: the tax flow-through, MIC vs direct mortgages vs REITs, RRSP and TFSA eligibility, and who holds the money.",
+        "description": "How a mortgage investment corporation works under section 130.1: tax flow-through, MIC vs direct mortgages vs REITs, RRSP/TFSA eligibility and fund custody.",
         "eyebrow": "Why a MIC",
         "breadcrumbs": crumbs(("Why a MIC", "/why-invest-in-a-mic/")),
         "schema": [faq_schema(why_faq)],
@@ -474,7 +474,7 @@ def build_core(arts):
     render("performance.html", "/performance-and-risk/", {
         "title": "Track Record, Governance and Risk Management",
         "head_title": "MIC Returns, Track Record & Risk Management | Lendmax Capital MIC",
-        "description": "Lendmax Capital MIC's published net returns by fiscal year, how each mortgage is underwritten (asset, borrower, exit), portfolio controls, and who audits and administers the fund.",
+        "description": "Lendmax Capital MIC's published net returns by fiscal year, how each mortgage is underwritten (asset, borrower, exit), portfolio controls and fund oversight.",
         "eyebrow": "Performance & risk",
         "breadcrumbs": crumbs(("Performance & Risk", "/performance-and-risk/")),
         "schema": [faq_schema(perf_faq)],
@@ -519,8 +519,8 @@ def build_core(arts):
     ])
     render("contact.html", "/contact/", {
         "title": "Mortgage Investment Opportunities: Contact the Investor Desk",
-        "head_title": "Mortgage Investment Opportunities in Canada | Contact Lendmax Capital MIC",
-        "description": "Ask about mortgage investment opportunities with Lendmax Capital MIC. Request the offering memorandum, choose the best time to talk, and continue to the secure investor application.",
+        "head_title": "Mortgage Investment Opportunities Canada | Lendmax Capital MIC",
+        "description": "Ask about mortgage investment opportunities with Lendmax Capital MIC: request the offering memorandum, pick the best time to talk, then start your application.",
         "eyebrow": "Contact & connect",
         "breadcrumbs": crumbs(("Contact", "/contact/")),
         "schema": [faq_schema(contact_faq), {"@context": "https://schema.org", "@type": "ContactPage", "url": abs_url("/contact/"),
@@ -541,8 +541,8 @@ def build_learn(arts):
              for i, x in enumerate([it for g in groups for it in g["items"]])]
     render("learn.html", "/learn/", {
         "title": "Mortgage Investing Guides for Canadian Investors",
-        "head_title": "Mortgage Investing in Canada: Investor Guides | Lendmax Capital MIC",
-        "description": "Plain-language guides to mortgage investing in Canada: what a MIC is, where returns come from, risks, tax and RRSP/TFSA rules, regulation by province, and due diligence.",
+        "head_title": "Mortgage Investing in Canada: Guides | Lendmax Capital MIC",
+        "description": "Plain-language guides to mortgage investing in Canada: what a MIC is, where returns come from, risk, tax, RRSP/TFSA rules, regulation and due diligence.",
         "eyebrow": "Investor education",
         "breadcrumbs": crumbs(("Investor guides", "/learn/")),
         "schema": [{"@context": "https://schema.org", "@type": "CollectionPage", "name": "Mortgage investing guides",
@@ -601,7 +601,7 @@ def build_static_pages():
         "eyebrow": "Legal", "breadcrumbs": crumbs(("Privacy", "/privacy/")),
     })
     render("disclaimer.html", "/disclaimer/", {
-        "title": "Risk Disclosure and Investor Notice", "description": "Important risk disclosures for Lendmax Capital MIC: no guarantee, no deposit insurance, illiquidity, loss of principal, offering memorandum and exempt market requirements.",
+        "title": "Risk Disclosure and Investor Notice", "description": "Risk disclosures for Lendmax Capital MIC: no guarantee, no deposit insurance, illiquidity, loss of principal, offering memorandum and exempt market rules.",
         "eyebrow": "Legal", "breadcrumbs": crumbs(("Risk disclosure", "/disclaimer/")),
     })
     out = env.get_template("404.html").render(site=SITE, page={"title": "Page not found", "head_title": "Page not found | Lendmax Capital MIC",

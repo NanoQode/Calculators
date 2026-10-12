@@ -1,0 +1,17 @@
+{
+  "checked": "2026-10-12",
+  "image_bytes": {
+    "driving-results-400.avif": 14687, "driving-results-400.jpg": 31132, "driving-results-400.webp": 22794,
+    "driving-results-690.avif": 33383, "driving-results-690.jpg": 81048, "driving-results-690.webp": 50518,
+    "partner-drake-40.png": 5420, "partner-drake-40.webp": 1752, "partner-drake-80.png": 15347, "partner-drake-80.webp": 3868,
+    "partner-olympia-40.png": 5148, "partner-olympia-40.webp": 1920, "partner-olympia-80.png": 12802, "partner-olympia-80.webp": 4156,
+    "partner-westernpacific-40.png": 2662, "partner-westernpacific-40.webp": 954, "partner-westernpacific-80.png": 6975, "partner-westernpacific-80.webp": 2234,
+    "partner-yalepgc-40.png": 6432, "partner-yalepgc-40.webp": 3998, "partner-yalepgc-80.png": 17607, "partner-yalepgc-80.webp": 10160
+  },
+  "source_bytes": {"driving-results.jpg": 91173},
+  "dns": {"a": "159.203.33.160", "www": "CNAME lmcmic.ca", "txt_google": ["8OZ3VA1aZRYXgaBsdBCw4akk8NLSpaMReGKgj0gwWA4", "9yPV68WVfjWdbw7G4ZJxI5JdSAnzLLmGbU_WinQdDEM"], "spf": "v=spf1 a mx ~all"},
+  "tls": {"issuer": "Let's Encrypt", "names": "lmcmic.ca, www.lmcmic.ca", "expires": "2027-01-01", "renewal": "certbot timer (automatic)"},
+  "release": "20261003-162939",
+  "googlebot_200": 22,
+  "probe_404_note": "404s in the access log are automated vulnerability scanners requesting files such as /.env and /.aws/credentials, many with a forged Googlebot user agent. No legitimate page URL is returning 404."
+}
