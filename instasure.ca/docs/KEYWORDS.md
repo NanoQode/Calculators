@@ -425,7 +425,7 @@ Modelled monthly volume for "{product} {city}". Cities are sorted by total deman
 | 52 | super visa insurance cost | 1,600 | 40 | commercial | P1 | policyadvisor, hellosafe, bestquote | `/guides/super-visa-insurance-requirements-cost/` |
 | 53 | does home insurance cover water damage | 1,600 | 40 | informational | P1 | ratehub, CAA, RBC, westland | `/guides/does-home-insurance-cover-water-damage-canada/` |
 | 54 | professional liability insurance | 1,600 | 50 | commercial | P1 | ratehub, rates.ca | `/professional-liability-insurance/` |
-| 55 | cost of a funeral in canada | 1,600 | 30 | informational | P2 | funeral homes, media | *planned* `/guides/cost-of-a-funeral-in-canada/` |
+| 55 | cost of a funeral in canada | 1,600 | 30 | informational | P2 | funeral homes, media | *planned* `/guides/funeral-costs-canada-by-province/` |
 | 56 | car insurance after accident | 1,300 | 35 | informational | P3 | rates.ca | `/car-insurance/high-risk-drivers/` |
 | 57 | classic car insurance | 1,300 | 50 | commercial | P4 | ratehub | `/car-insurance/classic-cars/` |
 | 58 | no medical life insurance | 1,300 | 45 | commercial | P1 | policyadvisor, sun life go, coverme | `/no-medical-life-insurance/` |
@@ -669,7 +669,7 @@ Modelled monthly volume for "{product} {city}". Cities are sorted by total deman
 | 8 | best life insurance companies canada | national | 2,400 | P2 | Planned: /life-insurance/best-companies/. Publish the methodology first. |
 | 9 | best car insurance companies canada | national | 1,900 | P3 | Planned: /car-insurance/best-companies/. Needs a published ranking methodology first (Competition Act, RIBO). |
 | 10 | comprehensive vs collision insurance | national | 1,600 | P3 | Planned guide. The glossary covers the terms meanwhile. |
-| 11 | cost of a funeral in canada | national | 1,600 | P2 | Planned guide: /guides/cost-of-a-funeral-in-canada/. Never invent an average; use provincial and funeral-home price lists. |
+| 11 | cost of a funeral in canada | national | 1,600 | P2 | Planned guide: /guides/funeral-costs-canada-by-province/. Never invent an average; use provincial and funeral-home price lists. |
 | 12 | car insurance scarborough | local | 1,600 | P1 | Planned Toronto sub-area page (/car-insurance/ontario/toronto/scarborough/). Ratehub has none. Needs a verified population figure or no population fact. |
 | 13 | assurance auto montréal | local | 1,600 | P3 | Planned: /fr/assurance-auto/quebec/montreal/. |
 | 14 | assurance maladies graves | provincial | 1,300 | P3 | Planned: /fr/assurance-maladies-graves/. |

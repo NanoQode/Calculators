@@ -27,9 +27,7 @@
     {"q": "Does my life insurance premium go up every year?", "a": "Not with level term or whole life. A 20-year term premium stays the same for all 20 years. It rises only if you renew at the end of the term, when the new price is based on your older age."}
   ],
   "sources": [
-    {"title": "Cost of life insurance in Canada in 2026", "url": "https://www.policyadvisor.com/life-insurance/how-much-does-life-insurance-cost/", "publisher": "PolicyAdvisor"},
     {"title": "Term Life Insurance Rates in Canada", "url": "https://www.sunlife.ca/en/insurance/life/term-life-insurance/term-life-rates/", "publisher": "Sun Life"},
-    {"title": "Best Life Insurance for Smokers in Canada", "url": "https://www.policyadvisor.com/life-insurance/life-insurance-for-smokers/", "publisher": "PolicyAdvisor"},
     {"title": "Canadians are cutting insurance to save money: survey", "url": "https://www.wealthprofessional.ca/investments/life-and-health-insurance/canadians-are-cutting-insurance-to-save-money-survey/393213", "publisher": "Wealth Professional"},
     {"title": "Canadian Life and Health Insurance Association", "url": "https://www.clhia.ca/", "publisher": "CLHIA"}
   ]
@@ -140,3 +138,4 @@ These ranges come from Instasure's estimate model, calibrated to typical Canadia
 1. Get your own [instant term life estimate](/quote/term-life-insurance/) for your age, coverage and term.
 2. Check whether you need more or less coverage in our guide to [how much life insurance you need](/guides/how-much-life-insurance-do-i-need-canada/).
 3. Talk to a licensed advisor in your province. They can compare insurers for your health profile and help you apply.
+4. Review your coverage every few years, and after a marriage, a new child or a new mortgage. Your needs change, and the price of new coverage rises with each birthday.

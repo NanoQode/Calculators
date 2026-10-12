@@ -27,10 +27,8 @@
     {"q": "Is universal life the same as whole life?", "a": "No. Both are permanent, but universal life has flexible premiums and an investment account inside the policy. Whole life has guaranteed premiums and cash values, and participating whole life may also pay dividends, which are not guaranteed."}
   ],
   "sources": [
-    {"title": "Term vs Whole Life Insurance", "url": "https://www.policyadvisor.com/life-insurance/term-life-versus-whole-life-insurance/", "publisher": "PolicyAdvisor"},
     {"title": "Term vs. Permanent Life Insurance: What's the Difference?", "url": "https://www.sunlife.ca/en/insurance/life/term-vs-perm/", "publisher": "Sun Life"},
     {"title": "Whole Life Insurance", "url": "https://www.sunlife.ca/en/insurance/life/permanent-life-insurance/whole/", "publisher": "Sun Life"},
-    {"title": "What is cash value life insurance in Canada?", "url": "https://www.policyadvisor.com/life-insurance/what-is-the-cash-value-of-life-insurance/", "publisher": "PolicyAdvisor"},
     {"title": "Assuris: protection for Canadian life insurance policyholders", "url": "https://www.assuris.ca/", "publisher": "Assuris"},
     {"title": "OmbudService for Life & Health Insurance", "url": "https://www.olhi.ca/", "publisher": "OLHI"}
   ]
@@ -121,3 +119,4 @@ Tax rules for corporate-owned policies are complex. Get advice from a licensed a
 1. Work out your coverage amount with the [life insurance needs calculator](/calculators/life-insurance-needs/), or read [how much life insurance you need](/guides/how-much-life-insurance-do-i-need-canada/).
 2. Get an instant estimate for [term life](/quote/term-life-insurance/) or [whole life](/quote/whole-life-insurance/). Estimates are model-based ranges, not quotes.
 3. Talk to a licensed advisor in your province. They can compare term, whole and universal designs side by side, and explain conversion terms before you apply.
+4. Revisit the mix after major life changes, such as a new child, a home purchase or selling a business. The right balance of term and permanent coverage can shift over time.

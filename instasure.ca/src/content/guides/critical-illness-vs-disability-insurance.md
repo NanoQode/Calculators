@@ -28,8 +28,6 @@
   ],
   "sources": [
     {"title": "Critical Illness vs. Disability Insurance", "url": "https://www.sunlife.ca/en/health/critical-illness-vs-disability-insurance/", "publisher": "Sun Life"},
-    {"title": "Critical Illness vs Disability Insurance", "url": "https://www.policyadvisor.com/disability-insurance/do-i-need-critical-illness-coverage/", "publisher": "PolicyAdvisor"},
-    {"title": "What is disability insurance and how does it work?", "url": "https://www.policyadvisor.com/disability-insurance/how-disability-insurance-works/", "publisher": "PolicyAdvisor"},
     {"title": "Critical Illness Insurance", "url": "https://www.sunlife.ca/en/health/critical-illness-insurance/", "publisher": "Sun Life"},
     {"title": "Employment Insurance", "url": "https://www.canada.ca/en/services/benefits/ei.html", "publisher": "Government of Canada"},
     {"title": "Canada Revenue Agency", "url": "https://www.canada.ca/en/revenue-agency.html", "publisher": "Government of Canada"}

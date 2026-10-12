@@ -27,9 +27,7 @@
     {"q": "How often should I review my life insurance?", "a": "Review it after major life events: a marriage, a new child, a home purchase, a mortgage renewal, a separation or a big change in income. A quick check every few years also helps you catch coverage that has become too high or too low."}
   ],
   "sources": [
-    {"title": "How much life insurance do you really need?", "url": "https://www.policyadvisor.com/life-insurance/how-much-life-insurance-do-i-need/", "publisher": "PolicyAdvisor"},
     {"title": "Life insurance calculator", "url": "https://www.sunlife.ca/en/tools-and-resources/tools-and-calculators/life-insurance-calculator/", "publisher": "Sun Life"},
-    {"title": "Group Life Insurance in Canada", "url": "https://www.policyadvisor.com/employee-benefits/group-life-insurance-guide/", "publisher": "PolicyAdvisor"},
     {"title": "Canada Pension Plan", "url": "https://www.canada.ca/en/services/benefits/publicpensions/cpp.html", "publisher": "Government of Canada"},
     {"title": "Financial Consumer Agency of Canada", "url": "https://www.canada.ca/en/financial-consumer-agency.html", "publisher": "Government of Canada"},
     {"title": "Canadian Life and Health Insurance Association", "url": "https://www.clhia.ca/", "publisher": "CLHIA"}

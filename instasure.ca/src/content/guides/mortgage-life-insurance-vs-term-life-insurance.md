@@ -27,9 +27,6 @@
     {"q": "What happens with joint mortgage insurance if both partners die?", "a": "Joint creditor coverage typically pays the mortgage balance once. Two individual term policies can each pay a full benefit, which can matter if both partners die or if the survivor needs money beyond the mortgage."}
   ],
   "sources": [
-    {"title": "Mortgage Insurance vs Life Insurance: Which To Choose?", "url": "https://www.policyadvisor.com/mortgage-insurance/mortgage-versus-life-insurance/", "publisher": "PolicyAdvisor"},
-    {"title": "Is Life Insurance Mandatory To Get A Mortgage In Canada?", "url": "https://www.policyadvisor.com/mortgage-insurance/need-life-insurance-for-mortgage/", "publisher": "PolicyAdvisor"},
-    {"title": "Mortgage insurance vs life insurance", "url": "https://www.ratehub.ca/blog/mortgage-insurance-vs-life-insurance/", "publisher": "Ratehub.ca"},
     {"title": "Mortgage life insurance vs term life in Canada", "url": "https://money.ca/mortgages/homebuying/mortgage-life-insurance-vs-term-life-canada", "publisher": "Money.ca"},
     {"title": "What to expect from Canada's 2026 mortgage renewal wave", "url": "https://www.mpamag.com/ca/mortgage-industry/industry-trends/what-to-expect-from-canadas-2026-mortgage-renewal-wave/558668", "publisher": "Canadian Mortgage Professional"},
     {"title": "Financial Consumer Agency of Canada", "url": "https://www.canada.ca/en/financial-consumer-agency.html", "publisher": "Government of Canada"}

@@ -27,10 +27,6 @@
     {"q": "What happens to my policy if I leave Canada?", "a": "Many policies stay in force if you keep paying premiums, but terms vary. Read the contract, tell the insurer about any change of address, and ask about restrictions before you buy if you might move abroad."}
   ],
   "sources": [
-    {"title": "Life Insurance for Newcomers to Canada", "url": "https://www.policyadvisor.com/life-insurance/life-insurance-for-newcomers-to-canada/", "publisher": "PolicyAdvisor"},
-    {"title": "Life insurance in Canada for work permit holders", "url": "https://www.policyadvisor.com/life-insurance/life-insurance-for-work-permit-holders-canada/", "publisher": "PolicyAdvisor"},
-    {"title": "Life insurance for permanent residents in Canada", "url": "https://www.policyadvisor.com/life-insurance/life-insurance-for-permanent-residents-in-canada/", "publisher": "PolicyAdvisor"},
-    {"title": "How to Get Life Insurance as a Newcomer to Canada", "url": "https://www.mychoice.ca/blog/life-insurance-for-newcomers-canada/", "publisher": "MyChoice"},
     {"title": "Canadian life insurance for newcomers: Work permit options and the $1M policy many miss", "url": "https://ca.finance.yahoo.com/news/canadian-life-insurance-newcomers-permit-105500144.html", "publisher": "Yahoo Finance Canada"},
     {"title": "Foreign travel guidelines for life insurance coverage", "url": "https://suncentral.sunlife.ca/en/client-service/new-business-and-underwriting/applying-and-underwriting/life-insurance-underwriting/foreign-travel-guidelines-for-life-insurance-coverage/", "publisher": "Sun Life"},
     {"title": "Immigration, Refugees and Citizenship Canada", "url": "https://www.canada.ca/en/immigration-refugees-citizenship.html", "publisher": "Government of Canada"},
@@ -61,7 +57,7 @@ Here is what to expect by status. Rules vary by insurer and change over time.
 | International student | Some insurers offer coverage, usually with lower limits |
 | Visitor or Super Visa parent | Usually not eligible for individual Canadian life insurance |
 
-Broker and media guides describe example limits, such as up to $500,000 for some work-permit holders and lower amounts for some students. See the guides from [MyChoice](https://www.mychoice.ca/blog/life-insurance-for-newcomers-canada/) and [Yahoo Finance Canada](https://ca.finance.yahoo.com/news/canadian-life-insurance-newcomers-permit-105500144.html). Treat these as examples only, because each insurer sets its own limits.
+Each insurer sets its own limits for work-permit holders and students, and some cap the amount until you have permanent residence or a set time in Canada. A licensed advisor can tell you which insurers will consider your status and for how much.
 
 ## How does underwriting work if your history is abroad?
 

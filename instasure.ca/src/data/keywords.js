@@ -165,7 +165,7 @@ const NATIONAL = [
   ['private health insurance canada', 'health-dental-insurance', 2900, 60, 'commercial', 'health-dental', `${PA}, ${SL}, ${ML}, blue cross`, '/health-dental-insurance/', 2],
   ['health and dental insurance', 'health-dental-insurance', 2400, 55, 'commercial', 'health-dental', `${PA}, ${SL}, blue cross`, '/health-dental-insurance/', 1],
   ['critical illness insurance cost', 'critical-illness-insurance', 880, 45, 'informational', 'living-benefits', `${PA} (cost page + calculator), ${RH} (age table), policyme`, '/critical-illness-insurance/', 1],
-  ['canadian dental care plan vs private insurance', 'health-dental-insurance', 720, 25, 'informational', 'health-dental', 'dental clinics (weak)', '/guides/private-dental-insurance-vs-cdcp/', 1, 'Weak SERP. CDCP opened to adults 18 to 64 in 2026.'],
+  ['canadian dental care plan vs private insurance', 'health-dental-insurance', 720, 25, 'informational', 'health-dental', 'dental clinics (weak)', '/guides/private-dental-insurance-vs-cdcp/', 1, 'Weak SERP. CDCP opened to adults 18 to 64 in May 2025 (canada.ca).'],
   ['disability insurance for self employed', 'disability-insurance', 590, 35, 'commercial', 'living-benefits', PA, '/disability-insurance/self-employed/', 1, 'Built with the Self-employed income protection desk. Tie-in with the Ontario income-replacement opt-out.'],
   ['health insurance for self employed', 'health-dental-insurance', 590, 35, 'commercial', 'health-dental', PA, '/health-dental-insurance/', 2],
   ['best critical illness insurance canada', 'critical-illness-insurance', 480, 45, 'commercial', 'living-benefits', PA, null, 2, 'Planned: /critical-illness-insurance/best-companies/ with methodology.'],
