@@ -30,8 +30,9 @@ LOG=${INSTASURE_DEPLOY_LOG:-/var/log/instasure-deploy.log}
 # Server-managed assets: written on the server (editorial photos and their page map), not stored in git.
 # Each deploy carries them forward from the live release.
 CARRY=(public/img/photos src/data/editorial-photos.json)
-# Paths that never count as server-side code edits (content, docs and deploy records).
+# Paths (from the release root) that never count as server-side code edits: runtime data, content, docs, deploy records.
 DRIFT_IGNORE=(node_modules data docs deploy src/content/guides CLAUDE.md README.md .release-commit .release-built .previous-release)
+DRIFT_SKIP_NAMES=(node_modules photos)   # large directories diff skips by name (they are also in DRIFT_IGNORE or CARRY)
 
 REF=$BRANCH; DRY=0; ACCEPT_DRIFT=0; CRAWL=1; KEEP=5; MODE=deploy; ROLLBACK_TO=
 usage() { sed -n '2,15p' "$0" | sed 's/^# \{0,1\}//'; exit 2; }
@@ -79,7 +80,7 @@ fetch_commit() { # fetch_commit REF DIR -> archives $SUBDIR of REF into DIR, pri
 
 drift_list() { # drift_list LIVE REFERENCE -> code files that differ, one per line
   local args=() p
-  for p in "${DRIFT_IGNORE[@]}" "${CARRY[@]}"; do [[ "$p" == */* ]] || args+=(--exclude="$p"); done
+  for p in "${DRIFT_SKIP_NAMES[@]}"; do args+=(--exclude="$p"); done
   diff -rq "${args[@]}" "$2" "$1" 2>/dev/null \
     | sed -E "s#^Files $2/(.*) and .* differ#changed  \1#; s#^Only in $1/?(.*): (.*)#server-only  \1/\2#; s#^Only in $2/?(.*): (.*)#git-only  \1/\2#; s#  /#  #" \
     | while read -r kind path; do   # path-based ignores (diff --exclude only matches names)
