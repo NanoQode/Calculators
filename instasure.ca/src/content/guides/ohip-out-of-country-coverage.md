@@ -44,7 +44,7 @@ Only in part. Outside Canada, OHIP pays a set rate for emergency hospital and do
 
 Ontario's [OHIP coverage while outside Canada](https://www.ontario.ca/page/ohip-coverage-while-outside-canada) page warns that emergency care abroad generally costs much more than OHIP may pay. The Government of Canada's [Well on Your Way](https://travel.gc.ca/travelling/publications/well-on-your-way) guide adds that provincial plans won't pay up front.
 
-This guide covers Ontario only. To compare all 13 plans, see [provincial health coverage time-away rules](/guides/provincial-health-coverage-time-away-rules/); for gaps at home, see [what OHIP does not cover](/guides/what-does-ohip-not-cover/). For the gaps in OHIP at home, see [what OHIP doesn't cover](/guides/what-does-ohip-not-cover/).
+This guide covers Ontario only. To compare all 13 plans, see [provincial health coverage time-away rules](/guides/provincial-health-coverage-time-away-rules/); for gaps at home, see [what OHIP does not cover](/guides/what-does-ohip-not-cover/).
 
 ## How long can you be out of Ontario and keep OHIP?
 
