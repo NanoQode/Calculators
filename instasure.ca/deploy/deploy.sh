@@ -79,9 +79,13 @@ fetch_commit() { # fetch_commit REF DIR -> archives $SUBDIR of REF into DIR, pri
 
 drift_list() { # drift_list LIVE REFERENCE -> code files that differ, one per line
   local args=() p
-  for p in "${DRIFT_IGNORE[@]}" "${CARRY[@]##*/}"; do args+=(--exclude="$p"); done
+  for p in "${DRIFT_IGNORE[@]}" "${CARRY[@]}"; do [[ "$p" == */* ]] || args+=(--exclude="$p"); done
   diff -rq "${args[@]}" "$2" "$1" 2>/dev/null \
-    | sed -E "s#^Files $2/(.*) and .* differ#changed  \1#; s#^Only in $1/?(.*): (.*)#server-only  \1/\2#; s#^Only in $2/?(.*): (.*)#git-only  \1/\2#; s#  /#  #" || true
+    | sed -E "s#^Files $2/(.*) and .* differ#changed  \1#; s#^Only in $1/?(.*): (.*)#server-only  \1/\2#; s#^Only in $2/?(.*): (.*)#git-only  \1/\2#; s#  /#  #" \
+    | while read -r kind path; do   # path-based ignores (diff --exclude only matches names)
+        for p in "${DRIFT_IGNORE[@]}" "${CARRY[@]}"; do case "$path" in "$p"|"$p"/*) continue 2 ;; esac; done
+        printf '%s  %s\n' "$kind" "$path"
+      done || true
 }
 
 health() { # health -> 0 when the app answers and key pages return 200
