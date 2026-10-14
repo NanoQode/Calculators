@@ -1,0 +1,22 @@
+<section class="container-site pt-space-md pb-space-xl">
+  <div class="max-w-3xl">
+    <span class="chip bg-secondary-container/40 text-on-secondary-container"><span class="material-symbols-outlined text-[15px] icon-fill">bolt</span> About 60 seconds</span>
+    <h1 class="mt-space-sm font-display-lg-mobile text-display-lg-mobile lg:font-display-lg lg:text-display-lg text-primary-container tracking-tight">What would you like to insure?</h1>
+    <p class="mt-space-sm font-body-lg text-body-lg text-on-surface-variant">Pick a coverage type to get an instant estimate. No email required to see your price — a licensed advisor only steps in if you ask for real quotes.</p>
+  </div>
+  <% Object.keys(CATEGORIES).forEach(function(cat){ var items = list.filter(function(p){ return p.category === cat; }); if (!items.length) return; %>
+  <h2 class="mt-space-xl mb-space-md eyebrow"><%= CATEGORIES[cat].name %></h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-space-md">
+    <% items.forEach(function(p){ %>
+    <a href="/quote/<%= p.slug %>/" class="group card card-hover p-space-md flex items-start gap-space-md" data-track="quote_start" data-label="quote_start_<%= p.slug %>">
+      <span class="w-12 h-12 rounded-xl bg-secondary-container/40 flex items-center justify-center text-on-secondary-container shrink-0"><span class="material-symbols-outlined"><%= p.icon %></span></span>
+      <span class="flex flex-col gap-1 min-w-0">
+        <span class="font-headline-sm text-headline-sm text-on-surface group-hover:text-secondary"><%= p.name %></span>
+        <span class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2"><%= p.tagline %></span>
+      </span>
+      <span class="material-symbols-outlined text-outline-variant ml-auto self-center group-hover:text-secondary">arrow_forward</span>
+    </a>
+    <% }) %>
+  </div>
+  <% }) %>
+</section>

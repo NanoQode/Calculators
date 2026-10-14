@@ -1,0 +1,93 @@
+<% var licences = reviewer ? JSON.parse(reviewer.licences || '[]') : []; %>
+<% if (preview) { %><div class="bg-tertiary-fixed text-on-tertiary-fixed-variant text-center font-label-md text-label-md py-2">Preview — status: <%= post.status %>. Not visible to the public.</div><% } %>
+<article class="container-site pt-space-md pb-space-xl">
+  <header class="max-w-3xl">
+    <div class="flex flex-wrap items-center gap-2 mb-space-sm">
+      <% if (post.category_name) { %><a href="/guides/category/<%= post.category_slug %>/" class="chip bg-secondary-container/40 text-on-secondary-container"><%= post.category_name %></a><% } %>
+      <span class="chip bg-surface-container text-on-surface"><span class="material-symbols-outlined text-[14px]">schedule</span> <%= post.reading_minutes || 5 %> min read</span>
+    </div>
+    <h1 class="font-display-lg-mobile text-display-lg-mobile lg:font-display-lg lg:text-display-lg text-primary-container tracking-tight text-balance"><%= post.title %></h1>
+    <% if (post.excerpt) { %><p class="mt-space-sm font-body-lg text-body-lg text-on-surface-variant"><%= post.excerpt %></p><% } %>
+    <div class="mt-space-md flex flex-col sm:flex-row sm:items-center gap-space-md p-space-md rounded-2xl bg-surface-container-lowest shadow-sm">
+      <div class="flex items-center gap-3 min-w-0">
+        <% if (author) { %><%- include('partials/avatar', { a: author, size: 'w-11 h-11' }) %><% } else { %><span class="w-11 h-11 rounded-2xl bg-surface-container flex items-center justify-center text-primary-container"><span class="material-symbols-outlined">edit_note</span></span><% } %>
+        <div class="flex flex-col min-w-0">
+          <span class="font-label-sm text-label-sm text-on-surface-variant">Written by</span>
+          <% if (author) { %><a href="/advisors/<%= author.slug %>/" class="font-label-lg text-label-lg text-on-surface hover:text-secondary" rel="author"><%= author.name %></a><% } else { %><a href="/editorial-guidelines/" class="font-label-lg text-label-lg text-on-surface hover:text-secondary"><%= s.site_name %> Editorial Team</a><% } %>
+        </div>
+      </div>
+      <div class="hidden sm:block w-px h-10 bg-surface-container-high"></div>
+      <div class="flex flex-col min-w-0">
+        <span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[14px] text-secondary">verified</span> Reviewed by</span>
+        <% if (reviewer) { %>
+        <a href="/advisors/<%= reviewer.slug %>/" class="font-label-lg text-label-lg text-on-surface hover:text-secondary"><%= reviewer.name %><%= reviewer.designations ? ', ' + reviewer.designations : '' %></a>
+        <% if (licences[0]) { %><span class="font-label-sm text-label-sm text-on-surface-variant"><%= licences[0].type %> · <%= String(licences[0].province || '').toUpperCase() %><%= licences[0].number ? ' #' + licences[0].number : '' %></span><% } %>
+        <% } else { %><span class="font-label-md text-label-md text-on-surface-variant">Awaiting licensed-advisor review</span><% } %>
+      </div>
+      <div class="sm:ml-auto flex flex-col font-label-sm text-label-sm text-on-surface-variant">
+        <span>Published <time datetime="<%= U.isoDate(post.published_at) %>"><%= U.fmtDate(post.published_at) %></time></span>
+        <span>Updated <time datetime="<%= U.isoDate(post.updated_at) %>"><%= U.fmtDate(post.updated_at) %></time></span>
+      </div>
+    </div>
+  </header>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl mt-space-lg">
+    <div class="lg:col-span-8 min-w-0">
+      <% if (post.featured_image) { %><img src="<%= post.featured_image %>" alt="<%= post.image_alt || '' %>" class="w-full rounded-3xl mb-space-lg object-cover max-h-[420px]" width="1200" height="630"><% } %>
+      <% if (takeaways.length) { %>
+      <aside class="rounded-3xl bg-primary-container text-on-primary p-space-lg mb-space-lg relative overflow-hidden" aria-label="Key takeaways">
+        <div class="absolute -right-10 -bottom-10 w-48 h-48 rounded-full bg-secondary/20 blur-3xl"></div>
+        <p class="font-label-sm text-label-sm uppercase tracking-wider text-secondary-fixed mb-2 flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">bolt</span> Key takeaways</p>
+        <ul class="space-y-2 relative">
+          <% takeaways.forEach(function(t){ %><li class="flex items-start gap-2 font-body-md text-body-md text-primary-fixed"><span class="material-symbols-outlined text-[18px] text-secondary-fixed mt-0.5">check_circle</span><span><%= t %></span></li><% }) %>
+        </ul>
+      </aside>
+      <% } %>
+      <div class="article-body"><%- post.body_html %></div>
+
+      <% if (faq.length) { %>
+      <section class="mt-space-xl" aria-labelledby="gfaq">
+        <h2 id="gfaq" class="font-headline-md text-headline-md text-primary-container mb-space-md">Frequently asked questions</h2>
+        <div class="flex flex-col gap-3">
+          <% faq.forEach(function(f, i){ %>
+          <details class="card overflow-hidden" <%= i === 0 ? 'open' : '' %>><summary class="p-space-md flex items-center justify-between gap-space-sm cursor-pointer"><h3 class="font-headline-sm text-headline-sm text-on-surface"><%= f.q %></h3><span class="faq-chevron material-symbols-outlined text-on-surface-variant">expand_more</span></summary><div class="px-space-md pb-space-md font-body-md text-body-md text-on-surface-variant"><%- mdlib.inline(f.a) %></div></details>
+          <% }) %>
+        </div>
+      </section>
+      <% } %>
+
+      <% if (sources.length) { %>
+      <section class="mt-space-xl p-space-md rounded-2xl bg-surface-container-low" aria-labelledby="src">
+        <h2 id="src" class="font-label-lg text-label-lg text-on-surface mb-2 flex items-center gap-1"><span class="material-symbols-outlined text-[18px] text-secondary">fact_check</span> Sources</h2>
+        <ol class="list-decimal pl-5 space-y-1 font-body-sm text-body-sm text-on-surface-variant">
+          <% sources.forEach(function(src){ %><li><a class="link font-normal" href="<%= src.url %>" rel="noopener" target="_blank"><%= src.title %></a><%= src.publisher ? ' — ' + src.publisher : '' %></li><% }) %>
+        </ol>
+      </section>
+      <% } %>
+      <p class="mt-space-md font-body-sm text-body-sm text-on-surface-variant">This guide is general information, not advice for your situation. Rules and prices change — confirm details with a licensed advisor. Spotted an error? <a class="link" href="/contact/">Tell us</a>.</p>
+    </div>
+
+    <aside class="lg:col-span-4 flex flex-col gap-space-lg lg:sticky lg:top-24 self-start">
+      <% if (toc.length > 2) { %>
+      <nav class="card p-space-md hidden lg:block" aria-label="On this page">
+        <p class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant mb-2">On this page</p>
+        <ol class="space-y-1.5 font-body-sm text-body-sm">
+          <% toc.forEach(function(t){ %><li class="<%= t.depth === 3 ? 'pl-3' : '' %>"><a href="#<%= t.id %>" class="text-on-surface-variant hover:text-secondary"><%= t.text %></a></li><% }) %>
+        </ol>
+      </nav>
+      <% } %>
+      <% if (widget) { %><%- include('partials/quote-widget') %><% } else { %>
+      <a href="/quote/" class="btn-primary">Get an instant estimate <span class="material-symbols-outlined text-[18px]">bolt</span></a><% } %>
+      <% if (prods.length > 1) { %>
+      <div class="card p-space-md"><p class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant mb-2">Related coverage</p>
+        <ul class="space-y-1"><% prods.forEach(function(p){ %><li><a href="/<%= p.slug %>/" class="flex items-center gap-2 py-1 font-label-md text-label-md text-on-surface hover:text-secondary"><span class="material-symbols-outlined text-[18px] text-secondary"><%= p.icon %></span><%= p.name %></a></li><% }) %></ul></div>
+      <% } %>
+    </aside>
+  </div>
+</article>
+
+<% if (related.length) { %>
+<section class="container-site pb-space-xl"><h2 class="font-headline-md text-headline-md text-primary-container mb-space-md">Keep reading</h2>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg"><% related.forEach(function(g){ %><%- include('partials/guide-card', { g: g }) %><% }) %></div></section>
+<% } %>
+<%- include('partials/advisor-banner', { bannerTitle: 'Want a licensed advisor to apply this to your situation?' }) %>

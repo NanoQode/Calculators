@@ -1,0 +1,55 @@
+<%
+  // Dedicated specialist desk for a niche-gap service or product.
+  // Expects: deskInfo { slug, desk, pitch, name, provinces, product }; optional deskAdvisor.
+  var d = deskInfo;
+  var adv = (typeof deskAdvisor !== 'undefined' && deskAdvisor) ? deskAdvisor : null;
+  var advSpecs = []; try { advSpecs = adv ? JSON.parse(adv.specialties || '[]') : []; } catch (e) { advSpecs = []; }
+  var staffsDesk = advSpecs.indexOf(d.slug) > -1;
+  var provs = d.provinces ? geoData.provinces.filter(function(p){ return d.provinces.indexOf(p.code) > -1; }) : geoData.provinces;
+%>
+<section id="specialist" class="w-full bg-surface-container-low/70 py-space-xl scroll-mt-24" aria-labelledby="desk-h">
+  <div class="container-site grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+    <div class="lg:col-span-5 flex flex-col gap-space-md">
+      <span class="chip bg-secondary-container/50 text-on-secondary-container w-fit"><span class="material-symbols-outlined text-[15px]">support_agent</span> Dedicated specialist desk</span>
+      <h2 id="desk-h" class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container tracking-tight"><%= d.desk %></h2>
+      <p class="font-body-lg text-body-lg text-on-surface-variant"><%= d.pitch %></p>
+      <ul class="space-y-2">
+        <li class="flex gap-2 font-body-md text-body-md"><span class="tick mt-0.5"><span class="material-symbols-outlined text-[12px]">check</span></span>An advisor who handles these requests every week</li>
+        <li class="flex gap-2 font-body-md text-body-md"><span class="tick mt-0.5"><span class="material-symbols-outlined text-[12px]">check</span></span>Licensed in your province<%= d.provinces ? ' (' + provs.map(function(p){ return p.name; }).join(', ') + ' only)' : '' %></li>
+        <li class="flex gap-2 font-body-md text-body-md"><span class="tick mt-0.5"><span class="material-symbols-outlined text-[12px]">check</span></span>No cost to you and no obligation to buy</li>
+      </ul>
+      <% if (s.phone) { %>
+      <a href="tel:<%= tel(s.phone) %>" class="card p-space-md flex items-center gap-space-sm hover:shadow-md transition-shadow w-fit" data-track="phone_click" data-label="desk_<%= d.slug %>">
+        <span class="w-11 h-11 rounded-xl bg-secondary-container/60 flex items-center justify-center text-on-secondary-container"><span class="material-symbols-outlined">phone_in_talk</span></span>
+        <span class="flex flex-col"><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Call the <%= d.desk.toLowerCase().replace(/ desk$/, '') %> desk</span><span class="font-headline-sm text-headline-sm text-primary-container"><%= s.phone %></span><% if (s.phone_hours) { %><span class="font-body-sm text-body-sm text-on-surface-variant"><%= s.phone_hours %></span><% } %></span>
+      </a>
+      <% } %>
+      <% if (adv) { %>
+      <a href="/advisors/<%= adv.slug %>/" class="flex items-center gap-space-sm">
+        <%- include('avatar', { a: adv, size: 'w-12 h-12', ring: false }) %>
+        <span class="flex flex-col"><span class="font-label-lg text-label-lg text-on-surface"><%= adv.name %><%= adv.designations ? ', ' + adv.designations : '' %></span><span class="font-body-sm text-body-sm text-on-surface-variant"><%= staffsDesk ? d.desk + ' specialist' : (adv.title || 'Licensed insurance advisor') %></span></span>
+      </a>
+      <% } %>
+    </div>
+    <form class="lg:col-span-7 card p-space-lg grid sm:grid-cols-2 gap-space-md" action="/api/leads" method="post" data-lead-form>
+      <input type="hidden" name="lead_type" value="consult">
+      <input type="hidden" name="product" value="<%= d.product %>">
+      <input type="hidden" name="service" value="<%= d.slug %>">
+      <input type="hidden" name="timeframe" value="30d">
+      <input type="hidden" name="_ts" value="0" data-ts>
+      <div class="hidden" aria-hidden="true"><input type="text" name="website" tabindex="-1" autocomplete="off"></div>
+      <div class="sm:col-span-2"><p class="font-headline-sm text-headline-sm text-on-surface"><%= d.desk %>: request a call</p><p class="font-body-sm text-body-sm text-on-surface-variant">A specialist licensed in your province calls you back<%= s.advisor_response_hours ? ', usually within ' + s.advisor_response_hours + ' business hours' : '' %>.</p></div>
+      <label class="flex flex-col gap-1.5"><span class="field-label">First name</span><input class="field" name="first_name" required autocomplete="given-name"></label>
+      <label class="flex flex-col gap-1.5"><span class="field-label">Phone</span><input class="field" type="tel" name="phone" required autocomplete="tel"></label>
+      <label class="flex flex-col gap-1.5"><span class="field-label">Email</span><input class="field" type="email" name="email" required autocomplete="email"></label>
+      <label class="flex flex-col gap-1.5"><span class="field-label">Province</span><select class="field" name="province" required><option value="">Select…</option><% provs.forEach(function(p){ %><option value="<%= p.code %>" <%= provs.length === 1 ? 'selected' : '' %>><%= p.name %></option><% }) %></select></label>
+      <label class="flex flex-col gap-1.5"><span class="field-label">Best time to call</span><select class="field" name="best_time"><option value="">Any time</option><option>Morning (9–12)</option><option>Afternoon (12–5)</option><option>Evening (5–8)</option></select></label>
+      <label class="flex flex-col gap-1.5"><span class="field-label">Preferred language</span><select class="field" name="language"><option value="en">English</option><option value="fr">Français</option><option value="pa">ਪੰਜਾਬੀ (Punjabi)</option><option value="hi">हिन्दी (Hindi)</option><option value="ur">اردو (Urdu)</option><option value="zh">中文 (Chinese)</option><option value="tl">Tagalog</option><option value="ar">العربية (Arabic)</option><option value="es">Español</option></select></label>
+      <label class="sm:col-span-2 flex flex-col gap-1.5"><span class="field-label">What should the specialist know?</span><textarea class="field min-h-[100px]" name="message" maxlength="2000" placeholder="Anything that helps them prepare, e.g. your situation, deadlines or current insurer."></textarea></label>
+      <label class="sm:col-span-2 flex items-start gap-3 cursor-pointer"><input type="checkbox" name="consent_marketing" value="yes" class="mt-1 w-5 h-5 accent-secondary"><span class="font-body-sm text-body-sm"><%= s.consent_text.replace('{site_name}', s.site_name) %></span></label>
+      <p class="sm:col-span-2 font-body-sm text-body-sm text-on-surface-variant">We share your request with a licensed advisor in your province, as described in our <a class="link" href="/privacy/">privacy policy</a>. Where we don't yet have a licensed advisor, you join the waitlist instead.</p>
+      <p class="sm:col-span-2 hidden" data-calc-msg></p>
+      <button class="sm:col-span-2 btn-primary" data-track="cta_click" data-label="desk_<%= d.slug %>_submit">Request a specialist call <span class="material-symbols-outlined text-[18px]">phone_callback</span></button>
+    </form>
+  </div>
+</section>

@@ -1,0 +1,117 @@
+# RAW NOTES (sonnet + local serp)
+## Sonnet
+- https://www.sonnet.ca/auto-insurance  "Car Insurance: Quick Online Auto Insurance Quotes"
+- https://www.sonnet.ca/shift "Sonnet Shift: Drive Safe and Get Cheaper Car Insurance"
+- https://www.sonnet.ca/auto-insurance/ontario/toronto "Car Insurance in Toronto: Quote and Buy Online"
+- https://www.sonnet.ca/blog/auto/insurance/4-steps-best-used-car-insurance
+- https://www.sonnet.ca/blog/auto/insurance/how-auto-insurance-works "Car Insurance: How it Works and Practical Tips"
+- https://www.sonnet.ca/auto-insurance/nova-scotia "Car Insurance in Nova Scotia: Quote and Buy Online"
+- https://www.sonnet.ca/blog/auto/insurance/how-usage-based-insurance-tracks-driving
+- https://www.sonnet.ca/auto-insurance/ontario "Car Insurance in Ontario: Quote & Buy Online"
+- https://www.sonnet.ca/faqs/purchasing/buy-car-insurance-ontario "How do you buy car insurance in Ontario?"
+- https://www.sonnet.ca/home-insurance/alberta "Home Insurance in Alberta: Quote & Buy Online"
+- https://www.sonnet.ca/home-insurance/alberta/edmonton "Edmonton Home Insurance: Quote and Buy Online"
+- https://www.sonnet.ca/home-insurance/alberta/calgary "Calgary Home Insurance: Quote and Buy Online"
+- https://www.sonnet.ca/alberta-teachers "Alberta Teachers Discounts for Car & Home Insurance"
+- https://www.sonnet.ca/claims/home "Home Insurance Claims: Start your Claim Online"
+- https://www.sonnet.ca/about-us
+- https://www.sonnet.ca/tenant-insurance "Tenant Insurance: Renters Insurance Online"
+- https://www.sonnet.ca/blog/home/insurance/renting-make-sure-youre-covered
+- Auto in ON, QC, NB, NS, PEI; home/tenant also BC, AB.
+- Third-party review pages: youset.ca/en/blog/sonnet-car-insurance-vs-youset/, policyme.com/car-insurance/sonnet-car-insurance, lowestrates.ca/insurance/auto/sonnet, rates.ca/insurance-companies/sonnet, ratehub.ca/insurance/companies/sonnet, moneygenius.ca/insurance/tenant-insurance/sonnet-tenant-insurance, comparewise.ca/reviews/sonnet-insurance-review/, youset.ca/en/blog/sonnet-home-insurance-vs-youset/, mitchinsurance.com/insurance-companies/sonnet/
+- https://www.sonnet.ca/condo-insurance "Condo Insurance: Get a Quote and Buy Online"
+- https://www.sonnet.ca/faqs/policy-coverages/condo-appliances "Does my condo insurance cover appliances?"
+- https://www.sonnet.ca/condo-insurance/british-columbia "Condo Insurance in BC"
+- https://www.sonnet.ca/condo-insurance/ontario "Condo Insurance in Ontario: Quote and Buy Online"
+- https://www.sonnet.ca/blog/home/insurance/property-and-casualty-insurance
+- https://www.sonnet.ca/blog/home/general/buying-condo-pros-cons
+- https://www.sonnet.ca/blog/home/insurance/how-does-condo-insurance-work "Condo insurance vs. building insurance"
+- https://www.sonnet.ca/blog/home/insurance/five-moves-that-can-affect-your-insurance-rate
+- condo median $520/yr stat on page
+- https://www.sonnet.ca/site-map
+- https://www.sonnet.ca/auto-insurance/ontario/ottawa "Car Insurance in Ottawa: Get Online Auto Insurance Quotes"
+- https://www.sonnet.ca/auto-insurance/ontario/hamilton "Car Insurance in Hamilton"
+- https://www.sonnet.ca/auto-insurance/ontario/mississauga "Car Insurance in Mississauga"
+- https://www.sonnet.ca/cityofwindsor "Home & auto insurance for City of Windsor employees" (affinity/group page)
+- Toronto avg $241/mo at Sonnet; Ottawa ~$204/mo (stats on city pages)
+- Blog home: fire-insurance, home-business-insurance, what-isnt-covered-by-the-typical-home-insurance, keep-home-insurance-from-increasing, student-home-insurance, switching-home-insurance, natural-disaster-insurance, what-types-of-water-damage-does-home-insurance-cover, compare-home-insurance-quotes
+- https://www.sonnet.ca/cancellation-calculator "Insurance Cancellation Calculator: Home and Auto"
+- https://www.sonnet.ca/faqs/payments
+- https://www.sonnet.ca/blog/auto/insurance/auto-insurance-cancellation-penalties
+- https://www.sonnet.ca/blog/auto/insurance/5-car-characteristics-impact-car-insurance
+- https://www.sonnet.ca/home-insurance/ontario "Home Insurance in Ontario: Quote & Buy Online"
+- https://www.sonnet.ca/home-insurance "Home Insurance: Get a Home Insurance Quote Online"
+- https://www.sonnet.ca/blog/home/insurance/home-insurance-and-your-backyard
+- https://www.sonnet.ca/faqs/quoting/home-insurance-mandatory-ontario "Is home insurance mandatory in Ontario?"
+- https://www.sonnet.ca/faqs/other-inquiries/provinces-we-offer-insurance
+- FR: https://www.sonnet.ca/fr/assurance-auto/quebec/ville-quebec "Assurance auto Ville de Québec : Soumission 100% en ligne"
+- FR title for /auto-insurance: "Assurance auto : soumission gratuite et 100% en ligne"
+- https://www.sonnet.ca/fr/blogue/auto/assurance/assurance-auto-fonctionnement "Assurance auto : Fonctionnement et conseils pratiques"
+- https://www.sonnet.ca/blog/auto/quebec-auto-insurance-101 "Auto Insurance 101: Quebec"
+- https://www.sonnet.ca/blog/auto/auto-insurance-by-province "Assurance auto : Québec vs autres provinces"
+- https://www.sonnet.ca/blog/auto/insurance/saaq-car-insurance "A complete guide to SAAQ car insurance in Quebec"
+- https://www.sonnet.ca/blog/auto/What-you-need-to-know-about-the-SAAQ
+- https://www.sonnet.ca/blog/auto/insurance/info-auto-insurance "Car insurance in Quebec: Everything you need to know"
+- https://www.sonnet.ca/faqs/quoting/how-do-you-get-car-insurance-quebec
+- https://www.sonnet.ca/home-insurance/british-columbia "Home Insurance in BC: Quote & Buy Online"  (BC/AB = home only). Vancouver avg $122/mo
+- https://www.sonnet.ca/bcpa (affinity)
+- https://www.sonnet.ca/blog/home/insurance/home-insurance-coverage-you-didnt-know-you-had
+- https://www.sonnet.ca/faqs/quoting/home-insurance-mandatory-british-columbia
+- https://www.sonnet.ca/faqs/policy-coverages/mobile-home
+- FAQs: /faqs/account, /faqs/other-inquiries, /faqs/renewal-cancellation/easy-to-cancel-policy, /faqs/renewal-cancellation/cancel-home-insurance-at-any-time, /faqs/policy-coverages/digital-or-electronic-wallet, /faqs/policy-coverages/new-pink-slip
+- /contact-us
+- https://www.sonnet.ca/auto-insurance/ontario/scarborough "Car Insurance in Scarborough"
+- https://www.sonnet.ca/blog/auto/general/most-stolen-cars-canada "Most Stolen Cars in Canada: Vehicle Theft Statistics"
+- (Sonnet city pages for Brampton/Vaughan/Markham/London/Kitchener NOT surfaced by search)
+- https://en.sonnet.ca/tenant-insurance/ontario "Renters Insurance in Ontario" (en. subdomain variant!)
+- Home ON page stats: Toronto avg ~$106/mo, Ottawa ~$96/mo home
+- Auto blog: /blog/auto/general/important-tips-for-buying-car; /blog/auto/insurance/when-to-update-car-insurance; /blog/auto/general/compare-car-insurance-quotes; /blog/auto/6-ways-to-save-when-insuring-your-ride; /blog/auto/insurance/installing-roof-rack; /blog/auto/insurance/dealership-car-insurance "When to Get Insurance For a New Car: Before or After?"
+- https://www.sonnet.ca/home-insurance/new-brunswick "Home Insurance in New Brunswick: Quote and Buy Online"
+- https://www.sonnet.ca/auto-insurance/quebec "Car Insurance in Québec: Quote and Buy Online"
+- https://www.sonnet.ca/blog/auto/our-great-canadian-road-trip-families
+- https://www.sonnet.ca/blog/auto/general/montreal-area-road-trip-destinations "5 Best Road Trips From Montreal"
+- https://www.sonnet.ca/blog/auto/general/vehicle-theft "Vehicle Theft in Quebec in 2026"
+- https://www.sonnet.ca/fr/assurance-habitation/nouveau-brunswick "Assurance habitation Nouveau-Brunswick"
+- https://www.sonnet.ca/nhlpa (affinity)
+- Brampton: search summary mentions "Brampton Auto Insurance is listed among Sonnet's popular product offerings by location" (footer link inferred; URL not surfaced)
+- https://www.sonnet.ca/home-insurance/quebec "Home Insurance in Québec: Quote and Buy Online"
+- https://www.sonnet.ca/faqs/quoting/how-to-get-tenant-insurance-british-columbia
+- https://www.sonnet.ca/faqs/quoting/tenant-insurance-mandatory-alberta
+- https://www.sonnet.ca/tenant-insurance/british-columbia "Tenant Insurance in BC Quote & Buy Online" (mentions Vancouver condos, Surrey apts, Delta houses)
+- https://www.sonnet.ca/tenant-insurance/quebec "Tenant Insurance in Québec: Quote & Buy Online"
+- https://www.sonnet.ca/blog/home/insurance/tenant-insurance-price "What is the cost of tenant insurance in Quebec in 2025?"
+- https://www.sonnet.ca/faqs/policy-coverages/how-does-tenant-insurance-work-alberta
+- Blog finance/general: /blog/finance/general/getting-started-online-investing; /blog/finance/general/financial-appreciation; /blog/general/alumni/university-alumni-discounts; /blog/general/alumni/benefits-of-alumni-associations; /blog/auto/general/fuel-saving-driving-tips; /blog/finance/general/keep-your-digital-info-safe
+- City-page stats: Toronto $241/mo, Ottawa ~$204/mo, Hamilton $249/mo, Mississauga $308/mo, Scarborough $330/mo; Canada median auto $2,006 (Sonnet); QC avg ~$96/mo (2025)
+- https://www.sonnet.ca/faqs/quoting/what-auto-coverage-do-i-need
+- https://www.sonnet.ca/blog/auto/insurance/car-insurance-deductible
+- https://www.sonnet.ca/blog/auto/auto-insurance-by-province "Average Car Insurance Rates By Province Explained" (EN title; FR shows "Assurance auto : Québec vs autres provinces")
+- https://www.sonnet.ca/blog/auto/insurance/car-insurance-price "What's the average price of car insurance in Quebec? (2026)"
+- https://sonnet.ca/group-insurance "Group Insurance Plans"
+- https://www.sonnet.ca/faqs/policy-coverages/extra-auto-coverages
+- https://www.sonnet.ca/blog/auto/accident-forgiveness "What is Accident Forgiveness?"
+- https://www.sonnet.ca/blog/auto/insurance/types-of-car-insurance-fit-your-needs
+- https://www.sonnet.ca/faqs/policy-coverages/how-does-accident-forgiveness-work
+- https://www.sonnet.ca/blog/auto/insurance/things-to-know-about-auto-insurance
+- https://www.sonnet.ca/auto-insurance/ontario/barrie "Car Insurance in Barrie"
+- https://www.sonnet.ca/faqs/other-inquiries/where-is-your-office (Waterloo, 111 Westmount Rd S)
+- https://www.sonnet.ca/fr/assurance-habitation/quebec/montreal "Assurance habitation à Montréal - Sonnet"
+- https://www.sonnet.ca/fr/blogue/habitation/assurance/prix-assurance-habitation "Prix de l'assurance habitation au Québec (2026) - Sonnet"
+- https://www.sonnet.ca/fr/blogue/habitation/assurance/assurance-habitation-fonctionnement
+- https://www.sonnet.ca/fr/blogue/habitation/assurance/assurance-locataire-obligatoire-quebec "L'assurance locataire est-elle obligatoire au Québec?"
+- https://www.sonnet.ca/fr/assurance-locataires "Assurance locataire : soumission gratuite et 100 % en ligne"
+- https://www.sonnet.ca/fr/blogue/habitation/assurance/assurance-habitation-moins-chere "Assurance habitation : comment payer moins cher?"
+- https://www.sonnet.ca/faqs/quoting/home-insurance-mandatory-quebec
+- https://www.sonnet.ca/fr/assurance-auto/ontario/scarborough "Assurance auto à Scarborough" (FR mirror of ON city pages!)
+- https://www.sonnet.ca/fr/assurance-auto/quebec/laval "Assurance auto Laval : Soumission 100% en ligne"
+- https://www.sonnet.ca/fr/assurance-habitation/quebec/laval "Assurance habitation Laval : Soumission 100% en ligne"
+- /auto-insurance/quebec alt title "Car insurance in Quebec: Quote and buy online today"
+- /auto-insurance/ontario FR title "Assurance auto Ontario : Soumission 100% en ligne"
+- https://www.sonnet.ca/fr/blogue/auto/general/vol-de-vehicule "Vol de véhicule au Canada en 2026 : Guide et prévention — Sonnet"
+- https://www.sonnet.ca/fr/ccilaval (affinity: CCI Laval)
+- Home ON stats: Toronto $106/mo, Mississauga $100/mo, Ottawa $96/mo
+- https://www.sonnet.ca/news/sonnet-insurance-first-kanetixca-partner-with-the-ability-for-customers-to-buy-insurance-online (/news/)
+- https://www.sonnet.ca/blog/home/insurance/home-insurance-101-whats-overland-water-coverage
+- FAQs quoting: /faqs/quoting/phone-quote; /faqs/quoting/is-quote-final-price; /faqs/quoting/step-by-step-home "How to get a home insurance quote online: A step-by-step guide"
+- https://www.sonnet.ca/tangerine "Home & Auto Insurance Savings for Eligible Tangerine Clients" (affinity)
+- https://www.sonnet.ca/campaign/switch-save "Switch and Save Car Insurance and Home Insurance" (/campaign/)

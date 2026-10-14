@@ -1,0 +1,40 @@
+<section class="container-site pt-space-md pb-space-xl">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+    <div class="lg:col-span-8 flex flex-col gap-space-lg">
+      <div class="flex flex-col sm:flex-row gap-space-lg items-start">
+        <%- include('partials/avatar', { a: a, size: 'w-28 h-28' }) %>
+        <div class="flex flex-col gap-1">
+          <% if (a.is_demo) { %><span class="badge bg-error-container text-on-error-container w-fit">Sample profile — replace before launch</span><% } %>
+          <h1 class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container"><%= a.name %><%= a.designations ? ', ' + a.designations : '' %></h1>
+          <p class="font-body-lg text-body-lg text-on-surface-variant"><%= a.title || 'Licensed Insurance Advisor' %></p>
+          <div class="flex flex-wrap gap-2 mt-1">
+            <% provs.forEach(function(p){ var P = geoData.provinceByCode[p]; %><span class="chip bg-surface-container text-on-surface"><span class="material-symbols-outlined text-[14px] text-secondary">location_on</span><%= P ? P.name : p %></span><% }) %>
+            <% if (a.years_experience) { %><span class="chip bg-secondary-container/40 text-on-secondary-container"><%= a.years_experience %>+ years experience</span><% } %>
+          </div>
+        </div>
+      </div>
+      <div class="article-body"><%- bio %></div>
+      <% if (posts.length) { %>
+      <div><h2 class="font-headline-md text-headline-md text-primary-container mb-space-sm">Guides written or reviewed by <%= a.name.split(' ')[0] %></h2>
+        <ul class="space-y-2"><% posts.forEach(function(p){ %><li><a class="link" href="/guides/<%= p.slug %>/"><%= p.title %></a> <span class="font-body-sm text-body-sm text-on-surface-variant">· updated <%= U.fmtDate(p.updated_at, 'short') %></span></li><% }) %></ul></div>
+      <% } %>
+    </div>
+    <aside class="lg:col-span-4 flex flex-col gap-space-md lg:sticky lg:top-24">
+      <div class="card p-space-lg flex flex-col gap-space-sm">
+        <h2 class="font-label-lg text-label-lg text-on-surface flex items-center gap-1"><span class="material-symbols-outlined text-secondary">verified_user</span> Licences</h2>
+        <% if (licences.length) { licences.forEach(function(l){ %>
+        <div class="p-space-sm rounded-xl bg-surface-container-low"><p class="font-label-md text-label-md text-on-surface"><%= l.type %> · <%= String(l.province || '').toUpperCase() %></p><p class="font-body-sm text-body-sm text-on-surface-variant"><%= l.regulator %><%= l.number ? ' · #' + l.number : '' %></p></div>
+        <% }) } else { %><p class="font-body-sm text-body-sm text-on-surface-variant">Licence details available on request.</p><% } %>
+        <p class="font-body-sm text-body-sm text-on-surface-variant">Verify any licence with the provincial regulator — see <a class="link" href="/licensing/">licensing</a>.</p>
+      </div>
+      <div class="card p-space-lg flex flex-col gap-space-sm">
+        <h2 class="font-label-lg text-label-lg text-on-surface">Languages</h2>
+        <p class="font-body-md text-body-md"><%= languages.map(function(l){ return ({en:'English',fr:'French',pa:'Punjabi',hi:'Hindi',zh:'Chinese',tl:'Tagalog',ar:'Arabic',es:'Spanish',ur:'Urdu',ta:'Tamil',gu:'Gujarati'})[l] || l; }).join(', ') %></p>
+        <h2 class="font-label-lg text-label-lg text-on-surface mt-2">Helps with</h2>
+        <p class="font-body-md text-body-md"><%= cats.map(function(c){ return CATEGORIES[c] ? CATEGORIES[c].name : c; }).join(', ') %></p>
+      </div>
+      <% if (a.booking_url) { %><a href="<%= a.booking_url %>" target="_blank" rel="noopener" class="btn-primary" data-track="booking_click"><span class="material-symbols-outlined text-[18px]">calendar_month</span> Book with <%= a.name.split(' ')[0] %></a><% } %>
+      <a href="/contact/?type=consult" class="btn-soft">Send a question</a>
+    </aside>
+  </div>
+</section>

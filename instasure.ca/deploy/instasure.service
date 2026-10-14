@@ -1,0 +1,25 @@
+# /etc/systemd/system/instasure.service (as running in production since October 3, 2026)
+[Unit]
+Description=instasure.ca (Node app: site, lead pipeline, admin)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=instasure
+Group=instasure
+WorkingDirectory=/srv/instasure/current
+EnvironmentFile=/etc/instasure/instasure.env
+ExecStart=/opt/instasure/bin/node --disable-warning=ExperimentalWarning server.js
+Restart=always
+RestartSec=3
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/var/lib/instasure
+StandardOutput=append:/var/log/instasure.log
+StandardError=append:/var/log/instasure.log
+
+[Install]
+WantedBy=multi-user.target

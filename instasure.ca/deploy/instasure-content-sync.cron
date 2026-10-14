@@ -1,0 +1,4 @@
+# Publish new instasure.ca guides pushed to the content branch (see docs/BLOG_PUBLISHING.md).
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+*/15 * * * * root /usr/local/sbin/instasure-content-sync >/dev/null 2>&1

@@ -1,0 +1,28 @@
+<section class="container-site pb-space-xl">
+  <div class="card p-space-lg grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-center" data-calc-capture data-product="<%= product ? product.slug : '' %>">
+    <div class="lg:col-span-5">
+      <span class="eyebrow">Keep your results</span>
+      <h2 class="font-headline-md text-headline-md text-primary-container">Email me this result</h2>
+      <p class="font-body-sm text-body-sm text-on-surface-variant">We’ll send a copy of your numbers. Want real quotes too? Tick the box and an advisor licensed in your province will follow up.</p>
+    </div>
+    <form class="lg:col-span-7 grid sm:grid-cols-2 gap-space-sm" data-calc-form>
+      <input type="hidden" name="lead_type" value="calculator">
+      <input type="hidden" name="product" value="<%= product ? product.slug : '' %>">
+      <input type="hidden" name="_ts" value="0" data-ts>
+      <div class="hidden" aria-hidden="true"><input type="text" name="website" tabindex="-1" autocomplete="off"></div>
+      <label class="flex flex-col gap-1"><span class="field-label">First name</span><input class="field" name="first_name" autocomplete="given-name"></label>
+      <label class="flex flex-col gap-1"><span class="field-label">Email</span><input class="field" type="email" name="email" required autocomplete="email"></label>
+      <label class="flex flex-col gap-1"><span class="field-label">Province</span><select class="field" name="province" required><option value="">Select…</option><% geoData.provinces.forEach(function(p){ %><option value="<%= p.code %>"><%= p.name %></option><% }) %></select></label>
+      <label class="flex flex-col gap-1"><span class="field-label">Phone <span class="font-normal text-on-surface-variant">(only if you want a call)</span></span><input class="field" type="tel" name="phone" autocomplete="tel"></label>
+      <label class="sm:col-span-2 flex items-start gap-3 cursor-pointer"><input type="checkbox" name="consent_marketing" value="yes" class="mt-1 w-5 h-5 accent-secondary"><span class="font-body-sm text-body-sm"><%= s.consent_text.replace('{site_name}', s.site_name) %></span></label>
+      <p class="sm:col-span-2 hidden font-body-sm text-body-sm" data-calc-msg></p>
+      <button class="sm:col-span-2 btn-primary" type="submit">Email my results <span class="material-symbols-outlined text-[18px]">send</span></button>
+    </form>
+  </div>
+</section>
+<% if (guides && guides.length) { %>
+<section class="container-site pb-space-xl"><h2 class="font-headline-md text-headline-md text-primary-container mb-space-md">Related guides</h2>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg"><% guides.forEach(function(g){ %><%- include('guide-card', { g: g }) %><% }) %></div></section>
+<% } %>
+<%- include('advisor-banner', { bannerTitle: 'Turn these numbers into real quotes', bannerProduct: product ? product.slug : '' }) %>
+<script src="/js/calc.js?v=<%= v %>" defer></script>

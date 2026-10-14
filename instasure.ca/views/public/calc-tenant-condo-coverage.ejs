@@ -1,0 +1,35 @@
+<%- include('partials/calc-shell-top') %>
+<section class="container-site pb-space-xl" data-calc="contents">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+    <form class="lg:col-span-7 flex flex-col gap-space-lg" data-calc-inputs>
+      <div class="card p-space-lg flex flex-col gap-space-md">
+        <span class="field-label">I’m a…</span>
+        <div class="seg grid-cols-2" data-seg="kind"><button type="button" class="seg-btn" aria-pressed="true" data-val="tenant">Renter</button><button type="button" class="seg-btn" aria-pressed="false" data-val="condo">Condo owner</button></div>
+        <input type="hidden" name="kind" value="tenant">
+        <label class="flex flex-col gap-1.5"><span class="field-label">Province</span><select class="field" name="province"><% geoData.provinces.forEach(function(p){ %><option value="<%= p.code %>"><%= p.name %></option><% }) %></select></label>
+      </div>
+      <div class="card p-space-lg grid sm:grid-cols-2 gap-space-md">
+        <h2 class="sm:col-span-2 font-headline-md text-headline-md text-primary-container">Replacement cost of your belongings</h2>
+        <% [['living','Living room & furniture',6000],['bedrooms','Bedrooms (all)',7000],['kitchen','Kitchen, dishes & appliances you own',3000],['electronics','Electronics & computers',5000],['clothing','Clothing & shoes',6000],['jewellery','Jewellery & watches',2000],['sports','Bikes & sports gear',2000],['other','Everything else (books, tools, décor)',3000]].forEach(function(r){ %>
+        <label class="flex flex-col gap-1.5"><span class="field-label"><%= r[1] %></span><input class="field" type="number" name="<%= r[0] %>" value="<%= r[2] %>" step="500" min="0"></label>
+        <% }) %>
+      </div>
+      <div class="card p-space-lg grid sm:grid-cols-2 gap-space-md hidden" data-condo-only>
+        <h2 class="sm:col-span-2 font-headline-md text-headline-md text-primary-container">Condo extras</h2>
+        <label class="flex flex-col gap-1.5"><span class="field-label">Unit improvements (upgrades)</span><input class="field" type="number" name="improvements" value="25000" step="1000" min="0"></label>
+        <label class="flex flex-col gap-1.5"><span class="field-label">Corporation’s highest deductible</span><input class="field" type="number" name="corpded" value="50000" step="5000" min="0"><span class="font-body-sm text-body-sm text-on-surface-variant">Ask your property manager — water deductibles are often the largest.</span></label>
+      </div>
+    </form>
+    <aside class="lg:col-span-5 lg:sticky lg:top-24 flex flex-col gap-space-md">
+      <div class="rounded-3xl bg-primary-container text-on-primary p-space-lg shadow-xl">
+        <p class="font-label-sm text-label-sm uppercase tracking-wider text-secondary-fixed">Recommended contents limit</p>
+        <p class="font-display-lg-mobile text-display-lg-mobile" data-result="contents" aria-live="polite">$0</p>
+        <ul class="mt-space-md space-y-2 font-body-md text-body-md text-primary-fixed-dim" data-result="list"></ul>
+        <div class="mt-space-md bg-surface-container-lowest/10 rounded-xl p-space-sm"><p class="font-label-sm text-label-sm text-primary-fixed-dim">Estimated premium</p><p class="font-headline-md text-headline-md" data-result="premium">—</p></div>
+        <a href="/quote/tenant-insurance/" class="btn-primary w-full mt-space-md" data-result="cta" data-track="quote_start" data-label="calc_contents">Get my quote <span class="material-symbols-outlined text-[18px]">arrow_forward</span></a>
+      </div>
+      <p class="font-body-sm text-body-sm text-on-surface-variant">Most policies cap jewellery, bikes and cash with sub-limits (often a few thousand dollars). If any item is worth more, ask your advisor to schedule it separately.</p>
+    </aside>
+  </div>
+</section>
+<%- include('partials/calc-shell-bottom') %>

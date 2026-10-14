@@ -1,0 +1,32 @@
+<%
+  var md = mdlib;
+  var faqTitle = typeof faqHeading !== 'undefined' ? faqHeading : 'Frequently asked questions';
+  var faqIntro = typeof faqIntroText !== 'undefined' ? faqIntroText : '';
+  var twoCol = typeof layoutTwoCol !== 'undefined' ? layoutTwoCol : true;
+%>
+<section class="container-site py-space-xl" aria-labelledby="faq-h">
+  <div class="grid grid-cols-1 <%= twoCol ? 'lg:grid-cols-12' : '' %> gap-space-xl">
+    <div class="<%= twoCol ? 'lg:col-span-4' : '' %>">
+      <div class="inline-flex items-center gap-1.5 eyebrow mb-1"><span class="material-symbols-outlined text-[16px]">quiz</span> Straight answers</div>
+      <h2 id="faq-h" class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-on-surface tracking-tight mb-space-sm"><%= faqTitle %></h2>
+      <% if (faqIntro) { %><p class="font-body-md text-body-md text-on-surface-variant mb-space-md"><%= faqIntro %></p><% } %>
+      <% if (twoCol) { %>
+      <div class="bg-surface-container-low p-space-md rounded-2xl hidden lg:block">
+        <div class="flex items-center gap-2 mb-2"><span class="material-symbols-outlined text-secondary text-[20px]">policy</span><span class="font-label-md text-label-md text-on-surface font-bold">Have a complaint about an insurer?</span></div>
+        <p class="font-body-sm text-body-sm text-on-surface-variant">Start with the insurer’s complaint officer. Unresolved home, auto and business disputes can go to the General Insurance OmbudService; life and health disputes to the OmbudService for Life &amp; Health Insurance.</p>
+      </div>
+      <% } %>
+    </div>
+    <div class="<%= twoCol ? 'lg:col-span-8' : '' %> flex flex-col gap-3">
+      <% items.forEach(function(f, i){ %>
+      <details class="card overflow-hidden group" <%= i === 0 ? 'open' : '' %> data-track-open="faq_open">
+        <summary class="p-space-md flex items-center justify-between gap-space-sm cursor-pointer">
+          <h3 class="font-headline-sm text-headline-sm text-on-surface"><%= f.q %></h3>
+          <span class="faq-chevron material-symbols-outlined text-on-surface-variant">expand_more</span>
+        </summary>
+        <div class="px-space-md pb-space-md text-on-surface-variant font-body-md text-body-md leading-relaxed"><div class="pt-2 border-t border-surface-container-low"><%- md.inline(f.a) %></div></div>
+      </details>
+      <% }) %>
+    </div>
+  </div>
+</section>

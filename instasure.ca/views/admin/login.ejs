@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en-CA"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Sign in · Instasure Admin</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"><link rel="stylesheet" href="/assets/site.css?v=<%= v %>"></head>
+<body class="min-h-screen bg-gradient-to-br from-primary-container to-on-primary-fixed-variant flex items-center justify-center p-4">
+  <form method="post" action="/admin/login" class="w-full max-w-sm bg-surface-container-lowest rounded-3xl shadow-2xl p-8 flex flex-col gap-4">
+    <div class="flex items-center gap-2"><img src="/img/logo-mark.svg" alt="" class="w-9 h-9"><span class="font-headline-md text-headline-md text-primary-container">Instasure<span class="text-secondary">.ca</span></span></div>
+    <h1 class="font-headline-sm text-headline-sm text-on-surface">Sign in to the back office</h1>
+    <% if (error) { %><p class="rounded-lg bg-error-container text-on-error-container px-3 py-2 font-label-md text-label-md" role="alert"><%= error %></p><% } %>
+    <input type="hidden" name="next" value="<%= next %>">
+    <label class="flex flex-col gap-1"><span class="admin-label">Email</span><input class="admin-input" type="email" name="email" value="<%= email %>" autocomplete="username" required autofocus></label>
+    <label class="flex flex-col gap-1"><span class="admin-label">Password</span><input class="admin-input" type="password" name="password" autocomplete="current-password" required></label>
+    <button class="btn-primary">Sign in</button>
+    <a href="/" class="text-center font-label-md text-label-md text-on-surface-variant hover:text-secondary">← Back to site</a>
+  </form>
+</body></html>
