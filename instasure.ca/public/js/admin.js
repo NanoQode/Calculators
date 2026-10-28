@@ -129,4 +129,130 @@
     var paint = function () { var out = img.closest('.card').querySelector('[data-dim-out]'); if (out) out.textContent = img.naturalWidth + '×' + img.naturalHeight; };
     if (img.complete) paint(); else img.addEventListener('load', paint);
   });
+
+  // ───── Dates and times in the viewer's own time zone (server renders Toronto time as a fallback) ─────
+  $$('time[data-local]').forEach(function (t) {
+    var d = new Date(t.getAttribute('datetime'));
+    if (!isNaN(d)) t.textContent = d.toLocaleString('en-CA', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' });
+  });
+  $$('[data-autosubmit]').forEach(function (s) { s.addEventListener('change', function () { s.form.submit(); }); });
+
+  // ───── Bulk actions: count selected, confirm deletes ─────
+  var bulk = $('[data-bulk-form]');
+  if (bulk) {
+    var countOut = $('[data-bulk-count]', bulk);
+    var count = function () { var n = $$('input[name=ids]:checked', bulk).length; if (countOut) countOut.textContent = n ? n + ' selected' : ''; return n; };
+    bulk.addEventListener('change', count);
+    bulk.addEventListener('submit', function (e) {
+      var n = count(), action = ($('[data-bulk-action]', bulk) || {}).value || '';
+      if (!n) { e.preventDefault(); window.alert('Select at least one lead first.'); return; }
+      if (action === 'delete' && !window.confirm('Permanently delete ' + n + ' lead' + (n > 1 ? 's' : '') + ' with their requests, follow-ups, timeline and emails? This can’t be undone.')) e.preventDefault();
+    });
+  }
+
+  // ───── Due times: send the instant the viewer meant (their own time zone) as UTC ─────
+  function pad(n) { return ('0' + n).slice(-2); }
+  function toLocalInput(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + 'T' + pad(d.getHours()) + ':' + pad(d.getMinutes()); }
+  function stampDue(form) {
+    var local = $('[data-due-local]', form), utc = $('[data-due-utc]', form);
+    if (local && utc) { var d = local.value ? new Date(local.value) : null; utc.value = d && !isNaN(d) ? d.toISOString() : ''; }
+  }
+  $$('[data-task-form]').forEach(function (f) { f.addEventListener('submit', function () { stampDue(f); }); });
+
+  // ───── Stage pop-up: outcome, notes, score and follow-up with every stage change ─────
+  var dlg = $('[data-stage-dialog]');
+  if (dlg && dlg.showModal) {
+    var form = $('[data-stage-form]', dlg), stageSel = $('[data-sd-stage]', dlg), disp = $('[data-sd-disposition]', dlg);
+    var adjust = $('[data-sd-adjust]', dlg), taskBox = $('[data-sd-task]', dlg), taskToggle = $('[data-sd-task-toggle]', dlg);
+    var taskTitle = $('[data-sd-task-title]', dlg), dueLocal = $('[data-due-local]', dlg), reasonWrap = $('[data-sd-reason-wrap]', dlg);
+    var setTask = function (on) { taskToggle.checked = on; taskBox.classList.toggle('hidden', !on); taskBox.classList.toggle('grid', on); if (on && !dueLocal.value) setWhen('tomorrow'); };
+    var setWhen = function (w) {
+      var d = new Date();
+      if (w === 'tomorrow') { d.setDate(d.getDate() + 1); d.setHours(9, 0, 0, 0); } else d = new Date(Date.now() + Number(w) * 60000);
+      dueLocal.value = toLocalInput(d);
+    };
+    var showReason = function () { reasonWrap.classList.toggle('hidden', stageSel.value !== 'lost'); };
+    var open = function (src, stage) {
+      form.action = '/admin/leads/' + src.getAttribute('data-id') + '/update';
+      $('[data-sd-name]', dlg).textContent = src.getAttribute('data-name') || '';
+      stageSel.value = stage || src.getAttribute('data-stage') || stageSel.value;
+      $('[data-sd-score]', dlg).textContent = src.getAttribute('data-score') || '—';
+      adjust.value = src.getAttribute('data-adjust') || '0';
+      disp.value = ''; $('[data-sd-note]', dlg).value = ''; taskTitle.value = ''; dueLocal.value = '';
+      var forAgent = $('[data-sd-for-agent]', dlg); if (forAgent) forAgent.disabled = src.getAttribute('data-agent') !== '1';
+      setTask(false); showReason();
+      dlg.showModal();
+      setTimeout(function () { disp.focus(); }, 30);
+    };
+    $$('[data-sd-close]', dlg).forEach(function (b) { b.addEventListener('click', function () { dlg.close(); }); });
+    stageSel.addEventListener('change', showReason);
+    disp.addEventListener('change', function () {
+      var o = disp.options[disp.selectedIndex];
+      if (o.getAttribute('data-stage')) { stageSel.value = o.getAttribute('data-stage'); showReason(); }
+      if (o.getAttribute('data-task')) { setTask(true); if (!taskTitle.value) taskTitle.value = o.getAttribute('data-task'); }
+    });
+    taskToggle.addEventListener('change', function () { setTask(taskToggle.checked); });
+    $$('[data-sd-when]', dlg).forEach(function (b) { b.addEventListener('click', function () { setWhen(b.getAttribute('data-sd-when')); }); });
+    $$('[data-sd-bump]', dlg).forEach(function (b) { b.addEventListener('click', function () { adjust.value = Math.max(-50, Math.min(50, (Number(adjust.value) || 0) + Number(b.getAttribute('data-sd-bump')))); }); });
+    form.addEventListener('submit', function (e) {
+      if (!taskToggle.checked) { taskTitle.value = ''; dueLocal.value = ''; }
+      else if (!taskTitle.value || !dueLocal.value) { e.preventDefault(); window.alert('Give the follow-up a title and a due time, or untick “Schedule a follow-up”.'); return; }
+      stampDue(form);
+    });
+
+    $$('[data-stage-open]').forEach(function (b) { b.addEventListener('click', function () { open(b); }); });
+    // Stage menus (lead page, pipeline cards) open the pop-up instead of saving straight away.
+    $$('[data-stage-select-form]').forEach(function (f) {
+      var sel = $('[data-stage-select]', f);
+      f.addEventListener('submit', function (e) { e.preventDefault(); open(f, sel.value); });
+      sel.addEventListener('change', function () { open(f, sel.value); });
+    });
+    // Pipeline drag and drop.
+    var dragged = null;
+    $$('[data-card]').forEach(function (c) {
+      c.addEventListener('dragstart', function (e) { dragged = c; e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', c.getAttribute('data-id')); c.classList.add('opacity-50'); });
+      c.addEventListener('dragend', function () { c.classList.remove('opacity-50'); dragged = null; });
+    });
+    $$('[data-drop-stage]').forEach(function (col) {
+      var depth = 0;
+      col.addEventListener('dragenter', function (e) { e.preventDefault(); depth++; col.classList.add('bg-secondary-container/40'); });
+      col.addEventListener('dragleave', function () { depth = Math.max(0, depth - 1); if (!depth) col.classList.remove('bg-secondary-container/40'); });
+      col.addEventListener('dragover', function (e) { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; });
+      col.addEventListener('drop', function (e) {
+        e.preventDefault(); depth = 0; col.classList.remove('bg-secondary-container/40');
+        var to = col.getAttribute('data-drop-stage');
+        if (dragged && dragged.getAttribute('data-stage') !== to) open(dragged, to);
+      });
+    });
+  }
+
+  // ───── Follow-up reminders: pop up due tasks, every minute ─────
+  var popups = $('[data-task-popups]'), tpl = $('[data-task-template]');
+  if (popups && tpl && 'content' in tpl) {
+    var shown = {};
+    var post = function (url, body) { return fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'x-csrf-token': csrf }, body: JSON.stringify(body || {}) }); };
+    var dismiss = function (id, el, minutes) { post('/admin/tasks/' + id + '/snooze', { minutes: minutes || 10 }).finally(function () { el.remove(); delete shown[id]; }); };
+    var render = function (t) {
+      if (shown[t.id]) return;
+      var node = tpl.content.firstElementChild.cloneNode(true);
+      $('[data-t-title]', node).textContent = t.title;
+      $('[data-t-lead]', node).textContent = t.lead + ' · ' + t.ref + (t.phone ? ' · ' + t.phone : '');
+      var d = new Date(String(t.due_at).replace(' ', 'T') + 'Z');
+      $('[data-t-when]', node).textContent = isNaN(d) ? '' : '· ' + d.toLocaleTimeString('en-CA', { hour: 'numeric', minute: '2-digit' });
+      if (t.notes) { var n = $('[data-t-notes]', node); n.textContent = t.notes; n.classList.remove('hidden'); }
+      $('[data-t-open]', node).href = '/admin/leads/' + t.lead_id + '#tasks';
+      $('[data-t-close]', node).addEventListener('click', function () { dismiss(t.id, node, 10); });
+      $$('[data-t-snooze]', node).forEach(function (b) { b.addEventListener('click', function () { dismiss(t.id, node, Number(b.getAttribute('data-t-snooze'))); }); });
+      $('[data-t-done]', node).addEventListener('click', function () { post('/admin/tasks/' + t.id + '/done').finally(function () { node.remove(); delete shown[t.id]; }); });
+      shown[t.id] = node;
+      popups.appendChild(node);
+    };
+    var poll = function () {
+      if (document.hidden) return;
+      fetch('/admin/tasks/due.json', { headers: { Accept: 'application/json' } }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) { if (j && j.tasks) j.tasks.forEach(render); }).catch(function () {});
+    };
+    poll();
+    setInterval(poll, 60000);
+    document.addEventListener('visibilitychange', poll);
+  }
 })();

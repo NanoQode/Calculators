@@ -1,17 +1,21 @@
-<%- include('partials-head', { h: 'Pipeline', sub: 'Open leads by stage, hottest first. Move a lead with the stage menu on its card.', actions: '<a class="btn-soft !py-2 !px-4" href="/admin/leads">List view</a>' }) %>
-<div class="flex gap-3 overflow-x-auto pb-4">
+<%- include('partials-head', { h: 'Pipeline', sub: 'Open leads by insurance stage, hottest first. Drag a card to another stage, or use its stage menu: a pop-up records the outcome, notes, score and follow-up with the time.', actions: '<a class="btn-soft !py-2 !px-4" href="/admin/leads">List view</a>' }) %>
+<% if (advisors.length) { %>
+<form method="get" class="flex flex-wrap items-end gap-2 mb-3"><label><span class="admin-label">Agent</span><select class="admin-input" name="advisor" data-autosubmit><option value="">All agents</option><option value="none" <%= q.advisor === 'none' ? 'selected' : '' %>>Unassigned</option><% advisors.forEach(function(a){ %><option value="<%= a.id %>" <%= String(q.advisor) === String(a.id) ? 'selected' : '' %>><%= a.name %></option><% }) %></select></label><noscript><button class="btn-soft !py-2">Show</button></noscript></form>
+<% } %>
+<div class="flex gap-3 overflow-x-auto pb-4" data-board>
   <% cols.forEach(function(st){ %>
-  <section class="min-w-[270px] w-[270px] shrink-0 bg-surface-container rounded-2xl p-2">
-    <h2 class="flex items-center justify-between px-2 py-1 font-label-lg text-label-lg capitalize"><%= st %><span class="badge bg-surface-container-lowest"><%= totals[st] %></span></h2>
-    <div class="flex flex-col gap-2 mt-1">
-      <% board[st].forEach(function(l){ %>
-      <article class="bg-surface-container-lowest rounded-xl p-3 shadow-sm">
-        <div class="flex items-start justify-between gap-2"><a href="/admin/leads/<%= l.id %>" class="font-label-md text-label-md text-on-surface hover:text-secondary"><%= ((l.first_name || '') + ' ' + (l.last_name || '')).trim() || l.email %></a><%- include('grade', { l: l }) %></div>
-        <p class="text-body-sm text-on-surface-variant mt-1"><%= l.product ? (bySlug[l.product] || {}).short : '—' %> · <span class="uppercase"><%= l.province || '' %></span> · <%= U.timeAgo(l.created_at) %></p>
+  <section class="min-w-[260px] w-[260px] shrink-0 bg-surface-container rounded-2xl p-2 transition-colors" data-drop-stage="<%= st %>" aria-label="<%= stageLabel(st) %>">
+    <h2 class="flex items-center justify-between px-2 py-1 font-label-lg text-label-lg"><%= stageLabel(st) %><span class="badge bg-surface-container-lowest"><%= totals[st] %></span></h2>
+    <div class="flex flex-col gap-2 mt-1 min-h-[60px]">
+      <% board[st].forEach(function(l){ var name = ((l.first_name || '') + ' ' + (l.last_name || '')).trim() || l.email; var prods = db_json(l.products, []); %>
+      <article class="bg-surface-container-lowest rounded-xl p-3 shadow-sm cursor-grab active:cursor-grabbing" draggable="true" data-card data-id="<%= l.id %>" data-name="<%= name %>" data-stage="<%= l.status %>" data-score="<%= l.score %>" data-adjust="<%= l.score_adjustment || 0 %>" data-agent="<%= l.advisor_id ? 1 : 0 %>">
+        <div class="flex items-start justify-between gap-2"><a href="/admin/leads/<%= l.id %>" class="font-label-md text-label-md text-on-surface hover:text-secondary"><%= name %></a><%- include('grade', { l: l }) %></div>
+        <p class="text-body-sm text-on-surface-variant mt-1"><%= l.product ? (bySlug[l.product] || {}).short : '—' %><%= prods.length > 1 ? ' +' + (prods.length - 1) : '' %> · <span class="uppercase"><%= l.province || '' %></span> · <%= U.timeAgo(l.created_at) %><%= l.phone_verified_at ? ' · ✓ SMS' : '' %></p>
         <p class="text-body-sm text-on-surface-variant"><%= l.advisor_name || 'Unassigned' %></p>
-        <form method="post" action="/admin/leads/<%= l.id %>/status" class="mt-2 flex gap-1">
+        <% if (l.next_task) { var od = U.toDate(l.next_task) < new Date(); %><p class="text-body-sm <%= od ? 'text-error' : 'text-secondary' %>"><span class="material-symbols-outlined text-[14px] align-middle">schedule</span> Follow-up <%= od ? 'overdue' : U.fmtDate(l.next_task, 'short') %></p><% } %>
+        <form method="post" action="/admin/leads/<%= l.id %>/update" class="mt-2 flex gap-1" data-stage-select-form data-id="<%= l.id %>" data-name="<%= name %>" data-score="<%= l.score %>" data-adjust="<%= l.score_adjustment || 0 %>" data-agent="<%= l.advisor_id ? 1 : 0 %>">
           <input type="hidden" name="_csrf" value="<%= csrf %>"><input type="hidden" name="return" value="pipeline">
-          <select name="status" class="admin-input !py-1 text-body-sm"><% ['new','contacted','quoted','application','won','lost','nurture','junk'].forEach(function(s){ %><option <%= s === st ? 'selected' : '' %>><%= s %></option><% }) %></select>
+          <select name="status" class="admin-input !py-1 text-body-sm" data-stage-select aria-label="Stage for <%= name %>"><% stages.STAGES.forEach(function(s){ %><option value="<%= s.key %>" <%= s.key === st ? 'selected' : '' %>><%= s.label %></option><% }) %></select>
           <button class="btn-soft !py-1 !px-2 text-body-sm">Move</button>
         </form>
       </article>
@@ -21,3 +25,5 @@
   </section>
   <% }) %>
 </div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Nurture, lost, waitlist and junk leads are in the <a class="link" href="/admin/leads">list view</a>.</p>
+<%- include('stage-dialog', { stageReturn: 'pipeline' }) %>

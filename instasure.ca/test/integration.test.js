@@ -280,7 +280,8 @@ test('customer service placeholder number is shown to people but kept out of str
 test('specialist routing: desk leads go to an advisor on that desk, else to a licensed generalist with a note', async () => {
   const req = client();
   const hdr = { 'content-type': 'application/json', accept: 'application/json' };
-  const send = async (service, email) => json(await req('/api/leads', { method: 'POST', headers: hdr, body: JSON.stringify({ lead_type: 'consult', service, email, first_name: 'Desk', phone: '416-555-0142', province: 'on', timeframe: '30d', _ts: String(Date.now() - 9000) }) }));
+  let n = 140;
+  const send = async (service, email) => json(await req('/api/leads', { method: 'POST', headers: hdr, body: JSON.stringify({ lead_type: 'consult', service, email, first_name: 'Desk', phone: `416-555-0${n++}`, province: 'on', timeframe: '30d', _ts: String(Date.now() - 9000) }) }));
   const event = (ref) => {
     const lead = db.get('SELECT * FROM leads WHERE ref = ?', [ref]);
     return { lead, data: JSON.parse(db.get("SELECT data FROM lead_events WHERE lead_id = ? AND type = 'assigned'", [lead.id]).data) };

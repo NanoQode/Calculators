@@ -9,7 +9,7 @@ const { num, money } = require('../../lib/util');
 
 const router = express.Router();
 
-router.get('/analytics', auth.requireRole('viewer'), (req, res) => {
+router.get('/analytics', auth.requirePerm('analytics'), (req, res) => {
   const days = [7, 30, 90, 365].includes(Number(req.query.days)) ? Number(req.query.days) : 30;
   const since = `-${days} days`;
   const { daysSeries } = require('./index');
@@ -23,7 +23,7 @@ router.get('/analytics', auth.requireRole('viewer'), (req, res) => {
   const step2 = db.value("SELECT COUNT(*) FROM events WHERE name = 'quote_step' AND json_extract(data,'$.step') = 2 AND ts >= datetime('now', ?)", [since]) || 0;
   const step3 = db.value("SELECT COUNT(*) FROM events WHERE name = 'quote_step' AND json_extract(data,'$.step') = 3 AND ts >= datetime('now', ?)", [since]) || 0;
   const quotes = db.value(`SELECT COUNT(*) FROM leads WHERE ${leadWhere} AND lead_type = 'quote'`, [since]) || 0;
-  const contacted = db.value(`SELECT COUNT(*) FROM leads WHERE ${leadWhere} AND status IN ('contacted','quoted','application','won')`, [since]) || 0;
+  const contacted = db.value(`SELECT COUNT(*) FROM leads WHERE ${leadWhere} AND status IN (${require('../../lib/stages').WORKED.map((k) => `'${k}'`).join(',')})`, [since]) || 0;
   const won = db.value(`SELECT COUNT(*) FROM leads WHERE ${leadWhere} AND status = 'won'`, [since]) || 0;
 
   const pvSeries = daysSeries("SELECT substr(ts,1,10) d, COUNT(DISTINCT session_id) n FROM pageviews WHERE ts >= datetime('now', ?) GROUP BY d", [since], Math.min(days, 90));

@@ -12,6 +12,7 @@ const settings = require('../lib/settings');
 const seo = require('../lib/seo');
 const pages = require('../lib/pages');
 const routing = require('../lib/routing');
+const leadsSvc = require('../lib/leads');
 const quoteEngine = require('../lib/quote-engine');
 const md = require('../lib/markdown');
 const geo = require('../data/geo');
@@ -128,7 +129,7 @@ router.get('/quote/', (req, res) => {
 });
 
 router.get('/quote/results/:ref/', (req, res, next) => {
-  const lead = db.get('SELECT * FROM leads WHERE ref = ?', [String(req.params.ref).toUpperCase()]);
+  const lead = leadsSvc.byRef(req.params.ref);
   if (!lead) return next();
   const product = require('../data/products').bySlug[lead.product];
   const estimate = db.json(lead.estimate, {});
@@ -153,7 +154,7 @@ router.get('/quote/:product/', (req, res, next) => {
   const service = serviceSlug ? { slug: serviceSlug, name: specialties.labelFor(serviceSlug), desk: specialties.deskBySlug[serviceSlug] || null, plan: (svData && svData.plan) || null } : null;
   let resume = null;
   if (q.resume) {
-    const lead = db.get("SELECT ref, first_name, email, province, city, quote_inputs FROM leads WHERE ref = ?", [String(q.resume).toUpperCase()]);
+    const lead = leadsSvc.byRef(q.resume);
     if (lead) { resume = lead; Object.assign(prefill, db.json(lead.quote_inputs, {})); }
   }
   // Small permanent policies (funeral / final expense) price on their own plan, set by the service, never by the query or a resumed lead.
@@ -172,8 +173,16 @@ router.get('/quote/:product/', (req, res, next) => {
   });
 });
 
+// SMS code page for submissions sent without JavaScript (the pop-up handles everyone else).
+router.get('/verify/:token/', (req, res) => {
+  const otp = require('../lib/otp');
+  const row = otp.get(req.params.token);
+  const v = row && !row.verified_at && (Date.now() - U.toDate(row.created_at).getTime()) < 86400000 ? otp.view(row) : null;
+  res.page('public/verify', { noCache: true, v, meta: seo.meta({ path: '/verify/', title: 'Confirm your phone number', description: 'Enter the code we texted you to confirm your request.', robots: 'noindex,nofollow' }) });
+});
+
 router.get('/thank-you/', (req, res) => {
-  const lead = req.query.ref ? db.get('SELECT ref, first_name, status, advisor_id, lead_type FROM leads WHERE ref = ?', [String(req.query.ref).toUpperCase()]) : null;
+  const lead = req.query.ref ? leadsSvc.byRef(req.query.ref) : null;
   const advisor = lead && lead.advisor_id ? db.get('SELECT * FROM advisors WHERE id = ?', [lead.advisor_id]) : null;
   res.page('public/thank-you', { noCache: true, lead, advisor, meta: seo.meta({ path: '/thank-you/', title: 'Thank you', description: 'We received your request.', robots: 'noindex,nofollow' }) });
 });
@@ -220,7 +229,7 @@ router.get('/guides/', (req, res) => {
   ];
   res.page('public/guides', {
     pageType: 'guides', sectionLabel: 'Resources', cats, guides, q, faq,
-    stats: { guides: guides.length, advisors: db.value('SELECT COUNT(*) FROM advisors WHERE active = 1'), provinces: geo.provinces.length },
+    stats: { guides: guides.length, advisors: db.value(`SELECT COUNT(*) FROM advisors WHERE ${routing.PUBLIC}`), provinces: geo.provinces.length },
     advisors: routing.forArea(null, null, 1),
     meta: seo.meta({
       path: '/guides/', title: 'Insurance Guides for Canadians — Knowledge & Risk Center',
@@ -319,7 +328,7 @@ router.get('/calculators/:slug/', (req, res, next) => {
 router.get('/advisors/', (req, res) => {
   const prov = geo.provinceByCode[String(req.query.province || '').toLowerCase()] ? String(req.query.province).toLowerCase() : '';
   const cat = CATEGORIES[req.query.category] ? req.query.category : '';
-  const list = db.all('SELECT * FROM advisors WHERE active = 1 ORDER BY is_demo, years_experience DESC, name')
+  const list = db.all(`SELECT * FROM advisors WHERE ${routing.PUBLIC} ORDER BY is_demo, years_experience DESC, name`)
     .filter((a) => (!prov || db.json(a.provinces, []).includes(prov)) && (!cat || db.json(a.categories, []).includes(cat)));
   res.page('public/advisors', {
     pageType: 'advisors', sectionLabel: 'Advisors', list, prov, cat,
@@ -333,7 +342,7 @@ router.get('/advisors/', (req, res) => {
   });
 });
 router.get('/advisors/:slug/', (req, res, next) => {
-  const a = db.get('SELECT * FROM advisors WHERE slug = ? AND active = 1', [req.params.slug]);
+  const a = db.get(`SELECT * FROM advisors WHERE slug = ? AND ${routing.PUBLIC}`, [req.params.slug]);
   if (!a) return next();
   const posts = db.all("SELECT slug, title, excerpt, updated_at FROM posts WHERE status = 'published' AND (author_id = ? OR reviewer_id = ?) ORDER BY published_at DESC LIMIT 12", [a.id, a.id]);
   const p = `/advisors/${a.slug}/`;
@@ -362,7 +371,7 @@ for (const slug of Object.keys(STATIC)) {
     const p = `/${slug}/`;
     res.page('public/static', {
       pageType: 'static', sectionLabel: STATIC[slug], page, slug,
-      advisorsCount: db.value('SELECT COUNT(*) FROM advisors WHERE active = 1 AND is_demo = 0'),
+      advisorsCount: db.value(`SELECT COUNT(*) FROM advisors WHERE ${routing.PUBLIC} AND is_demo = 0`),
       meta: seo.meta({
         path: p, title: page.title || STATIC[slug], description: page.description,
         breadcrumbs: [HOME, { name: STATIC[slug], url: p }],

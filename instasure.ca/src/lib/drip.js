@@ -123,12 +123,22 @@ async function tick({ limit = 50, now = Date.now(), ignoreQuietHours = false } =
   return stats;
 }
 
+/** Other jobs on the same heartbeat: follow-up reminders, the daily lead report, expired SMS codes. */
+async function housekeeping(now = new Date()) {
+  require('./otp').cleanup();
+  await require('./tasks').remindDue();
+  await require('./reports').maybeSendDaily(now);
+}
+
 let timer = null;
 function start(intervalMs) {
   if (timer) return;
-  timer = setInterval(() => tick().catch((e) => console.error('[drip] tick failed', e)), intervalMs);
+  timer = setInterval(() => {
+    tick().catch((e) => console.error('[drip] tick failed', e));
+    housekeeping().catch((e) => console.error('[housekeeping] failed', e));
+  }, intervalMs);
   timer.unref();
 }
 function stop() { if (timer) clearInterval(timer); timer = null; }
 
-module.exports = { enroll, tick, start, stop, stopEnrollments, hasConsent, matches, nextAllowedTime };
+module.exports = { enroll, tick, housekeeping, start, stop, stopEnrollments, hasConsent, matches, nextAllowedTime };

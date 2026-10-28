@@ -11,7 +11,25 @@ const { randomToken, safeEqual, sqlNow } = require('./util');
 
 const COOKIE = 'isa_sid';
 const SESSION_HOURS = 12;
-const ROLES = { admin: 4, editor: 3, advisor: 2, viewer: 1 };
+/**
+ * Rank-based roles (requireRole/can with a role name compare ranks) plus named permissions for areas
+ * that don't fit a ladder. agent_manager ranks with agents, so content, SEO and settings stay closed,
+ * and gets its access through permissions: every lead, agents, distribution and the daily report.
+ */
+const ROLES = { admin: 4, editor: 3, agent_manager: 2, advisor: 2, viewer: 1 };
+const ROLE_LABELS = { admin: 'Admin', editor: 'Editor', agent_manager: 'Agent manager', advisor: 'Agent', viewer: 'Viewer' };
+const PERMS = {
+  admin: ['*'],
+  editor: ['leads.all', 'leads.manage', 'agents.manage', 'analytics'],
+  agent_manager: ['leads.all', 'leads.manage', 'agents.manage', 'analytics', 'reports'],
+  advisor: ['leads.own'],
+  viewer: ['leads.all', 'analytics'],
+};
+function hasPerm(user, perm) {
+  if (!user) return false;
+  const list = PERMS[user.role] || [];
+  return list.includes('*') || list.includes(perm);
+}
 
 function hashPassword(pw) {
   const salt = crypto.randomBytes(16);
@@ -79,7 +97,19 @@ function requireRole(min) {
     next();
   };
 }
-function can(user, min) { return !!user && (ROLES[user.role] || 0) >= ROLES[min]; }
+/** can(user, 'editor') compares rank; can(user, 'agents.manage') checks a permission. */
+function can(user, what) {
+  if (!user) return false;
+  if (ROLES[what] !== undefined) return (ROLES[user.role] || 0) >= ROLES[what];
+  return hasPerm(user, what);
+}
+function requirePerm(perm) {
+  return (req, res, next) => {
+    if (!req.user) return res.redirect('/admin/login');
+    if (!hasPerm(req.user, perm)) return res.status(403).render('admin/error', { title: 'Forbidden', message: 'Your account does not have access to this area.', layout: 'admin' });
+    next();
+  };
+}
 
 /** CSRF check for state-changing admin requests (form field _csrf or header x-csrf-token). */
 function csrf(req, res, next) {
@@ -89,4 +119,4 @@ function csrf(req, res, next) {
   next();
 }
 
-module.exports = { COOKIE, ROLES, hashPassword, verifyPassword, login, logout, loadSession, requireUser, requireRole, can, csrf, cookieOptions };
+module.exports = { COOKIE, ROLES, ROLE_LABELS, PERMS, hasPerm, hashPassword, verifyPassword, login, logout, loadSession, requireUser, requireRole, requirePerm, can, csrf, cookieOptions };

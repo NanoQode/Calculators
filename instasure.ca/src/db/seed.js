@@ -245,6 +245,9 @@ function seed({ quiet = false } = {}) {
     scoring.invalidate();
     log('default scoring rules created');
   }
+  for (const [name, category, field, operator, value, points] of scoring.ADDED_RULES) {
+    if (!db.get('SELECT id FROM scoring_rules WHERE name = ?', [name])) { db.insert('scoring_rules', { name, category, field, operator, value, points, sort: 100 }); scoring.invalidate(); }
+  }
 
   for (const c of CAMPAIGNS) {
     if (db.get('SELECT id FROM campaigns WHERE slug = ?', [c.slug])) continue;

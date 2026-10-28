@@ -95,7 +95,7 @@ function createApp() {
     }
     const p = req.path;
     if (/^\/(api|admin|e|assets|js|img|uploads)\b/.test(p) || /\.[a-z0-9]{2,5}$/i.test(p) || p === '/unsubscribe') return next();
-    let canon = (p.startsWith('/quote/results/') ? p : p.toLowerCase()).replace(/\/{2,}/g, '/');
+    let canon = (p.startsWith('/quote/results/') || p.startsWith('/verify/') ? p : p.toLowerCase()).replace(/\/{2,}/g, '/');
     if (!canon.endsWith('/')) canon += '/';
     if (canon !== p) return res.redirect(301, canon + (req.url.includes('?') ? req.url.slice(req.url.indexOf('?')) : ''));
     next();
@@ -120,6 +120,8 @@ function createApp() {
     res.locals.geoData = require('./data/geo');
     res.locals.mdlib = require('./lib/markdown');
     res.locals.phoneIsPlaceholder = settings.phoneIsPlaceholder;
+    // SMS codes: forms say the phone is required and the public layout carries the code pop-up.
+    res.locals.otpActive = require('./lib/otp').active();
     res.locals.tel = (n) => String(n || '').replace(/[^0-9+]/g, '');
     // Lowercase a product name for use mid-sentence, keeping proper nouns and acronyms intact.
     res.locals.lc = (t) => String(t || '').toLowerCase()

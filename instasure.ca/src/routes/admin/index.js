@@ -29,6 +29,10 @@ router.post('/login', (req, res) => {
   res.redirect(next.startsWith('/admin') ? next : '/admin/');
 });
 
+// Agent sign-up works without a session.
+const portal = require('./portal');
+router.use(portal.pub);
+
 router.use(auth.requireUser);
 router.use(auth.csrf);
 
@@ -38,14 +42,20 @@ router.post('/logout', (req, res) => { auth.logout(req, res); res.redirect('/adm
 router.use((req, res, next) => {
   res.locals.layout = 'admin';
   res.locals.can = (role) => auth.can(req.user, role);
+  res.locals.roleLabel = (r) => auth.ROLE_LABELS[r] || r;
+  res.locals.stageLabel = (k) => require('../../lib/stages').label(k);
   res.locals.db_json = (v, d) => db.json(v, d === undefined ? {} : d);
   res.locals.audit = (action, entity, id, data) => db.insert('audit_log', { user_id: req.user.id, action, entity, entity_id: String(id || ''), data: data || {} });
   res.admin = (view, data = {}) => res.page(`admin/${view}`, { layout: 'admin', noCache: true, ...data });
+  const allLeads = auth.hasPerm(req.user, 'leads.all');
+  res.locals.noteDue = require('../../lib/notegate').pending(req.user);
   res.locals.counts = {
-    newLeads: req.user.role === 'advisor'
+    newLeads: !allLeads
       ? db.value("SELECT COUNT(*) FROM leads WHERE status = 'new' AND advisor_id = ?", [req.user.advisor_id || -1])
       : db.value("SELECT COUNT(*) FROM leads WHERE status = 'new' AND is_test = 0"),
     drafts: db.value("SELECT COUNT(*) FROM posts WHERE status = 'draft'"),
+    overdue: require('../../lib/tasks').overdueCount(req.user.id),
+    pendingAgents: auth.hasPerm(req.user, 'agents.manage') ? db.value("SELECT COUNT(*) FROM advisors WHERE status = 'pending'") : 0,
   };
   next();
 });
@@ -89,9 +99,10 @@ function daysSeries(sql, params, days) {
 }
 
 router.get('/', (req, res) => {
+  if (req.user.role === 'advisor' && req.user.advisor_id) return res.redirect('/admin/me');
   const days = 30;
   const since = `-${days} days`;
-  const advisorScope = req.user.role === 'advisor' ? ' AND advisor_id = ' + Number(req.user.advisor_id || -1) : '';
+  const advisorScope = !auth.hasPerm(req.user, 'leads.all') ? ' AND advisor_id = ' + Number(req.user.advisor_id || -1) : '';
   const k = db.get(`SELECT COUNT(*) total,
       SUM(CASE WHEN created_at >= datetime('now','-1 day') THEN 1 ELSE 0 END) today,
       SUM(CASE WHEN grade = 'A' THEN 1 ELSE 0 END) hot,
@@ -117,7 +128,9 @@ router.get('/', (req, res) => {
   });
 });
 
+router.use(portal.router);
 router.use(require('./leads'));
+router.use(require('./agents'));
 router.use(require('./campaigns'));
 router.use(require('./content'));
 router.use(require('./seo'));

@@ -1,0 +1,24 @@
+<%# SMS code pop-up. site.js opens it when /api/leads answers { otp: true } and finishes the submission. %>
+<dialog data-otp-dialog class="card p-0 w-[min(92vw,420px)] backdrop:bg-primary-container/60" aria-labelledby="otp-title">
+  <div class="p-space-lg flex flex-col gap-space-sm">
+    <div class="flex items-start justify-between gap-2">
+      <span class="w-12 h-12 rounded-full bg-secondary-container/50 text-on-secondary-container flex items-center justify-center"><span class="material-symbols-outlined">sms</span></span>
+      <button type="button" class="w-10 h-10 rounded-full hover:bg-surface-container flex items-center justify-center" data-otp-close aria-label="Close"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <h2 id="otp-title" class="font-headline-sm text-headline-sm text-primary-container" data-otp-title>Confirm your mobile number</h2>
+    <p class="font-body-md text-body-md text-on-surface-variant" data-otp-lead>We text a one-time code to confirm every request. Standard message rates may apply.</p>
+    <form data-otp-phone class="flex flex-col gap-space-sm" novalidate>
+      <label class="flex flex-col gap-1.5"><span class="field-label">Mobile number</span><input class="field" type="tel" name="phone" autocomplete="tel" inputmode="tel" required></label>
+      <button class="btn-primary" type="submit">Text me a code</button>
+    </form>
+    <form data-otp-code class="hidden flex-col gap-space-sm" novalidate>
+      <label class="flex flex-col gap-1.5"><span class="field-label">Code</span><input class="field font-mono tracking-[0.4em] text-center text-headline-sm" name="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*" required></label>
+      <button class="btn-primary" type="submit" data-otp-confirm>Confirm</button>
+      <div class="flex flex-wrap items-center justify-between gap-2 font-body-sm text-body-sm text-on-surface-variant">
+        <button type="button" class="link disabled:opacity-50 disabled:no-underline" data-otp-resend>Send a new code</button>
+        <button type="button" class="link" data-otp-change>Use a different number</button>
+      </div>
+    </form>
+    <p class="hidden font-body-sm text-body-sm text-error" role="alert" data-otp-error></p>
+  </div>
+</dialog>

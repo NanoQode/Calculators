@@ -65,6 +65,30 @@ Read the workbook with pandas/openpyxl (`pd.read_excel(path, sheet_name=None)`) 
 - Canadian spelling; correct regulator per province (FSRA, AIC/Superintendent, BCFSA, ICBC, MPI, SGI, AMF, etc.).
 - Publishing: Admin → Content (direct publish purges cache, updates sitemaps, pings IndexNow when enabled). Programmatic city pages stay noindex until enriched via Admin → SEO → Page overrides.
 
+## Lead CRM (built October 28, 2026; in git, not yet deployed)
+
+Owner's request, October 28, 2026. Not live: deploying is blocked until the server-only code is committed (see Production). Tests: `test/crm.test.js`.
+
+- **One person, one lead** (`src/lib/leads.js`): a new form from someone who already has a lead updates that lead instead of creating one. The match is by email, or by mobile number when the first names are compatible (a shared household number never joins two people; switch `lead_match_phone`). Every request is a `lead_inquiries` row; extra products go into `leads.products` and on the timeline ("Also asked about…"), and the agent gets a "New product request" email. A lost or nurture lead that comes back re-opens. Distribution settings also take `lead_merge_days` (0 = any age).
+- **Merging old duplicates** (`src/lib/merge.js`): Admin → Leads → Duplicates (one group at a time, or all), or `npm run merge-duplicates` (preview) and `-- --apply` on the server. The merge keeps the earliest lead and its reference, fills in blank fields, and keeps every product and the furthest stage. An unsubscribe on any record wins. It moves the timeline, emails, tasks and enrolments, and `lead_refs` keeps the old references working (results pages, unsubscribe links). **Run it once on production after the first deploy.**
+- **Delete:** admins only, one lead or bulk (Leads list → With selected → Delete). It removes the inquiries, events, tasks and emails too, and logs to the audit log. Agent managers can't delete.
+- **SMS codes (VoIP.ms)** (`src/lib/sms.js`, `src/lib/otp.js`, Admin → SMS & verification): when switched on **and** configured, every lead form holds the submission until a texted code is entered: a pop-up on the page, or `/verify/{token}/` without JavaScript. The lead is then saved with `phone_verified_at` (+10 score). It is off by default, and forms keep working without codes while it's off or unconfigured.
+  - VoIP.ms setup: enable API access, set an API password and add the server IP **159.203.33.160** to the allowed IPs (voip.ms → Main Menu → SOAP and REST/JSON API). The DID must have SMS enabled. Then enter the API username, password (write-only, never sent to views) and DID, and send a test.
+  - Limits: 5 sends per phone an hour, 15 per IP, a resend cooldown and a cap on attempts. Codes are stored as an HMAC and SMS bodies are stored masked.
+- **Roles** (`src/lib/auth.js`): admin, editor, **agent manager** (all leads, agents, distribution, daily report; no content, SEO, settings, users or SMS), agent (role `advisor`: own leads only, portal at `/admin/me`), viewer.
+- **Agent portal:** `/admin/register` (public; switch `agent_registration_open`) collects first and last name, phone, email, profile picture (PNG/JPEG/WebP through the media store), licence number, provinces (several), lines and languages. New agents are **pending**, inactive and off the public site until an admin or agent manager approves them (Admin → Agents → Pending), which emails them. `/admin/me` shows their leads, conversions by month, funnel and follow-ups; `/admin/profile` and `/admin/account` let them edit their details.
+- **Distribution** (`src/lib/routing.js`, Admin → Lead distribution):
+  - Direct rules come first (province / line / desk → a named agent), then desk specialists, then the mode: **best match** (default: language, weight, least recently assigned), **round-robin** (strict rotation) or **manual**.
+  - Admins and agent managers can assign or reassign any lead, one at a time or in bulk, even above an agent's cap (a warning is shown).
+  - **Monthly caps:** each agent has `monthly_lead_cap` (blank = no limit; new registrations get `default_monthly_cap`, 50). It counts leads assigned since the 1st (Toronto time) and is edited on the Agents page.
+- **Daily report** (`src/lib/reports.js`): emailed after `daily_report_hour` (7 a.m. Toronto) to users with "daily report" ticked (agent managers by default) plus `report_extra_emails`. It covers yesterday, last 7 days and month to date with comparisons, top provinces, cities, products, desks, types and sources, grades, the funnel, unassigned and stale leads, overdue follow-ups, SMS stats, pending agents and a table per agent. It is previewed at Admin → Daily report and sent from the drip scheduler, so production needs `DRIP_DISABLED` unset and SMTP.
+- **Pipeline** (`src/lib/stages.js`): New lead → Contacted → Needs analysis → Quoted → Application → Underwriting → Approved → Policy issued (won), plus Nurture, Lost, Waitlist and Junk, and 20 contact outcomes (dispositions) that suggest a stage and a follow-up.
+  - Every stage change (menu, drag and drop, "Update stage") opens a pop-up for the outcome, notes, a score adjustment (±50) and an optional follow-up. All of it is saved on the timeline with its time.
+  - Follow-ups (`src/lib/tasks.js`, Admin → Follow-ups) pop up in the admin when due (snooze or done) and are emailed once.
+- **Note before the next lead** (`src/lib/notegate.js`, owner's request, October 28, 2026): an agent who opens a lead still in the "New lead" stage must add a note to it before they can open or work any other lead. A note, a logged call with a note, or a stage update with a note counts.
+  - Other lead pages redirect back to that lead's note box, and every admin page shows a banner. The first open is logged on the timeline ("opened").
+  - Admins and agent managers are exempt. Switch: `require_note_on_new` (on), on the Lead distribution page.
+
 ## Production (live since October 3, 2026)
 
 - **https://instasure.ca** on the Lendmax server (159.203.33.160, Ubuntu, nginx + certbot, shared with rateshop.ca, lendmax.ca and ~20 other sites). Reach it through the Lendmax_Server MCP tools.
@@ -80,20 +104,21 @@ Read the workbook with pandas/openpyxl (`pd.read_excel(path, sheet_name=None)`) 
 
 ## Still to do (owner decisions)
 
-1. SMTP details (user will supply): add `SMTP_*` to `/etc/instasure/instasure.env` and restart. Until then every email, including lead alerts to help@instasure.ca and customer confirmations (from hello@instasure.ca), is only recorded in Admin → Email log.
+1. SMTP details (user will supply): add `SMTP_*` to `/etc/instasure/instasure.env` and restart. Until then every email, including lead alerts to help@instasure.ca, customer confirmations (from hello@instasure.ca), the daily report, follow-up reminders and agent approval emails, is only recorded in Admin → Email log.
 2. Real licensed advisors with licence numbers, tagged to the desks they staff; then turn off the team avatar (`npm run team-advisor -- --off`) and delete the sample advisors.
 3. Confirm the licensed operating entity per province and line; legal name, mailing address and privacy officer in Site settings.
 4. Submit `https://instasure.ca/sitemap.xml` to Google Search Console (Google does not use IndexNow) and Bing Webmaster Tools; add the verification codes in Site settings.
 5. Work through docs/CONTENT_REVIEW.md (facts to verify, estimate-model review, then set "Estimates reviewed" in Site settings).
-6. Once real advisors take leads, help@ only gets hot and unassigned leads; copying help@ on every lead would be a small change in `src/lib/leads.js` `notifyTeam`.
+6. Once real advisors take leads, help@ only gets hot leads and leads with no reachable agent; copying help@ on every lead would be a small change in `src/lib/leads.js` `notifyTeam`.
 7. Insurer logos: the home scroller shows the 18 supplied logos. Remove any insurer the advisors cannot place business with (Admin → Insurers & MGAs → untick Show). Tick the appointment confirmation only once written appointments and logo permission are in hand; that turns on the logo bands on product, service and quote pages and the footer. Have a licensed advisor check the funeral expense example estimate (the "$1 a day" headline) against real carrier quotes.
 8. Restore the featured images of 6 launch guides (term vs whole, mortgage life vs term, newcomers, how much life insurance, life insurance cost, CI vs DI): re-publishing them on October 12 from git copies without `featured_image` cleared the field. Values are in `/srv/instasure/releases/layout-20261005b/guide-image-updates.json`; page images still show through the editorial photo map.
-9. Decide whether to commit the server-only code to git (see Production), then adopt the live release with `instasure-deploy --accept-drift` once so future deploys are exact.
+9. Decide whether to commit the server-only code to git (see Production), then adopt the live release with `instasure-deploy --accept-drift` once so future deploys are exact. The Lead CRM changed two of those files in git: `src/app.js` (the `/verify/` route is skipped by the lowercase redirect, and the `otpActive` local) and `views/public/layout.ejs` (it includes the SMS code pop-up). Merge those changes into the server copies when committing them.
+10. Lead CRM go-live (after item 9 and the deploy): run `npm run merge-duplicates` (preview), then `-- --apply`; set up VoIP.ms (see Lead CRM) before switching SMS codes on; create agent manager users (Admin → Users) and choose the distribution mode and caps.
 
 ## Working on the code
 
 - Node ≥ 22.5 (`node:sqlite`, run with `--disable-warning=ExperimentalWarning`), Express 4, EJS (no `require` in templates: pass locals), Tailwind v3 compiled to `public/assets/site.css` (`npm run build:css` after template class changes, and commit the CSS). Helmet CSP with nonces: no inline scripts without the nonce.
-- `npm test` (44 tests, temporary DB) must pass before every push. `npm run seed` is idempotent and maps stored keywords to newly built pages without overwriting admin edits.
+- `npm test` (57 tests, temporary DB) must pass before every push. `npm run seed` is idempotent and maps stored keywords to newly built pages without overwriting admin edits.
 - Develop on branch `claude/instasure-competitive-analysis-pmf7wk` (repo NanoQode/Calculators). Don't create a PR unless asked.
 - Mid-sentence product names use the `lc()` view helper (keeps "Super Visa", "E&O", "RV", "HVAC" capitalised).
 

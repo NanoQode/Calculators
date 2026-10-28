@@ -13,9 +13,12 @@ CREATE TABLE IF NOT EXISTS users (
   email TEXT NOT NULL UNIQUE COLLATE NOCASE,
   name TEXT NOT NULL,
   password_hash TEXT NOT NULL,
-  role TEXT NOT NULL DEFAULT 'editor' CHECK (role IN ('admin','editor','advisor','viewer')),
+  role TEXT NOT NULL DEFAULT 'editor' CHECK (role IN ('admin','editor','agent_manager','advisor','viewer')),
   advisor_id INTEGER REFERENCES advisors(id) ON DELETE SET NULL,
   active INTEGER NOT NULL DEFAULT 1,
+  daily_report INTEGER NOT NULL DEFAULT 0,   -- receives the daily lead analytics email
+  note_due_lead_id INTEGER,                  -- agents: the new lead they opened and must add a note to
+  note_due_since TEXT,
   last_login_at TEXT,
   created_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
@@ -62,6 +65,13 @@ CREATE TABLE IF NOT EXISTS advisors (
   max_open_leads INTEGER DEFAULT 150,
   last_assigned_at TEXT,
   is_demo INTEGER NOT NULL DEFAULT 0,
+  -- Agent portal: self-registered agents start 'pending' and get leads only once approved.
+  first_name TEXT, last_name TEXT,
+  licence_number TEXT,
+  status TEXT NOT NULL DEFAULT 'approved',   -- pending | approved | rejected | suspended
+  monthly_lead_cap INTEGER,                  -- max leads auto-assigned per calendar month (NULL = no limit)
+  show_on_site INTEGER NOT NULL DEFAULT 1,   -- public profile on /advisors/ (portal agents default to 0)
+  registered_at TEXT, approved_at TEXT, approved_by INTEGER,
   created_at TEXT DEFAULT CURRENT_TIMESTAMP,
   updated_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
@@ -111,6 +121,13 @@ CREATE TABLE IF NOT EXISTS leads (
   duplicate_of INTEGER,
   is_test INTEGER NOT NULL DEFAULT 0,
   contacted_at TEXT, won_at TEXT, lost_reason TEXT,
+  products TEXT DEFAULT '[]',          -- every product this person has asked about (primary first)
+  inquiry_count INTEGER NOT NULL DEFAULT 1,
+  assigned_at TEXT,                    -- when the current agent got the lead (monthly caps count this)
+  phone_verified_at TEXT,              -- SMS code confirmed
+  score_adjustment INTEGER NOT NULL DEFAULT 0,  -- manual points on top of the rules
+  disposition TEXT,                    -- last contact outcome
+  stage_changed_at TEXT, last_activity_at TEXT,
   created_at TEXT DEFAULT CURRENT_TIMESTAMP,
   updated_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
@@ -128,6 +145,77 @@ CREATE TABLE IF NOT EXISTS lead_events (
   created_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
 CREATE INDEX IF NOT EXISTS idx_lead_events_lead ON lead_events(lead_id);
+
+-- Every request a person makes (first one included). Repeat submissions update the lead and add a row here.
+CREATE TABLE IF NOT EXISTS lead_inquiries (
+  id INTEGER PRIMARY KEY,
+  lead_id INTEGER NOT NULL REFERENCES leads(id) ON DELETE CASCADE,
+  ref TEXT,                          -- reference of the record it came from when merged
+  origin TEXT NOT NULL DEFAULT 'submission',   -- submission | repeat | merge
+  lead_type TEXT, product TEXT, product_category TEXT, service TEXT,
+  is_new_product INTEGER NOT NULL DEFAULT 0,
+  quote_inputs TEXT DEFAULT '{}', estimate TEXT DEFAULT '{}',
+  timeframe TEXT, message TEXT,
+  source TEXT, utm_source TEXT, utm_medium TEXT, utm_campaign TEXT, landing_page TEXT, page_path TEXT,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS idx_inquiries_lead ON lead_inquiries(lead_id);
+CREATE INDEX IF NOT EXISTS idx_inquiries_created ON lead_inquiries(created_at);
+
+-- References of records merged into another lead, so old links (results, unsubscribe) keep working.
+CREATE TABLE IF NOT EXISTS lead_refs (
+  ref TEXT PRIMARY KEY,
+  lead_id INTEGER NOT NULL REFERENCES leads(id) ON DELETE CASCADE,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Follow-up tasks with reminders (pop-up in the admin, email when due).
+CREATE TABLE IF NOT EXISTS lead_tasks (
+  id INTEGER PRIMARY KEY,
+  lead_id INTEGER NOT NULL REFERENCES leads(id) ON DELETE CASCADE,
+  title TEXT NOT NULL,
+  notes TEXT,
+  due_at TEXT NOT NULL,              -- UTC
+  assigned_user_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
+  created_by INTEGER,
+  done_at TEXT, done_by INTEGER,
+  snoozed_until TEXT, reminded_at TEXT,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS idx_tasks_due ON lead_tasks(assigned_user_id, done_at, due_at);
+CREATE INDEX IF NOT EXISTS idx_tasks_lead ON lead_tasks(lead_id);
+
+-- SMS one-time codes: a submission waits here until its phone number is confirmed.
+CREATE TABLE IF NOT EXISTS otp_requests (
+  id INTEGER PRIMARY KEY,
+  token TEXT NOT NULL UNIQUE,
+  purpose TEXT NOT NULL DEFAULT 'lead',
+  phone TEXT,
+  code_hash TEXT,
+  payload TEXT NOT NULL DEFAULT '{}',
+  ctx TEXT NOT NULL DEFAULT '{}',
+  send_count INTEGER NOT NULL DEFAULT 0,
+  attempts INTEGER NOT NULL DEFAULT 0,
+  last_sent_at TEXT,
+  expires_at TEXT,
+  verified_at TEXT,
+  lead_id INTEGER,
+  ip_hash TEXT,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS idx_otp_created ON otp_requests(created_at);
+
+CREATE TABLE IF NOT EXISTS sms_messages (
+  id INTEGER PRIMARY KEY,
+  to_phone TEXT NOT NULL,
+  body TEXT NOT NULL,                -- one-time codes are stored masked
+  kind TEXT NOT NULL DEFAULT 'otp',  -- otp | test | notification
+  provider TEXT,
+  status TEXT NOT NULL DEFAULT 'queued',   -- queued | sent | logged | failed
+  provider_id TEXT, error TEXT,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS idx_sms_to ON sms_messages(to_phone, created_at);
 
 CREATE TABLE IF NOT EXISTS scoring_rules (
   id INTEGER PRIMARY KEY,

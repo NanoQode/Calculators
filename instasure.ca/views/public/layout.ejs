@@ -56,6 +56,7 @@
   </div>
 </div>
 <% } %>
+<% if (typeof otpActive !== 'undefined' && otpActive) { %><%- include('partials/otp-dialog') %><% } %>
 <script src="/js/site.js?v=<%= v %>" defer></script>
 </body>
 </html>

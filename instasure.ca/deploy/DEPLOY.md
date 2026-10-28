@@ -103,7 +103,7 @@ The first start creates the database and the admin account. `npm run seed` is id
 
 ## Database and scripts
 
-A deploy never writes to the database. To run a script against production (for example `team-advisor`, `indexnow-submit`, `publish-guides --update`), run it as the database owner so the WAL files keep the right owner, then restart, because settings and pages are cached in memory:
+A deploy runs no scripts. On start-up the app migrates the database itself: it adds new tables and columns and makes small backfills, such as the users-table rebuild for the agent manager role and lead assignment times. Back up `/var/lib/instasure/instasure.db` before the first deploy of a release with schema changes. To run a script against production (for example `team-advisor`, `indexnow-submit`, `publish-guides --update`, `merge-duplicates --apply`), run it as the database owner so the WAL files keep the right owner, then restart, because settings and pages are cached in memory:
 
 ```bash
 cd /srv/instasure/current && set -a && . /etc/instasure/instasure.env && set +a

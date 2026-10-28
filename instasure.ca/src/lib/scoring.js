@@ -35,6 +35,9 @@ const FIELDS = [
   ['is_duplicate', 'Duplicate of a recent lead'], ['sessions', 'Site sessions by this visitor'], ['pages_viewed', 'Pages viewed by this visitor'],
   ['email_opens', 'Email opens'], ['email_clicks', 'Email clicks'], ['source', 'Traffic source (organic, paid, direct, referral, email, social, ai)'],
   ['utm_campaign', 'UTM campaign'], ['landing_page', 'Landing page path'],
+  ['stage', 'Pipeline stage (new, contacted, needs_analysis, quoted, application, underwriting, approved, won, …)'],
+  ['inquiries', 'Number of requests this person has made'], ['products_count', 'Number of different products asked about'],
+  ['phone_verified', 'Phone confirmed by SMS code (true/false)'],
 ];
 
 let rulesCache = null;
@@ -75,6 +78,10 @@ function buildFacts(lead, extra = {}) {
     source: lead.source,
     utm_campaign: lead.utm_campaign,
     landing_page: lead.landing_page,
+    stage: lead.status,
+    inquiries: Number(lead.inquiry_count) || 1,
+    products_count: (typeof lead.products === 'string' ? db.json(lead.products, []) : lead.products || []).length || (lead.product ? 1 : 0),
+    phone_verified: !!lead.phone_verified_at,
   };
 }
 
@@ -83,7 +90,8 @@ function gradeFor(score) {
   return score >= hot ? 'A' : score >= 55 ? 'B' : score >= 35 ? 'C' : 'D';
 }
 
-function evaluate(facts, ruleList = rules()) {
+/** Rules, then the manual adjustment an agent or admin set on the lead, clamped to 0–100. */
+function evaluate(facts, ruleList = rules(), adjustment = 0) {
   let score = 0;
   const breakdown = [];
   for (const r of ruleList) {
@@ -94,6 +102,7 @@ function evaluate(facts, ruleList = rules()) {
       breakdown.push({ id: r.id, name: r.name, category: r.category, points: r.points });
     }
   }
+  if (adjustment) { score += adjustment; breakdown.push({ name: 'Manual adjustment', category: 'manual', points: adjustment }); }
   score = Math.max(0, Math.min(100, score));
   return { score, grade: gradeFor(score), breakdown };
 }
@@ -113,7 +122,7 @@ function engagementFor(lead) {
 function rescore(leadId, reason = 'recalculated') {
   const lead = db.get('SELECT * FROM leads WHERE id = ?', [leadId]);
   if (!lead) return null;
-  const result = evaluate(buildFacts(lead, engagementFor(lead)));
+  const result = evaluate(buildFacts(lead, engagementFor(lead)), rules(), Number(lead.score_adjustment) || 0);
   if (result.score !== lead.score || !lead.grade) {
     db.update('leads', leadId, { score: result.score, grade: result.grade, score_breakdown: result.breakdown, updated_at: new Date().toISOString() });
     db.insert('lead_events', { lead_id: leadId, type: 'score_change', data: { from: lead.score, to: result.score, grade: result.grade, reason } });
@@ -153,5 +162,11 @@ const DEFAULT_RULES = [
   ['Organic search visitor', 'engagement', 'source', 'eq', 'organic', 3],
   ['Arrived from an AI assistant', 'engagement', 'source', 'eq', 'ai', 4],
 ];
+/** Rules added after launch: seeding inserts any that are missing by name (existing edits are kept). */
+const ADDED_RULES = [
+  ['Phone confirmed by SMS code', 'quality', 'phone_verified', 'eq', 'true', 10],
+  ['Came back with another request', 'intent', 'inquiries', 'gte', '2', 6],
+  ['Asked about 2+ products', 'fit', 'products_count', 'gte', '2', 5],
+];
 
-module.exports = { OPERATORS, FIELDS, DEFAULT_RULES, rules, invalidate, buildFacts, evaluate, rescore, gradeFor, engagementFor };
+module.exports = { OPERATORS, FIELDS, DEFAULT_RULES, ADDED_RULES, rules, invalidate, buildFacts, evaluate, rescore, gradeFor, engagementFor };

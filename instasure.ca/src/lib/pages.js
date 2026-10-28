@@ -262,7 +262,7 @@ function allPages() {
   }
   for (const cat of db.all('SELECT slug, name FROM categories ORDER BY sort')) pages.push({ path: `/guides/category/${cat.slug}/`, priority: 0.5, changefreq: 'weekly', lastmod: hubDate, type: 'category', indexable: true, title: cat.name });
   // Only a real advisor with a licence on record is offered to search engines (see advisorListed).
-  for (const a of db.all('SELECT slug, name, updated_at, is_demo, licences, designations FROM advisors WHERE active = 1')) pages.push({ path: `/advisors/${a.slug}/`, priority: 0.5, changefreq: 'monthly', lastmod: String(a.updated_at).slice(0, 10), type: 'advisor', indexable: advisorListed(a), title: a.name });
+  for (const a of db.all("SELECT slug, name, updated_at, is_demo, licences, designations FROM advisors WHERE active = 1 AND COALESCE(show_on_site, 1) = 1 AND COALESCE(status, 'approved') = 'approved'")) pages.push({ path: `/advisors/${a.slug}/`, priority: 0.5, changefreq: 'monthly', lastmod: String(a.updated_at).slice(0, 10), type: 'advisor', indexable: advisorListed(a), title: a.name });
   // Admin robots overrides apply to the sitemap too.
   const robotsOv = Object.fromEntries(db.all("SELECT path, robots FROM seo_overrides WHERE robots IS NOT NULL AND robots != ''").map((r) => [r.path, r.robots]));
   for (const pg of pages) if (robotsOv[pg.path]) pg.indexable = !/noindex/.test(robotsOv[pg.path]);

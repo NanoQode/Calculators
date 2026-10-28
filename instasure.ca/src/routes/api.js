@@ -2,6 +2,7 @@
 const express = require('express');
 const db = require('../db');
 const leads = require('../lib/leads');
+const otp = require('../lib/otp');
 const quoteEngine = require('../lib/quote-engine');
 const tracking = require('../lib/tracking');
 const pages = require('../lib/pages');
@@ -39,17 +40,35 @@ function parseBody(req) {
   return body;
 }
 
+/** Where to send the visitor after a lead is saved: their results for a quote, otherwise the thank-you page. */
+function afterLead(lead, submittedType) {
+  const type = submittedType || lead.lead_type;
+  return ['quote', 'calculator'].includes(type) && lead.product ? `/quote/results/${lead.ref}/` : `/thank-you/?ref=${lead.ref}`;
+}
+const leadFields = (body) => { const b = { ...body }; for (const k of ['_v', '_s', '_ref', '_landing', '_page', '_ts', 'utm', 'website', 'company_url']) delete b[k]; return b; };
+
 router.post('/leads', leadLimiter, async (req, res, next) => {
   const body = parseBody(req);
   const wantsJson = req.is('application/json') || req.get('accept')?.includes('application/json');
   if (looksLikeBot(body)) return wantsJson ? res.json({ ok: true, ref: 'IS-0', redirect: '/' }) : res.redirect(303, '/');
   try {
-    if (body.lead_type === 'partial') body.lead_type = 'partial';
-    const lead = await leads.create(body, ctxFrom(req, body));
-    const redirect = ['quote', 'calculator'].includes(lead.lead_type) && lead.product ? `/quote/results/${lead.ref}/` : `/thank-you/?ref=${lead.ref}`;
-    if (wantsJson) return res.json({ ok: true, ref: lead.ref, redirect, status: lead.status });
+    const ctx = ctxFrom(req, body);
+    if (otp.active()) {
+      // Hold the submission until the person confirms their mobile number with a texted code.
+      leads.check(body);
+      const v = await otp.start(leadFields(body), ctx, req.ip);
+      if (wantsJson) return res.status(202).json({ ok: false, otp: true, ...v });
+      return res.redirect(303, `/verify/${v.token}/`);
+    }
+    const lead = await leads.create(body, ctx);
+    const redirect = afterLead(lead, body.lead_type);
+    if (wantsJson) return res.json({ ok: true, ref: lead.ref, redirect, status: lead.status, repeat: lead.repeat });
     res.redirect(303, redirect);
   } catch (e) {
+    if (e instanceof otp.OtpError) {
+      if (wantsJson) return res.status(422).json({ ok: false, error: e.message, field: e.field });
+      return res.redirect(303, `${(req.get('referer') || '/').replace(/\?.*$/, '')}?_err=${encodeURIComponent(e.message)}`);
+    }
     if (e instanceof leads.LeadError) {
       if (wantsJson) return res.status(422).json({ ok: false, error: e.message, field: e.field });
       return res.redirect(303, `${(req.get('referer') || '/').replace(/\?.*$/, '')}?_err=${encodeURIComponent(e.message)}`);
@@ -57,6 +76,32 @@ router.post('/leads', leadLimiter, async (req, res, next) => {
     next(e);
   }
 });
+
+// ───────────── SMS verification (JSON for the pop-up; the /verify/ page posts here too) ─────────────
+const otpLimiter = tracking.rateLimit({ windowMs: 60_000, max: 20 });
+function otpReply(req, res, fn) {
+  const body = parseBody(req);
+  const wantsJson = req.is('application/json') || req.get('accept')?.includes('application/json');
+  const token = String(body.token || '');
+  return fn(body, token).then((out) => {
+    if (out && out.ref) { // a lead was created
+      const redirect = afterLead(out, out.__type);
+      return wantsJson ? res.json({ ok: true, ref: out.ref, redirect, repeat: out.repeat }) : res.redirect(303, redirect);
+    }
+    return wantsJson ? res.json({ ok: true, otp: true, ...out }) : res.redirect(303, `/verify/${token}/?_ok=${encodeURIComponent('We texted you a code.')}`);
+  }).catch((e) => {
+    if (!(e instanceof otp.OtpError) && !(e instanceof leads.LeadError)) throw e;
+    if (wantsJson) return res.status(422).json({ ok: false, error: e.message, field: e.field, expired: !!e.expired, retry_in: e.retry_in });
+    return res.redirect(303, e.expired ? '/' : `/verify/${token}/?_err=${encodeURIComponent(e.message)}`);
+  });
+}
+router.post('/otp/send', otpLimiter, (req, res, next) => otpReply(req, res, (body, token) => otp.send(token, body.phone)).catch(next));
+router.post('/otp/verify', otpLimiter, (req, res, next) => otpReply(req, res, async (body, token) => {
+  const held = otp.get(token);
+  const type = held ? (JSON.parse(held.payload || '{}').lead_type || 'quote') : 'quote';
+  const lead = await otp.verify(token, body.code);
+  return { ...lead, __type: type };
+}).catch(next));
 
 const estLimiter = tracking.rateLimit({ windowMs: 60_000, max: 120 });
 router.post('/estimate', estLimiter, (req, res) => {
@@ -87,3 +132,4 @@ router.get('/search', (req, res) => {
 });
 
 module.exports = router;
+module.exports.afterLead = afterLead;

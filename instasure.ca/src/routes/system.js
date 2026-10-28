@@ -75,7 +75,7 @@ function findLead(req) {
   const ref = String(req.query.l || req.body.l || '');
   const sig = String(req.query.s || req.body.s || '');
   if (!ref || !mailer.verifyUnsubscribe(ref, sig)) return null;
-  return db.get('SELECT * FROM leads WHERE ref = ?', [ref]);
+  return leads.byRef(ref);
 }
 router.get('/unsubscribe', (req, res) => {
   const lead = findLead(req);

@@ -80,6 +80,60 @@ function normPostal(p) {
   const s = String(p || '').toUpperCase().replace(/\s+/g, '');
   return /^[A-Z]\d[A-Z]\d[A-Z]\d$/.test(s) ? `${s.slice(0, 3)} ${s.slice(3)}` : null;
 }
+// ───── Time zones: lead caps and reports count by local calendar days and months (default Toronto). ─────
+const TZ = 'America/Toronto';
+function tzParts(date, tz = TZ) {
+  const p = Object.fromEntries(new Intl.DateTimeFormat('en-CA', { timeZone: tz, hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' })
+    .formatToParts(date).filter((x) => x.type !== 'literal').map((x) => [x.type, Number(x.value)]));
+  return { y: p.year, m: p.month, d: p.day, h: p.hour === 24 ? 0 : p.hour, mi: p.minute, s: p.second };
+}
+function tzOffsetMs(date, tz = TZ) {
+  const p = tzParts(date, tz);
+  return Date.UTC(p.y, p.m - 1, p.d, p.h, p.mi, p.s) - Math.floor(date.getTime() / 1000) * 1000;
+}
+/** The UTC instant of local midnight on y-m-d in tz (DST-safe). */
+function zonedMidnight(y, m, d, tz = TZ) {
+  const guess = Date.UTC(y, m - 1, d);
+  let t = guess - tzOffsetMs(new Date(guess), tz);
+  const off2 = tzOffsetMs(new Date(t), tz);
+  if (guess - off2 !== t) t = guess - off2;
+  return new Date(t);
+}
+const toSql = (d) => d.toISOString().replace('T', ' ').slice(0, 19);
+/** 'YYYY-MM-DD' of `date` in tz. */
+function localDate(date = new Date(), tz = TZ) { const p = tzParts(date, tz); return `${p.y}-${String(p.m).padStart(2, '0')}-${String(p.d).padStart(2, '0')}`; }
+/** UTC SQL timestamp of local midnight `offsetDays` from today (0 = today, -1 = yesterday). */
+function dayStartUtc(offsetDays = 0, now = new Date(), tz = TZ) {
+  const p = tzParts(now, tz);
+  const base = new Date(Date.UTC(p.y, p.m - 1, p.d + offsetDays));
+  return toSql(zonedMidnight(base.getUTCFullYear(), base.getUTCMonth() + 1, base.getUTCDate(), tz));
+}
+/** UTC SQL timestamp of local midnight on the 1st of the month (offsetMonths 0 = this month). */
+function monthStartUtc(offsetMonths = 0, now = new Date(), tz = TZ) {
+  const p = tzParts(now, tz);
+  const base = new Date(Date.UTC(p.y, p.m - 1 + offsetMonths, 1));
+  return toSql(zonedMidnight(base.getUTCFullYear(), base.getUTCMonth() + 1, 1, tz));
+}
+/** 'YYYY-MM-DDTHH:MM' wall-clock time in tz → UTC SQL timestamp (DST-safe). Null when unparseable. */
+function localToUtc(str, tz = TZ) {
+  const m = String(str || '').match(/^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2})/);
+  if (!m) return null;
+  const midnight = zonedMidnight(Number(m[1]), Number(m[2]), Number(m[3]), tz);
+  const guess = new Date(midnight.getTime() + (Number(m[4]) * 60 + Number(m[5])) * 60000);
+  // Correct for a DST change between midnight and that time.
+  const drift = tzOffsetMs(guess, tz) - tzOffsetMs(midnight, tz);
+  return toSql(new Date(guess.getTime() - drift));
+}
+/** Local hour (0–23) in tz. */
+function localHour(now = new Date(), tz = TZ) { return tzParts(now, tz).h; }
+/** Date + time in tz for server-rendered text, e.g. "Oct 28, 2026, 2:05 p.m. ET". */
+function fmtDateTime(v, tz = TZ) {
+  const d = toDate(v); if (!d || isNaN(d)) return '';
+  return d.toLocaleString('en-CA', { timeZone: tz, month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' }) + (tz === TZ ? ' ET' : '');
+}
+/** ISO string for <time datetime> (the admin script shows it in the viewer's own time zone). */
+function iso(v) { const d = toDate(v); return d && !isNaN(d) ? d.toISOString() : ''; }
+
 function clampInt(v, min, max, dflt) { const n = parseInt(v, 10); return Number.isFinite(n) ? Math.min(max, Math.max(min, n)) : dflt; }
 function pick(obj, keys) { const o = {}; for (const k of keys) if (obj[k] !== undefined) o[k] = obj[k]; return o; }
 function arr(v) { if (Array.isArray(v)) return v; if (v === undefined || v === null || v === '') return []; return [v]; }
@@ -93,4 +147,8 @@ module.exports = {
   escapeHtml, slugify, money, num, compact, nowIso, sqlNow, toDate, fmtDate, monthYear, isoDate, timeAgo,
   randomToken, leadRef, hmac, safeEqual, hashIp, truncate, stripMd, wordCount,
   normEmail, isEmail, isDisposable, normPhone, fmtPhone, normPostal, clampInt, pick, arr, csvCell,
+  TZ, tzParts, localDate, dayStartUtc, monthStartUtc, localToUtc, localHour, fmtDateTime, iso, maskPhone,
 };
+
+/** "(•••) •••-1234" — enough to recognise your own number without exposing it. */
+function maskPhone(p) { const n = normPhone(p); return n ? `(•••) •••-${n.slice(-4)}` : ''; }

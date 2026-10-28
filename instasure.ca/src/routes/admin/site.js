@@ -36,7 +36,7 @@ router.post('/settings', auth.requireRole('admin'), (req, res) => {
     ai_bot_policy: ['allow_all', 'search_only', 'block_all'].includes(b.ai_bot_policy) ? b.ai_bot_policy : 'allow_all', robots_extra: b.robots_extra,
     casl_mode: b.casl_mode === 'express_or_implied' ? 'express_or_implied' : 'express_only', consent_text: b.consent_text,
     from_name: b.from_name, from_email: b.from_email, reply_to: b.reply_to, notify_emails: lines(String(b.notify_emails || '').replace(/,/g, '\n')),
-    hot_lead_threshold: Math.min(100, Math.max(0, Number(b.hot_lead_threshold) || 75)), lead_dedupe_hours: Math.max(0, Number(b.lead_dedupe_hours) || 24),
+    hot_lead_threshold: Math.min(100, Math.max(0, Number(b.hot_lead_threshold) || 75)),
     quiet_hours: { start: Math.min(23, Math.max(0, Number(b.quiet_start) || 8)), end: Math.min(24, Math.max(1, Number(b.quiet_end) || 20)) },
     advisor_response_hours: Number(b.advisor_response_hours) || 0, announcement: b.announcement, analytics_cookie_banner: b.analytics_cookie_banner === 'on',
     default_og_image: b.default_og_image,
@@ -101,49 +101,6 @@ router.post('/partners/:id/delete', auth.requireRole('admin'), (req, res) => {
   partners.save(rows.filter((p) => p.id !== req.params.id)); purge();
   if (gone) res.locals.audit('delete', 'partner', gone.id, gone.name);
   res.redirect(303, '/admin/partners?_ok=' + encodeURIComponent(gone ? `Removed ${gone.name} (its logo stays in the media library)` : 'Not found'));
-});
-
-// ───────────── Advisors ─────────────
-router.get('/advisors', auth.requireRole('editor'), (req, res) => {
-  const rows = db.all(`SELECT a.*, (SELECT COUNT(*) FROM leads l WHERE l.advisor_id = a.id AND l.status IN ('new','contacted','quoted','application')) open_leads,
-    (SELECT COUNT(*) FROM leads l WHERE l.advisor_id = a.id AND l.status = 'won') won, (SELECT COUNT(*) FROM users u WHERE u.advisor_id = a.id) has_login FROM advisors a ORDER BY a.active DESC, a.is_demo, a.name`);
-  const coverage = geo.provinces.map((p) => ({ p, n: rows.filter((a) => a.active && !a.is_demo && db.json(a.provinces, []).includes(p.code)).length }));
-  res.admin('advisors', { title: 'Advisors', rows, coverage, CATEGORIES });
-});
-router.get('/advisors/new', auth.requireRole('editor'), (req, res) => res.admin('advisor-edit', { title: 'New advisor', a: { languages: '["en"]', provinces: '[]', categories: '[]', specialties: '[]', licences: '[]', active: 1, accepting_leads: 1, weight: 1, max_open_leads: 150 }, provinces: geo.provinces, CATEGORIES, LANGS }));
-router.get('/advisors/:id', auth.requireRole('editor'), (req, res, next) => {
-  const a = db.get('SELECT * FROM advisors WHERE id = ?', [Number(req.params.id)]);
-  if (!a) return next();
-  res.admin('advisor-edit', { title: a.name, a, provinces: geo.provinces, CATEGORIES, LANGS });
-});
-router.post('/advisors', auth.requireRole('editor'), (req, res) => {
-  upload.single('photo')(req, res, (err) => {
-    if (err) return res.redirect(303, '/admin/advisors?_err=' + encodeURIComponent('Photo upload failed (max 5 MB).'));
-    const b = req.body;
-    // licences: one per line "PROV | Regulator | Licence type | Number | Expiry"
-    const licences = String(b.licences || '').split('\n').map((l) => l.split('|').map((s) => s.trim())).filter((p) => p[0])
-      .map(([province, regulator, type, number, expires]) => ({ province: province.toLowerCase(), regulator, type, number, expires }));
-    const row = {
-      name: String(b.name || '').trim().slice(0, 100), title: b.title, designations: b.designations, email: b.email || null, phone: b.phone || null, booking_url: /^https:\/\//.test(b.booking_url || '') ? b.booking_url : null,
-      bio_md: b.bio_md, languages: arr(b.languages), provinces: arr(b.provinces).filter((c) => geo.provinceByCode[c]), categories: arr(b.categories).filter((c) => CATEGORIES[c]), specialties: arr(b.specialties).filter((d) => deskBySlug[d]), licences,
-      years_experience: Number(b.years_experience) || null, active: b.active ? 1 : 0, accepting_leads: b.accepting_leads ? 1 : 0, weight: Math.max(1, Number(b.weight) || 1),
-      max_open_leads: Number(b.max_open_leads) || null, is_demo: b.is_demo ? 1 : 0, updated_at: sqlNow(),
-    };
-    if (!row.name) return res.redirect(303, '/admin/advisors/new?_err=Name+required');
-    if (req.file) {
-      try { row.photo = media.save(req.file.buffer, { originalName: req.file.originalname, alt: row.name, userId: req.user.id }).url; } catch (e) { return res.redirect(303, '/admin/advisors?_err=' + encodeURIComponent(e.message)); }
-    } else if (b.photo_url !== undefined) row.photo = String(b.photo_url || '').startsWith('/uploads/') ? b.photo_url : null;
-    let id = Number(b.id) || null;
-    if (id) db.update('advisors', id, row);
-    else {
-      let slug = slugify(row.name); let i = 1;
-      while (db.get('SELECT id FROM advisors WHERE slug = ?', [slug])) slug = `${slugify(row.name)}-${++i}`;
-      id = db.insert('advisors', { ...row, slug });
-    }
-    purge();
-    res.locals.audit(b.id ? 'update' : 'create', 'advisor', id, { name: row.name });
-    res.redirect(303, `/admin/advisors/${id}?_ok=Saved`);
-  });
 });
 
 // ───────────── Geo verification & overrides ─────────────
@@ -223,10 +180,13 @@ router.post('/scoring/rescore', auth.requireRole('admin'), (req, res) => {
 });
 
 // ───────────── Users ─────────────
-router.get('/users', auth.requireRole('admin'), (req, res) => res.admin('users', { title: 'Users & roles', rows: db.all('SELECT u.*, a.name AS advisor_name FROM users u LEFT JOIN advisors a ON a.id = u.advisor_id ORDER BY u.active DESC, u.name'), advisors: db.all('SELECT id, name FROM advisors ORDER BY name'), ROLES: Object.keys(auth.ROLES) }));
+router.get('/users', auth.requireRole('admin'), (req, res) => res.admin('users', { title: 'Users & roles', rows: db.all('SELECT u.*, a.name AS advisor_name FROM users u LEFT JOIN advisors a ON a.id = u.advisor_id ORDER BY u.active DESC, u.name'), advisors: db.all('SELECT id, name FROM advisors ORDER BY name'), ROLES: Object.keys(auth.ROLES), ROLE_LABELS: auth.ROLE_LABELS }));
 router.post('/users', auth.requireRole('admin'), (req, res) => {
+  // (new and edited users; agents normally register at /admin/register)
   const b = req.body;
-  const row = { name: String(b.name || '').slice(0, 100), email: String(b.email || '').trim().toLowerCase(), role: auth.ROLES[b.role] ? b.role : 'viewer', advisor_id: Number(b.advisor_id) || null, active: b.active ? 1 : 0 };
+  const row = { name: String(b.name || '').slice(0, 100), email: String(b.email || '').trim().toLowerCase(), role: auth.ROLES[b.role] ? b.role : 'viewer', advisor_id: Number(b.advisor_id) || null, active: b.active ? 1 : 0, daily_report: b.daily_report ? 1 : 0 };
+  // Agent managers get the daily lead report from the start (they can turn it off under My account).
+  if (!b.id && row.role === 'agent_manager') row.daily_report = 1;
   if (!row.name || !/^[^@\s]+@[^@\s]+$/.test(row.email)) return res.redirect(303, '/admin/users?_err=Name+and+valid+email+required');
   if (b.password && String(b.password).length < 12) return res.redirect(303, '/admin/users?_err=Passwords+need+12%2B+characters');
   if (b.id) {
@@ -241,6 +201,44 @@ router.post('/users', auth.requireRole('admin'), (req, res) => {
   res.redirect(303, '/admin/users?_ok=User+saved');
 });
 
-router.get('/audit', auth.requireRole('admin'), (req, res) => res.admin('audit', { title: 'Audit log', rows: db.all('SELECT a.*, u.name AS user_name FROM audit_log a LEFT JOIN users u ON u.id = a.user_id ORDER BY a.id DESC LIMIT 300') }));
+// ───────────── SMS & verification (VoIP.ms) ─────────────
+router.get('/sms', auth.requireRole('admin'), (req, res) => {
+  const sms = require('../../lib/sms');
+  const stats = db.get("SELECT COUNT(*) started, SUM(CASE WHEN verified_at IS NOT NULL THEN 1 ELSE 0 END) verified FROM otp_requests WHERE created_at >= datetime('now','-7 days')");
+  res.admin('sms', {
+    title: 'SMS & verification', st: settings.all(), hasPassword: !!settings.secret('voipms_password'), configured: sms.configured(), provider: sms.provider(),
+    active: require('../../lib/otp').active(), log: db.all('SELECT * FROM sms_messages ORDER BY id DESC LIMIT 100'), stats, isProd: require('../../config').isProd,
+  });
+});
+router.post('/sms', auth.requireRole('admin'), (req, res) => {
+  const b = req.body;
+  const did = String(b.voipms_did || '').replace(/\D/g, '').replace(/^1(\d{10})$/, '$1');
+  if (did && !/^\d{10}$/.test(did)) return res.redirect(303, '/admin/sms?_err=' + encodeURIComponent('The sending number must be a 10-digit DID.'));
+  const message = String(b.otp_message || '').trim();
+  if (message && (!message.includes('{code}') || message.length > 140)) return res.redirect(303, '/admin/sms?_err=' + encodeURIComponent('The message must include {code} and stay under 140 characters (texts are limited to 160).'));
+  const patch = {
+    otp_enabled: b.otp_enabled === 'on',
+    sms_provider: b.sms_provider === 'log' && !require('../../config').isProd ? 'log' : 'voipms',
+    voipms_username: String(b.voipms_username || '').trim().slice(0, 120), voipms_did: did,
+    otp_length: Math.min(8, Math.max(4, Number(b.otp_length) || 6)), otp_ttl_minutes: Math.min(60, Math.max(2, Number(b.otp_ttl_minutes) || 10)),
+    otp_max_attempts: Math.min(10, Math.max(3, Number(b.otp_max_attempts) || 5)), otp_resend_seconds: Math.min(300, Math.max(15, Number(b.otp_resend_seconds) || 30)),
+    otp_message: message || settings.DEFAULTS.otp_message,
+  };
+  settings.setMany(patch);
+  // The API password is write-only: blank keeps the stored one, "clear" removes it.
+  if (b.voipms_password) settings.set('voipms_password', String(b.voipms_password).slice(0, 200));
+  if (b.clear_password === 'on') settings.set('voipms_password', '');
+  purge(); // forms switch the phone field to required when codes are on
+  res.locals.audit('update', 'sms_settings', '', { ...patch, password_changed: !!b.voipms_password || b.clear_password === 'on' });
+  const warn = patch.otp_enabled && !require('../../lib/sms').configured() ? ' — codes stay off until the VoIP.ms username, API password and sending number are all set' : '';
+  res.redirect(303, '/admin/sms?_ok=' + encodeURIComponent('Saved' + warn));
+});
+router.post('/sms/test', auth.requireRole('admin'), async (req, res) => {
+  const r = await require('../../lib/sms').send(req.body.to, `Test message from ${settings.get('site_name')}: SMS is working.`, { kind: 'test' });
+  res.locals.audit('test', 'sms', '', { status: r.status, error: r.error });
+  res.redirect(303, `/admin/sms?${r.ok ? '_ok' : '_err'}=${encodeURIComponent(r.ok ? `Test text ${r.status}` : `Test failed: ${r.hint || r.error}`)}`);
+});
+
+router.get('/audit', auth.requireRole('admin'),(req, res) => res.admin('audit', { title: 'Audit log', rows: db.all('SELECT a.*, u.name AS user_name FROM audit_log a LEFT JOIN users u ON u.id = a.user_id ORDER BY a.id DESC LIMIT 300') }));
 
 module.exports = router;

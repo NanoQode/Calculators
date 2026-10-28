@@ -43,12 +43,71 @@ function prepare(sql) {
 const COLUMNS = [
   ['advisors', 'specialties', "TEXT DEFAULT '[]'"],
   ['leads', 'service', 'TEXT'],
+  ['users', 'daily_report', 'INTEGER NOT NULL DEFAULT 0'],
+  ['users', 'note_due_lead_id', 'INTEGER'],
+  ['users', 'note_due_since', 'TEXT'],
+  ['advisors', 'first_name', 'TEXT'],
+  ['advisors', 'last_name', 'TEXT'],
+  ['advisors', 'licence_number', 'TEXT'],
+  ['advisors', 'status', "TEXT NOT NULL DEFAULT 'approved'"],
+  ['advisors', 'monthly_lead_cap', 'INTEGER'],
+  ['advisors', 'show_on_site', 'INTEGER NOT NULL DEFAULT 1'],
+  ['advisors', 'registered_at', 'TEXT'],
+  ['advisors', 'approved_at', 'TEXT'],
+  ['advisors', 'approved_by', 'INTEGER'],
+  ['leads', 'products', "TEXT DEFAULT '[]'"],
+  ['leads', 'inquiry_count', 'INTEGER NOT NULL DEFAULT 1'],
+  ['leads', 'assigned_at', 'TEXT'],
+  ['leads', 'phone_verified_at', 'TEXT'],
+  ['leads', 'score_adjustment', 'INTEGER NOT NULL DEFAULT 0'],
+  ['leads', 'disposition', 'TEXT'],
+  ['leads', 'stage_changed_at', 'TEXT'],
+  ['leads', 'last_activity_at', 'TEXT'],
 ];
+/** Indexes on columns added by migration (schema.sql runs before the columns exist on older databases). */
+const LATE_INDEXES = [
+  'CREATE INDEX IF NOT EXISTS idx_leads_assigned ON leads(advisor_id, assigned_at)',
+  'CREATE INDEX IF NOT EXISTS idx_leads_phone ON leads(phone)',
+  'CREATE INDEX IF NOT EXISTS idx_advisors_status ON advisors(status)',
+];
+
+/**
+ * The users.role CHECK constraint gained 'agent_manager'. SQLite can't alter a CHECK, so older
+ * databases get the table rebuilt (the documented 12-step procedure: foreign keys off, copy, swap).
+ */
+function rebuildUsersForRoles() {
+  const row = db.prepare("SELECT sql FROM sqlite_master WHERE type = 'table' AND name = 'users'").get();
+  if (!row || row.sql.includes('agent_manager')) return;
+  const create = fs.readFileSync(path.join(__dirname, 'schema.sql'), 'utf8').match(/CREATE TABLE IF NOT EXISTS users \(([\s\S]*?)\n\);/);
+  const keep = db.prepare('PRAGMA table_info(users)').all().map((c) => c.name);
+  db.exec('PRAGMA foreign_keys = OFF');
+  try {
+    db.exec('BEGIN IMMEDIATE');
+    db.exec(`CREATE TABLE users_new (${create[1]}\n)`);
+    const cols = db.prepare('PRAGMA table_info(users_new)').all().map((c) => c.name).filter((c) => keep.includes(c));
+    db.exec(`INSERT INTO users_new (${cols.join(',')}) SELECT ${cols.join(',')} FROM users`);
+    db.exec('DROP TABLE users');
+    db.exec('ALTER TABLE users_new RENAME TO users');
+    const broken = db.prepare('PRAGMA foreign_key_check').all();
+    if (broken.length) throw new Error(`users rebuild left ${broken.length} broken foreign keys`);
+    db.exec('COMMIT');
+  } catch (e) {
+    if (db.isTransaction) db.exec('ROLLBACK');
+    throw e;
+  } finally {
+    db.exec('PRAGMA foreign_keys = ON');
+  }
+}
+
 function migrate() {
   for (const [table, column, type] of COLUMNS) {
     const cols = db.prepare(`PRAGMA table_info(${table})`).all().map((c) => c.name);
     if (!cols.includes(column)) db.exec(`ALTER TABLE ${table} ADD COLUMN ${column} ${type}`);
   }
+  rebuildUsersForRoles();
+  for (const sql of LATE_INDEXES) db.exec(sql);
+  // Leads assigned before assignment times were recorded count from their creation date (monthly caps).
+  db.exec('UPDATE leads SET assigned_at = created_at WHERE advisor_id IS NOT NULL AND assigned_at IS NULL');
 }
 
 const api = {

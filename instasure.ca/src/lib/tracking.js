@@ -100,8 +100,10 @@ function ingest(body, req) {
 }
 
 /** Fixed-window in-memory rate limiter. */
+const limiters = [];
 function rateLimit({ windowMs, max }) {
   const hits = new Map();
+  limiters.push(hits);
   setInterval(() => hits.clear(), windowMs).unref();
   return (req, res, next) => {
     const k = req.ip;
@@ -111,5 +113,8 @@ function rateLimit({ windowMs, max }) {
     next();
   };
 }
+
+/** Clears every limiter's counters (tests submit far more forms per minute than a visitor could). */
+rateLimit.resetAll = () => { for (const h of limiters) h.clear(); };
 
 module.exports = { detectBot, device, crawlerLogger, ingest, rateLimit, BOTS };

@@ -76,6 +76,80 @@
   $$('details[data-track-open]').forEach(function (d) { d.addEventListener('toggle', function () { if (d.open) track('faq_open', { q: ($('h3', d) || {}).textContent || '' }); }, { once: false }); });
   $$('[data-ts]').forEach(function (i) { i.value = String(Date.now()); });
 
+  // ───────────── Lead submission + SMS code pop-up ─────────────
+  // /api/leads answers { otp: true, token, stage } when the site confirms phone numbers by text:
+  // the pop-up collects the number and the code, then resolves with the saved lead { ok, ref, redirect }.
+  function postJson(url, body) {
+    return fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(body) }).then(function (r) { return r.json(); });
+  }
+  var otpDlg = $('[data-otp-dialog]');
+  function otpFlow(state) {
+    return new Promise(function (resolve, reject) {
+      if (!otpDlg || !otpDlg.showModal) { location.href = '/verify/' + state.token + '/'; return; }
+      var phoneForm = $('[data-otp-phone]', otpDlg), codeForm = $('[data-otp-code]', otpDlg), err = $('[data-otp-error]', otpDlg);
+      var title = $('[data-otp-title]', otpDlg), intro = $('[data-otp-lead]', otpDlg), resend = $('[data-otp-resend]', otpDlg);
+      var token = state.token, done = false, timer;
+      function error(msg) { err.textContent = msg || ''; err.classList.toggle('hidden', !msg); }
+      function cooldown(sec) {
+        clearInterval(timer);
+        var paint = function () { resend.disabled = sec > 0; resend.textContent = sec > 0 ? 'Send a new code (' + sec + 's)' : 'Send a new code'; };
+        paint();
+        if (sec > 0) timer = setInterval(function () { sec--; paint(); if (sec <= 0) clearInterval(timer); }, 1000);
+      }
+      function stage(v) {
+        error('');
+        var code = v.stage === 'code';
+        phoneForm.classList.toggle('hidden', code); phoneForm.classList.toggle('flex', !code);
+        codeForm.classList.toggle('hidden', !code); codeForm.classList.toggle('flex', code);
+        title.textContent = code ? 'Enter the code we texted you' : 'Confirm your mobile number';
+        intro.textContent = code ? 'We sent a ' + v.length + '-digit code to ' + v.phone + '.' : 'We text a one-time code to confirm every request. Standard message rates may apply.';
+        var input = $(code ? '[name=code]' : '[name=phone]', otpDlg);
+        input.value = ''; if (code && v.length) input.maxLength = v.length;
+        setTimeout(function () { input.focus(); }, 30);
+        cooldown(v.retry_in || 0);
+      }
+      function busy(form, on) { var b = $('button[type=submit]', form); if (b) b.disabled = on; }
+      function finish(fn, arg) { if (done) return; done = true; clearInterval(timer); if (otpDlg.open) otpDlg.close(); fn(arg); }
+      function expired(j) { finish(reject, { error: j.error || 'This verification expired. Please send the form again.' }); }
+      function send(phone) {
+        busy(phoneForm, true);
+        return postJson('/api/otp/send', { token: token, phone: phone }).then(function (j) {
+          busy(phoneForm, false);
+          if (j.ok) return stage(j);
+          if (j.expired) return expired(j);
+          error(j.error); if (j.retry_in) cooldown(j.retry_in);
+        }).catch(function () { busy(phoneForm, false); error('Network problem — please try again.'); });
+      }
+      phoneForm.onsubmit = function (e) { e.preventDefault(); var p = $('[name=phone]', phoneForm).value.trim(); if (!p) return error('Enter your mobile number.'); send(p); };
+      codeForm.onsubmit = function (e) {
+        e.preventDefault();
+        var c = $('[name=code]', codeForm).value.replace(/\D/g, '');
+        if (!c) return error('Enter the code from the text message.');
+        busy(codeForm, true);
+        postJson('/api/otp/verify', { token: token, code: c }).then(function (j) {
+          busy(codeForm, false);
+          if (j.ok && j.ref) { track('otp_verified', {}); return finish(resolve, j); }
+          if (j.expired) return expired(j);
+          error(j.error);
+        }).catch(function () { busy(codeForm, false); error('Network problem — please try again.'); });
+      };
+      resend.onclick = function () { send(''); };
+      $('[data-otp-change]', otpDlg).onclick = function () { stage({ stage: 'phone' }); };
+      $('[data-otp-close]', otpDlg).onclick = function () { otpDlg.close(); };
+      otpDlg.onclose = function () { finish(reject, { error: 'Please confirm your mobile number to send your request.', cancelled: true }); };
+      stage(state);
+      otpDlg.showModal();
+      track('otp_shown', { stage: state.stage });
+    });
+  }
+  function submitLead(payload) {
+    return postJson('/api/leads', payload).then(function (j) {
+      if (j.otp) return otpFlow(j);
+      if (!j.ok) throw j;
+      return j;
+    });
+  }
+
   // ───────────── Estimate API ─────────────
   var inflight = 0;
   function estimate(product, inputs) {
@@ -305,10 +379,8 @@
       payload.quote_inputs = inputs();
       payload.consent_marketing = fd.get('consent_marketing') === 'yes';
       submit.disabled = true; submit.innerHTML = 'Finding your options… <span class="material-symbols-outlined text-[18px] animate-spin">progress_activity</span>';
-      fetch('/api/leads', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(payload) })
-        .then(function (r) { return r.json(); })
+      submitLead(payload)
         .then(function (j) {
-          if (!j.ok) throw j;
           track('quote_complete', { product: product, ref: j.ref });
           location.href = j.redirect;
         })
@@ -331,9 +403,10 @@
         payload.lead_type = 'partial'; payload.product = product; payload.email = $('[name=email]', saveForm).value;
         payload.consent_marketing = $('[name=consent_marketing]', saveForm).checked;
         payload.province = prov ? prov.value : ''; payload.quote_inputs = inputs(); payload._ts = String(Date.now() - 5000);
-        fetch('/api/leads', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(payload) })
-          .then(function (r) { return r.json(); })
-          .then(function (j) { saveMsg.classList.remove('hidden'); saveMsg.className = 'font-body-sm text-body-sm ' + (j.ok ? 'text-secondary' : 'text-error'); saveMsg.textContent = j.ok ? 'Saved! Check your inbox for your resume link.' : j.error; if (j.ok) setTimeout(function () { dlg.close(); }, 1600); });
+        var said = function (ok, text) { saveMsg.classList.remove('hidden'); saveMsg.className = 'font-body-sm text-body-sm ' + (ok ? 'text-secondary' : 'text-error'); saveMsg.textContent = text; };
+        submitLead(payload)
+          .then(function () { said(true, 'Saved! Check your inbox for your resume link.'); setTimeout(function () { dlg.close(); }, 1600); })
+          .catch(function (j) { said(false, (j && j.error) || 'Something went wrong — please try again.'); });
       });
     } else if (saveBtn) saveBtn.hidden = true;
 
@@ -352,10 +425,8 @@
       if (form.hasAttribute('data-calc-form') && window.__calcResult) payload.quote_inputs = window.__calcResult;
       var btn = $('button[type=submit], button:not([type])', form); if (btn) btn.disabled = true;
       var msg = $('[data-calc-msg]', form);
-      fetch('/api/leads', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(payload) })
-        .then(function (r) { return r.json(); })
+      submitLead(payload)
         .then(function (j) {
-          if (!j.ok) throw j;
           if (form.hasAttribute('data-calc-form')) { msg.className = 'sm:col-span-2 font-body-sm text-body-sm text-secondary'; msg.textContent = 'Sent! Check your inbox' + (fd.get('phone') ? ' — an advisor will also be in touch.' : '.'); form.reset(); }
           else location.href = j.redirect;
         })
@@ -432,5 +503,5 @@
     });
   });
 
-  window.InstasureUI = { money: money, estimate: estimate, debounce: debounce, wireSeg: wireSeg, track: track };
+  window.InstasureUI = { money: money, estimate: estimate, debounce: debounce, wireSeg: wireSeg, track: track, submitLead: submitLead };
 })();
