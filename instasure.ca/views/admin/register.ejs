@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en-CA"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Agent registration · <%= s.site_name %></title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"><link rel="stylesheet" href="/assets/site.css?v=<%= v %>"></head>
+<body class="min-h-screen bg-gradient-to-br from-primary-container to-on-primary-fixed-variant flex items-center justify-center p-4">
+  <div class="w-full max-w-2xl bg-surface-container-lowest rounded-3xl shadow-2xl p-6 sm:p-8 flex flex-col gap-4 my-6">
+    <div class="flex items-center gap-2"><img src="/img/logo-mark.svg" alt="" class="w-9 h-9"><span class="font-headline-md text-headline-md text-primary-container">Instasure<span class="text-secondary">.ca</span></span></div>
+    <div>
+      <h1 class="font-headline-sm text-headline-sm text-on-surface">Join as a licensed agent</h1>
+      <p class="font-body-md text-body-md text-on-surface-variant mt-1">Register to receive insurance leads in the provinces you’re licensed in, then manage and track them in your agent portal. We check your licence before approving your account.</p>
+    </div>
+    <% if (!open) { %>
+      <p class="rounded-lg bg-surface-container px-3 py-2 font-body-md text-body-md">Agent registration is closed right now. Please check back soon.</p>
+    <% } else { %>
+    <% if (error) { %><p class="rounded-lg bg-error-container text-on-error-container px-3 py-2 font-label-md text-label-md" role="alert"><%= error %></p><% } %>
+    <% var bad = function(f){ return field === f ? 'ring-2 ring-error' : ''; }; var picked = function(name, v){ var x = b[name]; return Array.isArray(x) ? x.indexOf(v) > -1 : x === v; }; %>
+    <form method="post" action="/admin/register" enctype="multipart/form-data" class="grid sm:grid-cols-2 gap-3">
+      <input type="hidden" name="_ts" value="<%= ts %>">
+      <label class="hidden" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
+      <label class="flex flex-col gap-1"><span class="admin-label">First name</span><input class="admin-input <%= bad('first_name') %>" name="first_name" value="<%= b.first_name || '' %>" autocomplete="given-name" required></label>
+      <label class="flex flex-col gap-1"><span class="admin-label">Last name</span><input class="admin-input" name="last_name" value="<%= b.last_name || '' %>" autocomplete="family-name" required></label>
+      <label class="flex flex-col gap-1"><span class="admin-label">Email address (your sign-in)</span><input class="admin-input <%= bad('email') %>" type="email" name="email" value="<%= b.email || '' %>" autocomplete="email" required></label>
+      <label class="flex flex-col gap-1"><span class="admin-label">Phone number</span><input class="admin-input <%= bad('phone') %>" type="tel" name="phone" value="<%= b.phone || '' %>" autocomplete="tel" required></label>
+      <label class="flex flex-col gap-1"><span class="admin-label">Insurance licence number</span><input class="admin-input font-mono <%= bad('licence_number') %>" name="licence_number" value="<%= b.licence_number || '' %>" required></label>
+      <label class="flex flex-col gap-1"><span class="admin-label">Profile picture (PNG, JPEG or WebP, max 5 MB)</span><input class="text-body-sm <%= bad('photo') %>" type="file" name="photo" accept="image/png,image/jpeg,image/webp" required></label>
+      <fieldset class="sm:col-span-2 <%= bad('provinces') %> rounded-xl p-2"><legend class="admin-label">Provinces you’re licensed in (choose all that apply)</legend>
+        <div class="grid grid-cols-3 sm:grid-cols-5 gap-1 mt-1"><% provinces.forEach(function(p){ %><label class="flex items-center gap-1 font-body-sm text-body-sm"><input type="checkbox" name="provinces" value="<%= p.code %>" <%= picked('provinces', p.code) ? 'checked' : '' %>> <%= p.abbr %></label><% }) %></div></fieldset>
+      <fieldset class="sm:col-span-2 <%= bad('categories') %> rounded-xl p-2"><legend class="admin-label">Lines you’re licensed for</legend>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-1 mt-1"><% Object.keys(CATEGORIES).forEach(function(k){ %><label class="flex items-center gap-1 font-body-sm text-body-sm"><input type="checkbox" name="categories" value="<%= k %>" <%= picked('categories', k) ? 'checked' : '' %>> <%= CATEGORIES[k].name %></label><% }) %></div></fieldset>
+      <fieldset class="sm:col-span-2 rounded-xl p-2"><legend class="admin-label">Languages you can advise in (optional)</legend>
+        <div class="grid grid-cols-3 sm:grid-cols-6 gap-1 mt-1"><% Object.keys(LANGS).forEach(function(k){ %><label class="flex items-center gap-1 font-body-sm text-body-sm"><input type="checkbox" name="languages" value="<%= k %>" <%= picked('languages', k) || (!b.languages && k === 'en') ? 'checked' : '' %>> <%= LANGS[k] %></label><% }) %></div></fieldset>
+      <label class="flex flex-col gap-1"><span class="admin-label">Password (12+ characters)</span><input class="admin-input <%= bad('password') %>" type="password" name="password" autocomplete="new-password" minlength="12" required></label>
+      <label class="flex flex-col gap-1"><span class="admin-label">Confirm password</span><input class="admin-input <%= bad('password_confirm') %>" type="password" name="password_confirm" autocomplete="new-password" minlength="12" required></label>
+      <label class="sm:col-span-2 flex items-start gap-2 font-body-sm text-body-sm <%= bad('attest') %> rounded p-1"><input type="checkbox" name="attest" class="mt-1" required> I confirm I hold a valid insurance licence in each province I selected, and that these details are accurate. I understand <%= s.site_name %> checks licences before approval and may suspend accounts that don’t meet regulatory requirements.</label>
+      <button class="btn-primary sm:col-span-2">Create my agent account</button>
+    </form>
+    <% } %>
+    <p class="text-center font-label-md text-label-md text-on-surface-variant">Already registered? <a class="link" href="/admin/login">Sign in</a> · <a class="hover:text-secondary" href="/">Back to site</a></p>
+  </div>
+</body></html>

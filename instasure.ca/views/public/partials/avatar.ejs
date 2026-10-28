@@ -1,0 +1,14 @@
+<%
+  var sz = typeof size !== 'undefined' ? size : 'w-12 h-12';
+  var initials = a ? a.name.split(/\s+/).map(function(w){ return w[0]; }).slice(0,2).join('').toUpperCase() : '';
+%>
+<div class="relative shrink-0">
+<% if (a && a.photo) { %>
+  <img src="<%= a.photo %>" alt="<%= a.name %>" class="<%= sz %> rounded-2xl object-cover shadow-md <%= typeof ring !== 'undefined' && ring ? 'ring-2 ring-secondary-fixed/40' : '' %>" loading="lazy" width="96" height="96">
+<% } else if (a) { %>
+  <span class="<%= sz %> rounded-2xl bg-gradient-to-br from-secondary to-on-secondary-container text-on-secondary flex items-center justify-center font-headline-md text-headline-md shadow-md" aria-hidden="true"><%= initials %></span>
+<% } else { %>
+  <span class="<%= sz %> rounded-2xl bg-surface-container-lowest/15 text-secondary-fixed flex items-center justify-center shadow-md" aria-hidden="true"><span class="material-symbols-outlined text-[36px]">support_agent</span></span>
+<% } %>
+  <span class="absolute -bottom-1 -right-1 bg-surface-container-lowest text-secondary p-1 rounded-full shadow-md flex"><span class="material-symbols-outlined text-[16px] icon-fill">check_circle</span></span>
+</div>

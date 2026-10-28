@@ -1,0 +1,45 @@
+<% var a = p.advisor; var pc = function(x){ return Math.round(x * 100) + '%'; };
+   var capText = p.cap === null || p.cap === undefined ? 'no monthly limit' : p.monthCount + ' of ' + p.cap + ' this month'; %>
+<% if (!own) { %><a href="/admin/advisors" class="font-label-md text-label-md text-on-surface-variant hover:text-secondary">← Agents</a><% } %>
+<%- include('partials-head', { h: own ? 'Welcome, ' + (a.first_name || a.name.split(' ')[0]) : a.name, sub: (own ? 'Your leads and conversions. ' : '') + 'Leads: ' + capText + ' · ' + p.open + ' open', actions: own ? '<a class="btn-primary !py-2 !px-4" href="/admin/leads"><span class="material-symbols-outlined text-[18px]">group</span>My leads</a><a class="btn-soft !py-2 !px-4" href="/admin/pipeline">Pipeline</a><a class="btn-soft !py-2 !px-4" href="/admin/profile">My profile</a>' : '<a class="btn-soft !py-2 !px-4" href="/admin/advisors/' + a.id + '">Edit agent</a><a class="btn-soft !py-2 !px-4" href="/admin/leads?advisor=' + a.id + '">Their leads</a>' }) %>
+<% if (a.status === 'pending') { %>
+<div class="mb-4 rounded-xl px-4 py-3 bg-tertiary-fixed text-on-tertiary-fixed-variant font-body-md text-body-md flex items-start gap-2"><span class="material-symbols-outlined">hourglass_top</span><span><strong>Waiting for approval.</strong> <%= own ? 'We check your licence on the provincial regulator’s register, then email you. Leads start once you’re approved.' : 'This agent registered and is not receiving leads yet.' %></span></div>
+<% } else if (a.status === 'suspended' || a.status === 'rejected') { %>
+<div class="mb-4 rounded-xl px-4 py-3 bg-error-container text-on-error-container font-body-md text-body-md">This account is <%= a.status %>: no new leads are assigned.</div>
+<% } else if (own && !a.accepting_leads) { %>
+<div class="mb-4 rounded-xl px-4 py-3 bg-surface-container font-body-md text-body-md">You’ve paused new leads. Turn them back on in <a class="link" href="/admin/profile">My profile</a>.</div>
+<% } %>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
+  <% [['Leads this month', p.thisMonth.assigned, p.cap ? 'cap ' + p.cap : 'no cap'], ['Contacted', pc(p.thisMonth.contactRate), p.thisMonth.contacted + ' of ' + p.thisMonth.assigned], ['Quoted', pc(p.thisMonth.quoteRate), p.thisMonth.quoted + ' quoted or further'], ['Won this month', p.thisMonth.won, pc(p.thisMonth.conversion) + ' conversion']].forEach(function(k){ %>
+  <div class="card p-4"><p class="admin-label"><%= k[0] %></p><p class="font-headline-md text-headline-md text-primary-container"><%= k[1] %></p><p class="font-body-sm text-body-sm text-on-surface-variant"><%= k[2] %></p></div>
+  <% }) %>
+</div>
+<% if (p.cap) { var pct = Math.min(100, Math.round(p.monthCount / p.cap * 100)); %>
+<div class="card p-4 mb-4"><div class="flex justify-between font-label-md text-label-md mb-1"><span>Monthly lead cap</span><span><%= p.monthCount %> / <%= p.cap %></span></div><div class="h-2 rounded-full bg-surface-container overflow-hidden"><div class="h-full <%= pct >= 100 ? 'bg-error' : 'bg-secondary' %>" style="width: <%= pct %>%"></div></div></div>
+<% } %>
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-4">
+  <section class="card p-5 xl:col-span-2 overflow-x-auto">
+    <h2 class="font-headline-sm text-headline-sm mb-3">Conversions by month</h2>
+    <table class="w-full"><thead><tr><th class="admin-th">Month</th><th class="admin-th text-right">Leads</th><th class="admin-th text-right">Contacted</th><th class="admin-th text-right">Quoted</th><th class="admin-th text-right">Won</th><th class="admin-th text-right">Lost</th><th class="admin-th text-right">Conversion</th></tr></thead>
+      <tbody><% p.months.slice().reverse().forEach(function(m){ %><tr><td class="admin-td text-body-sm"><%= m.label %></td><td class="admin-td text-body-sm text-right"><%= m.assigned %></td><td class="admin-td text-body-sm text-right"><%= m.contacted %></td><td class="admin-td text-body-sm text-right"><%= m.quoted %></td><td class="admin-td text-body-sm text-right font-semibold"><%= m.won %></td><td class="admin-td text-body-sm text-right"><%= m.lost %></td><td class="admin-td text-body-sm text-right"><%= m.assigned ? pc(m.conversion) : '—' %></td></tr><% }) %>
+        <tr class="font-semibold"><td class="admin-td text-body-sm">All time</td><td class="admin-td text-body-sm text-right"><%= p.allTime.assigned %></td><td class="admin-td text-body-sm text-right"><%= p.allTime.contacted %></td><td class="admin-td text-body-sm text-right"><%= p.allTime.quoted %></td><td class="admin-td text-body-sm text-right"><%= p.allTime.won %></td><td class="admin-td text-body-sm text-right"><%= p.allTime.lost %></td><td class="admin-td text-body-sm text-right"><%= p.allTime.assigned ? pc(p.allTime.conversion) : '—' %></td></tr></tbody></table>
+    <p class="font-body-sm text-body-sm text-on-surface-variant mt-2">Leads are counted in the month they were assigned. Conversion = policies issued (won) ÷ leads assigned.<% if (p.hoursToFirstContact !== null) { %> Average time to first contact (last 3 months): <strong><%= p.hoursToFirstContact %> h</strong>.<% } %></p>
+  </section>
+  <section class="card p-5">
+    <h2 class="font-headline-sm text-headline-sm mb-3">Where leads are now</h2>
+    <ul class="space-y-1"><% p.funnel.forEach(function(f){ %><li class="flex justify-between font-body-sm text-body-sm"><a class="link font-normal" href="/admin/leads?status=<%= f.key %><%= own ? '' : '&advisor=' + a.id %>"><%= f.label %></a><span class="font-semibold"><%= f.n %></span></li><% }) %>
+      <% if (!p.funnel.length) { %><li class="font-body-sm text-body-sm text-on-surface-variant">No leads yet.</li><% } %></ul>
+  </section>
+  <% if (own && typeof myTasks !== 'undefined') { %>
+  <section class="card p-5 xl:col-span-2">
+    <div class="flex items-center justify-between mb-3"><h2 class="font-headline-sm text-headline-sm">My follow-ups</h2><a class="link font-label-md text-label-md" href="/admin/tasks">All</a></div>
+    <ul class="flex flex-col gap-2"><% myTasks.slice(0, 8).forEach(function(t){ var od = U.toDate(t.due_at) < new Date(); %><li class="flex justify-between gap-2 font-body-sm text-body-sm <%= od ? 'text-error' : '' %>"><a class="link font-normal" href="/admin/leads/<%= t.lead_id %>#tasks"><%= t.title %> — <%= ((t.first_name || '') + ' ' + (t.last_name || '')).trim() || t.email %></a><time data-local datetime="<%= U.iso(t.due_at) %>"><%= U.fmtDateTime(t.due_at) %></time></li><% }) %>
+      <% if (!myTasks.length) { %><li class="font-body-sm text-body-sm text-on-surface-variant">Nothing scheduled.</li><% } %></ul>
+  </section>
+  <% } %>
+  <section class="card p-5 <%= own ? '' : 'xl:col-span-3' %> overflow-x-auto">
+    <h2 class="font-headline-sm text-headline-sm mb-3">Latest leads</h2>
+    <ul class="flex flex-col gap-1"><% p.recent.forEach(function(l){ %><li class="flex justify-between gap-2 font-body-sm text-body-sm"><a class="link font-normal" href="/admin/leads/<%= l.id %>"><%= ((l.first_name || '') + ' ' + (l.last_name || '')).trim() || l.email %></a><span class="text-on-surface-variant whitespace-nowrap"><%= stageLabel(l.status) %> · <%= l.grade || '' %> <%= l.score %></span></li><% }) %>
+      <% if (!p.recent.length) { %><li class="font-body-sm text-body-sm text-on-surface-variant">No leads assigned yet.</li><% } %></ul>
+  </section>
+</div>

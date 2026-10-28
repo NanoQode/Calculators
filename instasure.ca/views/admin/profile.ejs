@@ -1,0 +1,23 @@
+<% var langs = db_json(a.languages, []); var lic = db_json(a.licences, []); %>
+<%- include('partials-head', { h: 'My profile', sub: 'How clients and the team reach you. Licence, province and product-line changes go through an admin, who checks the regulator’s register.' }) %>
+<form method="post" action="/admin/profile?_csrf=<%= encodeURIComponent(csrf) %>" enctype="multipart/form-data" class="grid grid-cols-1 xl:grid-cols-3 gap-4">
+  <input type="hidden" name="_csrf" value="<%= csrf %>">
+  <section class="card p-5 grid grid-cols-2 gap-3 xl:col-span-2">
+    <div class="col-span-2 flex items-center gap-3"><%- include('../public/partials/avatar', { a: a, size: 'w-16 h-16' }) %><label class="flex-1"><span class="admin-label">New photo (PNG/JPEG/WebP, max 5 MB)</span><input type="file" name="photo" accept="image/png,image/jpeg,image/webp" class="text-body-sm"></label></div>
+    <label><span class="admin-label">Phone</span><input class="admin-input" type="tel" name="phone" value="<%= a.phone ? U.fmtPhone(a.phone) : '' %>" required></label>
+    <label><span class="admin-label">Booking link (https, optional)</span><input class="admin-input" name="booking_url" value="<%= a.booking_url || '' %>" placeholder="https://calendly.com/…"></label>
+    <label class="col-span-2"><span class="admin-label">About you (shown to clients once your public profile is switched on)</span><textarea class="admin-input min-h-[140px]" name="bio_md"><%= a.bio_md || '' %></textarea></label>
+    <fieldset class="col-span-2"><legend class="admin-label">Languages</legend><div class="grid grid-cols-3 sm:grid-cols-6 gap-1"><% Object.keys(LANGS).forEach(function(k){ %><label class="flex items-center gap-1 font-body-sm text-body-sm"><input type="checkbox" name="languages" value="<%= k %>" <%= langs.indexOf(k) > -1 ? 'checked' : '' %>><%= LANGS[k] %></label><% }) %></div></fieldset>
+    <label class="col-span-2 flex items-center gap-2 font-label-md text-label-md"><input type="checkbox" name="accepting_leads" value="1" <%= a.accepting_leads ? 'checked' : '' %>> Accepting new leads (untick to pause, e.g. on holiday)</label>
+    <button class="btn-primary !py-2 col-span-2 justify-self-start">Save profile</button>
+  </section>
+  <section class="card p-5 flex flex-col gap-2 self-start">
+    <h2 class="font-headline-sm text-headline-sm">Licensing</h2>
+    <p class="font-body-sm text-body-sm">Status: <strong><%= { approved: 'Approved', pending: 'Pending approval', suspended: 'Suspended', rejected: 'Rejected' }[a.status || 'approved'] %></strong></p>
+    <p class="font-body-sm text-body-sm">Licence number: <span class="font-mono"><%= a.licence_number || '—' %></span></p>
+    <p class="font-body-sm text-body-sm">Provinces: <span class="uppercase"><%= db_json(a.provinces, []).join(', ') || '—' %></span></p>
+    <p class="font-body-sm text-body-sm">Lines: <%= db_json(a.categories, []).map(function(c){ return (CATEGORIES[c] || {}).name || c; }).join(', ') || '—' %></p>
+    <p class="font-body-sm text-body-sm">Monthly lead cap: <%= a.monthly_lead_cap === null || a.monthly_lead_cap === undefined ? 'no limit' : a.monthly_lead_cap %></p>
+    <p class="font-body-sm text-body-sm text-on-surface-variant">Need a change here? Email <a class="link" href="mailto:<%= s.email %>"><%= s.email %></a>.</p>
+  </section>
+</form>

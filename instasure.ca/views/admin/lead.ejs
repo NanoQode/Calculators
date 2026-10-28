@@ -1,0 +1,185 @@
+<% var fmt = function(n){ return U.money(n, { cents: n < 100 }); }; var csrfField = '<input type="hidden" name="_csrf" value="' + csrf + '">';
+   var fullName = ((lead.first_name || '') + ' ' + (lead.last_name || '')).trim() || lead.email;
+   var when = function(v){ return '<time data-local datetime="' + U.iso(v) + '">' + U.escapeHtml(U.fmtDateTime(v)) + '</time>'; };
+   var openTasks = leadTasks.filter(function(t){ return !t.done_at; }); %>
+<% if (noteRequired) { %>
+<div class="mb-4 rounded-xl px-4 py-3 bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-md text-label-md flex items-start gap-2" role="alert">
+  <span class="material-symbols-outlined text-[18px]">edit_note</span>
+  <span>This is a new lead. Add a note below (or log a call or a stage update with a note) before you open another lead.</span>
+</div>
+<% } %>
+<div class="flex flex-col md:flex-row md:items-start justify-between gap-3 mb-6">
+  <div>
+    <a href="/admin/leads" class="font-label-md text-label-md text-on-surface-variant hover:text-secondary">← Leads</a>
+    <h1 class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container mt-1"><%= fullName %></h1>
+    <p class="font-body-md text-body-md text-on-surface-variant"><span class="font-mono"><%= lead.ref %></span> · <%= lead.lead_type %><% if (lead.service) { var dk = desks.find(function(d){ return d.slug === lead.service; }); var sv = serviceData.bySlug[lead.service]; %> · <span class="chip bg-secondary-container/40 text-on-secondary-container"><%= dk ? dk.desk : (sv ? sv.name : lead.service) %></span><% } %> · first request <%- when(lead.created_at) %> (<%= U.timeAgo(lead.created_at) %>)</p>
+    <div class="flex flex-wrap gap-2 mt-2">
+      <% allProducts.forEach(function(p, i){ %><span class="badge <%= i === 0 ? 'bg-primary-container text-on-primary' : 'bg-secondary-container text-on-secondary-container' %>" title="<%= i === 0 ? 'First product asked about' : 'Also asked about' %>"><%= (bySlug[p] || {}).short || p %></span><% }) %>
+      <% if (!allProducts.length) { %><span class="badge bg-surface-container">No product</span><% } %>
+    </div>
+    <div class="flex flex-wrap gap-2 mt-2">
+      <%- include('grade', { l: lead }) %>
+      <span class="badge bg-surface-container"><%= stageLabel(lead.status) %></span>
+      <% if (lead.inquiry_count > 1) { %><span class="badge bg-tertiary-fixed text-on-tertiary-fixed-variant" title="Repeat submissions were added to this lead instead of creating duplicates"><%= lead.inquiry_count %> requests</span><% } %>
+      <% if (lead.phone_verified_at) { %><span class="badge bg-secondary-container text-on-secondary-container" title="Confirmed by SMS code <%= U.fmtDateTime(lead.phone_verified_at) %>"><span class="material-symbols-outlined text-[14px]">verified</span> Phone verified</span><% } %>
+      <% if (lead.consent_marketing) { %><span class="badge bg-secondary-container text-on-secondary-container" title="<%= lead.consent_text %>">Express consent <%= U.fmtDate(lead.consent_at, 'short') %></span><% } else { %><span class="badge bg-surface-container-high text-on-surface-variant">No marketing consent</span><% } %>
+      <% if (lead.unsubscribed_at) { %><span class="badge bg-error-container text-on-error-container">Unsubscribed</span><% } %>
+      <% if (lead.is_test) { %><span class="badge bg-tertiary-fixed text-on-tertiary-fixed-variant">Test</span><% } %>
+      <% if (refs.length) { %><span class="badge bg-surface-container" title="References of records merged into this lead">Also <%= refs.map(function(r){ return r.ref; }).join(', ') %></span><% } %>
+    </div>
+  </div>
+  <div class="flex flex-wrap gap-2">
+    <button type="button" class="btn-primary !py-2 !px-4" data-stage-open data-id="<%= lead.id %>" data-name="<%= fullName %>" data-stage="<%= lead.status %>" data-score="<%= lead.score %>" data-adjust="<%= lead.score_adjustment || 0 %>" data-agent="<%= lead.advisor_id ? 1 : 0 %>"><span class="material-symbols-outlined text-[18px]">edit_note</span>Update stage</button>
+    <% if (lead.phone) { %><a class="btn-soft !py-2 !px-4" href="tel:<%= lead.phone %>"><span class="material-symbols-outlined text-[18px]">call</span><%= U.fmtPhone(lead.phone) %></a><% } %>
+    <a class="btn-soft !py-2 !px-4" href="mailto:<%= lead.email %>"><span class="material-symbols-outlined text-[18px]">mail</span>Email</a>
+    <a class="btn-soft !py-2 !px-4" href="/quote/results/<%= lead.ref %>/" target="_blank">Results page</a>
+  </div>
+</div>
+
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-4">
+  <div class="xl:col-span-2 flex flex-col gap-4">
+    <section class="card p-5 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <% [['Email', lead.email], ['Phone', lead.phone ? U.fmtPhone(lead.phone) + (lead.phone_verified_at ? ' ✓ SMS' : '') : '—'], ['Location', [lead.city, (lead.province || '').toUpperCase(), lead.postal_code].filter(Boolean).join(', ') || '—'], ['Language', lead.language], ['Timeframe', lead.timeframe || '—'], ['Best time', lead.best_time || '—'], ['Source', lead.source + (lead.utm_campaign ? ' · ' + lead.utm_campaign : '')], ['Landing page', lead.landing_page || '—'], ['Last activity', lead.last_activity_at ? U.timeAgo(lead.last_activity_at) : '—']].forEach(function(f){ %>
+      <div><p class="admin-label"><%= f[0] %></p><p class="font-body-md text-body-md break-words"><%= f[1] %></p></div>
+      <% }) %>
+      <% if (lead.message) { %><div class="sm:col-span-2 lg:col-span-3"><p class="admin-label">Latest message</p><p class="font-body-md text-body-md whitespace-pre-line bg-surface-container-low rounded-lg p-3"><%= lead.message %></p></div><% } %>
+    </section>
+
+    <section class="card p-5">
+      <h2 class="font-headline-sm text-headline-sm mb-1">Requests</h2>
+      <p class="font-body-sm text-body-sm text-on-surface-variant mb-3">Every form this person has sent. Repeat submissions update this lead instead of creating a duplicate.</p>
+      <ol class="flex flex-col gap-2">
+        <% inquiries.forEach(function(q){ var qp = bySlug[q.product]; var est = db_json(q.estimate); %>
+        <li class="rounded-xl bg-surface-container-low p-3">
+          <div class="flex flex-wrap items-center gap-2 font-label-md text-label-md">
+            <span><%= qp ? qp.name : (q.product || 'General request') %></span>
+            <% if (q.is_new_product) { %><span class="badge bg-secondary text-on-secondary">New product</span><% } %>
+            <span class="badge bg-surface-container"><%= q.origin === 'repeat' ? 'Repeat request' : q.origin === 'merge' ? 'Merged from ' + q.ref : 'First request' %></span>
+            <span class="font-normal text-on-surface-variant"><%= q.lead_type %> · <%- when(q.created_at) %></span>
+          </div>
+          <p class="font-body-sm text-body-sm text-on-surface-variant mt-1"><%= [q.service ? (serviceData.bySlug[q.service] || {}).name || q.service : '', est.low !== undefined ? 'estimate ' + fmt(est.low) + '–' + fmt(est.high) + (est.periodLabel || '') : '', q.timeframe ? 'timeframe ' + q.timeframe : '', q.source ? 'via ' + q.source : '', q.page_path || ''].filter(Boolean).join(' · ') %></p>
+          <% if (q.message) { %><p class="font-body-sm text-body-sm mt-1 whitespace-pre-line"><%= q.message %></p><% } %>
+        </li>
+        <% }) %>
+        <% if (!inquiries.length) { %><li class="font-body-sm text-body-sm text-on-surface-variant">No request history recorded for this older lead.</li><% } %>
+      </ol>
+    </section>
+
+    <section class="card p-5">
+      <h2 class="font-headline-sm text-headline-sm mb-3">Quote request (<%= product ? product.name : 'no product' %>)</h2>
+      <% if (estimate && estimate.low !== undefined) { %>
+      <div class="flex flex-wrap items-end gap-4 mb-3"><div><p class="admin-label">Instant estimate</p><p class="font-headline-md text-headline-md text-primary-container"><%= fmt(estimate.low) %>–<%= fmt(estimate.high) %><%= estimate.periodLabel %></p></div><p class="font-body-sm text-body-sm text-on-surface-variant max-w-md"><%= estimate.example %> · <%= estimate.asOf %></p></div>
+      <% } %>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-2"><% Object.keys(inputs).forEach(function(k){ %><div class="bg-surface-container-low rounded-lg px-3 py-2"><p class="font-label-sm text-label-sm text-on-surface-variant"><%= k.replace(/_/g, ' ') %></p><p class="font-label-md text-label-md"><%= inputs[k] %></p></div><% }) %></div>
+    </section>
+
+    <section class="card p-5 scroll-mt-4 <%= noteRequired ? 'ring-2 ring-tertiary-fixed-dim' : '' %>" id="add-note">
+      <h2 class="font-headline-sm text-headline-sm mb-3">Log a contact</h2>
+      <form method="post" action="/admin/leads/<%= lead.id %>/update" class="grid md:grid-cols-3 gap-2 items-end"><%- csrfField %>
+        <label><span class="admin-label">Outcome</span><select class="admin-input" name="disposition"><option value="">— none —</option><% stages.DISPOSITIONS.forEach(function(d){ %><option value="<%= d.key %>"><%= d.label %></option><% }) %></select></label>
+        <label class="md:col-span-2"><span class="admin-label">Note</span><input class="admin-input" name="note" placeholder="What did you learn?" <%= noteRequired ? 'required autofocus' : '' %>></label>
+        <p class="md:col-span-2 font-body-sm text-body-sm text-on-surface-variant">Changing the stage? Use <strong>Update stage</strong> to log the outcome, notes, score and a follow-up together.</p>
+        <button class="btn-soft !py-2 justify-self-start md:justify-self-end">Save</button>
+      </form>
+      <details class="mt-4"><summary class="font-label-md text-label-md text-secondary cursor-pointer">Send a one-off email</summary>
+        <form method="post" action="/admin/leads/<%= lead.id %>/email" class="flex flex-col gap-2 mt-2"><%- csrfField %>
+          <input class="admin-input" name="subject" placeholder="Subject" required>
+          <textarea class="admin-input min-h-[140px]" name="body" placeholder="Markdown supported. Merge tags: {{first_name}}, {{advisor_name}}, {{quote_url}}…" required></textarea>
+          <p class="font-body-sm text-body-sm text-on-surface-variant">Sent with your sender identification and unsubscribe link (CASL). Use only to respond to this person’s request.</p>
+          <button class="btn-dark !py-2 self-start">Send</button></form></details>
+    </section>
+
+    <section class="card p-5" id="tasks">
+      <div class="flex items-center justify-between mb-3"><h2 class="font-headline-sm text-headline-sm">Follow-ups</h2><span class="font-body-sm text-body-sm text-on-surface-variant"><%= openTasks.length %> open</span></div>
+      <ul class="flex flex-col gap-2 mb-3">
+        <% leadTasks.forEach(function(t){ var overdue = !t.done_at && U.toDate(t.due_at) < new Date(); %>
+        <li class="flex items-start justify-between gap-2 rounded-xl p-3 <%= t.done_at ? 'bg-surface-container-low opacity-60' : overdue ? 'bg-error-container/40' : 'bg-surface-container-low' %>">
+          <div><p class="font-label-md text-label-md <%= t.done_at ? 'line-through' : '' %>"><%= t.title %></p><p class="font-body-sm text-body-sm text-on-surface-variant">Due <%- when(t.due_at) %><%= t.assignee ? ' · ' + t.assignee : '' %><%= t.done_at ? ' · done ' + U.timeAgo(t.done_at) : overdue ? ' · overdue' : '' %></p><% if (t.notes) { %><p class="font-body-sm text-body-sm"><%= t.notes %></p><% } %></div>
+          <% if (!t.done_at) { %><form method="post" action="/admin/tasks/<%= t.id %>/done"><%- csrfField %><input type="hidden" name="back" value="/admin/leads/<%= lead.id %>#tasks"><button class="btn-soft !py-1 !px-3 text-body-sm">Done</button></form><% } %>
+        </li>
+        <% }) %>
+        <% if (!leadTasks.length) { %><li class="font-body-sm text-body-sm text-on-surface-variant">No follow-ups scheduled.</li><% } %>
+      </ul>
+      <form method="post" action="/admin/leads/<%= lead.id %>/tasks" class="grid sm:grid-cols-4 gap-2 items-end" data-task-form><%- csrfField %><input type="hidden" name="due_utc" data-due-utc>
+        <label class="sm:col-span-2"><span class="admin-label">New follow-up</span><input class="admin-input" name="task_title" placeholder="Call back about the quote" required></label>
+        <label><span class="admin-label">Due</span><input class="admin-input" type="datetime-local" name="due_local" data-due-local required></label>
+        <label><span class="admin-label">For</span><select class="admin-input" name="task_for"><option value="me">Me</option><% if (agentUser) { %><option value="agent"><%= agentUser.name %> (agent)</option><% } %></select></label>
+        <button class="btn-soft !py-2 justify-self-start">Add follow-up</button>
+      </form>
+    </section>
+
+    <section class="card p-5">
+      <h2 class="font-headline-sm text-headline-sm mb-3">Timeline</h2>
+      <ol class="relative border-l-2 border-surface-container ml-2 space-y-4">
+        <% events.forEach(function(e){ var d = db_json(e.data);
+           var title = e.type === 'status_change' ? 'Stage: ' + stageLabel(d.from) + ' → ' + stageLabel(d.to) : e.type.replace(/_/g, ' ');
+           var detail = [d.disposition_label, d.note, d.reason && d.reason !== d.disposition_label ? d.reason : '', d.subject, (e.type === 'assigned' || e.type === 'reassigned') ? d.advisor + (d.manual ? ' (by hand)' : d.rule ? ' (direct rule)' : d.mode === 'round_robin' ? ' (round-robin)' : '') + (d.warnings ? ' — ' + d.warnings.join('; ') : '') : '', d.campaign, d.outcome, d.url, e.type === 'score_change' ? d.from + ' → ' + d.to + ' (' + d.reason + ')' : ''].filter(Boolean).join(' · '); %>
+        <li class="ml-4">
+          <span class="absolute -left-[7px] mt-1.5 w-3 h-3 rounded-full <%= /status_change|assigned|reassigned|repeat_inquiry|merged/.test(e.type) ? 'bg-secondary' : /task/.test(e.type) ? 'bg-tertiary-fixed-dim' : 'bg-outline-variant' %>"></span>
+          <p class="font-label-md text-label-md"><%= title %> <span class="font-normal text-on-surface-variant">· <%- when(e.created_at) %><%= e.user_name ? ' · ' + e.user_name : '' %></span></p>
+          <% if (detail) { %><p class="font-body-sm text-body-sm text-on-surface-variant break-words whitespace-pre-line"><%= detail %><%= d.status ? ' (' + d.status + ')' : '' %></p><% } %>
+        </li>
+        <% }) %>
+      </ol>
+    </section>
+  </div>
+
+  <div class="flex flex-col gap-4">
+    <section class="card p-5">
+      <h2 class="font-headline-sm text-headline-sm mb-1">Stage</h2>
+      <p class="font-body-md text-body-md mb-1"><%= stageLabel(lead.status) %><% if (lead.stage_changed_at) { %> <span class="text-on-surface-variant text-body-sm">since <%- when(lead.stage_changed_at) %></span><% } %></p>
+      <% if (lead.disposition) { %><p class="font-body-sm text-body-sm text-on-surface-variant mb-2">Last outcome: <%= (stages.dispositionByKey[lead.disposition] || {}).label || lead.disposition %></p><% } %>
+      <form method="post" action="/admin/leads/<%= lead.id %>/update" class="flex gap-2" data-stage-select-form data-id="<%= lead.id %>" data-name="<%= fullName %>" data-score="<%= lead.score %>" data-adjust="<%= lead.score_adjustment || 0 %>" data-agent="<%= lead.advisor_id ? 1 : 0 %>"><%- csrfField %>
+        <select class="admin-input" name="status" data-stage-select><% stages.STAGES.forEach(function(st){ %><option value="<%= st.key %>" <%= st.key === lead.status ? 'selected' : '' %>><%= st.label %></option><% }) %></select>
+        <button class="btn-dark !py-2 !px-3">Move</button>
+      </form>
+    </section>
+    <section class="card p-5">
+      <h2 class="font-headline-sm text-headline-sm mb-1">Agent</h2>
+      <p class="font-body-md text-body-md mb-1"><%= advisor ? advisor.name : 'Unassigned' %><% if (advisor && advisor.is_demo) { %> <span class="badge bg-error-container text-on-error-container">sample</span><% } %></p>
+      <% if (advisor && lead.assigned_at) { %><p class="font-body-sm text-body-sm text-on-surface-variant mb-3">Assigned <%- when(lead.assigned_at) %></p><% } %>
+      <% if (can('leads.manage')) { %>
+      <form method="post" action="/admin/leads/<%= lead.id %>/assign" class="flex gap-2"><%- csrfField %>
+        <select class="admin-input" name="advisor_id"><option value="auto">Auto-assign (distribution rules)</option><% if (advisor) { %><option value="none">Unassign</option><% } %><% advisors.forEach(function(a){ %><option value="<%= a.id %>" <%= lead.advisor_id === a.id ? 'selected' : '' %>><%= a.name %><%= candidates.indexOf(a.id) > -1 ? ' ✓' : '' %> · <%= a.month_count %><%= a.monthly_lead_cap !== null && a.monthly_lead_cap !== undefined ? '/' + a.monthly_lead_cap : '' %> this month<%= a.active ? '' : ' (inactive)' %></option><% }) %></select>
+        <button class="btn-soft !py-2 !px-3">Assign</button>
+      </form>
+      <p class="font-body-sm text-body-sm text-on-surface-variant mt-2">✓ = licensed in <%= (lead.province || '').toUpperCase() %> for this product, accepting leads and under their monthly cap. You can assign anyone by hand; caps apply to automatic assignment.</p>
+      <% } %>
+    </section>
+    <section class="card p-5">
+      <div class="flex items-center justify-between mb-2"><h2 class="font-headline-sm text-headline-sm">Score breakdown</h2><form method="post" action="/admin/leads/<%= lead.id %>/rescore"><%- csrfField %><button class="link font-label-md text-label-md">Re-score</button></form></div>
+      <ul class="space-y-1">
+        <% breakdown.forEach(function(r){ %><li class="flex justify-between font-body-sm text-body-sm"><span><%= r.name %> <span class="text-on-surface-variant">(<%= r.category %>)</span></span><span class="font-semibold <%= r.points < 0 ? 'text-error' : 'text-secondary' %>"><%= r.points > 0 ? '+' : '' %><%= r.points %></span></li><% }) %>
+        <li class="flex justify-between font-label-md text-label-md border-t border-surface-container pt-1 mt-1"><span>Total (clamped 0–100)</span><span><%= lead.score %></span></li>
+      </ul>
+      <details class="mt-2"><summary class="font-label-sm text-label-sm text-on-surface-variant cursor-pointer">Scoring facts</summary><pre class="text-[11px] bg-surface-container-low rounded p-2 mt-1 overflow-x-auto"><%= JSON.stringify(facts, null, 1) %></pre></details>
+    </section>
+    <section class="card p-5">
+      <h2 class="font-headline-sm text-headline-sm mb-2">Email &amp; drips</h2>
+      <% enrollments.forEach(function(e){ %><p class="font-body-sm text-body-sm"><span class="font-semibold"><%= e.name %></span> — <%= e.status %> (step <%= e.current_position %>)<%= e.stop_reason ? ' · ' + e.stop_reason : '' %><%= e.status === 'active' ? ' · next ' + U.timeAgo(e.next_run_at).replace(' ago', '') : '' %></p><% }) %>
+      <% if (!enrollments.length) { %><p class="font-body-sm text-body-sm text-on-surface-variant">Not enrolled in any campaign.</p><% } %>
+      <ul class="mt-2 space-y-1"><% emails.slice(0, 8).forEach(function(m){ %><li class="font-body-sm text-body-sm"><% if (can('editor')) { %><a class="link font-normal" href="/admin/emails/<%= m.id %>" target="_blank"><%= m.subject %></a><% } else { %><%= m.subject %><% } %> <span class="text-on-surface-variant">· <%= m.status %> · <%= m.open_count %> opens · <%= m.click_count %> clicks</span></li><% }) %></ul>
+      <% if (can('leads.manage')) { %>
+      <form method="post" action="/admin/leads/<%= lead.id %>/enroll" class="flex gap-2 mt-3"><%- csrfField %><select class="admin-input" name="campaign_id"><% campaigns.forEach(function(c){ %><option value="<%= c.id %>"><%= c.name %></option><% }) %></select><button class="btn-soft !py-2 !px-3">Enrol</button></form>
+      <% } %>
+      <div class="flex flex-wrap gap-2 mt-3">
+        <form method="post" action="/admin/leads/<%= lead.id %>/stop-drips"><%- csrfField %><button class="link font-label-md text-label-md">Stop all drips</button></form>
+        <form method="post" action="/admin/leads/<%= lead.id %>/unsubscribe" data-confirm="Unsubscribe this email from all marketing?"><%- csrfField %><button class="link font-label-md text-label-md">Unsubscribe</button></form>
+      </div>
+    </section>
+    <% if (pageviews.length) { %>
+    <section class="card p-5"><h2 class="font-headline-sm text-headline-sm mb-2">Pages viewed</h2><ul class="space-y-0.5 max-h-60 overflow-y-auto"><% pageviews.forEach(function(p){ %><li class="font-body-sm text-body-sm flex justify-between gap-2"><span class="truncate"><%= p.path %></span><span class="text-on-surface-variant whitespace-nowrap"><%= U.timeAgo(p.ts) %></span></li><% }) %></ul></section>
+    <% } %>
+    <section class="card p-5">
+      <h2 class="font-headline-sm text-headline-sm mb-2">Data &amp; privacy</h2>
+      <div class="flex flex-col gap-2">
+        <% if (can('leads.manage')) { %><form method="post" action="/admin/leads/<%= lead.id %>/test"><%- csrfField %><button class="link font-label-md text-label-md"><%= lead.is_test ? 'Unmark test' : 'Mark as test lead' %></button></form><% } %>
+        <% if (can('admin')) { %>
+        <form method="post" action="/admin/leads/<%= lead.id %>/delete" data-confirm="Remove this person’s personal data? The anonymised record is kept for counts."><%- csrfField %><input type="hidden" name="mode" value="anonymise"><button class="link font-label-md text-label-md">Anonymise (privacy request)</button></form>
+        <form method="post" action="/admin/leads/<%= lead.id %>/delete" data-confirm="Permanently delete this lead, its requests, follow-ups, timeline and emails? This can’t be undone."><%- csrfField %><button class="font-label-md text-label-md text-error hover:underline">Delete permanently</button></form>
+        <% } %>
+      </div>
+    </section>
+  </div>
+</div>
+<%- include('stage-dialog', { stageReturn: '' }) %>

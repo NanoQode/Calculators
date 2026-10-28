@@ -1,0 +1,41 @@
+<% var csrfField = '<input type="hidden" name="_csrf" value="' + csrf + '">'; %>
+<%- include('partials-head', { h: 'Agents', sub: 'Licensed agents receive leads for the provinces and lines they are licensed for. Agents register at <a class="link" href="/admin/register" target="_blank">/admin/register</a> and get leads once approved. Distribution: <strong>' + MODES[mode] + '</strong> · <a class="link" href="/admin/distribution">change</a>', actions: '<a class="btn-primary !py-2 !px-4" href="/admin/advisors/new"><span class="material-symbols-outlined text-[18px]">person_add</span>Add agent</a>' }) %>
+<div class="flex flex-wrap gap-2 mb-3">
+  <% Object.keys(STATUSES).forEach(function(k){ %><a class="badge !py-1.5 !px-3 <%= tab === k ? 'bg-primary-container text-on-primary' : k === 'pending' && counts[k] ? 'bg-tertiary-fixed text-on-tertiary-fixed-variant' : 'bg-surface-container-lowest' %>" href="/admin/advisors?status=<%= k %>"><%= STATUSES[k] %> <span class="opacity-70"><%= counts[k] || 0 %></span></a><% }) %>
+</div>
+<% if (tab === 'approved') { %>
+<section class="card p-5 mb-4"><h2 class="font-headline-sm text-headline-sm mb-2">Licensed coverage by province (approved, active agents)</h2>
+  <div class="flex flex-wrap gap-2"><% coverage.forEach(function(c){ %><span class="badge !py-1.5 !px-3 <%= c.n ? 'bg-secondary-container text-on-secondary-container' : 'bg-error-container text-on-error-container' %>"><%= c.p.abbr %> · <%= c.n %></span><% }) %></div></section>
+<% } %>
+<% if (tab === 'pending') { %><p class="mb-3 font-body-md text-body-md text-on-surface-variant">Check each licence number on the provincial regulator’s public register before approving. Approving activates the agent, starts lead assignment and emails them.</p><% } %>
+<div class="card overflow-x-auto"><table class="w-full">
+  <thead><tr><th class="admin-th">Agent</th><th class="admin-th">Licence &amp; provinces</th><th class="admin-th">Lines</th><% if (tab === 'approved') { %><th class="admin-th">This month / cap</th><th class="admin-th">Open</th><th class="admin-th">Won</th><th class="admin-th">Routing</th><% } else { %><th class="admin-th">Registered</th><th class="admin-th">Contact</th><% } %><th class="admin-th"></th></tr></thead>
+  <tbody><% rows.forEach(function(a){ var atCap = a.monthly_lead_cap !== null && a.monthly_lead_cap !== undefined && a.month_count >= a.monthly_lead_cap; %><tr class="hover:bg-surface-container-low <%= a.active || tab !== 'approved' ? '' : 'opacity-50' %>">
+    <td class="admin-td"><div class="flex items-center gap-2"><%- include('../public/partials/avatar', { a: a, size: 'w-9 h-9' }) %><div><a class="link" href="/admin/advisors/<%= a.id %>"><%= a.name %></a><% if (a.is_demo) { %> <span class="badge bg-error-container text-on-error-container">sample</span><% } %><div class="text-body-sm text-on-surface-variant"><%= a.title || '' %><%= a.has_login ? ' · has login' : '' %><%= a.show_on_site ? ' · public profile' : '' %></div></div></div></td>
+    <td class="admin-td text-body-sm"><% if (a.licence_number) { %><span class="font-mono"><%= a.licence_number %></span><br><% } %><span class="uppercase"><%= db_json(a.provinces, []).join(', ') %></span></td>
+    <td class="admin-td text-body-sm"><%= db_json(a.categories, []).map(function(c){ return (CATEGORIES[c] || {}).name || c; }).join(', ') %><% var sp = db_json(a.specialties, []); if (sp.length) { %><div class="text-secondary"><%= sp.length %> specialist desk<%= sp.length > 1 ? 's' : '' %></div><% } %></td>
+    <% if (tab === 'approved') { %>
+    <td class="admin-td text-body-sm">
+      <form method="post" action="/admin/advisors/<%= a.id %>/cap" class="flex items-center gap-1"><%- csrfField %><input type="hidden" name="status" value="<%= tab %>">
+        <span class="whitespace-nowrap <%= atCap ? 'text-error font-semibold' : '' %>"><%= a.month_count %> /</span>
+        <input class="admin-input !w-20 !py-1" type="number" min="0" name="monthly_lead_cap" value="<%= a.monthly_lead_cap === null || a.monthly_lead_cap === undefined ? '' : a.monthly_lead_cap %>" placeholder="∞" aria-label="Monthly lead cap for <%= a.name %>">
+        <button class="btn-soft !py-1 !px-2 text-body-sm">Set</button>
+      </form>
+      <% if (atCap) { %><div class="text-error">at cap — no more automatic leads this month</div><% } %>
+    </td>
+    <td class="admin-td text-body-sm"><%= a.open_leads %><%= a.max_open_leads ? ' / ' + a.max_open_leads : '' %></td>
+    <td class="admin-td text-body-sm"><%= a.won %><% if (a.total_leads) { %> <span class="text-on-surface-variant">(<%= Math.round(a.won / a.total_leads * 100) %>%)</span><% } %></td>
+    <td class="admin-td text-body-sm"><%= a.active && a.accepting_leads ? 'on' + (a.weight > 1 ? ' · weight ' + a.weight : '') : 'paused' %></td>
+    <% } else { %>
+    <td class="admin-td text-body-sm whitespace-nowrap"><%= a.registered_at ? U.fmtDate(a.registered_at, 'short') : U.fmtDate(a.created_at, 'short') %></td>
+    <td class="admin-td text-body-sm"><%= a.email || '' %><div class="text-on-surface-variant"><%= a.phone ? U.fmtPhone(a.phone) : '' %></div></td>
+    <% } %>
+    <td class="admin-td"><div class="flex flex-wrap gap-1 justify-end">
+      <a class="btn-soft !py-1 !px-2 text-body-sm" href="/admin/advisors/<%= a.id %>/performance">Performance</a>
+      <% if (tab !== 'approved') { %><form method="post" action="/admin/advisors/<%= a.id %>/status"><%- csrfField %><input type="hidden" name="status" value="approved"><input type="hidden" name="back" value="/admin/advisors?status=<%= tab %>"><button class="btn-primary !py-1 !px-2 text-body-sm">Approve</button></form><% } %>
+      <% if (tab === 'pending') { %><form method="post" action="/admin/advisors/<%= a.id %>/status" data-confirm="Reject this registration? They won’t be able to sign in."><%- csrfField %><input type="hidden" name="status" value="rejected"><input type="hidden" name="back" value="/admin/advisors?status=pending"><button class="btn-soft !py-1 !px-2 text-body-sm">Reject</button></form><% } %>
+      <% if (tab === 'approved' && !a.is_demo) { %><form method="post" action="/admin/advisors/<%= a.id %>/status" data-confirm="Suspend <%= a.name %>? They keep their login but get no new leads."><%- csrfField %><input type="hidden" name="status" value="suspended"><input type="hidden" name="back" value="/admin/advisors"><button class="btn-soft !py-1 !px-2 text-body-sm">Suspend</button></form><% } %>
+    </div></td></tr><% }) %>
+    <% if (!rows.length) { %><tr><td class="admin-td text-on-surface-variant" colspan="8"><%= tab === 'pending' ? 'No registrations waiting for approval.' : 'No agents here.' %></td></tr><% } %>
+  </tbody></table></div>
+<p class="mt-3 font-body-sm text-body-sm text-on-surface-variant">Monthly cap: the most leads an agent receives automatically per calendar month (Toronto time). Leave blank for no limit. New registrations start at <%= defaultCap === null || defaultCap === undefined || defaultCap === '' ? 'no limit' : defaultCap %> (set on <a class="link" href="/admin/distribution">Lead distribution</a>). Admins can still assign leads by hand above the cap.</p>

@@ -1,0 +1,11 @@
+<%- include('partials-head', { h: 'Provinces & cities', sub: 'The local facts that make programmatic pages unique. Each record shows “needs verification” until a licensed team member reviews it.' }) %>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+  <% provinces.forEach(function(p){ var o = ov[p.code]; %>
+  <section class="card p-5">
+    <div class="flex items-center justify-between gap-2"><h2 class="font-headline-sm text-headline-sm"><%= p.name %></h2><span class="badge <%= o && o.verified_at ? 'bg-secondary-container text-on-secondary-container' : 'bg-tertiary-fixed text-on-tertiary-fixed-variant' %>"><%= o && o.verified_at ? 'verified ' + String(o.verified_at).slice(0,10) : 'needs verification' %></span></div>
+    <p class="font-body-sm text-body-sm text-on-surface-variant"><%= p.regulator.short %> · <%= p.auto.label %></p>
+    <a class="link font-label-md text-label-md" href="/admin/geo/edit?key=<%= p.code %>">Edit province facts</a>
+    <div class="flex flex-wrap gap-1 mt-3"><% (citiesByProv[p.code] || []).forEach(function(c){ var k = p.code + '/' + c.slug; var co = ov[k]; %><a href="/admin/geo/edit?key=<%= encodeURIComponent(k) %>" class="badge !py-1 <%= co && co.verified_at ? 'bg-secondary-container text-on-secondary-container' : 'bg-surface-container-low' %>"><%= c.name %> <span class="opacity-60">T<%= (co && db_json(co.data).tier) || c.tier %></span></a><% }) %></div>
+  </section>
+  <% }) %>
+</div>

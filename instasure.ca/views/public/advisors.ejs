@@ -1,0 +1,20 @@
+<section class="container-site pt-space-md pb-space-lg">
+  <div class="max-w-3xl">
+    <p class="eyebrow">Licensed professionals</p>
+    <h1 class="font-display-lg-mobile text-display-lg-mobile lg:font-display-lg lg:text-display-lg text-primary-container tracking-tight">Licensed insurance advisors across Canada</h1>
+    <p class="mt-space-sm font-body-lg text-body-lg text-on-surface-variant">Every advisor is licensed in the provinces listed on their profile. When you request quotes, we match you by province, product and language — you’ll always know who you’re dealing with.</p>
+  </div>
+  <form method="get" action="/advisors/" class="mt-space-lg card p-space-md grid sm:grid-cols-3 gap-space-sm items-end">
+    <label class="flex flex-col gap-1"><span class="field-label">Province</span><select class="field" name="province"><option value="">All provinces</option><% geoData.provinces.forEach(function(p){ %><option value="<%= p.code %>" <%= prov === p.code ? 'selected' : '' %>><%= p.name %></option><% }) %></select></label>
+    <label class="flex flex-col gap-1"><span class="field-label">Coverage</span><select class="field" name="category"><option value="">All coverage</option><% Object.keys(CATEGORIES).forEach(function(k){ %><option value="<%= k %>" <%= cat === k ? 'selected' : '' %>><%= CATEGORIES[k].name %></option><% }) %></select></label>
+    <button class="btn-dark">Filter advisors</button>
+  </form>
+</section>
+<section class="container-site pb-space-xl">
+  <% if (list.length) { %>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-md"><% list.forEach(function(a){ %><%- include('partials/advisor-card', { a: a }) %><% }) %></div>
+  <% } else { %>
+  <div class="card p-space-lg text-center"><p class="font-body-md text-body-md text-on-surface-variant">No advisors match those filters yet. <a class="link" href="/contact/">Contact us</a> and we’ll connect you with a licensed professional.</p></div>
+  <% } %>
+</section>
+<%- include('partials/advisor-banner', { bannerTitle: 'Not sure who to talk to? We’ll match you.' }) %>

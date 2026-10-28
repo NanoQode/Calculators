@@ -1,0 +1,5 @@
+<%# usage: include('partials-head', { h: 'Title', sub: 'subtitle', actions: '<a…>' }) %>
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-3 mb-6">
+  <div><h1 class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container"><%= h %></h1><% if (typeof sub !== 'undefined' && sub) { %><p class="font-body-md text-body-md text-on-surface-variant mt-1"><%- sub %></p><% } %></div>
+  <% if (typeof actions !== 'undefined' && actions) { %><div class="flex flex-wrap gap-2"><%- actions %></div><% } %>
+</div>

@@ -1,0 +1,35 @@
+<%# Phone confirmation page: the no-JavaScript route for SMS codes (the pop-up uses the same endpoints). %>
+<section class="container-site py-space-xl">
+  <div class="max-w-lg mx-auto card p-space-lg lg:p-space-xl flex flex-col gap-space-md">
+    <span class="w-14 h-14 rounded-full bg-secondary-container/50 text-on-secondary-container flex items-center justify-center"><span class="material-symbols-outlined text-[28px]">sms</span></span>
+    <% if (flash) { %><div class="p-space-sm rounded-xl font-body-md text-body-md <%= flash.type === 'err' ? 'bg-error-container text-on-error-container' : 'bg-secondary-container/40 text-on-secondary-fixed' %>" role="<%= flash.type === 'err' ? 'alert' : 'status' %>"><%= flash.msg %></div><% } %>
+    <% if (!v) { %>
+      <h1 class="font-headline-md text-headline-md text-primary-container">This code has expired</h1>
+      <p class="font-body-md text-body-md text-on-surface-variant">For your security, verification links last a short time. Please go back and send the form again.</p>
+      <a class="btn-primary self-start" href="/quote/">Start again</a>
+    <% } else if (v.stage === 'phone') { %>
+      <h1 class="font-headline-md text-headline-md text-primary-container">Confirm your mobile number</h1>
+      <p class="font-body-md text-body-md text-on-surface-variant">We text a one-time code to confirm requests. Standard message rates may apply.</p>
+      <form method="post" action="/api/otp/send" class="flex flex-col gap-space-sm">
+        <input type="hidden" name="token" value="<%= v.token %>">
+        <label class="flex flex-col gap-1.5"><span class="field-label">Mobile number</span><input class="field" type="tel" name="phone" autocomplete="tel" inputmode="tel" required></label>
+        <button class="btn-primary self-start">Text me a code</button>
+      </form>
+    <% } else { %>
+      <h1 class="font-headline-md text-headline-md text-primary-container">Enter the code we texted you</h1>
+      <p class="font-body-md text-body-md text-on-surface-variant">We sent a <%= v.length %>-digit code to <strong><%= v.phone %></strong>. It expires in <%= s.otp_ttl_minutes %> minutes.</p>
+      <form method="post" action="/api/otp/verify" class="flex flex-col gap-space-sm">
+        <input type="hidden" name="token" value="<%= v.token %>">
+        <label class="flex flex-col gap-1.5"><span class="field-label">Code</span><input class="field font-mono tracking-[0.4em] text-center text-headline-sm" name="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*" maxlength="<%= v.length %>" required autofocus></label>
+        <button class="btn-primary self-start">Confirm</button>
+      </form>
+      <form method="post" action="/api/otp/send" class="flex flex-wrap items-center gap-2 font-body-sm text-body-sm text-on-surface-variant">
+        <input type="hidden" name="token" value="<%= v.token %>">
+        Didn’t get it? <button class="link">Send a new code</button>
+      </form>
+      <details class="font-body-sm text-body-sm"><summary class="cursor-pointer text-secondary">Use a different number</summary>
+        <form method="post" action="/api/otp/send" class="flex gap-2 mt-2"><input type="hidden" name="token" value="<%= v.token %>"><input class="field" type="tel" name="phone" autocomplete="tel" required><button class="btn-soft">Send</button></form>
+      </details>
+    <% } %>
+  </div>
+</section>

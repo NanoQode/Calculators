@@ -1,0 +1,44 @@
+<% var csrfField = '<input type="hidden" name="_csrf" value="' + csrf + '">'; var chk = function(b){ return b ? 'checked' : ''; }; %>
+<%- include('partials-head', { h: 'SMS & verification', sub: 'Text a one-time code to confirm the mobile number on every lead form before the lead is saved. Texts are sent through VoIP.ms.' }) %>
+<div class="mb-4 rounded-xl px-4 py-3 font-label-md text-label-md flex items-start gap-2 <%= active ? 'bg-secondary-container/50 text-on-secondary-fixed' : 'bg-surface-container text-on-surface' %>">
+  <span class="material-symbols-outlined text-[18px]"><%= active ? 'verified' : 'info' %></span>
+  <span><%= active ? 'SMS codes are ON: every lead form asks for a mobile number and a texted code before the lead is saved.' : st.otp_enabled ? 'SMS codes are switched on but VoIP.ms is not fully configured, so forms work without codes for now.' : 'SMS codes are OFF: leads are saved without phone confirmation.' %><% if (stats && stats.started) { %> Last 7 days: <%= stats.verified || 0 %> of <%= stats.started %> confirmed.<% } %></span>
+</div>
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+  <form method="post" action="/admin/sms" class="card p-5 grid grid-cols-2 gap-3" autocomplete="off"><%- csrfField %>
+    <h2 class="col-span-2 font-headline-sm text-headline-sm">VoIP.ms</h2>
+    <ol class="col-span-2 list-decimal pl-5 font-body-sm text-body-sm text-on-surface-variant space-y-0.5">
+      <li>In the VoIP.ms portal, open <strong>Main Menu → SOAP &amp; REST/JSON API</strong>, enable the API and set an <strong>API password</strong>.</li>
+      <li>Add this server’s public IP address to the API’s allowed IPs.</li>
+      <li>Use a DID on the account with <strong>SMS enabled</strong> as the sending number.</li>
+    </ol>
+    <label class="col-span-2"><span class="admin-label">API username (your VoIP.ms account email)</span><input class="admin-input" name="voipms_username" value="<%= st.voipms_username %>" autocomplete="off"></label>
+    <label><span class="admin-label">API password</span><input class="admin-input" type="password" name="voipms_password" placeholder="<%= hasPassword ? '•••••••• saved — leave blank to keep' : 'Not set' %>" autocomplete="new-password"></label>
+    <label><span class="admin-label">Sending number (SMS-enabled DID)</span><input class="admin-input" name="voipms_did" value="<%= st.voipms_did %>" placeholder="4165550123" inputmode="numeric"></label>
+    <% if (hasPassword) { %><label class="col-span-2 flex items-center gap-2 font-body-sm text-body-sm"><input type="checkbox" name="clear_password"> Remove the saved API password</label><% } %>
+    <% if (!isProd) { %><label class="col-span-2"><span class="admin-label">Provider (non-production only)</span><select class="admin-input" name="sms_provider"><option value="voipms" <%= st.sms_provider !== 'log' ? 'selected' : '' %>>VoIP.ms</option><option value="log" <%= st.sms_provider === 'log' ? 'selected' : '' %>>Log only (record texts, don’t send)</option></select></label><% } %>
+    <h2 class="col-span-2 font-headline-sm text-headline-sm mt-2">One-time codes</h2>
+    <label class="col-span-2 flex items-center gap-2 font-label-md text-label-md"><input type="checkbox" name="otp_enabled" <%= chk(st.otp_enabled) %>> Require an SMS code on every lead form</label>
+    <label><span class="admin-label">Code length</span><input class="admin-input" type="number" min="4" max="8" name="otp_length" value="<%= st.otp_length %>"></label>
+    <label><span class="admin-label">Code expires after (minutes)</span><input class="admin-input" type="number" min="2" max="60" name="otp_ttl_minutes" value="<%= st.otp_ttl_minutes %>"></label>
+    <label><span class="admin-label">Wrong attempts allowed</span><input class="admin-input" type="number" min="3" max="10" name="otp_max_attempts" value="<%= st.otp_max_attempts %>"></label>
+    <label><span class="admin-label">Wait before resending (seconds)</span><input class="admin-input" type="number" min="15" max="300" name="otp_resend_seconds" value="<%= st.otp_resend_seconds %>"></label>
+    <label class="col-span-2"><span class="admin-label">Message ({code}, {minutes} and {site_name} are filled in; keep it under 140 characters)</span><input class="admin-input" name="otp_message" value="<%= st.otp_message %>" maxlength="140"></label>
+    <p class="col-span-2 font-body-sm text-body-sm text-on-surface-variant">Limits: at most 5 codes per number per hour and 15 per visitor per hour. Codes are stored hashed; the SMS log shows them masked. Unconfirmed submissions are deleted after 24 hours.</p>
+    <button class="btn-primary !py-2 col-span-2 justify-self-start">Save</button>
+  </form>
+  <div class="flex flex-col gap-4">
+    <form method="post" action="/admin/sms/test" class="card p-5 flex flex-col gap-3"><%- csrfField %>
+      <h2 class="font-headline-sm text-headline-sm">Send a test text</h2>
+      <p class="font-body-sm text-body-sm text-on-surface-variant">Status: <strong><%= configured ? (provider === 'log' ? 'log only (nothing is sent)' : 'VoIP.ms configured') : 'not configured' %></strong></p>
+      <div class="flex gap-2"><input class="admin-input" type="tel" name="to" placeholder="Your mobile number" required><button class="btn-soft !py-2 !px-4">Send</button></div>
+    </form>
+    <section class="card p-5 overflow-x-auto">
+      <h2 class="font-headline-sm text-headline-sm mb-2">SMS log</h2>
+      <table class="w-full"><thead><tr><th class="admin-th">When</th><th class="admin-th">To</th><th class="admin-th">Message</th><th class="admin-th">Status</th></tr></thead><tbody>
+        <% log.forEach(function(m){ %><tr><td class="admin-td text-body-sm whitespace-nowrap"><time data-local datetime="<%= U.iso(m.created_at) %>"><%= U.fmtDateTime(m.created_at) %></time></td><td class="admin-td text-body-sm"><%= U.maskPhone(m.to_phone) || m.to_phone %></td><td class="admin-td text-body-sm"><%= m.body %><div class="text-on-surface-variant"><%= m.kind %> · <%= m.provider %></div></td><td class="admin-td text-body-sm <%= m.status === 'failed' ? 'text-error' : '' %>"><%= m.status %><% if (m.error) { %><div class="text-on-surface-variant max-w-[260px]"><%= m.error %></div><% } %></td></tr><% }) %>
+        <% if (!log.length) { %><tr><td class="admin-td text-on-surface-variant" colspan="4">No texts yet.</td></tr><% } %>
+      </tbody></table>
+    </section>
+  </div>
+</div>

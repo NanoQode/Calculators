@@ -1,0 +1,110 @@
+<%
+  var hubs = [['all','All topics'],['personal','Personal & Life'],['residential','Residential & Home'],['auto','Auto'],['commercial','Commercial & Business'],['claims','Claims & Provincial Law']];
+  var featured = guides.slice(0, 3);
+%>
+<section class="relative w-full bg-gradient-to-b from-surface-container-high/40 via-surface to-surface overflow-hidden pb-space-xl">
+  <div class="container-site pt-space-md">
+    <div class="flex flex-wrap items-center justify-between gap-space-sm mb-space-md">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-lowest shadow-sm">
+        <span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-secondary text-on-secondary text-[10px]">✓</span>
+        <span class="font-label-sm text-label-sm text-on-surface uppercase tracking-wider">Editorial independence</span>
+        <span class="text-outline-variant">•</span>
+        <a href="/editorial-guidelines/" class="font-body-sm text-body-sm text-secondary font-semibold">How we review</a>
+      </div>
+      <div class="hidden md:flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm"><span class="material-symbols-outlined text-[18px] text-secondary">verified</span><span>Sourced from regulators, governments &amp; insurer documents</span></div>
+    </div>
+    <div class="max-w-3xl mb-space-lg">
+      <h1 class="font-display-lg-mobile text-display-lg-mobile lg:font-display-lg lg:text-display-lg text-on-surface tracking-tight mb-3">Insurance Knowledge &amp; Risk Center</h1>
+      <p class="font-body-lg text-body-lg text-on-surface-variant">Clear, unbiased guidance for Canadian individuals, homeowners, drivers and business owners. Decode policy exclusions, benchmark premiums and plan coverage with confidence.</p>
+    </div>
+    <form action="/guides/" method="get" role="search" class="bg-surface-container-lowest p-space-sm rounded-2xl shadow-md mb-space-lg max-w-4xl" data-guide-search>
+      <div class="relative flex items-center">
+        <span class="material-symbols-outlined absolute left-4 text-on-surface-variant text-[24px]">search</span>
+        <label for="gsearch" class="sr-only">Search guides</label>
+        <input id="gsearch" name="q" value="<%= q %>" type="search" autocomplete="off" class="w-full bg-surface-container-low pl-12 pr-28 py-3.5 rounded-xl font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:bg-surface-container" placeholder="Search guides, provincial rules, coverage terms…">
+        <button class="absolute right-2 px-5 py-2 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md hover:bg-primary">Search</button>
+      </div>
+      <div class="flex flex-wrap items-center gap-2 pt-3 px-2">
+        <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Popular:</span>
+        <% ['Term life','Tenant insurance','Overland flood','Super Visa','Critical illness','Ontario auto changes'].forEach(function(t){ %><a href="/guides/?q=<%= encodeURIComponent(t) %>" class="px-2.5 py-1 rounded-full bg-surface hover:bg-surface-container text-on-surface font-label-sm text-label-sm" data-quick="<%= t %>"><%= t %></a><% }) %>
+      </div>
+      <div class="hidden mt-2 border-t border-surface-container pt-2" data-search-results></div>
+    </form>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-space-sm">
+      <div class="bg-surface-container-lowest/80 backdrop-blur-sm p-space-md rounded-xl shadow-sm"><span class="eyebrow block mb-1">Guides</span><span class="font-headline-md text-headline-md text-on-surface"><%= stats.guides %></span><span class="font-body-sm text-body-sm text-on-surface-variant block mt-0.5">Plain-language explainers</span></div>
+      <div class="bg-surface-container-lowest/80 backdrop-blur-sm p-space-md rounded-xl shadow-sm"><span class="font-label-sm text-label-sm text-on-primary-container font-bold uppercase tracking-wider block mb-1">Tax</span><span class="font-headline-md text-headline-md text-on-surface">Tax-free</span><span class="font-body-sm text-body-sm text-on-surface-variant block mt-0.5">Life payouts to beneficiaries</span></div>
+      <div class="bg-surface-container-lowest/80 backdrop-blur-sm p-space-md rounded-xl shadow-sm"><span class="eyebrow block mb-1">Calculators</span><span class="font-headline-md text-headline-md text-on-surface">4 free tools</span><span class="font-body-sm text-body-sm text-on-surface-variant block mt-0.5">No email required</span></div>
+      <div class="bg-surface-container-lowest/80 backdrop-blur-sm p-space-md rounded-xl shadow-sm"><span class="font-label-sm text-label-sm text-on-tertiary-container font-bold uppercase tracking-wider block mb-1">Provincial scope</span><span class="font-headline-md text-headline-md text-on-surface"><%= stats.provinces %> regions</span><span class="font-body-sm text-body-sm text-on-surface-variant block mt-0.5">Provinces &amp; territories</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sticky top-16 lg:top-20 z-30 bg-surface-container-lowest/95 backdrop-blur-md shadow-sm">
+  <div class="container-site py-space-sm flex items-center justify-between overflow-x-auto no-scrollbar gap-space-md">
+    <div class="flex items-center gap-1.5 min-w-max" role="tablist" aria-label="Guide topics" data-hub-tabs>
+      <% hubs.forEach(function(h, i){ %><button type="button" role="tab" aria-selected="<%= i === 0 %>" data-hub="<%= h[0] %>" class="px-4 py-2 rounded-full font-label-md text-label-md transition-all <%= i === 0 ? 'bg-primary-container text-on-primary shadow-sm' : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container' %>"><%= h[1] %></button><% }) %>
+    </div>
+    <div class="hidden lg:flex items-center gap-space-sm text-on-surface-variant font-label-sm text-label-sm"><span class="w-2 h-2 rounded-full bg-secondary"></span><span>Updated <%= U.monthYear() %></span></div>
+  </div>
+</section>
+
+<section class="container-site py-space-xl">
+  <div class="flex flex-col md:flex-row md:items-end justify-between mb-space-lg gap-space-sm">
+    <div><div class="inline-flex items-center gap-1.5 eyebrow mb-1"><span class="material-symbols-outlined text-[16px]">calculate</span> Self-serve tools</div><h2 class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-on-surface tracking-tight">Risk &amp; needs calculators</h2></div>
+    <p class="font-body-md text-body-md text-on-surface-variant max-w-md">Test scenarios and get instant figures without sharing your email or phone number.</p>
+  </div>
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-space-lg">
+    <div class="card p-space-lg flex flex-col justify-between" data-mini-life>
+      <div>
+        <div class="flex items-center justify-between mb-space-md"><span class="w-10 h-10 rounded-xl bg-surface-container text-on-primary-fixed flex items-center justify-center"><span class="material-symbols-outlined">health_and_safety</span></span><span class="badge bg-secondary-container text-on-secondary-container">Quick model</span></div>
+        <h3 class="font-headline-md text-headline-md text-on-surface mb-2">Life needs multiplier</h3>
+        <p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">A fast rule of thumb (10× income). The full calculator adds your mortgage, debts and education costs.</p>
+        <div class="bg-surface-container-low p-space-md rounded-xl mb-space-md">
+          <div class="flex justify-between items-center mb-1"><label for="mini-income" class="font-label-sm text-label-sm text-on-surface-variant">Household income</label><output class="font-label-md text-label-md text-on-surface font-bold" data-mini-income-out>$95,000 / yr</output></div>
+          <input id="mini-income" type="range" min="40000" max="350000" step="5000" value="95000" class="w-full" data-mini-income>
+          <div class="mt-4 bg-surface-container-lowest rounded-lg p-3"><div class="text-[11px] font-label-sm text-on-surface-variant uppercase tracking-wider mb-0.5">Starting-point coverage</div><span class="font-headline-lg text-headline-lg text-secondary" data-mini-cover>$950,000</span></div>
+        </div>
+      </div>
+      <a href="/calculators/life-insurance-needs/" class="inline-flex items-center justify-between w-full px-space-md py-3 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md">Launch full calculator <span class="material-symbols-outlined text-[18px]">arrow_forward</span></a>
+    </div>
+    <div class="card p-space-lg flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between mb-space-md"><span class="w-10 h-10 rounded-xl bg-surface-container text-on-primary-fixed flex items-center justify-center"><span class="material-symbols-outlined">apartment</span></span><span class="badge bg-surface-container text-on-surface-variant">90 seconds</span></div>
+        <h3 class="font-headline-md text-headline-md text-on-surface mb-2">Tenant &amp; condo estimator</h3>
+        <p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">Add up the replacement cost of your belongings and avoid condo deductible-assessment gaps — crucial where water deductibles are high.</p>
+      </div>
+      <a href="/calculators/tenant-condo-coverage/" class="inline-flex items-center justify-between w-full px-space-md py-3 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md">Run the estimator <span class="material-symbols-outlined text-[18px]">arrow_forward</span></a>
+    </div>
+    <div class="card p-space-lg flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between mb-space-md"><span class="w-10 h-10 rounded-xl bg-surface-container text-on-primary-fixed flex items-center justify-center"><span class="material-symbols-outlined">storefront</span></span><span class="badge bg-surface-container text-on-primary-container">Sole-prop &amp; corp</span></div>
+        <h3 class="font-headline-md text-headline-md text-on-surface mb-2">Business coverage checker</h3>
+        <p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">See the CGL, E&amp;O, property and cyber coverage typical for your type of business — and what it might cost.</p>
+      </div>
+      <a href="/calculators/business-coverage/" class="inline-flex items-center justify-between w-full px-space-md py-3 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md">Check my coverage <span class="material-symbols-outlined text-[18px]">arrow_forward</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="w-full bg-surface-container-low/60 py-space-xl">
+  <div class="container-site">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-space-lg gap-space-sm">
+      <div><div class="inline-flex items-center gap-1.5 font-label-sm text-label-sm text-on-tertiary-container uppercase tracking-wider font-bold mb-1"><span class="material-symbols-outlined text-[16px]">menu_book</span> Deep dives</div><h2 class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-on-surface tracking-tight">Featured guides</h2></div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-lg"><% featured.forEach(function(g){ %><%- include('partials/guide-card', { g: g }) %><% }) %></div>
+  </div>
+</section>
+
+<section class="container-site py-space-xl" aria-labelledby="all-h">
+  <h2 id="all-h" class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-on-surface tracking-tight mb-space-md">All guides</h2>
+  <div class="flex flex-wrap gap-2 mb-space-lg">
+    <% cats.forEach(function(c){ %><a href="/guides/category/<%= c.slug %>/" class="chip bg-surface-container-lowest shadow-sm text-on-surface hover:text-secondary !py-2 !px-3 font-label-md text-label-md"><%= c.name %> <span class="text-on-surface-variant">(<%= c.n %>)</span></a><% }) %>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-lg" data-guide-grid>
+    <% guides.forEach(function(g){ %><%- include('partials/guide-card', { g: g }) %><% }) %>
+  </div>
+  <p class="hidden font-body-md text-body-md text-on-surface-variant" data-guide-empty>No guides in this topic yet — <a class="link" href="/contact/">ask an advisor</a>.</p>
+</section>
+
+<%- include('partials/faq', { items: faq, faqHeading: 'Frequently decoded questions', faqIntroText: 'Canadian insurance runs on provincial rules. Here’s how your rights and pricing really work.' }) %>
+<%- include('partials/advisor-banner', { bannerTitle: 'Can’t find your situation? Ask a licensed advisor.' }) %>

@@ -1,0 +1,21 @@
+<%- include('partials-head', { h: 'Redirects & 404 monitor', sub: '301 redirects preserve rankings when URLs change. Changing a published guide’s slug creates one automatically.' }) %>
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+  <section class="card p-5">
+    <h2 class="font-headline-sm text-headline-sm mb-3">Add redirect</h2>
+    <form method="post" action="/admin/seo/redirects" class="grid grid-cols-1 md:grid-cols-5 gap-2 items-end"><input type="hidden" name="_csrf" value="<%= csrf %>">
+      <label class="md:col-span-2"><span class="admin-label">From path</span><input class="admin-input" name="from_path" value="<%= prefill %>" placeholder="/old-page/" required></label>
+      <label class="md:col-span-2"><span class="admin-label">To</span><input class="admin-input" name="to_path" placeholder="/new-page/" required></label>
+      <label><span class="admin-label">Type</span><select class="admin-input" name="code"><option value="301">301</option><option value="302">302</option><option value="410">410 Gone</option></select></label>
+      <button class="btn-dark !py-2 md:col-span-5 justify-self-start">Save redirect</button></form>
+    <table class="w-full mt-4"><thead><tr><th class="admin-th">From</th><th class="admin-th">To</th><th class="admin-th">Code</th><th class="admin-th">Hits</th><th class="admin-th"></th></tr></thead><tbody>
+      <% rows.forEach(function(r){ %><tr><td class="admin-td text-body-sm"><%= r.from_path %></td><td class="admin-td text-body-sm"><%= r.to_path %></td><td class="admin-td text-body-sm"><%= r.code %></td><td class="admin-td text-body-sm"><%= r.hits %></td><td class="admin-td"><form method="post" action="/admin/seo/redirects/<%= r.id %>/delete"><input type="hidden" name="_csrf" value="<%= csrf %>"><button class="text-error font-label-sm text-label-sm">Delete</button></form></td></tr><% }) %>
+    </tbody></table>
+  </section>
+  <section class="card p-5">
+    <div class="flex items-center justify-between mb-3"><h2 class="font-headline-sm text-headline-sm">Not-found URLs</h2><form method="post" action="/admin/seo/404/clear"><input type="hidden" name="_csrf" value="<%= csrf %>"><button class="link font-label-md text-label-md">Clear log</button></form></div>
+    <table class="w-full"><thead><tr><th class="admin-th">Path</th><th class="admin-th">Hits</th><th class="admin-th">Referrer</th><th class="admin-th"></th></tr></thead><tbody>
+      <% notFound.forEach(function(n){ %><tr><td class="admin-td text-body-sm break-all"><%= n.path %></td><td class="admin-td text-body-sm"><%= n.hits %></td><td class="admin-td text-body-sm break-all text-on-surface-variant"><%= n.referrer || '—' %></td><td class="admin-td"><a class="link font-label-sm text-label-sm" href="/admin/seo/redirects?from=<%= encodeURIComponent(n.path) %>">Redirect</a></td></tr><% }) %>
+      <% if (!notFound.length) { %><tr><td class="admin-td text-on-surface-variant" colspan="4">No 404s recorded.</td></tr><% } %>
+    </tbody></table>
+  </section>
+</div>

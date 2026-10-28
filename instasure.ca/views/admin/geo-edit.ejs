@@ -1,0 +1,17 @@
+<a href="/admin/geo" class="font-label-md text-label-md text-on-surface-variant hover:text-secondary">← Provinces &amp; cities</a>
+<%- include('partials-head', { h: base.name + (isCity ? ', ' + key.split('/')[0].toUpperCase() : ''), sub: isCity ? 'City facts feed every /&lt;product&gt;/&lt;province&gt;/&lt;city&gt;/ page.' : 'Province facts feed every /&lt;product&gt;/&lt;province&gt;/ page and all its cities.' }) %>
+<form method="post" action="/admin/geo/edit" class="card p-5 grid grid-cols-1 lg:grid-cols-2 gap-3 max-w-5xl">
+  <input type="hidden" name="_csrf" value="<%= csrf %>"><input type="hidden" name="key" value="<%= key %>">
+  <label class="lg:col-span-2"><span class="admin-label">Local risk factors — one per line</span><textarea class="admin-input" name="risks" rows="5"><%= (merged.risks || []).join('\n') %></textarea></label>
+  <% if (!isCity) { %>
+  <label class="lg:col-span-2"><span class="admin-label">How auto insurance works here — one paragraph per line</span><textarea class="admin-input" name="autoNotes" rows="5"><%= (merged.autoNotes || []).join('\n') %></textarea></label>
+  <label class="lg:col-span-2"><span class="admin-label">What’s changing this year — one per line</span><textarea class="admin-input" name="events2026" rows="3"><%= (merged.events2026 || []).join('\n') %></textarea></label>
+  <label class="lg:col-span-2"><span class="admin-label">Pricing benchmarks (JSON; label sources honestly)</span><textarea class="admin-input font-mono text-body-sm" name="benchmarks" rows="4"><%= JSON.stringify(merged.benchmarks, null, 1) %></textarea></label>
+  <label class="lg:col-span-2"><span class="admin-label">Sources (URLs, one per line)</span><textarea class="admin-input font-mono text-body-sm" name="sources" rows="3"><%= (merged.sources || []).join('\n') %></textarea></label>
+  <% } else { %>
+  <label><span class="admin-label">Auto price factor vs province average (e.g. 1.25)</span><input class="admin-input" name="autoFactor" value="<%= merged.autoFactor %>"></label>
+  <label><span class="admin-label">Tier (1 = always index, 2 = index P&amp;C, 3 = noindex until enriched)</span><select class="admin-input" name="tier"><% [1,2,3].forEach(function(t){ %><option <%= Number(merged.tier) === t ? 'selected' : '' %>><%= t %></option><% }) %></select></label>
+  <% } %>
+  <label class="lg:col-span-2 flex items-start gap-2 font-body-md text-body-md"><input type="checkbox" name="verified" value="1" <%= ov && ov.verified_at ? 'checked' : '' %>> I’m a licensed team member and I have verified these facts against current sources.</label>
+  <button class="btn-primary !py-2 justify-self-start">Save</button>
+</form>

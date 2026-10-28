@@ -1,0 +1,10 @@
+<section class="container-site pt-space-md pb-space-xl">
+  <p class="eyebrow">Guides</p>
+  <h1 class="font-display-lg-mobile text-display-lg-mobile lg:font-display-lg lg:text-display-lg text-primary-container tracking-tight"><%= cat.name %> guides</h1>
+  <% if (cat.description) { %><p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl mt-space-sm"><%= cat.description %></p><% } %>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-lg mt-space-xl">
+    <% guides.forEach(function(g){ %><%- include('partials/guide-card', { g: g }) %><% }) %>
+  </div>
+  <% if (!guides.length) { %><p class="font-body-md text-body-md text-on-surface-variant mt-space-lg">New guides are on the way. Meanwhile, <a class="link" href="/guides/">browse all guides</a>.</p><% } %>
+</section>
+<%- include('partials/advisor-banner', {}) %>

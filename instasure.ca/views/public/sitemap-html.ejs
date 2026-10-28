@@ -1,0 +1,9 @@
+<section class="container-site pt-space-md pb-space-xl">
+  <h1 class="font-display-lg-mobile text-display-lg-mobile text-primary-container tracking-tight">Site map</h1>
+  <% Object.keys(groups).forEach(function(g){ if (!groups[g].length) return; %>
+  <h2 class="mt-space-xl mb-space-sm font-headline-md text-headline-md text-primary-container"><%= g %> <span class="font-body-md text-body-md text-on-surface-variant">(<%= groups[g].length %>)</span></h2>
+  <ul class="columns-1 sm:columns-2 lg:columns-3 gap-space-lg font-body-sm text-body-sm">
+    <% groups[g].forEach(function(p){ %><li class="py-0.5 break-inside-avoid"><a class="text-on-surface-variant hover:text-secondary" href="<%= p.path %>"><%= p.title || p.path %></a></li><% }) %>
+  </ul>
+  <% }) %>
+</section>

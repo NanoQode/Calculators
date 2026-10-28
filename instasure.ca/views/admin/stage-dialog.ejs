@@ -1,0 +1,43 @@
+<%#
+  Stage update pop-up (lead page and pipeline). admin.js opens it whenever a stage is changed (stage
+  menus, drag and drop, "Update" buttons), fills the lead's details and posts to /admin/leads/:id/update.
+  Every part (stage, outcome, notes, score, follow-up) is saved on the lead's timeline with a timestamp.
+%>
+<dialog data-stage-dialog class="card p-0 w-[min(94vw,560px)] backdrop:bg-primary-container/60" aria-labelledby="stage-dlg-title">
+  <form method="post" data-stage-form class="p-5 flex flex-col gap-3">
+    <input type="hidden" name="_csrf" value="<%= csrf %>">
+    <input type="hidden" name="return" value="<%= typeof stageReturn !== 'undefined' ? stageReturn : '' %>">
+    <input type="hidden" name="due_utc" data-due-utc>
+    <div class="flex items-start justify-between gap-2">
+      <div><h2 id="stage-dlg-title" class="font-headline-sm text-headline-sm text-primary-container">Update lead</h2><p class="font-body-sm text-body-sm text-on-surface-variant" data-sd-name></p></div>
+      <button type="button" class="w-9 h-9 rounded-full hover:bg-surface-container flex items-center justify-center" data-sd-close aria-label="Close"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <div class="grid sm:grid-cols-2 gap-3">
+      <label><span class="admin-label">Stage</span>
+        <select class="admin-input" name="status" data-sd-stage><% stages.STAGES.forEach(function(st){ %><option value="<%= st.key %>"><%= st.label %></option><% }) %></select></label>
+      <label><span class="admin-label">Contact outcome</span>
+        <select class="admin-input" name="disposition" data-sd-disposition><option value="">— none —</option><% stages.DISPOSITIONS.forEach(function(d){ %><option value="<%= d.key %>" data-stage="<%= d.stage || '' %>" data-task="<%= d.task || '' %>"><%= d.label %></option><% }) %></select></label>
+    </div>
+    <label><span class="admin-label">Notes</span><textarea class="admin-input min-h-[90px]" name="note" placeholder="What happened? Needs, objections, next steps…" data-sd-note></textarea></label>
+    <label class="hidden" data-sd-reason-wrap><span class="admin-label">Reason lost</span><input class="admin-input" name="reason" placeholder="e.g. bought through their bank"></label>
+    <fieldset class="rounded-xl bg-surface-container-low p-3 flex flex-wrap items-end gap-3">
+      <legend class="sr-only">Lead score</legend>
+      <div><p class="admin-label">Score now</p><p class="font-headline-sm text-headline-sm" data-sd-score>—</p></div>
+      <label class="w-28"><span class="admin-label">Adjustment</span><input class="admin-input" type="number" name="score_adjustment" min="-50" max="50" step="1" data-sd-adjust></label>
+      <div class="flex gap-1"><% [-10, -5, 5, 10].forEach(function(n){ %><button type="button" class="btn-soft !py-1 !px-2 text-body-sm" data-sd-bump="<%= n %>"><%= n > 0 ? '+' + n : n %></button><% }) %></div>
+      <p class="w-full font-body-sm text-body-sm text-on-surface-variant">Points added to (or taken from) the rule-based score, kept until you change them.</p>
+    </fieldset>
+    <fieldset class="rounded-xl bg-surface-container-low p-3 flex flex-col gap-2">
+      <label class="flex items-center gap-2 font-label-md text-label-md"><input type="checkbox" data-sd-task-toggle> Schedule a follow-up</label>
+      <div class="hidden grid sm:grid-cols-2 gap-2" data-sd-task>
+        <label class="sm:col-span-2"><span class="admin-label">Task</span><input class="admin-input" name="task_title" placeholder="Call back" data-sd-task-title></label>
+        <label><span class="admin-label">Due</span><input class="admin-input" type="datetime-local" name="due_local" data-due-local></label>
+        <label><span class="admin-label">For</span><select class="admin-input" name="task_for"><option value="me">Me</option><option value="agent" data-sd-for-agent>The lead’s agent</option></select></label>
+        <div class="sm:col-span-2 flex flex-wrap gap-1"><% [['In 1 hour', 60], ['Tomorrow 9 a.m.', 'tomorrow'], ['In 2 days', 2880], ['Next week', 10080]].forEach(function(q){ %><button type="button" class="btn-soft !py-1 !px-2 text-body-sm" data-sd-when="<%= q[1] %>"><%= q[0] %></button><% }) %></div>
+        <label class="sm:col-span-2"><span class="admin-label">Task notes (optional)</span><input class="admin-input" name="task_notes"></label>
+      </div>
+    </fieldset>
+    <p class="font-body-sm text-body-sm text-on-surface-variant">Saved with the date and time on the lead’s timeline.</p>
+    <div class="flex justify-end gap-2"><button type="button" class="btn-soft !py-2" data-sd-close>Cancel</button><button class="btn-primary !py-2">Save update</button></div>
+  </form>
+</dialog>

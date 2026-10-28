@@ -1,0 +1,45 @@
+<% var qs = function(extra){ var o = Object.assign({}, q, extra); return Object.keys(o).filter(function(k){ return o[k] && k[0] !== '_'; }).map(function(k){ return k + '=' + encodeURIComponent(o[k]); }).join('&'); }; %>
+<%- include('partials-head', { h: 'Keyword map', sub: 'Every target keyword mapped to the page that should rank. Volumes marked “model” are planning estimates — import real Keyword Planner / Ahrefs / Semrush exports to replace them.', actions: '<a class="btn-soft !py-2 !px-4" href="/admin/seo/keywords.csv">Export CSV</a>' }) %>
+<div class="flex flex-wrap gap-2 mb-3">
+  <% clusters.slice(0, 14).forEach(function(c){ %><a class="badge !py-1.5 !px-3 <%= q.cluster === c.cluster ? 'bg-primary-container text-on-primary' : 'bg-surface-container-lowest' %>" href="/admin/seo/keywords?<%= qs({ cluster: q.cluster === c.cluster ? '' : c.cluster }) %>"><%= c.cluster || '—' %> <span class="opacity-70"><%= U.compact(c.v || 0) %></span></a><% }) %>
+</div>
+<form method="get" class="card p-3 mb-4 grid grid-cols-2 md:grid-cols-7 gap-2 items-end">
+  <label class="col-span-2"><span class="admin-label">Search</span><input class="admin-input" name="q" value="<%= q.q || '' %>"></label>
+  <label><span class="admin-label">Level</span><select class="admin-input" name="level"><option value="">Any</option><% ['national','provincial','local'].forEach(function(l){ %><option <%= q.level === l ? 'selected' : '' %>><%= l %></option><% }) %></select></label>
+  <label><span class="admin-label">Product</span><select class="admin-input" name="product"><option value="">Any</option><% products.forEach(function(p){ %><option value="<%= p.slug %>" <%= q.product === p.slug ? 'selected' : '' %>><%= p.short %></option><% }) %></select></label>
+  <label><span class="admin-label">Intent</span><select class="admin-input" name="intent"><option value="">Any</option><% ['transactional','commercial','informational','local'].forEach(function(i){ %><option <%= q.intent === i ? 'selected' : '' %>><%= i %></option><% }) %></select></label>
+  <label><span class="admin-label">Sort</span><select class="admin-input" name="sort"><option value="priority">Priority</option><option value="volume" <%= q.sort === 'volume' ? 'selected' : '' %>>Volume</option><option value="difficulty" <%= q.sort === 'difficulty' ? 'selected' : '' %>>Easiest</option></select></label>
+  <button class="btn-dark !py-2">Filter</button>
+</form>
+<div class="card overflow-x-auto mb-4"><table class="w-full">
+  <thead><tr><th class="admin-th">Keyword</th><th class="admin-th">Level</th><th class="admin-th">Est. vol/mo</th><th class="admin-th">KD</th><th class="admin-th">Intent</th><th class="admin-th">Who ranks now</th><th class="admin-th">Target page</th><th class="admin-th">P</th><th class="admin-th">Rank</th></tr></thead>
+  <tbody><% rows.forEach(function(k){ %><tr class="hover:bg-surface-container-low">
+    <td class="admin-td text-body-sm font-semibold"><%= k.keyword %><div class="font-normal text-on-surface-variant"><%= k.cluster || '' %></div></td>
+    <td class="admin-td text-body-sm"><%= k.level %><%= k.province ? ' · ' + k.province.toUpperCase() : '' %></td>
+    <td class="admin-td text-body-sm"><%= k.volume ? U.num(k.volume) : '—' %> <span class="text-on-surface-variant">(<%= k.volume_source %>)</span></td>
+    <td class="admin-td text-body-sm"><%= k.difficulty || '—' %></td><td class="admin-td text-body-sm"><%= k.intent || '—' %></td>
+    <td class="admin-td text-body-sm text-on-surface-variant max-w-[180px]"><%= k.competitors || '—' %></td>
+    <td class="admin-td text-body-sm"><% if (k.target_path) { %><a class="link font-normal" href="<%= k.target_path %>" target="_blank"><%= k.target_path %></a><% } else { %><span class="text-on-tertiary-container">unmapped</span><% } %></td>
+    <td class="admin-td text-body-sm"><%= k.priority %></td>
+    <td class="admin-td"><form method="post" action="/admin/seo/keywords" class="flex gap-1"><input type="hidden" name="_csrf" value="<%= csrf %>"><input type="hidden" name="id" value="<%= k.id %>"><input type="hidden" name="keyword" value="<%= k.keyword %>"><input type="hidden" name="level" value="<%= k.level %>"><input type="hidden" name="product" value="<%= k.product || '' %>"><input type="hidden" name="province" value="<%= k.province || '' %>"><input type="hidden" name="city" value="<%= k.city || '' %>"><input type="hidden" name="volume" value="<%= k.volume || '' %>"><input type="hidden" name="volume_source" value="<%= k.volume_source || '' %>"><input type="hidden" name="difficulty" value="<%= k.difficulty || '' %>"><input type="hidden" name="intent" value="<%= k.intent || '' %>"><input type="hidden" name="cluster" value="<%= k.cluster || '' %>"><input type="hidden" name="competitors" value="<%= k.competitors || '' %>"><input type="hidden" name="target_path" value="<%= k.target_path || '' %>"><input type="hidden" name="priority" value="<%= k.priority %>"><input type="hidden" name="notes" value="<%= k.notes || '' %>"><input type="hidden" name="return" value="<%= qs({}) %>"><input class="admin-input !py-1 !w-16 text-body-sm" name="rank" value="<%= k.rank || '' %>" placeholder="—"><button class="btn-soft !py-1 !px-2 text-body-sm">✓</button></form></td></tr><% }) %>
+    <% if (!rows.length) { %><tr><td class="admin-td text-on-surface-variant" colspan="9">No keywords match.</td></tr><% } %>
+  </tbody></table></div>
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+  <form method="post" action="/admin/seo/keywords" class="card p-5 grid grid-cols-2 gap-2"><input type="hidden" name="_csrf" value="<%= csrf %>">
+    <h2 class="col-span-2 font-headline-sm text-headline-sm">Add keyword</h2>
+    <label class="col-span-2"><span class="admin-label">Keyword</span><input class="admin-input" name="keyword" required></label>
+    <label><span class="admin-label">Level</span><select class="admin-input" name="level"><option>national</option><option>provincial</option><option>local</option></select></label>
+    <label><span class="admin-label">Volume</span><input class="admin-input" type="number" name="volume"></label>
+    <label><span class="admin-label">Product</span><select class="admin-input" name="product"><option value="">—</option><% products.forEach(function(p){ %><option value="<%= p.slug %>"><%= p.short %></option><% }) %></select></label>
+    <label><span class="admin-label">Province</span><select class="admin-input" name="province"><option value="">—</option><% provinces.forEach(function(p){ %><option value="<%= p.code %>"><%= p.abbr %></option><% }) %></select></label>
+    <label><span class="admin-label">Intent</span><select class="admin-input" name="intent"><option>transactional</option><option>commercial</option><option>informational</option><option>local</option></select></label>
+    <label><span class="admin-label">Cluster</span><input class="admin-input" name="cluster"></label>
+    <label class="col-span-2"><span class="admin-label">Target page</span><input class="admin-input" name="target_path" placeholder="/car-insurance/ontario/brampton/"></label>
+    <button class="btn-dark !py-2 justify-self-start">Add</button></form>
+  <form method="post" action="/admin/seo/keywords/import" class="card p-5 flex flex-col gap-2"><input type="hidden" name="_csrf" value="<%= csrf %>">
+    <h2 class="font-headline-sm text-headline-sm">Import real volumes</h2>
+    <p class="font-body-sm text-body-sm text-on-surface-variant">Paste CSV: <code>keyword,volume[,difficulty][,rank][,target_path]</code>. Existing keywords keep their mapping; volumes are replaced.</p>
+    <textarea class="admin-input font-mono text-body-sm" name="csv" rows="7" placeholder="car insurance brampton,4400,38"></textarea>
+    <label><span class="admin-label">Source label</span><input class="admin-input" name="source" value="keyword-planner"></label>
+    <button class="btn-dark !py-2 self-start">Import</button></form>
+</div>
