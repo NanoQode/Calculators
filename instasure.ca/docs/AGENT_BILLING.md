@@ -41,10 +41,10 @@ Without Stripe, agents get an invoice with the e-Transfer instructions from Bill
 
 ## Images
 
-Stock photos from Pexels (free for commercial use, no attribution required). They don't show Instasure agents or customers, and the page says so.
+Stock photos from Pexels and Burst by Shopify (both free for commercial use, no attribution required). They don't show Instasure agents or customers, and the page says so.
 
 | File | Source |
 |---|---|
 | `public/img/agents/agent-on-call*` (hero, OG image) | https://www.pexels.com/photo/woman-sitting-in-front-of-a-laptop-and-talking-on-the-phone-20148736/ |
 | `public/img/agents/agent-with-clients*` | https://www.pexels.com/photo/insurance-agent-sitting-next-to-smiling-clients-8441861/ |
-| `public/img/agents/agent-working-leads*` | https://www.pexels.com/photo/man-in-black-suit-working-in-front-of-his-laptop-5467565/ |
+| `public/img/agents/agent-working-leads*` | https://www.shopify.com/stock-photos/photos/customer-service-rep-on-headset (Burst, photo by Sarah Pflug; cropped to 3:2) |

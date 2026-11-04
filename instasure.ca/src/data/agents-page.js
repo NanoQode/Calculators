@@ -12,7 +12,7 @@ const UPDATED = '2026-11-04';
 const PHOTOS = {
   hero: { base: '/img/agents/agent-on-call', w: 1600, h: 1067, alt: 'Insurance agent smiling on a phone call at her laptop' },
   clients: { base: '/img/agents/agent-with-clients', w: 1600, h: 1068, alt: 'Insurance agent reviewing a policy with an older couple at a table' },
-  dashboard: { base: '/img/agents/agent-working-leads', w: 1600, h: 1067, alt: 'Agent wearing a headset working through leads on a laptop' },
+  dashboard: { base: '/img/agents/agent-working-leads', w: 1600, h: 1067, alt: 'Customer support agent smiling while talking with a client on a headset' },
 };
 
 const steps = (free) => [
