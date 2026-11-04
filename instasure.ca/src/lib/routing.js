@@ -71,14 +71,25 @@ function ruleMatches(rule, lead) {
     && (!rule.service || rule.service === lead.service);
 }
 
-/** Record an assignment: lead, agent rotation time, timeline event. */
+/**
+ * Record an assignment: lead, agent rotation time, timeline event. On a reassignment, the lead's open
+ * follow-ups that belonged to the previous agent move to the new agent's login (when they have one).
+ */
 function setAgent(lead, advisor, { userId, data = {}, rotation = true } = {}) {
   db.tx(() => {
     db.run('UPDATE leads SET advisor_id = ?, assigned_at = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP WHERE id = ?', [advisor.id, lead.id]);
     // Millisecond precision, so the rotation still advances when several leads arrive in the same second.
     if (rotation) db.run("UPDATE advisors SET last_assigned_at = strftime('%Y-%m-%d %H:%M:%f', 'now') WHERE id = ?", [advisor.id]);
-    const type = lead.advisor_id && lead.advisor_id !== advisor.id ? 'reassigned' : 'assigned';
-    db.insert('lead_events', { lead_id: lead.id, type, user_id: userId, data: { advisor_id: advisor.id, advisor: advisor.name, from_advisor_id: lead.advisor_id || undefined, ...data } });
+    const reassigned = !!lead.advisor_id && lead.advisor_id !== advisor.id;
+    let moved = 0;
+    if (reassigned) {
+      const to = db.get('SELECT id FROM users WHERE advisor_id = ? AND active = 1 ORDER BY id LIMIT 1', [advisor.id]);
+      if (to) {
+        moved = Number(db.run(`UPDATE lead_tasks SET assigned_user_id = ? WHERE lead_id = ? AND done_at IS NULL
+          AND assigned_user_id IN (SELECT id FROM users WHERE advisor_id = ?)`, [to.id, lead.id, lead.advisor_id]).changes) || 0;
+      }
+    }
+    db.insert('lead_events', { lead_id: lead.id, type: reassigned ? 'reassigned' : 'assigned', user_id: userId, data: { advisor_id: advisor.id, advisor: advisor.name, from_advisor_id: lead.advisor_id || undefined, tasks_moved: moved || undefined, ...data } });
   });
   return advisor;
 }
@@ -125,6 +136,36 @@ function assignTo(lead, advisorId, { userId } = {}) {
   return { advisor: a, warnings };
 }
 
+/**
+ * Manual bulk assignment. One agent: every lead goes to them. Several agents: leads are shared evenly,
+ * each lead going to the agent with the fewest from this batch among those licensed for it (any of
+ * them when none is). Leads already with their target are left alone.
+ * Returns { moved: { advisorId: [leadIds] }, unchanged, warnings }.
+ */
+function assignMany(leads, advisorIds, { userId } = {}) {
+  const targets = [...new Set(advisorIds.map(Number).filter(Boolean))]
+    .map((id) => db.get('SELECT * FROM advisors WHERE id = ?', [id])).filter(Boolean);
+  const out = { moved: {}, unchanged: 0, warnings: new Set() };
+  if (!targets.length) return { ...out, error: 'Choose at least one agent' };
+  const given = new Map(targets.map((a) => [a.id, 0]));
+  const month = new Map(targets.map((a) => [a.id, monthCount(a.id)]));
+  for (const lead of leads) {
+    let to = targets[0];
+    if (targets.length > 1) {
+      const licensed = targets.filter((a) => licensedFor(a, lead));
+      const pool = licensed.length ? licensed : targets;
+      to = [...pool].sort((a, b) => given.get(a.id) - given.get(b.id) || month.get(a.id) - month.get(b.id) || a.id - b.id)[0];
+    }
+    given.set(to.id, given.get(to.id) + 1); // a lead the agent already holds still counts toward their share
+    if (lead.advisor_id === to.id) { out.unchanged++; continue; }
+    const r = assignTo(lead, to.id, { userId });
+    r.warnings.forEach((w) => out.warnings.add(`${to.name}: ${w}`));
+    month.set(to.id, month.get(to.id) + 1);
+    (out.moved[to.id] = out.moved[to.id] || []).push(lead.id);
+  }
+  return { ...out, warnings: [...out.warnings] };
+}
+
 function unassign(lead, { userId } = {}) {
   db.run('UPDATE leads SET advisor_id = NULL, assigned_at = NULL, updated_at = CURRENT_TIMESTAMP WHERE id = ?', [lead.id]);
   db.insert('lead_events', { lead_id: lead.id, type: 'unassigned', user_id: userId, data: { from_advisor_id: lead.advisor_id } });
@@ -145,4 +186,4 @@ function specialistsFor(desk) {
   return db.all(`SELECT * FROM advisors WHERE ${PUBLIC} ORDER BY is_demo, years_experience DESC`).filter((a) => staffs(a, desk));
 }
 
-module.exports = { MODES, PUBLIC, assign, assignTo, unassign, candidates, pick, rotate, forArea, specialistsFor, monthCount, atCap, licensedFor };
+module.exports = { MODES, PUBLIC, assign, assignTo, assignMany, unassign, candidates, pick, rotate, forArea, specialistsFor, monthCount, atCap, licensedFor };

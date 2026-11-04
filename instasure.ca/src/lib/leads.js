@@ -317,6 +317,26 @@ async function notifyAssignee(leadId, { by } = {}) {
   });
 }
 
+/** One email to an agent who was given several leads at once (bulk reassignment), listing each one. */
+async function notifyAssignedBatch(advisorId, leadIds, { by } = {}) {
+  if (!leadIds.length) return;
+  if (leadIds.length === 1) return notifyAssignee(leadIds[0], { by });
+  const advisor = db.get('SELECT * FROM advisors WHERE id = ?', [advisorId]);
+  if (!advisor || !advisor.email || advisor.is_demo) return;
+  const rows = db.all(`SELECT * FROM leads WHERE id IN (${leadIds.map(() => '?').join(',')}) ORDER BY score DESC, created_at DESC`, leadIds);
+  const shown = rows.slice(0, 50);
+  await mailer.sendEmail({
+    to: advisor.email, kind: 'notification', track: false,
+    subject: `${rows.length} leads assigned to you`,
+    bodyMd: [
+      `${by ? `${by} assigned` : 'You were assigned'} ${rows.length} leads to you. Open follow-ups on them are now yours too.`,
+      shown.map((l) => `- [${[l.first_name, l.last_name].filter(Boolean).join(' ') || l.email} (${l.ref})](${config.siteUrl}/admin/leads/${l.id}) · ${(bySlug[l.product] || {}).short || 'No product'} · ${String(l.province || '').toUpperCase()} · ${stages.label(l.status)} · score ${l.score}`).join('\n'),
+      rows.length > shown.length ? `…and ${rows.length - shown.length} more.` : '',
+      `[Open my leads](${config.siteUrl}/admin/leads)`,
+    ].filter(Boolean).join('\n\n'),
+  });
+}
+
 /**
  * Move a lead to a stage. `disposition` and `note` are stored on the same timeline event, so each
  * stage change carries its outcome, notes and timestamp together.
@@ -389,5 +409,5 @@ function remove(ids) {
 
 module.exports = {
   create, check, findExisting, sameName, recordInquiry, productsOf, valueOf, setStatus, logActivity, unsubscribe, byRef, remove,
-  notifyAssignee, classifySource, normalise, LeadError, LEAD_TYPES, TYPE_RANK, STATUSES, TIMEFRAMES, ANONYMISED,
+  notifyAssignee, notifyAssignedBatch, classifySource, normalise, LeadError, LEAD_TYPES, TYPE_RANK, STATUSES, TIMEFRAMES, ANONYMISED,
 };

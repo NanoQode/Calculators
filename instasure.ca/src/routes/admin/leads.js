@@ -35,11 +35,12 @@ router.use('/leads/:id', (req, res, next) => {
   res.redirect(303, `/admin/leads/${owed.id}?_err=${encodeURIComponent(msg)}#add-note`);
 });
 
-function filters(req) {
-  const q = req.query;
+/** WHERE clause for the leads list; `q` defaults to the request's query (bulk "all matching" passes the list's). */
+function filters(req, q = req.query) {
   let where = ' WHERE 1=1';
   const params = [];
-  if (q.status) { where += ' AND l.status = ?'; params.push(q.status); }
+  if (q.status === 'open') where += ` AND l.status IN ${stages.OPEN_SQL}`;
+  else if (q.status) { where += ' AND l.status = ?'; params.push(q.status); }
   if (q.grade) { where += ' AND l.grade = ?'; params.push(q.grade); }
   if (q.product) { where += ' AND (l.product = ? OR l.products LIKE ?)'; params.push(q.product, `%"${String(q.product).replace(/[%_"]/g, '')}"%`); }
   if (q.province) { where += ' AND l.province = ?'; params.push(q.province); }
@@ -77,7 +78,8 @@ router.get('/leads', (req, res) => {
   const sort = SORTS[req.query.sort] || SORTS.newest;
   const total = db.value(`SELECT COUNT(*) FROM leads l${f.where}`, f.params);
   const rows = db.all(`SELECT l.*, a.name AS advisor_name FROM leads l LEFT JOIN advisors a ON a.id = l.advisor_id${f.where} ORDER BY ${sort} LIMIT ${PAGE} OFFSET ${(page - 1) * PAGE}`, f.params);
-  const statusCounts = db.all(`SELECT l.status, COUNT(*) n FROM leads l${f.where.replace(/ AND l\.status = \?/, '')} GROUP BY l.status`, f.params.filter((p, i) => !(req.query.status && i === 0)));
+  const fs = filters(req, { ...req.query, status: '' });
+  const statusCounts = db.all(`SELECT l.status, COUNT(*) n FROM leads l${fs.where} GROUP BY l.status`, fs.params);
   res.admin('leads', {
     title: 'Leads', rows, total, page, pages: Math.ceil(total / PAGE), q: req.query, statusCounts, stages,
     advisors: agentOptions(), products, provinces: geo.provinces, STATUSES: leadsSvc.STATUSES, bySlug,
@@ -327,28 +329,67 @@ router.post('/leads/:id/delete', auth.requireRole('admin'), (req, res) => {
   res.redirect(303, '/admin/leads?_ok=' + encodeURIComponent(`Lead ${lead.ref} deleted`));
 });
 
+const BULK_ALL_MAX = 5000;
+/**
+ * Bulk actions on the selected leads, or on every lead matching the list's filters ("all matching").
+ * Assigning by hand: one agent takes them all, or "share" spreads them evenly over several agents;
+ * each agent gets one summary email. Deleting works on selected leads only.
+ */
 router.post('/leads/bulk', auth.requirePerm('leads.manage'), (req, res) => {
-  const ids = [].concat(req.body.ids || []).map(Number).filter(Boolean).slice(0, 500);
-  const action = String(req.body.action || '');
-  if (!ids.length) return res.redirect(303, '/admin/leads?_err=Select+at+least+one+lead');
+  const b = req.body;
+  const listQs = String(b.filter_qs || '').replace(/^\?/, '').slice(0, 2000);
+  const listQuery = Object.fromEntries(new URLSearchParams(listQs));
+  delete listQuery.page;
+  const ret = (msg, err) => res.redirect(303, `/admin/leads?${new URLSearchParams({ ...listQuery, [err ? '_err' : '_ok']: msg })}`);
+  const action = String(b.action || '');
+  const all = b.scope === 'all';
+  let ids;
+  if (all) {
+    if (action === 'delete') return ret('Delete works on ticked leads only: tick the leads you want to delete.', true);
+    const f = filters(req, listQuery);
+    ids = db.all(`SELECT l.id FROM leads l${f.where} ORDER BY l.created_at LIMIT ${BULK_ALL_MAX + 1}`, f.params).map((r) => r.id);
+    if (ids.length > BULK_ALL_MAX) return ret(`More than ${BULK_ALL_MAX} leads match: narrow the filters first.`, true);
+  } else {
+    ids = [].concat(b.ids || []).map(Number).filter(Boolean).slice(0, 500);
+  }
+  if (!ids.length) return ret(all ? 'No leads match these filters' : 'Select at least one lead', true);
   if (action === 'delete') {
-    if (!auth.can(req.user, 'admin')) return res.redirect(303, '/admin/leads?_err=Only+admins+can+delete+leads');
+    if (!auth.can(req.user, 'admin')) return ret('Only admins can delete leads', true);
     const gone = leadsSvc.remove(ids);
     res.locals.audit('delete', 'leads', 'bulk', { refs: gone.map((g) => g.ref) });
-    return res.redirect(303, `/admin/leads?_ok=${encodeURIComponent(`${gone.length} lead${gone.length === 1 ? '' : 's'} deleted`)}`);
+    return ret(`${gone.length} lead${gone.length === 1 ? '' : 's'} deleted`);
   }
-  let n = 0; const notes = new Set();
-  for (const id of ids) {
-    const l = db.get('SELECT * FROM leads WHERE id = ?', [id]);
-    if (!l) continue;
-    if (action.startsWith('status:')) { leadsSvc.setStatus(id, action.slice(7), { userId: req.user.id }); n++; }
-    else if (action === 'auto-assign') { if (routing.assign({ ...l }, { userId: req.user.id, mode: require('../../lib/settings').get('assignment_mode') === 'manual' ? 'best_match' : undefined })) { leadsSvc.notifyAssignee(id, { by: req.user.name }).catch(() => {}); n++; } }
-    else if (action.startsWith('assign:')) { const r = routing.assignTo(l, action.slice(7), { userId: req.user.id }); if (!r.error) { n++; r.warnings.forEach((w) => notes.add(w)); leadsSvc.notifyAssignee(id, { by: req.user.name }).catch(() => {}); } }
-    else if (action === 'unassign') { routing.unassign(l, { userId: req.user.id }); n++; }
-    else if (action === 'rescore') { scoring.rescore(id, 'bulk'); n++; }
+  const leadsOf = () => ids.map((id) => db.get('SELECT * FROM leads WHERE id = ?', [id])).filter(Boolean);
+  const notify = [].concat(b.notify || []).includes('1');
+  const plural = (n) => `${n} lead${n === 1 ? '' : 's'}`;
+
+  if (action.startsWith('assign:') || action === 'share') {
+    const targets = action === 'share' ? [].concat(b.share_ids || []) : [action.slice(7)];
+    if (action === 'share' && targets.length < 2) return ret('Tick at least two agents to share the leads between.', true);
+    const r = routing.assignMany(leadsOf(), targets, { userId: req.user.id });
+    if (r.error) return ret(r.error, true);
+    const parts = Object.entries(r.moved).map(([aid, list]) => {
+      if (notify) leadsSvc.notifyAssignedBatch(Number(aid), list, { by: req.user.name }).catch(() => {});
+      return `${plural(list.length)} to ${(db.get('SELECT name FROM advisors WHERE id = ?', [Number(aid)]) || {}).name}`;
+    });
+    const n = Object.values(r.moved).reduce((t, l) => t + l.length, 0);
+    res.locals.audit('assign', 'leads', 'bulk', { action, all, count: n, targets: Object.keys(r.moved).map(Number) });
+    const msg = n ? `Assigned ${parts.join(', ')}` : 'No leads changed';
+    return ret(`${msg}${r.unchanged ? ` · ${plural(r.unchanged)} already with that agent` : ''}${r.warnings.length ? ` (note: ${r.warnings.slice(0, 4).join('; ')}${r.warnings.length > 4 ? '…' : ''})` : ''}`);
   }
-  if (action.startsWith('assign:') || action === 'auto-assign' || action === 'unassign') res.locals.audit('assign', 'leads', 'bulk', { action, count: n });
-  res.redirect(303, `/admin/leads?_ok=${encodeURIComponent(`${n} lead(s) updated${notes.size ? ` (note: ${[...notes].join('; ')})` : ''}`)}`);
+
+  let n = 0; const given = new Map();
+  for (const l of leadsOf()) {
+    if (action.startsWith('status:')) { leadsSvc.setStatus(l.id, action.slice(7), { userId: req.user.id }); n++; }
+    else if (action === 'auto-assign') {
+      const a = routing.assign({ ...l }, { userId: req.user.id, mode: require('../../lib/settings').get('assignment_mode') === 'manual' ? 'best_match' : undefined });
+      if (a) { n++; given.set(a.id, [...(given.get(a.id) || []), l.id]); }
+    } else if (action === 'unassign') { if (l.advisor_id) { routing.unassign(l, { userId: req.user.id }); n++; } }
+    else if (action === 'rescore') { scoring.rescore(l.id, 'bulk'); n++; }
+  }
+  if (notify) for (const [aid, list] of given) leadsSvc.notifyAssignedBatch(aid, list, { by: req.user.name }).catch(() => {});
+  if (action === 'auto-assign' || action === 'unassign') res.locals.audit('assign', 'leads', 'bulk', { action, all, count: n });
+  ret(`${plural(n)} updated`);
 });
 
 module.exports = router;

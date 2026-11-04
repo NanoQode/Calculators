@@ -5,6 +5,7 @@
 <% } %>
 <div class="flex flex-wrap gap-2 mb-3">
   <a href="/admin/leads?<%= qs({ status: '', page: '' }) %>" class="badge !py-1.5 !px-3 <%= !q.status ? 'bg-primary-container text-on-primary' : 'bg-surface-container-lowest text-on-surface' %>">All</a>
+  <% var openCount = statusCounts.filter(function(x){ return stages.OPEN.indexOf(x.status) > -1; }).reduce(function(t, x){ return t + x.n; }, 0); %><a href="/admin/leads?<%= qs({ status: 'open', page: '' }) %>" class="badge !py-1.5 !px-3 <%= q.status === 'open' ? 'bg-primary-container text-on-primary' : 'bg-surface-container-lowest text-on-surface' %>" title="Every stage before Policy issued, Lost or Junk">Open <span class="opacity-70"><%= openCount %></span></a>
   <% stages.STAGES.forEach(function(st){ var c = (statusCounts.find(function(x){ return x.status === st.key; }) || {}).n || 0; if (!c && q.status !== st.key) return; %><a href="/admin/leads?<%= qs({ status: st.key, page: '' }) %>" class="badge !py-1.5 !px-3 <%= q.status === st.key ? 'bg-primary-container text-on-primary' : 'bg-surface-container-lowest text-on-surface' %>"><%= st.label %> <span class="opacity-70"><%= c %></span></a><% }) %>
 </div>
 <form method="get" class="card p-3 mb-4 grid grid-cols-2 md:grid-cols-4 xl:grid-cols-8 gap-2 items-end">
@@ -25,16 +26,29 @@
 </form>
 <form method="post" action="/admin/leads/bulk" class="card overflow-hidden" data-bulk-form>
   <input type="hidden" name="_csrf" value="<%= csrf %>">
-  <% if (can('leads.manage')) { %>
-  <div class="flex flex-wrap items-center gap-2 p-3 border-b border-surface-container">
-    <span class="font-label-md text-label-md text-on-surface-variant">With selected:</span>
-    <select name="action" class="admin-input !w-auto" data-bulk-action>
-      <optgroup label="Assign"><option value="auto-assign">Auto-assign (distribution rules)</option><% advisors.forEach(function(a){ %><option value="assign:<%= a.id %>">Assign to <%= a.name %> (<%= a.month_count %><%= a.monthly_lead_cap !== null && a.monthly_lead_cap !== undefined ? '/' + a.monthly_lead_cap : '' %> this month)</option><% }) %><option value="unassign">Unassign</option></optgroup>
-      <optgroup label="Stage"><% stages.STAGES.forEach(function(s){ %><option value="status:<%= s.key %>">Move to: <%= s.label %></option><% }) %></optgroup>
-      <optgroup label="Other"><option value="rescore">Re-score</option><% if (can('admin')) { %><option value="delete">Delete permanently</option><% } %></optgroup>
-    </select>
-    <button class="btn-soft !py-1.5 !px-3">Apply</button>
-    <span class="font-body-sm text-body-sm text-on-surface-variant" data-bulk-count></span>
+  <% if (can('leads.manage')) { var capLabel = function(a){ return a.month_count + (a.monthly_lead_cap !== null && a.monthly_lead_cap !== undefined ? '/' + a.monthly_lead_cap : '') + ' this month' + (!a.active ? ', inactive' : !a.accepting_leads ? ', not taking leads' : '') + (a.is_demo ? ', sample' : ''); }; %>
+  <input type="hidden" name="filter_qs" value="<%= qs({ page: '' }) %>">
+  <div class="flex flex-col gap-2 p-3 border-b border-surface-container">
+    <div class="flex flex-wrap items-center gap-2">
+      <span class="font-label-md text-label-md text-on-surface-variant">Apply to</span>
+      <label class="flex items-center gap-1 font-body-sm text-body-sm"><input type="radio" name="scope" value="selected" checked data-bulk-scope> the leads I tick <span class="text-on-surface-variant" data-bulk-count></span></label>
+      <label class="flex items-center gap-1 font-body-sm text-body-sm"><input type="radio" name="scope" value="all" data-bulk-scope data-total="<%= total %>"> all <strong><%= U.num(total) %></strong> leads matching these filters</label>
+    </div>
+    <div class="flex flex-wrap items-center gap-2">
+      <select name="action" class="admin-input !w-auto max-w-full" data-bulk-action>
+        <optgroup label="Assign or reassign by hand"><% advisors.forEach(function(a){ %><option value="assign:<%= a.id %>">Assign to <%= a.name %> (<%= capLabel(a) %>)</option><% }) %><option value="share">Share evenly between several agents…</option></optgroup>
+        <optgroup label="Automatic"><option value="auto-assign">Auto-assign (distribution rules)</option><option value="unassign">Unassign</option></optgroup>
+        <optgroup label="Stage"><% stages.STAGES.forEach(function(st){ %><option value="status:<%= st.key %>">Move to: <%= st.label %></option><% }) %></optgroup>
+        <optgroup label="Other"><option value="rescore">Re-score</option><% if (can('admin')) { %><option value="delete">Delete permanently (ticked leads only)</option><% } %></optgroup>
+      </select>
+      <label class="flex items-center gap-1 font-body-sm text-body-sm"><input type="checkbox" name="notify" value="1" checked> Email each agent a summary</label>
+      <button class="btn-primary !py-1.5 !px-4">Apply</button>
+    </div>
+    <fieldset class="hidden rounded-xl bg-surface-container-low p-3" data-bulk-share>
+      <legend class="admin-label">Share between (each lead goes to the agent with the fewest from this batch who is licensed for it)</legend>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-1 mt-1"><% advisors.forEach(function(a){ %><label class="flex items-center gap-2 font-body-sm text-body-sm"><input type="checkbox" name="share_ids" value="<%= a.id %>"> <%= a.name %> <span class="text-on-surface-variant">(<%= capLabel(a) %>)</span></label><% }) %></div>
+    </fieldset>
+    <p class="font-body-sm text-body-sm text-on-surface-variant">Reassigning moves each lead’s open follow-ups to the new agent and is recorded on its timeline. Monthly caps are shown but not enforced when you assign by hand. New agents appear here once approved.</p>
   </div>
   <% } %>
   <div class="overflow-x-auto"><table class="w-full">

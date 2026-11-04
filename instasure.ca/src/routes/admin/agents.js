@@ -54,7 +54,9 @@ router.post('/advisors/:id/status', manage, async (req, res) => {
   res.locals.audit(status, 'advisor', a.id, { name: a.name });
   if (req.body.notify !== '0') agents.notifyDecision(a, status).catch(() => {});
   purge();
-  res.redirect(303, `${String(req.body.back || '').startsWith('/admin/') ? req.body.back : '/admin/advisors?status=pending'}${String(req.body.back || '').includes('?') ? '&' : '?'}_ok=${encodeURIComponent(`${a.name}: ${STATUSES[status].toLowerCase()}`)}`);
+  const open = status === 'approved' ? 0 : db.value(`SELECT COUNT(*) FROM leads WHERE advisor_id = ? AND status IN ${stages.OPEN_SQL}`, [a.id]);
+  const msg = `${a.name}: ${STATUSES[status].toLowerCase()}${open ? ` · they still hold ${open} open lead${open === 1 ? '' : 's'}; use “Reassign” on the ${STATUSES[status]} tab to move them` : ''}`;
+  res.redirect(303, `${String(req.body.back || '').startsWith('/admin/') ? req.body.back : '/admin/advisors?status=pending'}${String(req.body.back || '').includes('?') ? '&' : '?'}_ok=${encodeURIComponent(msg)}`);
 });
 
 /** Change a monthly cap from the list (blank = no limit). */

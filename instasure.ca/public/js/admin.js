@@ -141,12 +141,27 @@
   var bulk = $('[data-bulk-form]');
   if (bulk) {
     var countOut = $('[data-bulk-count]', bulk);
-    var count = function () { var n = $$('input[name=ids]:checked', bulk).length; if (countOut) countOut.textContent = n ? n + ' selected' : ''; return n; };
-    bulk.addEventListener('change', count);
+    var actionSel = $('[data-bulk-action]', bulk), shareBox = $('[data-bulk-share]', bulk);
+    var allRadio = $('[data-bulk-scope][value=all]', bulk);
+    var count = function () { var n = $$('input[name=ids]:checked', bulk).length; if (countOut) countOut.textContent = n ? '(' + n + ' ticked)' : ''; return n; };
+    var syncShare = function () { if (shareBox && actionSel) shareBox.classList.toggle('hidden', actionSel.value !== 'share'); };
+    bulk.addEventListener('change', function (e) {
+      // Ticking a lead means "the leads I tick"; the scope follows.
+      if (e.target && e.target.name === 'ids' && e.target.checked) { var sel = $('[data-bulk-scope][value=selected]', bulk); if (sel) sel.checked = true; }
+      count(); syncShare();
+    });
+    syncShare();
     bulk.addEventListener('submit', function (e) {
-      var n = count(), action = ($('[data-bulk-action]', bulk) || {}).value || '';
-      if (!n) { e.preventDefault(); window.alert('Select at least one lead first.'); return; }
-      if (action === 'delete' && !window.confirm('Permanently delete ' + n + ' lead' + (n > 1 ? 's' : '') + ' with their requests, follow-ups, timeline and emails? This can’t be undone.')) e.preventDefault();
+      var all = allRadio && allRadio.checked;
+      var n = all ? Number(allRadio.getAttribute('data-total')) || 0 : count();
+      var action = actionSel ? actionSel.value : '';
+      var label = actionSel && actionSel.selectedOptions[0] ? actionSel.selectedOptions[0].textContent.replace(/\s*\(.*\)\s*$/, '') : action;
+      var leads = n + ' lead' + (n === 1 ? '' : 's');
+      if (!n) { e.preventDefault(); window.alert(all ? 'No leads match these filters.' : 'Tick at least one lead first, or choose “all leads matching these filters”.'); return; }
+      if (action === 'delete' && all) { e.preventDefault(); window.alert('Delete works on ticked leads only.'); return; }
+      if (action === 'share' && $$('input[name=share_ids]:checked', bulk).length < 2) { e.preventDefault(); window.alert('Tick at least two agents to share the leads between.'); return; }
+      if (action === 'delete') { if (!window.confirm('Permanently delete ' + leads + ' with their requests, follow-ups, timeline and emails? This can’t be undone.')) e.preventDefault(); return; }
+      if (all && !window.confirm(label + ': apply to all ' + leads + ' matching these filters?')) e.preventDefault();
     });
   }
 

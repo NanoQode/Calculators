@@ -23,7 +23,7 @@
       </form>
       <% if (atCap) { %><div class="text-error">at cap — no more automatic leads this month</div><% } %>
     </td>
-    <td class="admin-td text-body-sm"><%= a.open_leads %><%= a.max_open_leads ? ' / ' + a.max_open_leads : '' %></td>
+    <td class="admin-td text-body-sm"><% if (a.open_leads) { %><a class="link" href="/admin/leads?advisor=<%= a.id %>&status=open" title="Open their leads to reassign them"><%= a.open_leads %></a><% } else { %>0<% } %><%= a.max_open_leads ? ' / ' + a.max_open_leads : '' %></td>
     <td class="admin-td text-body-sm"><%= a.won %><% if (a.total_leads) { %> <span class="text-on-surface-variant">(<%= Math.round(a.won / a.total_leads * 100) %>%)</span><% } %></td>
     <td class="admin-td text-body-sm"><%= a.active && a.accepting_leads ? 'on' + (a.weight > 1 ? ' · weight ' + a.weight : '') : 'paused' %></td>
     <% } else { %>
@@ -31,6 +31,7 @@
     <td class="admin-td text-body-sm"><%= a.email || '' %><div class="text-on-surface-variant"><%= a.phone ? U.fmtPhone(a.phone) : '' %></div></td>
     <% } %>
     <td class="admin-td"><div class="flex flex-wrap gap-1 justify-end">
+      <% if (a.open_leads) { %><a class="btn-soft !py-1 !px-2 text-body-sm" href="/admin/leads?advisor=<%= a.id %>&status=open">Reassign <%= a.open_leads %> open lead<%= a.open_leads === 1 ? '' : 's' %></a><% } %>
       <a class="btn-soft !py-1 !px-2 text-body-sm" href="/admin/advisors/<%= a.id %>/performance">Performance</a>
       <% if (tab !== 'approved') { %><form method="post" action="/admin/advisors/<%= a.id %>/status"><%- csrfField %><input type="hidden" name="status" value="approved"><input type="hidden" name="back" value="/admin/advisors?status=<%= tab %>"><button class="btn-primary !py-1 !px-2 text-body-sm">Approve</button></form><% } %>
       <% if (tab === 'pending') { %><form method="post" action="/admin/advisors/<%= a.id %>/status" data-confirm="Reject this registration? They won’t be able to sign in."><%- csrfField %><input type="hidden" name="status" value="rejected"><input type="hidden" name="back" value="/admin/advisors?status=pending"><button class="btn-soft !py-1 !px-2 text-body-sm">Reject</button></form><% } %>

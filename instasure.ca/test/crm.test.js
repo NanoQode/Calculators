@@ -298,6 +298,61 @@ test('distribution: round-robin rotation, direct rules, monthly caps and manual 
   settings.set('assignment_mode', 'best_match');
 });
 
+test('bulk reassignment: every lead matching the filters, or shared between new agents; follow-ups move; one email each', async () => {
+  const old = agent('Leaving Agent', { provinces: ['mb'] });
+  const oldUser = user('leaving@agents.test', 'advisor', { advisor_id: old });
+  const n1 = agent('New Agent One', { provinces: ['mb'] });
+  const n1User = user('new.one@agents.test', 'advisor', { advisor_id: n1 });
+  const n2 = agent('New Agent Two', { provinces: ['mb'] });
+  const n2User = user('new.two@agents.test', 'advisor', { advisor_id: n2 });
+  const mk = (i, status = 'contacted') => db.insert('leads', { ref: `IS-RA00${i}`, email: `reassign.${i}@gmail.com`, first_name: `R${i}`, status, lead_type: 'quote', province: 'mb', product: 'term-life-insurance', product_category: 'life', products: '[]', advisor_id: old });
+  const ids = [0, 1, 2, 3, 4, 5].map((i) => mk(i));
+  const won = mk(9, 'won');
+  const task = tasks.create({ leadId: ids[0], title: 'Call back about the quote', dueAt: U.sqlNow(), assignedUserId: oldUser, createdBy: 1 });
+
+  // The Agents page links to the agent's open leads.
+  const mgr = (user('manager.reassign@instasure.test', 'agent_manager'), await login('manager.reassign@instasure.test', 'agent-password-123'));
+  assert.match(await (await mgr.req('/admin/advisors')).text(), new RegExp(`/admin/leads\\?advisor=${old}&(amp;)?status=open`));
+  const list = await (await mgr.req(`/admin/leads?advisor=${old}&status=open`)).text();
+  assert.match(list, /all <strong>6<\/strong> leads matching/, 'open filter excludes the won lead');
+
+  // All matching, to one new agent (an agent manager can do this).
+  const r = await mgr.req('/admin/leads/bulk', { method: 'POST', headers: FORMH, body: form({ _csrf: mgr.csrf, scope: 'all', filter_qs: `advisor=${old}&status=open&page=2`, action: `assign:${n1}`, notify: '1' }) });
+  assert.equal(r.status, 303);
+  assert.match(r.headers.get('location'), new RegExp(`^/admin/leads\\?advisor=${old}&status=open&_ok=`), 'back to the same filtered list');
+  assert.match(flash(r), /Assigned 6 leads to New Agent One/);
+  assert.equal(db.value(`SELECT COUNT(*) FROM leads WHERE advisor_id = ? AND id IN (${ids.join(',')})`, [n1]), 6);
+  assert.equal(db.value('SELECT advisor_id FROM leads WHERE id = ?', [won]), old, 'won lead not in the filter, not moved');
+  assert.equal(db.value('SELECT assigned_user_id FROM lead_tasks WHERE id = ?', [task]), n1User, 'open follow-up moved to the new agent');
+  assert.equal(JSON.parse(db.value("SELECT data FROM lead_events WHERE lead_id = ? AND type = 'reassigned' ORDER BY id DESC LIMIT 1", [ids[0]])).tasks_moved, 1);
+  await new Promise((done) => setTimeout(done, 50));
+  assert.equal(db.value("SELECT COUNT(*) FROM emails WHERE to_email = 'new-agent-one@agents.test' AND subject = '6 leads assigned to you'"), 1, 'one summary email, not six');
+
+  // Share the ticked leads evenly between two new agents.
+  const share = new URLSearchParams([['_csrf', mgr.csrf], ['scope', 'selected'], ['action', 'share'], ['share_ids', String(n1)], ['share_ids', String(n2)], ['notify', '1'], ...ids.map((id) => ['ids', String(id)])]);
+  const sr = await mgr.req('/admin/leads/bulk', { method: 'POST', headers: FORMH, body: share.toString() });
+  assert.match(flash(sr), /Assigned 3 leads to New Agent Two/);
+  assert.deepEqual([n1, n2].map((a) => db.value(`SELECT COUNT(*) FROM leads WHERE advisor_id = ? AND id IN (${ids.join(',')})`, [a])), [3, 3]);
+  const one = await mgr.req('/admin/leads/bulk', { method: 'POST', headers: FORMH, body: new URLSearchParams([['_csrf', mgr.csrf], ['action', 'share'], ['share_ids', String(n1)], ['ids', String(ids[0])]]).toString() });
+  assert.match(flash(one), /at least two agents/);
+
+  // Delete never applies to "all matching".
+  const { req: adm, csrf } = await login();
+  const del = await adm('/admin/leads/bulk', { method: 'POST', headers: FORMH, body: form({ _csrf: csrf, scope: 'all', filter_qs: `advisor=${n1}`, action: 'delete' }) });
+  assert.match(flash(del), /ticked leads only/);
+  assert.equal(db.value(`SELECT COUNT(*) FROM leads WHERE id IN (${ids.join(',')})`), 6);
+
+  // Single reassignment from the lead page moves follow-ups too.
+  const holder = db.value('SELECT advisor_id FROM leads WHERE id = ?', [ids[1]]);
+  const [to, fromUser, toUser] = holder === n1 ? [n2, n1User, n2User] : [n1, n2User, n1User];
+  const t2 = tasks.create({ leadId: ids[1], title: 'Send illustration', dueAt: U.sqlNow(), assignedUserId: fromUser, createdBy: 1 });
+  const single = await adm(`/admin/leads/${ids[1]}/assign`, { method: 'POST', headers: FORMH, body: form({ _csrf: csrf, advisor_id: String(to) }) });
+  assert.equal(single.status, 303);
+  assert.equal(db.value('SELECT advisor_id FROM leads WHERE id = ?', [ids[1]]), to);
+  assert.equal(db.value('SELECT assigned_user_id FROM lead_tasks WHERE id = ?', [t2]), toUser);
+  assert.match(await (await adm(`/admin/leads/${ids[1]}`)).text(), /Reassign<\/button>/);
+});
+
 test('agent manager: manages agents and gets the daily report, but not content or settings', async () => {
   const id = user('manager.report@instasure.test', 'agent_manager', { name: 'Morgan Manager', daily_report: 1 });
   assert.equal(db.value('SELECT role FROM users WHERE id = ?', [id]), 'agent_manager');
