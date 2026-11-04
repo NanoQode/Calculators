@@ -1,0 +1,35 @@
+<% var csrfField = '<input type="hidden" name="_csrf" value="' + csrf + '">';
+   var on = function(list, v, all){ return !list.length ? all : list.indexOf(v) > -1; }; %>
+<%- include('partials-head', { h: 'Lead preferences', sub: 'Choose which leads you receive. You only ever get leads in the provinces and lines you’re licensed for; these filters narrow that down. Leaving everything ticked means “send me all of them”.' }) %>
+<form method="post" action="/admin/preferences" class="grid grid-cols-1 xl:grid-cols-2 gap-4 max-w-5xl"><%- csrfField %>
+  <section class="card p-5 xl:col-span-2 flex items-start gap-3">
+    <input type="checkbox" id="acc" name="accepting_leads" class="mt-1.5" <%= a.accepting_leads ? 'checked' : '' %>>
+    <label for="acc" class="flex-1"><span class="font-label-lg text-label-lg">Receive new leads</span><span class="block font-body-sm text-body-sm text-on-surface-variant">Untick to pause, for example while you’re on holiday. Paused time doesn’t use credits.</span></label>
+  </section>
+  <section class="card p-5">
+    <h2 class="font-headline-sm text-headline-sm mb-1">Provinces</h2>
+    <p class="font-body-sm text-body-sm text-on-surface-variant mb-3">From the provinces on your licence.</p>
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2"><% licensed.forEach(function(c){ var p = provinces.find(function(x){ return x.code === c; }); if (!p) return; %><label class="flex items-center gap-2 font-body-md text-body-md"><input type="checkbox" name="provinces" value="<%= c %>" <%= on(pr.provinces, c, true) ? 'checked' : '' %>> <%= p.name %></label><% }) %></div>
+  </section>
+  <section class="card p-5">
+    <h2 class="font-headline-sm text-headline-sm mb-1">Lead quality</h2>
+    <label class="block mt-2"><span class="admin-label">Lowest lead grade I want</span>
+      <select class="admin-input" name="min_grade"><option value="">Any grade (most leads)</option><% GRADES.slice(0, 3).forEach(function(g){ %><option value="<%= g %>" <%= pr.min_grade === g ? 'selected' : '' %>><%= g %><%= g === 'A' ? ' only (hottest, fewest)' : ' or better' %></option><% }) %></select></label>
+    <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Grades come from the lead score: how complete the request is, the timeframe, and how engaged the person was.</p>
+    <% if (otpOn) { %><label class="flex items-center gap-2 font-body-md text-body-md mt-3"><input type="checkbox" name="verified_only" <%= pr.verified_only ? 'checked' : '' %>> Only leads whose phone number was confirmed by SMS code</label><% } %>
+  </section>
+  <section class="card p-5 xl:col-span-2">
+    <h2 class="font-headline-sm text-headline-sm mb-1">Lines and products</h2>
+    <p class="font-body-sm text-body-sm text-on-surface-variant mb-3">Untick a line to stop those leads. Tick specific products to receive only those (leave them all unticked for every product in the line).</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <% lines.forEach(function(cat){ var list = products.filter(function(x){ return x.category === cat; }); %>
+      <fieldset class="rounded-xl bg-surface-container-low p-3">
+        <legend class="sr-only"><%= CATEGORIES[cat].name %></legend>
+        <label class="flex items-center gap-2 font-label-lg text-label-lg"><input type="checkbox" name="categories" value="<%= cat %>" <%= on(pr.categories, cat, true) ? 'checked' : '' %>> <%= CATEGORIES[cat].name %></label>
+        <div class="mt-2 pl-6 grid gap-1"><% list.forEach(function(x){ %><label class="flex items-center gap-2 font-body-sm text-body-sm"><input type="checkbox" name="products" value="<%= x.slug %>" <%= pr.products.indexOf(x.slug) > -1 ? 'checked' : '' %>> <%= x.name %></label><% }) %></div>
+      </fieldset>
+      <% }) %>
+    </div>
+  </section>
+  <div class="xl:col-span-2 flex items-center gap-3"><button class="btn-primary !py-2.5 !px-6">Save preferences</button><span class="font-body-sm text-body-sm text-on-surface-variant">Narrow filters mean fewer leads. Your credits stay on your balance until a matching lead arrives.</span></div>
+</form>

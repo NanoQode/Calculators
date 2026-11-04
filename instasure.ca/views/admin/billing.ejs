@@ -1,0 +1,33 @@
+<% var chip = { active: 'bg-secondary-container text-on-secondary-container', past_due: 'bg-error-container text-on-error-container', pending: 'bg-tertiary-fixed text-on-tertiary-fixed-variant', canceled: 'bg-surface-container-high text-on-surface-variant' };
+   var label = { active: 'Active', past_due: 'Payment due', pending: 'Awaiting payment', canceled: 'Cancelled' }; %>
+<%- include('partials-head', { h: 'Billing', sub: 'Agents start with ' + s.free_leads + ' free leads, then buy a monthly plan. Card payments: <strong>' + (stripeOn ? 'Stripe on' : 'off (e-Transfer / invoice only)') + '</strong> · <a class="link" href="/admin/billing/settings">settings</a>', actions: '<a class="btn-soft !py-2 !px-4" href="/admin/billing/invoices">Invoices</a><a class="btn-soft !py-2 !px-4" href="/admin/billing/plans">Plans</a>' }) %>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
+  <div class="card p-4"><p class="admin-label">Monthly recurring revenue</p><p class="font-headline-md text-headline-md text-primary-container"><%= cadShort(o.mrr) %></p><p class="font-body-sm text-body-sm text-on-surface-variant">before tax · <%= o.active %> active plan<%= o.active === 1 ? '' : 's' %></p></div>
+  <div class="card p-4"><p class="admin-label">Collected this month</p><p class="font-headline-md text-headline-md text-primary-container"><%= cadShort(o.revenueMonth) %></p><p class="font-body-sm text-body-sm text-on-surface-variant">incl. tax, net of refunds</p></div>
+  <a class="card card-hover p-4" href="/admin/billing/invoices?status=open"><p class="admin-label">Open invoices</p><p class="font-headline-md text-headline-md <%= o.openInvoices.n ? 'text-secondary' : 'text-primary-container' %>"><%= o.openInvoices.n %></p><p class="font-body-sm text-body-sm text-on-surface-variant"><%= cadShort(o.openInvoices.total) %> outstanding<%= o.pastDue ? ' · ' + o.pastDue + ' past due' : '' %></p></a>
+  <a class="card card-hover p-4" href="/admin/billing/claims"><p class="admin-label">Bad-lead reports</p><p class="font-headline-md text-headline-md <%= o.openClaims ? 'text-error' : 'text-primary-container' %>"><%= o.openClaims %></p><p class="font-body-sm text-body-sm text-on-surface-variant">waiting for review</p></a>
+</div>
+<section class="card mb-4 overflow-x-auto">
+  <div class="flex flex-wrap items-center justify-between gap-2 p-4 pb-2"><h2 class="font-headline-sm text-headline-sm">Plans</h2>
+    <div class="flex flex-wrap gap-1"><% [['', 'Current'], ['active', 'Active'], ['past_due', 'Payment due'], ['pending', 'Awaiting payment'], ['canceled', 'Cancelled']].forEach(function(t){ %><a class="badge !py-1 !px-3 <%= (status || '') === t[0] ? 'bg-primary-container text-on-primary' : 'bg-surface-container' %>" href="/admin/billing<%= t[0] ? '?status=' + t[0] : '' %>"><%= t[1] %></a><% }) %></div></div>
+  <table class="w-full"><thead><tr><th class="admin-th">Agent</th><th class="admin-th">Plan</th><th class="admin-th">Status</th><th class="admin-th">Period</th><th class="admin-th text-right">Monthly</th><th class="admin-th text-right">Credits left</th><th class="admin-th">Paid by</th></tr></thead>
+    <tbody><% subs.forEach(function(r){ %><tr class="hover:bg-surface-container-low">
+      <td class="admin-td"><a class="link" href="/admin/billing/agents/<%= r.advisor_id %>"><%= r.agent %></a><div class="text-body-sm text-on-surface-variant"><%= r.email %></div></td>
+      <td class="admin-td text-body-sm"><%= r.plan_name || '—' %> · <%= r.leads_per_month %> leads<%= r.next_plan_id ? ' · changing at renewal' : '' %></td>
+      <td class="admin-td"><span class="badge <%= chip[r.status] %>"><%= label[r.status] %></span><%= r.cancel_at_period_end ? ' <span class="badge bg-surface-container">renewal off</span>' : '' %></td>
+      <td class="admin-td text-body-sm whitespace-nowrap"><%= r.current_period_start ? U.fmtDate(r.current_period_start, 'short') + ' – ' + U.fmtDate(r.current_period_end, 'short') : '—' %></td>
+      <td class="admin-td text-body-sm text-right"><%= cadShort(r.leads_per_month * r.price_per_lead_cents) %></td>
+      <td class="admin-td text-body-sm text-right <%= r.balance <= 0 ? 'text-error font-semibold' : '' %>"><%= r.balance %></td>
+      <td class="admin-td text-body-sm"><%= r.provider === 'stripe' ? 'Card' : 'Invoice' %></td></tr><% }) %>
+      <% if (!subs.length) { %><tr><td class="admin-td text-on-surface-variant" colspan="7">No plans here yet.</td></tr><% } %></tbody></table>
+</section>
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+  <section class="card overflow-x-auto"><h2 class="font-headline-sm text-headline-sm p-4 pb-2">Agents on free leads (no plan)</h2>
+    <table class="w-full"><thead><tr><th class="admin-th">Agent</th><th class="admin-th text-right">Leads received</th><th class="admin-th text-right">Credits left</th></tr></thead>
+      <tbody><% freeAgents.forEach(function(r){ %><tr><td class="admin-td"><a class="link" href="/admin/billing/agents/<%= r.id %>"><%= r.name %></a><% if (r.status !== 'approved') { %> <span class="badge bg-surface-container"><%= r.status %></span><% } %></td><td class="admin-td text-body-sm text-right"><%= r.delivered %></td><td class="admin-td text-body-sm text-right <%= r.balance <= 0 && r.status === 'approved' ? 'text-error font-semibold' : '' %>"><%= r.balance %><%= r.balance <= 0 && r.status === 'approved' ? ' · ready to buy' : '' %></td></tr><% }) %>
+        <% if (!freeAgents.length) { %><tr><td class="admin-td text-on-surface-variant" colspan="3">None.</td></tr><% } %></tbody></table></section>
+  <section class="card overflow-x-auto"><h2 class="font-headline-sm text-headline-sm p-4 pb-2">Latest payments</h2>
+    <table class="w-full"><thead><tr><th class="admin-th">When</th><th class="admin-th">Agent</th><th class="admin-th">Invoice</th><th class="admin-th text-right">Amount</th></tr></thead>
+      <tbody><% payments.forEach(function(p){ %><tr><td class="admin-td text-body-sm whitespace-nowrap"><%= U.fmtDate(p.created_at, 'short') %></td><td class="admin-td text-body-sm"><%= p.agent || '—' %></td><td class="admin-td text-body-sm"><% if (p.invoice_id) { %><a class="link font-mono" href="/admin/plan/invoices/<%= p.invoice_id %>"><%= p.number %></a><% } %> · <%= METHODS[p.method] || p.method %></td><td class="admin-td text-body-sm text-right <%= p.amount_cents < 0 ? 'text-error' : '' %>"><%= cad(p.amount_cents) %></td></tr><% }) %>
+        <% if (!payments.length) { %><tr><td class="admin-td text-on-surface-variant" colspan="4">No payments yet.</td></tr><% } %></tbody></table></section>
+</div>

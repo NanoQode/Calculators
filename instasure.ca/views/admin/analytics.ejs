@@ -1,0 +1,35 @@
+<%- include('partials-head', { h: 'Lead analytics', sub: 'First-party analytics (no third-party trackers). Sessions count consenting visitors; leads count every submission.', actions: [7,30,90,365].map(function(d){ return '<a class="badge !py-1.5 !px-3 ' + (d === days ? 'bg-primary-container text-on-primary' : 'bg-surface-container-lowest') + '" href="?days=' + d + '">' + d + 'd</a>'; }).join('') }) %>
+<div class="grid grid-cols-2 lg:grid-cols-6 gap-3 mb-4">
+  <% [['Sessions', num(sessions)], ['Visitors', num(visitors)], ['Page views', num(pageviews)], ['Leads', num(leads)], ['Visit→lead', cvr.toFixed(2) + '%'], ['Won', num(won)]].forEach(function(t){ %><div class="card p-4"><p class="admin-label"><%= t[0] %></p><p class="font-headline-md text-headline-md text-primary-container"><%= t[1] %></p></div><% }) %>
+</div>
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+  <section class="card p-5"><h2 class="font-headline-sm text-headline-sm mb-2">Sessions per day</h2><%- sessionsChart %>
+    <details><summary class="font-label-sm text-label-sm text-on-surface-variant cursor-pointer">Table view</summary><div class="max-h-48 overflow-y-auto"><table class="w-full text-body-sm"><% pvSeries.forEach(function(d){ %><tr><td><%= d.label %></td><td class="text-right"><%= d.value %></td></tr><% }) %></table></div></details></section>
+  <section class="card p-5"><h2 class="font-headline-sm text-headline-sm mb-2">Leads per day</h2><%- leadsChart %>
+    <details><summary class="font-label-sm text-label-sm text-on-surface-variant cursor-pointer">Table view</summary><div class="max-h-48 overflow-y-auto"><table class="w-full text-body-sm"><% leadSeries.forEach(function(d){ %><tr><td><%= d.label %></td><td class="text-right"><%= d.value %></td></tr><% }) %></table></div></details></section>
+  <section class="card p-5"><h2 class="font-headline-sm text-headline-sm mb-3">Conversion funnel</h2><%- funnel %><p class="font-body-sm text-body-sm text-on-surface-variant mt-3">Quote-flow steps are tracked as events; drop-off between steps shows where to simplify forms.</p></section>
+  <section class="card p-5"><h2 class="font-headline-sm text-headline-sm mb-3">Traffic &amp; lead sources</h2>
+    <table class="w-full"><thead><tr><th class="admin-th">Source</th><th class="admin-th">Sessions</th><th class="admin-th">Leads</th><th class="admin-th">CVR</th><th class="admin-th">Avg score</th></tr></thead><tbody>
+    <% sources.forEach(function(s){ var l = leadSources[s.source] || {}; %><tr><td class="admin-td text-body-sm"><%= s.source %></td><td class="admin-td text-body-sm"><%= num(s.sessions) %></td><td class="admin-td text-body-sm"><%= num(l.n || 0) %></td><td class="admin-td text-body-sm"><%= s.sessions ? ((l.n || 0) / s.sessions * 100).toFixed(1) + '%' : '—' %></td><td class="admin-td text-body-sm"><%= l.sc || '—' %></td></tr><% }) %>
+    <% if (!sources.length) { %><tr><td class="admin-td text-on-surface-variant" colspan="5">No traffic recorded yet.</td></tr><% } %></tbody></table></section>
+  <section class="card p-5 xl:col-span-2"><h2 class="font-headline-sm text-headline-sm mb-3">Landing pages that convert</h2>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <table class="w-full"><thead><tr><th class="admin-th">Entry page</th><th class="admin-th">Sessions</th><th class="admin-th">Leads</th><th class="admin-th">CVR</th></tr></thead><tbody>
+      <% landing.forEach(function(p){ %><tr><td class="admin-td text-body-sm break-all"><%= p.path %></td><td class="admin-td text-body-sm"><%= num(p.sessions) %></td><td class="admin-td text-body-sm"><%= p.leads %></td><td class="admin-td text-body-sm"><%= p.sessions ? (p.leads / p.sessions * 100).toFixed(1) + '%' : '—' %></td></tr><% }) %></tbody></table>
+      <table class="w-full"><thead><tr><th class="admin-th">Lead landing page</th><th class="admin-th">Leads</th><th class="admin-th">Avg score</th><th class="admin-th">Value</th></tr></thead><tbody>
+      <% leadPages.forEach(function(p){ %><tr><td class="admin-td text-body-sm break-all"><%= p.path %></td><td class="admin-td text-body-sm"><%= p.leads %></td><td class="admin-td text-body-sm"><%= p.score %></td><td class="admin-td text-body-sm"><%= money(p.value || 0) %></td></tr><% }) %></tbody></table>
+    </div></section>
+  <section class="card p-5"><h2 class="font-headline-sm text-headline-sm mb-3">Leads by product</h2><%- productBars %></section>
+  <section class="card p-5"><h2 class="font-headline-sm text-headline-sm mb-3">Leads by province</h2><%- provinceBars %></section>
+  <section class="card p-5"><h2 class="font-headline-sm text-headline-sm mb-3">Lead quality (grade)</h2><%- gradeBars %><p class="font-body-sm text-body-sm text-on-surface-variant mt-2"><a class="link font-normal" href="/admin/scoring">Tune scoring rules →</a></p></section>
+  <section class="card p-5"><h2 class="font-headline-sm text-headline-sm mb-3">Drip performance (<%= days %>d)</h2>
+    <table class="w-full"><thead><tr><th class="admin-th">Campaign</th><th class="admin-th">Sent</th><th class="admin-th">Open</th><th class="admin-th">Click</th><th class="admin-th">Unsub</th></tr></thead><tbody>
+    <% campaigns.forEach(function(c){ %><tr><td class="admin-td text-body-sm"><%= c.name %></td><td class="admin-td text-body-sm"><%= c.sent %></td><td class="admin-td text-body-sm"><%= c.sent ? Math.round(c.opened / c.sent * 100) + '%' : '—' %></td><td class="admin-td text-body-sm"><%= c.sent ? Math.round(c.clicked / c.sent * 100) + '%' : '—' %></td><td class="admin-td text-body-sm"><%= c.unsub %></td></tr><% }) %></tbody></table>
+    <p class="font-body-sm text-body-sm text-on-surface-variant mt-2">Open rates are approximate (image-blocking and privacy proxies affect them); clicks are reliable.</p></section>
+  <section class="card p-5"><h2 class="font-headline-sm text-headline-sm mb-3">What visitors search for</h2>
+    <% searches.forEach(function(s){ %><p class="flex justify-between font-body-sm text-body-sm"><span><%= s.q %><%= Number(s.results) === 0 ? ' — no results (content gap!)' : '' %></span><span><%= s.n %></span></p><% }) %>
+    <% if (!searches.length) { %><p class="font-body-sm text-body-sm text-on-surface-variant">No searches yet.</p><% } %></section>
+  <section class="card p-5"><h2 class="font-headline-sm text-headline-sm mb-3">Top CTAs &amp; devices</h2>
+    <% ctas.forEach(function(c){ %><p class="flex justify-between font-body-sm text-body-sm"><span><%= c.name %> · <%= c.label || '—' %></span><span><%= c.n %></span></p><% }) %>
+    <p class="font-body-sm text-body-sm text-on-surface-variant mt-2"><%= devices.map(function(d){ return d.device + ': ' + d.n; }).join(' · ') %></p></section>
+</div>

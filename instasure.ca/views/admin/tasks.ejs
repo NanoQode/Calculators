@@ -1,0 +1,27 @@
+<% var csrfField = '<input type="hidden" name="_csrf" value="' + csrf + '">'; var now = new Date(); %>
+<%- include('partials-head', { h: 'Follow-ups', sub: 'Due follow-ups pop up on every admin page until they are done or snoozed, and an email reminder goes out when each one falls due.' }) %>
+<div class="flex flex-wrap gap-2 mb-3">
+  <a class="badge !py-1.5 !px-3 <%= show === 'open' ? 'bg-primary-container text-on-primary' : 'bg-surface-container-lowest' %>" href="/admin/tasks?show=open<%= mine ? '' : '&who=all' %>">Open</a>
+  <a class="badge !py-1.5 !px-3 <%= show === 'done' ? 'bg-primary-container text-on-primary' : 'bg-surface-container-lowest' %>" href="/admin/tasks?show=done<%= mine ? '' : '&who=all' %>">Done (30 days)</a>
+  <% if (canAll) { %><span class="mx-2 text-on-surface-variant">·</span>
+  <a class="badge !py-1.5 !px-3 <%= mine ? 'bg-primary-container text-on-primary' : 'bg-surface-container-lowest' %>" href="/admin/tasks?show=<%= show %>">Mine</a>
+  <a class="badge !py-1.5 !px-3 <%= !mine ? 'bg-primary-container text-on-primary' : 'bg-surface-container-lowest' %>" href="/admin/tasks?show=<%= show %>&who=all">Everyone</a><% } %>
+</div>
+<div class="card overflow-x-auto"><table class="w-full">
+  <thead><tr><th class="admin-th">Due</th><th class="admin-th">Follow-up</th><th class="admin-th">Lead</th><% if (!mine) { %><th class="admin-th">For</th><% } %><th class="admin-th"></th></tr></thead>
+  <tbody>
+    <% rows.forEach(function(t){ var overdue = !t.done_at && U.toDate(t.due_at) < now; %>
+    <tr class="<%= overdue ? 'bg-error-container/30' : '' %>">
+      <td class="admin-td text-body-sm whitespace-nowrap"><time data-local datetime="<%= U.iso(t.due_at) %>"><%= U.fmtDateTime(t.due_at) %></time><% if (overdue) { %><div class="text-error">overdue</div><% } %></td>
+      <td class="admin-td"><span class="font-label-md text-label-md <%= t.done_at ? 'line-through' : '' %>"><%= t.title %></span><% if (t.notes) { %><div class="text-body-sm text-on-surface-variant"><%= t.notes %></div><% } %></td>
+      <td class="admin-td text-body-sm"><a class="link" href="/admin/leads/<%= t.lead_id %>#tasks"><%= ((t.first_name || '') + ' ' + (t.last_name || '')).trim() || t.email %></a><div class="text-on-surface-variant"><%= t.ref %> · <%= stageLabel(t.status) %><%= t.phone ? ' · ' + U.fmtPhone(t.phone) : '' %></div></td>
+      <% if (!mine) { %><td class="admin-td text-body-sm"><%= t.assignee || '—' %></td><% } %>
+      <td class="admin-td"><% if (!t.done_at) { %><div class="flex gap-1 justify-end">
+        <form method="post" action="/admin/tasks/<%= t.id %>/snooze"><%- csrfField %><input type="hidden" name="minutes" value="1440"><input type="hidden" name="reschedule" value="1"><input type="hidden" name="back" value="/admin/tasks"><button class="btn-soft !py-1 !px-2 text-body-sm" title="Move the due time to this time tomorrow">Tomorrow</button></form>
+        <form method="post" action="/admin/tasks/<%= t.id %>/done"><%- csrfField %><input type="hidden" name="back" value="/admin/tasks"><button class="btn-dark !py-1 !px-2 text-body-sm">Done</button></form>
+      </div><% } else { %><span class="text-body-sm text-on-surface-variant">done <%= U.timeAgo(t.done_at) %></span><% } %></td>
+    </tr>
+    <% }) %>
+    <% if (!rows.length) { %><tr><td class="admin-td text-on-surface-variant" colspan="5"><%= show === 'open' ? 'No open follow-ups. Schedule one from a lead’s “Update stage” pop-up.' : 'Nothing completed in the last 30 days.' %></td></tr><% } %>
+  </tbody>
+</table></div>

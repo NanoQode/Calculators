@@ -1,0 +1,58 @@
+<% var csrfField = '<input type="hidden" name="_csrf" value="' + csrf + '">'; var rules = (st.assignment_rules || []).concat([{}, {}]); %>
+<%- include('partials-head', { h: 'Lead distribution', sub: 'How new leads reach agents. Every mode only uses agents who are approved, active, accepting leads, licensed for the lead’s province and product line, and under their monthly cap.' }) %>
+<form method="post" action="/admin/distribution" class="grid grid-cols-1 xl:grid-cols-2 gap-4"><%- csrfField %>
+  <section class="card p-5 flex flex-col gap-3">
+    <h2 class="font-headline-sm text-headline-sm">Assignment mode</h2>
+    <% Object.keys(MODES).forEach(function(k){ %>
+    <label class="flex items-start gap-3 rounded-xl p-3 <%= st.assignment_mode === k ? 'bg-secondary-container/30' : 'bg-surface-container-low' %>"><input type="radio" name="assignment_mode" value="<%= k %>" <%= st.assignment_mode === k ? 'checked' : '' %> class="mt-1">
+      <span><span class="font-label-lg text-label-lg"><%= MODES[k] %></span><span class="block font-body-sm text-body-sm text-on-surface-variant"><%= { round_robin: 'Each new lead goes to the eligible agent who was assigned a lead longest ago, so leads are shared evenly.', best_match: 'Prefers an agent who speaks the lead’s language, then spreads leads by weight and time since their last lead. Specialist desks go to desk specialists first.', manual: 'Leads arrive unassigned. Admins and agent managers assign them from the lead page or in bulk from the list.' }[k] %></span></span>
+    </label>
+    <% }) %>
+    <p class="font-body-sm text-body-sm text-on-surface-variant">Direct rules (right) are tried first in the round-robin and best-match modes.</p>
+  </section>
+  <section class="card p-5 flex flex-col gap-3">
+    <h2 class="font-headline-sm text-headline-sm">Direct rules</h2>
+    <p class="font-body-sm text-body-sm text-on-surface-variant">Send matching leads straight to one agent, in order. If that agent isn’t eligible (licence, paused, at cap), the lead falls through to the mode. Leave a field on “Any”.</p>
+    <div class="overflow-x-auto"><table class="w-full"><thead><tr><th class="admin-th">Province</th><th class="admin-th">Line</th><th class="admin-th">Desk</th><th class="admin-th">Agent</th></tr></thead><tbody>
+      <% rules.forEach(function(r){ %><tr>
+        <td class="admin-td"><select class="admin-input !py-1" name="rule_province"><option value="">Any</option><% provinces.forEach(function(p){ %><option value="<%= p.code %>" <%= r.province === p.code ? 'selected' : '' %>><%= p.abbr %></option><% }) %></select></td>
+        <td class="admin-td"><select class="admin-input !py-1" name="rule_category"><option value="">Any</option><% Object.keys(CATEGORIES).forEach(function(c){ %><option value="<%= c %>" <%= r.category === c ? 'selected' : '' %>><%= CATEGORIES[c].name %></option><% }) %></select></td>
+        <td class="admin-td"><select class="admin-input !py-1" name="rule_service"><option value="">Any</option><% DESKS.forEach(function(d){ %><option value="<%= d.slug %>" <%= r.service === d.slug ? 'selected' : '' %>><%= d.desk %></option><% }) %></select></td>
+        <td class="admin-td"><select class="admin-input !py-1" name="rule_advisor"><option value="">— no rule —</option><% pool.forEach(function(a){ %><option value="<%= a.id %>" <%= Number(r.advisor_id) === a.id ? 'selected' : '' %>><%= a.name %></option><% }) %></select></td>
+      </tr><% }) %>
+    </tbody></table></div>
+    <p class="font-body-sm text-body-sm text-on-surface-variant">Save to get more empty rows. Choose “— no rule —” to remove one.</p>
+  </section>
+  <section class="card p-5 grid grid-cols-2 gap-3">
+    <h2 class="col-span-2 font-headline-sm text-headline-sm">Agents &amp; caps</h2>
+    <label><span class="admin-label">Default monthly cap for new agents</span><input class="admin-input" type="number" min="0" name="default_monthly_cap" value="<%= st.default_monthly_cap === null || st.default_monthly_cap === undefined ? '' : st.default_monthly_cap %>" placeholder="No limit"></label>
+    <label class="flex items-center gap-2 font-label-md text-label-md mt-5"><input type="checkbox" name="agent_registration_open" <%= st.agent_registration_open !== false ? 'checked' : '' %>> Agent sign-up open (<a class="link" href="/admin/register" target="_blank">/admin/register</a>)</label>
+    <p class="col-span-2 font-body-sm text-body-sm text-on-surface-variant">Change any agent’s cap on the <a class="link" href="/admin/advisors">Agents</a> page. Caps reset on the 1st of each month (Toronto time).</p>
+    <label class="col-span-2 flex items-start gap-2 font-label-md text-label-md"><input type="checkbox" class="mt-1" name="require_note_on_new" <%= st.require_note_on_new !== false ? 'checked' : '' %>> <span>Agents must add a note to a new lead they open before they can open another lead<span class="block font-body-sm text-body-sm text-on-surface-variant font-normal">A note, a logged call with a note, or a stage update with a note counts. Admins and agent managers are not held to this.</span></span></label>
+  </section>
+  <section class="card p-5 grid grid-cols-2 gap-3">
+    <h2 class="col-span-2 font-headline-sm text-headline-sm">Repeat submissions</h2>
+    <p class="col-span-2 font-body-sm text-body-sm text-on-surface-variant">When someone who already has a lead sends another form, their existing lead is updated and the new request (and any new product) is added to it. No duplicate is created.</p>
+    <label class="col-span-2 flex items-center gap-2 font-label-md text-label-md"><input type="checkbox" name="lead_match_phone" <%= st.lead_match_phone !== false ? 'checked' : '' %>> Also match on mobile number (when the first names agree)</label>
+    <label><span class="admin-label">Only match leads active in the last (days)</span><input class="admin-input" type="number" min="0" name="lead_merge_days" value="<%= st.lead_merge_days || 0 %>"><span class="block font-label-sm text-label-sm text-on-surface-variant mt-1">0 = always update the existing lead.</span></label>
+    <p class="font-body-sm text-body-sm self-end"><a class="link" href="/admin/leads/duplicates">Merge older duplicates</a></p>
+  </section>
+  <div class="xl:col-span-2"><button class="btn-primary !py-2.5 !px-6">Save distribution settings</button></div>
+</form>
+
+<section class="card p-5 mt-4">
+  <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
+    <h2 class="font-headline-sm text-headline-sm">Eligible pool this month</h2>
+    <form method="post" action="/admin/distribution/run" data-confirm="Assign every unassigned open lead now, using the rules above?"><%- csrfField %><button class="btn-soft !py-2 !px-4" <%= unassigned ? '' : 'disabled' %>><span class="material-symbols-outlined text-[18px]">alt_route</span>Assign <%= unassigned %> unassigned lead<%= unassigned === 1 ? '' : 's' %> now</button></form>
+  </div>
+  <div class="overflow-x-auto"><table class="w-full"><thead><tr><th class="admin-th">Agent</th><th class="admin-th">Provinces</th><th class="admin-th">Lines</th><th class="admin-th">This month</th><th class="admin-th">Last lead</th></tr></thead><tbody>
+    <% pool.forEach(function(a){ var full = a.monthly_lead_cap !== null && a.monthly_lead_cap !== undefined && a.month_count >= a.monthly_lead_cap; %><tr class="<%= !a.accepting_leads || full ? 'opacity-60' : '' %>">
+      <td class="admin-td"><a class="link" href="/admin/advisors/<%= a.id %>"><%= a.name %></a><%= a.accepting_leads ? '' : ' (paused)' %></td>
+      <td class="admin-td text-body-sm uppercase"><%= db_json(a.provinces, []).join(', ') %></td>
+      <td class="admin-td text-body-sm"><%= db_json(a.categories, []).map(function(c){ return (CATEGORIES[c] || {}).name || c; }).join(', ') %></td>
+      <td class="admin-td text-body-sm <%= full ? 'text-error font-semibold' : '' %>"><%= a.month_count %><%= a.monthly_lead_cap !== null && a.monthly_lead_cap !== undefined ? ' / ' + a.monthly_lead_cap : '' %><%= full ? ' (at cap)' : '' %></td>
+      <td class="admin-td text-body-sm"><%= a.last_assigned_at ? U.timeAgo(a.last_assigned_at) : 'never' %></td>
+    </tr><% }) %>
+    <% if (!pool.length) { %><tr><td class="admin-td text-on-surface-variant" colspan="5">No approved, active agents yet.</td></tr><% } %>
+  </tbody></table></div>
+</section>

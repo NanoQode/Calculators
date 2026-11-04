@@ -1,0 +1,27 @@
+<%- include('partials/calc-shell-top') %>
+<section class="container-site pb-space-xl" data-calc="mortgage">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+    <form class="lg:col-span-5 card p-space-lg grid sm:grid-cols-2 lg:grid-cols-1 gap-space-md" data-calc-inputs>
+      <label class="flex flex-col gap-1.5"><span class="field-label">Mortgage balance</span><input class="field" type="number" name="balance" value="500000" step="5000" min="50000"></label>
+      <label class="flex flex-col gap-1.5"><span class="field-label">Years left to pay (amortization)</span><input class="field" type="number" name="years" value="25" min="5" max="30"></label>
+      <label class="flex flex-col gap-1.5"><span class="field-label">Mortgage interest rate (%)</span><input class="field" type="number" name="rate" value="4.5" step="0.05" min="0" max="15"></label>
+      <label class="flex flex-col gap-1.5"><span class="field-label">Your age</span><input class="field" type="number" name="age" value="35" min="18" max="65"></label>
+      <label class="flex flex-col gap-1.5"><span class="field-label">Sex at birth</span><select class="field" name="sex"><option value="female">Female</option><option value="male">Male</option></select></label>
+      <label class="flex flex-col gap-1.5"><span class="field-label">Tobacco / vaping</span><select class="field" name="smoker"><option value="no">No</option><option value="yes">Yes</option></select></label>
+    </form>
+    <div class="lg:col-span-7 flex flex-col gap-space-md">
+      <div class="grid sm:grid-cols-2 gap-space-md">
+        <div class="card p-space-lg"><p class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Bank creditor insurance</p><p class="font-price-hero-mobile text-price-hero-mobile text-on-surface" data-result="bankAvg">—</p><p class="font-body-sm text-body-sm text-on-surface-variant">Average per month · <span data-result="bankTotal"></span> total</p><p class="mt-2 font-body-sm text-body-sm text-on-tertiary-container">Benefit shrinks with your balance and is paid to the lender.</p></div>
+        <div class="card p-space-lg ring-2 ring-secondary/30"><p class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Personal term life</p><p class="font-price-hero-mobile text-price-hero-mobile text-on-surface" data-result="termAvg">—</p><p class="font-body-sm text-body-sm text-on-surface-variant">Level per month · <span data-result="termTotal"></span> total</p><p class="mt-2 font-body-sm text-body-sm text-secondary">Level benefit paid to your family; portable between lenders.</p></div>
+      </div>
+      <div class="card p-space-lg">
+        <h2 class="font-headline-sm text-headline-sm text-primary-container mb-space-sm">Payout if a claim happened in year…</h2>
+        <div data-result="chart" class="w-full" role="img" aria-label="Benefit over time: bank insurance declines with the mortgage balance while term life stays level"></div>
+        <div class="flex gap-space-md mt-2 font-label-sm text-label-sm text-on-surface-variant"><span class="flex items-center gap-1"><span class="w-3 h-1 rounded bg-secondary inline-block"></span>Term life benefit</span><span class="flex items-center gap-1"><span class="w-3 h-1 rounded bg-on-tertiary-container inline-block"></span>Bank insurance benefit</span></div>
+      </div>
+      <p class="font-body-sm text-body-sm text-on-surface-variant">Bank costs use an illustrative age-banded creditor rate applied to your declining balance; lenders’ actual rates and rules vary. Term costs use Instasure’s estimate model. Neither is a quote. <a class="link" href="/mortgage-life-insurance/">Learn the differences</a>.</p>
+      <a href="/quote/mortgage-life-insurance/" class="btn-primary self-start" data-result="cta" data-track="quote_start" data-label="calc_mortgage">Get mortgage protection quotes <span class="material-symbols-outlined text-[18px]">arrow_forward</span></a>
+    </div>
+  </div>
+</section>
+<%- include('partials/calc-shell-bottom') %>

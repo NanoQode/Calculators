@@ -1,0 +1,24 @@
+<% var csrfField = '<input type="hidden" name="_csrf" value="' + csrf + '">'; %>
+<%- include('partials-head', { h: 'Bad-lead reports', sub: 'Agents report invalid leads within ' + s.bad_lead_window_days + ' days of delivery. Approving returns their credit; you can also mark the lead invalid.' }) %>
+<div class="flex flex-wrap gap-2 mb-3"><% [['open', 'Waiting'], ['approved', 'Credited'], ['rejected', 'Declined']].forEach(function(t){ %><a class="badge !py-1.5 !px-3 <%= tab === t[0] ? 'bg-primary-container text-on-primary' : t[0] === 'open' && counts.open ? 'bg-tertiary-fixed text-on-tertiary-fixed-variant' : 'bg-surface-container-lowest' %>" href="/admin/billing/claims?status=<%= t[0] %>"><%= t[1] %> <span class="opacity-70"><%= counts[t[0]] || 0 %></span></a><% }) %></div>
+<div class="flex flex-col gap-3">
+  <% rows.forEach(function(c){ var who = ((c.first_name || '') + ' ' + (c.last_name || '')).trim() || c.email; %>
+  <article class="card p-5 grid lg:grid-cols-3 gap-4">
+    <div class="lg:col-span-2">
+      <p class="font-label-lg text-label-lg"><a class="link" href="/admin/leads/<%= c.lead_id %>"><%= who %></a> <span class="font-mono text-body-sm text-on-surface-variant"><%= c.ref %></span></p>
+      <p class="font-body-sm text-body-sm text-on-surface-variant"><%= c.product || 'No product' %> · <%= String(c.province || '').toUpperCase() %> · <%= c.email %><%= c.phone ? ' · ' + U.fmtPhone(c.phone) : '' %> · now “<%= stageLabel(c.lead_status) %>”</p>
+      <p class="mt-2 font-body-md text-body-md"><strong><%= c.agent %></strong> reported <%= U.timeAgo(c.created_at) %>: <%= REASONS[c.reason] || c.reason %></p>
+      <% if (c.details) { %><p class="mt-1 font-body-md text-body-md bg-surface-container-low rounded-lg p-3 whitespace-pre-line"><%= c.details %></p><% } %>
+      <% if (c.status !== 'open') { %><p class="mt-2 font-body-sm text-body-sm text-on-surface-variant"><%= c.status === 'approved' ? 'Credited' : 'Declined' %> by <%= c.decided_name || 'admin' %> <%= U.fmtDate(c.decided_at, 'short') %><%= c.decision_note ? ': ' + c.decision_note : '' %></p><% } %>
+    </div>
+    <% if (c.status === 'open') { %>
+    <form method="post" action="/admin/billing/claims/<%= c.id %>" class="flex flex-col gap-2"><%- csrfField %>
+      <label><span class="admin-label">Note to the agent (optional)</span><input class="admin-input" name="note"></label>
+      <label class="flex items-center gap-2 font-body-sm text-body-sm"><input type="checkbox" name="mark_junk" checked> Mark the lead “Invalid / junk”</label>
+      <div class="flex gap-2"><button class="btn-primary !py-2 flex-1" name="decision" value="approve">Return credit</button><button class="btn-soft !py-2 flex-1" name="decision" value="reject">Decline</button></div>
+    </form>
+    <% } %>
+  </article>
+  <% }) %>
+  <% if (!rows.length) { %><p class="card p-5 text-on-surface-variant">Nothing here.</p><% } %>
+</div>

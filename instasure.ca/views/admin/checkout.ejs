@@ -1,0 +1,37 @@
+<% var csrfField = '<input type="hidden" name="_csrf" value="' + csrf + '">';
+   var sub = p.monthly_cents; var t = rates[bill.province] || { label: 'GST', rate: 0 };
+   var taxCents = Math.round(sub * (Number(t.rate) || 0) / 100);
+   var methodText = { card: ['credit_card', 'Credit or debit card', 'Secure payment by Stripe. Renews automatically each month; turn renewal off any time.'], etransfer: ['account_balance', s.etransfer_email ? 'Interac e-Transfer' : 'Pay by invoice', s.etransfer_email ? 'We email your invoice; send the e-Transfer to ' + s.etransfer_email + '. Your plan starts once it’s received.' : 'We email your invoice with payment instructions. Your plan starts once payment is confirmed.'] }; %>
+<a href="/admin/plan#plans" class="font-label-md text-label-md text-on-surface-variant hover:text-secondary">← Plans</a>
+<%- include('partials-head', { h: 'Checkout: ' + p.name + ' plan', sub: p.leads_per_month + ' exclusive leads a month at ' + cadShort(p.price_per_lead_cents) + ' per lead' }) %>
+<% if (error) { %><p class="mb-4 rounded-lg bg-error-container text-on-error-container px-3 py-2 font-label-md text-label-md" role="alert"><%= error %></p><% } %>
+<form method="post" action="/admin/plan/checkout/<%= p.slug %>" class="grid grid-cols-1 lg:grid-cols-5 gap-4 items-start" data-checkout data-subtotal="<%= sub %>" data-rates="<%= JSON.stringify(rates) %>"><%- csrfField %>
+  <div class="lg:col-span-3 flex flex-col gap-4">
+    <section class="card p-5 grid gap-2">
+      <h2 class="font-headline-sm text-headline-sm">1. Billing details</h2>
+      <%- include('billing-fields', { bill: bill, field: field, provinces: provinces }) %>
+    </section>
+    <section class="card p-5 grid gap-2">
+      <h2 class="font-headline-sm text-headline-sm">2. Payment method</h2>
+      <% methods.forEach(function(m, i){ var mt = methodText[m]; %>
+      <label class="opt-card flex-row items-start gap-3 has-[:checked]:ring-2 has-[:checked]:ring-secondary/50 has-[:checked]:bg-surface-container">
+        <input type="radio" name="method" value="<%= m %>" class="mt-1" <%= i === 0 ? 'checked' : '' %>>
+        <span class="material-symbols-outlined text-secondary"><%= mt[0] %></span>
+        <span class="flex flex-col"><span class="font-label-lg text-label-lg"><%= mt[1] %></span><span class="font-body-sm text-body-sm text-on-surface-variant"><%= mt[2] %></span></span>
+      </label>
+      <% }) %>
+      <% if (!stripeOn) { %><p class="font-body-sm text-body-sm text-on-surface-variant">Card payments will appear here once they’re switched on.</p><% } %>
+    </section>
+  </div>
+  <aside class="lg:col-span-2 card p-5 flex flex-col gap-3 lg:sticky lg:top-6">
+    <h2 class="font-headline-sm text-headline-sm">Order summary</h2>
+    <div class="flex justify-between font-body-md text-body-md"><span><%= p.name %> plan<br><span class="text-on-surface-variant text-body-sm"><%= p.leads_per_month %> leads × <%= cad(p.price_per_lead_cents) %></span></span><span><%= cad(sub) %></span></div>
+    <div class="flex justify-between font-body-md text-body-md"><span data-tax-label><%= t.label %> (<%= t.rate %>%)</span><span data-tax-amount><%= cad(taxCents) %></span></div>
+    <hr class="border-surface-container">
+    <div class="flex justify-between font-headline-sm text-headline-sm"><span>Due today</span><span data-tax-total><%= cad(sub + taxCents) %></span></div>
+    <p class="font-body-sm text-body-sm text-on-surface-variant">Then <span data-tax-total><%= cad(sub + taxCents) %></span> a month. <%= p.leads_per_month %> lead credits are added each paid month; any you don’t receive carry over.</p>
+    <ul class="flex flex-col gap-1.5 font-body-sm text-body-sm"><% features.slice(0, 5).forEach(function(f){ %><li class="flex gap-2"><span class="material-symbols-outlined text-[18px] text-secondary">check</span><%= f %></li><% }) %></ul>
+    <button class="btn-primary w-full mt-2"><span class="material-symbols-outlined text-[18px]">lock</span><span data-pay-label><%= methods[0] === 'card' ? 'Continue to secure payment' : 'Create my invoice' %></span></button>
+    <p class="font-body-sm text-body-sm text-on-surface-variant text-center">By continuing you agree to the <a class="link" href="/terms/#agent-accounts" target="_blank">agent terms</a>. Prices in Canadian dollars.</p>
+  </aside>
+</form>

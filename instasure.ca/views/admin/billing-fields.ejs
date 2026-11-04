@@ -1,0 +1,12 @@
+<%# Billing details inputs. usage: include('billing-fields', { bill, field, provinces }) %>
+<% var bad = function(f){ return field === f ? 'ring-2 ring-error' : ''; }; %>
+<label><span class="admin-label">Name on invoice</span><input class="admin-input <%= bad('name') %>" name="name" value="<%= bill.name || '' %>" autocomplete="name" required></label>
+<label><span class="admin-label">Business name (optional)</span><input class="admin-input" name="company" value="<%= bill.company || '' %>" autocomplete="organization"></label>
+<label><span class="admin-label">Billing email</span><input class="admin-input <%= bad('email') %>" type="email" name="email" value="<%= bill.email || '' %>" autocomplete="email" required></label>
+<label><span class="admin-label">Street address</span><input class="admin-input <%= bad('address') %>" name="address" value="<%= bill.address || '' %>" autocomplete="street-address" required></label>
+<div class="grid grid-cols-2 gap-2">
+  <label><span class="admin-label">City</span><input class="admin-input <%= bad('address') %>" name="city" value="<%= bill.city || '' %>" autocomplete="address-level2" required></label>
+  <label><span class="admin-label">Postal code</span><input class="admin-input uppercase <%= bad('postal_code') %>" name="postal_code" value="<%= bill.postal_code || '' %>" autocomplete="postal-code" maxlength="7" required></label>
+</div>
+<label><span class="admin-label">Province</span><select class="admin-input <%= bad('province') %>" name="province" data-tax-province required><% provinces.forEach(function(p){ %><option value="<%= p.code %>" <%= bill.province === p.code ? 'selected' : '' %>><%= p.name %></option><% }) %></select></label>
+<label><span class="admin-label">Your GST/HST number (optional)</span><input class="admin-input font-mono" name="tax_number" value="<%= bill.tax_number || '' %>" placeholder="123456789 RT0001"></label>

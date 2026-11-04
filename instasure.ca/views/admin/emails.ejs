@@ -1,0 +1,16 @@
+<%- include('partials-head', { h: 'Email log', sub: smtp ? 'SMTP connected — emails are being delivered.' : '<strong>SMTP is not configured</strong> — emails are stored here with status “logged” but not delivered. Set SMTP_HOST, SMTP_USER and SMTP_PASS in .env.' }) %>
+<div class="flex flex-wrap gap-2 mb-3">
+  <a class="badge !py-1.5 !px-3 <%= !q.status ? 'bg-primary-container text-on-primary' : 'bg-surface-container-lowest' %>" href="/admin/emails">All</a>
+  <% totals.forEach(function(t){ %><a class="badge !py-1.5 !px-3 <%= q.status === t.status ? 'bg-primary-container text-on-primary' : 'bg-surface-container-lowest' %>" href="/admin/emails?status=<%= t.status %>"><%= t.status %> <span class="opacity-70"><%= t.n %></span></a><% }) %>
+  <span class="mx-2 text-outline-variant">|</span>
+  <% ['drip','transactional','notification'].forEach(function(k){ %><a class="badge !py-1.5 !px-3 <%= q.kind === k ? 'bg-primary-container text-on-primary' : 'bg-surface-container-lowest' %>" href="/admin/emails?kind=<%= k %>"><%= k %></a><% }) %>
+</div>
+<div class="card overflow-x-auto"><table class="w-full">
+  <thead><tr><th class="admin-th">Sent</th><th class="admin-th">To</th><th class="admin-th">Subject</th><th class="admin-th">Kind</th><th class="admin-th">Status</th><th class="admin-th">Opens</th><th class="admin-th">Clicks</th></tr></thead>
+  <tbody><% rows.forEach(function(e){ %><tr class="hover:bg-surface-container-low">
+    <td class="admin-td text-body-sm whitespace-nowrap"><%= U.timeAgo(e.sent_at || e.created_at) %></td>
+    <td class="admin-td text-body-sm"><%= e.to_email %><% if (e.lead_id) { %><a class="block link font-normal" href="/admin/leads/<%= e.lead_id %>"><%= e.ref %></a><% } %></td>
+    <td class="admin-td text-body-sm"><a class="link font-normal" href="/admin/emails/<%= e.id %>" target="_blank"><%= e.subject %></a><% if (e.error) { %><div class="text-error"><%= e.error %></div><% } %></td>
+    <td class="admin-td text-body-sm"><%= e.kind %></td><td class="admin-td text-body-sm"><%= e.status %></td><td class="admin-td text-body-sm"><%= e.open_count %></td><td class="admin-td text-body-sm"><%= e.click_count %></td></tr><% }) %>
+    <% if (!rows.length) { %><tr><td class="admin-td text-on-surface-variant" colspan="7">No emails yet.</td></tr><% } %>
+  </tbody></table></div>

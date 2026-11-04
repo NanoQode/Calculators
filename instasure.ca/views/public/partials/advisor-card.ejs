@@ -1,0 +1,9 @@
+<% var langs = JSON.parse(a.languages || '[]'); var provs = JSON.parse(a.provinces || '[]'); %>
+<a href="/advisors/<%= a.slug %>/" class="card card-hover p-space-md flex items-center gap-space-md">
+  <%- include('avatar', { a: a, size: 'w-16 h-16' }) %>
+  <div class="min-w-0">
+    <div class="flex items-center gap-1.5 flex-wrap"><span class="font-headline-sm text-headline-sm text-on-surface"><%= a.name %></span><% if (a.designations) { %><span class="badge bg-surface-container text-on-surface"><%= a.designations %></span><% } %><% if (a.is_demo) { %><span class="badge bg-error-container text-on-error-container">Sample profile</span><% } %></div>
+    <p class="font-body-sm text-body-sm text-on-surface-variant"><%= a.title || 'Licensed Insurance Advisor' %></p>
+    <p class="font-label-sm text-label-sm text-secondary mt-1">Licensed: <%= provs.map(function(p){ return p.toUpperCase(); }).join(', ') || '—' %> · <%= langs.map(function(l){ return ({en:'English',fr:'Français',pa:'ਪੰਜਾਬੀ',hi:'हिन्दी',zh:'中文',tl:'Tagalog',ar:'العربية',es:'Español',ur:'اردو',ta:'தமிழ்',gu:'ગુજરાતી'})[l] || l; }).join(' · ') %></p>
+  </div>
+</a>
