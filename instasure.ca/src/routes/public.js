@@ -503,6 +503,43 @@ router.get('/insurance/:province/:city/', (req, res, next) => {
 
 // ───────────────────────── Product hubs & programmatic geo pages ─────────────────────────
 // ───────────────────────── Specialty services ─────────────────────────
+// ───────────────────────── For insurance agents (lead plans, B2B) ─────────────────────────
+router.get('/insurance-leads-for-agents/', (req, res) => {
+  const A = require('../data/agents-page');
+  const billing = require('../lib/billing');
+  const st = settings.all();
+  const served = (st.serviceable_provinces || []).map((c) => geo.provinceByCode[c]).filter(Boolean);
+  const free = Math.max(0, Number(st.free_leads) || 0);
+  const plans = st.public_pricing ? billing.plans() : [];
+  const lowest = plans.length ? billing.cadShort(Math.min(...plans.map((p) => p.price_per_lead_cents))) : null;
+  const faq = A.faq({ free, windowDays: st.bad_lead_window_days, served: served.map((p) => p.name), publicPricing: !!st.public_pricing, lowest });
+  const updated = [A.UPDATED, pages.contentDate(A.PATH)].filter(Boolean).sort().pop();
+  const prods = pages.enabledProducts();
+  const area = served.map((p) => ({ '@type': 'AdministrativeArea', name: p.name, containedInPlace: { '@type': 'Country', name: 'Canada' } }));
+  const offers = [{ '@type': 'Offer', name: `Free start: ${free} exclusive leads`, price: '0', priceCurrency: 'CAD', eligibleCustomerType: 'Licensed insurance agents', url: seo.abs('/admin/register') }]
+    .concat(plans.map((p) => ({ '@type': 'Offer', name: `${p.name} plan: ${p.leads_per_month} exclusive leads a month`, priceCurrency: 'CAD', price: (p.monthly_cents / 100).toFixed(2),
+      priceSpecification: { '@type': 'UnitPriceSpecification', price: (p.price_per_lead_cents / 100).toFixed(2), priceCurrency: 'CAD', unitText: 'lead', valueAddedTaxIncluded: false, billingDuration: 'P1M' } })));
+  const title = 'Insurance Leads for Agents in Canada: 10 Free Leads'.replace('10', String(free));
+  const description = `Exclusive insurance leads for licensed Canadian agents: life, health, travel, home, auto and business. Register free, get ${free} free leads, then pick a plan.`;
+  res.page('public/agents', {
+    pageType: 'agents', sectionLabel: 'For insurance agents', A, served, free, plans, faq, updated, prods,
+    features: billing.includedFeatures(), windowDays: st.bad_lead_window_days, taxNote: 'plus GST/HST', stripeOn: require('../lib/stripe').configured(),
+    meta: seo.meta({
+      path: A.PATH, title, description, image: '/img/agents/og-insurance-leads-for-agents.jpg', modified: updated,
+      breadcrumbs: [HOME, { name: 'For insurance agents', url: A.PATH }],
+      jsonld: [
+        { ...seo.webPage({ path: A.PATH, name: title, description, modified: updated }), primaryImageOfPage: { '@type': 'ImageObject', url: seo.abs(A.PHOTOS.hero.base + '.jpg'), width: A.PHOTOS.hero.w, height: A.PHOTOS.hero.h }, mainEntity: { '@id': seo.abs(A.PATH) + '#service' } },
+        { '@type': 'Service', '@id': seo.abs(A.PATH) + '#service', name: 'Exclusive insurance leads for licensed agents', serviceType: 'Insurance lead generation', description,
+          provider: { '@id': `${require('../config').siteUrl}/#organization` }, areaServed: area.length ? area : { '@type': 'Country', name: 'Canada' },
+          audience: { '@type': 'BusinessAudience', audienceType: 'Licensed insurance agents and brokers in Canada' },
+          category: prods.map((p) => p.name), offers },
+        { '@type': 'HowTo', '@id': seo.abs(A.PATH) + '#howto', name: 'How to get insurance leads as a licensed agent on Instasure', totalTime: 'PT3M', step: A.steps(free).map((x, i) => ({ '@type': 'HowToStep', position: i + 1, name: x.name, text: x.text })) },
+        seo.faqPage(faq, A.PATH),
+      ],
+    }),
+  });
+});
+
 router.get('/insurance-services/', (req, res) => {
   const groups = pages.servicesByCategory();
   const prods = pages.enabledProducts();

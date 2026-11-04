@@ -60,7 +60,7 @@ function createApp() {
           'connect-src': ["'self'", ...(ga ? ['https://*.google-analytics.com', 'https://*.analytics.google.com'] : [])],
           'frame-src': ["'self'", 'https://calendly.com', 'https://cal.com', 'https://outlook.office365.com'],
           'frame-ancestors': ["'none'"],
-          'form-action': ["'self'"],
+          'form-action': ["'self'", 'https://checkout.stripe.com'],
           'base-uri': ["'self'"],
           'object-src': ["'none'"],
           'upgrade-insecure-requests': config.isProd ? [] : null,
@@ -99,6 +99,20 @@ function createApp() {
     if (!canon.endsWith('/')) canon += '/';
     if (canon !== p) return res.redirect(301, canon + (req.url.includes('?') ? req.url.slice(req.url.indexOf('?')) : ''));
     next();
+  });
+
+  // Stripe webhooks need the raw body for the signature check, so they're handled before the body parsers.
+  app.post('/api/billing/stripe/webhook', express.raw({ type: '*/*', limit: '1mb' }), (req, res) => {
+    const stripe = require('./lib/stripe');
+    let ev;
+    try { ev = stripe.verifyEvent(req.body.toString('utf8'), req.get('stripe-signature')); } catch (e) { return res.status(400).json({ ok: false, error: e.message }); }
+    try {
+      const out = require('./lib/billing').handleEvent(ev);
+      res.json({ ok: true, ...out });
+    } catch (e) {
+      console.error('[stripe] webhook failed', ev.type, e);
+      res.status(500).json({ ok: false });
+    }
   });
 
   app.use(express.urlencoded({ extended: true, limit: '1mb' }));

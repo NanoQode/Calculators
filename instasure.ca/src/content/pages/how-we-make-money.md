@@ -1,15 +1,18 @@
 ---
-{"title": "How Instasure makes money", "description": "Transparency about how Instasure.ca is paid, how advisors are compensated, and how that affects (and doesn’t affect) what you pay.", "updated": "2026-10-03"}
+{"title": "How Instasure makes money", "description": "Transparency about how Instasure.ca is paid, how advisors are compensated, and how that affects (and doesn’t affect) what you pay.", "updated": "2026-11-04"}
 ---
 ## The short version
 
 Using {site_name} is free. Our guides, calculators and instant estimates cost nothing and don’t require your contact details.
 
-When you ask for help and buy a policy through a licensed advisor or brokerage, the **insurer pays a commission** to the licensed advisor or brokerage that placed the policy. In Canada, that commission is built into the insurer’s pricing, so in most cases you pay the same premium whether you buy directly or through an advisor.
+When you ask for help, we send your request to **one** independent advisor licensed in your province for that product. **Licensed agents pay {site_name} a flat fee for each request** we send them, whether or not you buy anything. You never pay us.
+
+If you buy a policy, the **insurer pays a commission** to the licensed advisor or brokerage that placed it. In Canada, that commission is built into the insurer’s pricing, so in most cases you pay the same premium whether you buy directly or through an advisor.
 
 ## Details that matter
 
-- **Who gets paid:** commissions are paid only to individuals and firms licensed for the product in your province. Unlicensed staff never give you insurance advice.
+- **Who gets paid:** commissions are paid only to individuals and firms licensed for the product in your province. {site_name} is paid a flat fee per introduction by agents, not a share of any policy you buy. Unlicensed staff never give you insurance advice.
+- **One agent per request:** your request is never sent to several agents or resold. Agents we work with have their licence checked on the provincial regulator’s register first.
 - **Does it change my price?** Life and living-benefit premiums are set by the insurer. For home and auto insurance, brokers compare multiple insurers — pricing depends on each insurer’s filed or approved rates.
 - **Do advisors have a conflict?** Commission-based compensation can create an incentive to recommend more coverage. That’s why every estimate on our site starts from your needs, and why our guides explain when cheaper options (like term life instead of permanent) are the better fit.
 - **Advertising:** we don’t accept payment to rank an insurer higher in our guides. If a page ever contains sponsored content, it will be clearly labelled.

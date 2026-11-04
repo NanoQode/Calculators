@@ -14,14 +14,15 @@ const SESSION_HOURS = 12;
 /**
  * Rank-based roles (requireRole/can with a role name compare ranks) plus named permissions for areas
  * that don't fit a ladder. agent_manager ranks with agents, so content, SEO and settings stay closed,
- * and gets its access through permissions: every lead, agents, distribution and the daily report.
+ * and gets its access through permissions: every lead, agents, distribution, the daily report and
+ * bad-lead reports. Billing (plans, invoices, payments, settings) is admin-only ('billing').
  */
 const ROLES = { admin: 4, editor: 3, agent_manager: 2, advisor: 2, viewer: 1 };
 const ROLE_LABELS = { admin: 'Admin', editor: 'Editor', agent_manager: 'Agent manager', advisor: 'Agent', viewer: 'Viewer' };
 const PERMS = {
   admin: ['*'],
   editor: ['leads.all', 'leads.manage', 'agents.manage', 'analytics'],
-  agent_manager: ['leads.all', 'leads.manage', 'agents.manage', 'analytics', 'reports'],
+  agent_manager: ['leads.all', 'leads.manage', 'agents.manage', 'analytics', 'reports', 'billing.claims'],
   advisor: ['leads.own'],
   viewer: ['leads.all', 'analytics'],
 };

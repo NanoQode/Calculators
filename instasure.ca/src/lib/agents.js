@@ -5,6 +5,7 @@
  * An agent is a row in `advisors` (the routing pool) plus a `users` login with role 'advisor'.
  * Registrations start as status 'pending' and inactive: they can sign in and see their profile,
  * but get no leads and no public profile until an admin or agent manager approves them.
+ * Self-registered agents pay per lead (lib/billing.js): approval grants their free leads.
  */
 const db = require('../db');
 const auth = require('./auth');
@@ -50,12 +51,14 @@ function register(b, file) {
   if (password.length < 12) throw new AgentError('Choose a password of at least 12 characters.', 'password');
   if (password !== String(b.password_confirm || '')) throw new AgentError('The two passwords don’t match.', 'password_confirm');
   if (b.attest !== 'on' && b.attest !== '1') throw new AgentError('Please confirm that you are a licensed insurance professional and the details are accurate.', 'attest');
-  if (!file || !file.buffer || !file.buffer.length) throw new AgentError('Add a profile photo (PNG, JPEG or WebP, up to 5 MB).', 'photo');
   if (db.get('SELECT id FROM users WHERE email = ?', [email])) throw new AgentError('An account with this email already exists. Sign in instead.', 'email');
 
   const name = `${first} ${last}`;
-  let photo;
-  try { photo = media.save(file.buffer, { originalName: file.originalname, alt: name }).url; } catch (e) { throw new AgentError(e.message, 'photo'); }
+  // The photo is optional at sign-up (fewer steps); agents can add one later in My profile.
+  let photo = null;
+  if (file && file.buffer && file.buffer.length) {
+    try { photo = media.save(file.buffer, { originalName: file.originalname, alt: name }).url; } catch (e) { throw new AgentError(e.message, 'photo'); }
+  }
   const cap = settings.get('default_monthly_cap');
   return db.tx(() => {
     const advisorId = db.insert('advisors', {
@@ -63,6 +66,7 @@ function register(b, file) {
       licence_number: licence, provinces, categories, languages: (() => { const l = U.arr(b.languages).filter((x) => /^[a-z]{2}$/.test(x)).slice(0, 8); return l.length ? l : ['en']; })(),
       licences: provinces.map((p) => ({ province: p, regulator: regulatorFor(p), type: 'Insurance licence (self-reported)', number: licence })),
       status: 'pending', active: 0, accepting_leads: 1, show_on_site: 0, weight: 1, max_open_leads: 150,
+      billing: settings.get('billing_enabled') === false ? 'exempt' : 'metered',
       monthly_lead_cap: cap === '' || cap === null || cap === undefined ? null : Number(cap), registered_at: U.sqlNow(),
     });
     const userId = db.insert('users', { email, name, password_hash: auth.hashPassword(password), role: 'advisor', advisor_id: advisorId, active: 1 });
@@ -86,6 +90,7 @@ function setStatus(advisorId, status, { userId } = {}) {
   if (!a) return null;
   const patch = { status, updated_at: U.sqlNow() };
   if (status === 'approved') Object.assign(patch, { active: 1, approved_at: a.approved_at || U.sqlNow(), approved_by: a.approved_by || userId || null });
+  if (status === 'approved' && a.billing === 'metered') require('./billing').grantFree(a.id, { userId });
   if (status === 'rejected' || status === 'suspended') patch.active = 0;
   db.update('advisors', a.id, patch);
   // A rejected agent can't sign in; a suspended one can (to see their history) but gets no leads.
@@ -98,7 +103,9 @@ async function notifyDecision(a, status) {
   if (!a.email) return;
   const site = settings.get('site_name');
   const body = status === 'approved'
-    ? [`Hi ${a.first_name || a.name.split(' ')[0]},`, `Your ${site} agent account is approved. Leads in the provinces and lines you’re licensed for will now be assigned to you${a.monthly_lead_cap ? ` (up to ${a.monthly_lead_cap} a month)` : ''}.`, `[Sign in to your agent portal](${config.siteUrl}/admin/me)`]
+    ? [`Hi ${a.first_name || a.name.split(' ')[0]},`, a.billing === 'metered'
+      ? `Your ${site} agent account is approved. Your ${require('./billing').freeStats(a.id).left} free leads are ready: leads in the provinces and lines you’re licensed for will now be sent to you. When they’re used, choose a monthly plan in Plan & billing.`
+      : `Your ${site} agent account is approved. Leads in the provinces and lines you’re licensed for will now be assigned to you${a.monthly_lead_cap ? ` (up to ${a.monthly_lead_cap} a month)` : ''}.`, `[Sign in to your agent portal](${config.siteUrl}/admin/me)`]
     : [`Hi ${a.first_name || a.name.split(' ')[0]},`, status === 'rejected' ? `We weren’t able to approve your ${site} agent registration. Reply to this email if you think this is a mistake.` : `Your ${site} agent account is paused, so no new leads will be assigned for now.`];
   await mailer.sendEmail({ to: a.email, kind: 'notification', track: false, subject: status === 'approved' ? `You’re approved — welcome to ${site}` : `Your ${site} agent account`, bodyMd: body.join('\n\n') });
 }

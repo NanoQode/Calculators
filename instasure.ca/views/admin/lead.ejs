@@ -125,6 +125,21 @@
   </div>
 
   <div class="flex flex-col gap-4">
+    <% if (typeof claimInfo !== 'undefined' && claimInfo) { %>
+    <section class="card p-5" id="bad-lead">
+      <h2 class="font-headline-sm text-headline-sm mb-1">Bad lead?</h2>
+      <% if (claimInfo.ok) { %>
+      <p class="font-body-sm text-body-sm text-on-surface-variant mb-2">If this request isn’t genuine, tell us by <%= U.fmtDate(claimInfo.deadline) %>. If we confirm it, your credit comes back.</p>
+      <form method="post" action="/admin/leads/<%= lead.id %>/claim" class="grid gap-2"><%- csrfField %>
+        <select class="admin-input" name="reason" required><option value="">Choose a reason…</option><% Object.keys(claimReasons).forEach(function(k){ %><option value="<%= k %>"><%= claimReasons[k] %></option><% }) %></select>
+        <textarea class="admin-input" name="details" rows="2" placeholder="What happened? (e.g. number not in service, email bounced)"></textarea>
+        <button class="btn-soft !py-2">Report a bad lead</button>
+      </form>
+      <% } else { %>
+      <p class="font-body-sm text-body-sm text-on-surface-variant"><%= claimInfo.why %><%= claimInfo.claim && claimInfo.claim.decision_note ? ' Note: ' + claimInfo.claim.decision_note : '' %></p>
+      <% } %>
+    </section>
+    <% } %>
     <section class="card p-5">
       <h2 class="font-headline-sm text-headline-sm mb-1">Stage</h2>
       <p class="font-body-md text-body-md mb-1"><%= stageLabel(lead.status) %><% if (lead.stage_changed_at) { %> <span class="text-on-surface-variant text-body-sm">since <%- when(lead.stage_changed_at) %></span><% } %></p>

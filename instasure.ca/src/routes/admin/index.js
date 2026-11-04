@@ -56,7 +56,18 @@ router.use((req, res, next) => {
     drafts: db.value("SELECT COUNT(*) FROM posts WHERE status = 'draft'"),
     overdue: require('../../lib/tasks').overdueCount(req.user.id),
     pendingAgents: auth.hasPerm(req.user, 'agents.manage') ? db.value("SELECT COUNT(*) FROM advisors WHERE status = 'pending'") : 0,
+    openClaims: auth.hasPerm(req.user, 'billing.claims') ? db.value("SELECT COUNT(*) FROM lead_claims WHERE status = 'open'") : 0,
+    openInvoices: auth.hasPerm(req.user, 'billing') ? db.value("SELECT COUNT(*) FROM invoices WHERE status = 'open'") : 0,
   };
+  // Pay-per-lead agents see their lead balance in the menu and a nudge when it runs out.
+  res.locals.agentBilling = null;
+  if (req.user.advisor_id) {
+    const me = db.get('SELECT id, billing, status FROM advisors WHERE id = ?', [req.user.advisor_id]);
+    if (me && me.billing === 'metered') {
+      const billing = require('../../lib/billing');
+      res.locals.agentBilling = { balance: billing.balance(me.id), free: billing.freeStats(me.id), active: billing.summary(me.id).active, approved: (me.status || 'approved') === 'approved' };
+    }
+  }
   next();
 });
 
@@ -131,6 +142,7 @@ router.get('/', (req, res) => {
 router.use(portal.router);
 router.use(require('./leads'));
 router.use(require('./agents'));
+router.use(require('./billing'));
 router.use(require('./campaigns'));
 router.use(require('./content'));
 router.use(require('./seo'));

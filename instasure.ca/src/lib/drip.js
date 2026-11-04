@@ -123,11 +123,12 @@ async function tick({ limit = 50, now = Date.now(), ignoreQuietHours = false } =
   return stats;
 }
 
-/** Other jobs on the same heartbeat: follow-up reminders, the daily lead report, expired SMS codes. */
+/** Other jobs on the same heartbeat: follow-up reminders, the daily lead report, expired SMS codes, plan renewals. */
 async function housekeeping(now = new Date()) {
   require('./otp').cleanup();
   await require('./tasks').remindDue();
   await require('./reports').maybeSendDaily(now);
+  require('./billing').renewals(now);
 }
 
 let timer = null;

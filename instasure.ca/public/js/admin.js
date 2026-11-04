@@ -15,6 +15,27 @@
     if (f && !window.confirm(f.getAttribute('data-confirm'))) e.preventDefault();
   }, true);
 
+  // Checkout: GST/HST and total follow the billing province; the button label follows the payment method.
+  var co = $('[data-checkout]');
+  if (co) {
+    var rates = {}; try { rates = JSON.parse(co.getAttribute('data-rates') || '{}'); } catch (e) { rates = {}; }
+    var subtotal = Number(co.getAttribute('data-subtotal')) || 0;
+    var fmt = function (c) { return (c / 100).toLocaleString('en-CA', { style: 'currency', currency: 'CAD' }); };
+    var repaint = function () {
+      var sel = $('[data-tax-province]', co); var t = (sel && rates[sel.value]) || { label: 'Tax', rate: 0 };
+      var tax = Math.round(subtotal * (Number(t.rate) || 0) / 100);
+      $$('[data-tax-label]', co).forEach(function (n) { n.textContent = t.label + ' (' + t.rate + '%)'; });
+      $$('[data-tax-amount]', co).forEach(function (n) { n.textContent = fmt(tax); });
+      $$('[data-tax-total]', co).forEach(function (n) { n.textContent = fmt(subtotal + tax); });
+      var m = $('input[name=method]:checked', co); var lbl = $('[data-pay-label]', co);
+      if (lbl && m) lbl.textContent = m.value === 'card' ? 'Continue to secure payment' : 'Create my invoice';
+    };
+    co.addEventListener('change', repaint); repaint();
+  }
+
+  // Print buttons (invoices)
+  $$('[data-print]').forEach(function (b) { b.addEventListener('click', function () { window.print(); }); });
+
   // Select-all on tables
   $$('[data-check-all]').forEach(function (c) {
     c.addEventListener('change', function () { $$('input[name=ids]', c.closest('form')).forEach(function (i) { i.checked = c.checked; }); });

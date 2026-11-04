@@ -15,18 +15,20 @@
 <body class="bg-surface-container-low text-on-surface font-body-md text-body-md min-h-screen">
 <%
   var agentOnly = user.role === 'advisor';
+  var agentBilling = typeof locals.agentBilling !== 'undefined' ? locals.agentBilling : null;
   var nav = [
     ['Overview', [['/admin/me', 'space_dashboard', 'My portal', agentOnly ? 'advisor' : 'none'], ['/admin/', 'dashboard', 'Dashboard', agentOnly ? 'none' : 'viewer'], ['/admin/analytics', 'insights', 'Lead analytics', 'analytics'], ['/admin/reports/daily', 'summarize', 'Daily report', 'reports']]],
     ['Leads', [['/admin/leads', 'group', agentOnly ? 'My leads' : 'Leads', 'advisor', counts.newLeads], ['/admin/pipeline', 'view_kanban', 'Pipeline', 'advisor'], ['/admin/tasks', 'task_alt', 'Follow-ups', 'advisor', counts.overdue], ['/admin/campaigns', 'campaign', 'Drip campaigns', 'editor'], ['/admin/emails', 'mail', 'Email log', 'editor'], ['/admin/scoring', 'rule', 'Lead scoring', 'admin']]],
-    ['Agents', [['/admin/advisors', 'support_agent', 'Agents', 'agents.manage', counts.pendingAgents], ['/admin/distribution', 'alt_route', 'Lead distribution', 'agents.manage'], ['/admin/profile', 'badge', 'My profile', agentOnly ? 'advisor' : 'none']]],
+    ['Agents', [['/admin/advisors', 'support_agent', 'Agents', 'agents.manage', counts.pendingAgents], ['/admin/distribution', 'alt_route', 'Lead distribution', 'agents.manage'], ['/admin/preferences', 'tune', 'Lead preferences', agentBilling ? 'advisor' : 'none'], ['/admin/plan', 'credit_card', 'Plan & billing', agentBilling ? 'advisor' : 'none', agentBilling && agentBilling.approved && agentBilling.balance <= 0 ? '0 left' : ''], ['/admin/profile', 'badge', 'My profile', agentOnly ? 'advisor' : 'none']]],
+    ['Billing', [['/admin/billing', 'payments', 'Billing overview', 'billing'], ['/admin/billing/invoices', 'receipt_long', 'Invoices', 'billing', counts.openInvoices], ['/admin/billing/claims', 'report', 'Bad-lead reports', 'billing.claims', counts.openClaims], ['/admin/billing/plans', 'sell', 'Lead plans', 'billing'], ['/admin/billing/settings', 'tune', 'Billing settings', 'billing']]],
     ['Content', [['/admin/posts', 'article', 'Guides & blog', 'editor', counts.drafts], ['/admin/categories', 'filter_list', 'Categories', 'editor'], ['/admin/media', 'image', 'Media', 'editor']]],
     ['SEO', [['/admin/seo', 'travel_explore', 'SEO overview', 'editor'], ['/admin/seo/pages', 'manage_search', 'Pages & overrides', 'editor'], ['/admin/seo/keywords', 'query_stats', 'Keyword map', 'editor'], ['/admin/seo/redirects', 'route', 'Redirects & 404s', 'editor'], ['/admin/seo/crawlers', 'smart_toy', 'AI & search crawlers', 'editor']]],
     ['Site', [['/admin/geo', 'map', 'Provinces & cities', 'editor'], ['/admin/products', 'layers', 'Products', 'admin'], ['/admin/partners', 'handshake', 'Insurers & MGAs', 'admin'], ['/admin/sms', 'sms', 'SMS & verification', 'admin'], ['/admin/settings', 'settings', 'Settings', 'admin'], ['/admin/users', 'person', 'Users', 'admin'], ['/admin/audit', 'history', 'Audit log', 'admin']]],
   ];
-  var isActive = function(href){ return href === '/admin/' ? currentPath === '/admin/' : currentPath.indexOf(href) === 0; };
+  var isActive = function(href){ if (href === '/admin/') return currentPath === '/admin/'; if (href === '/admin/billing') return currentPath === '/admin/billing' || currentPath.indexOf('/admin/billing/agents') === 0; return currentPath.indexOf(href) === 0; };
 %>
 <div class="lg:flex">
-  <aside class="lg:w-64 lg:shrink-0 lg:h-screen lg:sticky lg:top-0 bg-primary-container text-on-primary flex flex-col">
+  <aside class="no-print lg:w-64 lg:shrink-0 lg:h-screen lg:sticky lg:top-0 bg-primary-container text-on-primary flex flex-col">
     <div class="flex items-center justify-between px-4 h-16">
       <a href="/admin/" class="flex items-center gap-2"><img src="/img/logo-mark.svg" alt="" class="w-7 h-7"><span class="font-headline-sm text-headline-sm">Instasure<span class="text-secondary-fixed">.ca</span></span></a>
       <button type="button" class="lg:hidden w-10 h-10 rounded-full hover:bg-surface-container-lowest/10 flex items-center justify-center" data-admin-menu aria-label="Toggle menu"><span class="material-symbols-outlined">menu</span></button>

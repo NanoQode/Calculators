@@ -55,6 +55,23 @@ const DEFAULTS = {
   default_monthly_cap: 50,       // monthly lead cap given to newly registered agents (blank on an agent = no limit)
   agent_registration_open: true, // /admin/register accepts new agent sign-ups
   require_note_on_new: true,     // an agent who opens a new lead must add a note to it before opening another
+  // Agent billing (Admin → Billing). Self-registered agents get free lead credits once approved, then buy a plan.
+  billing_enabled: true,          // new self-registered agents are metered (use a lead credit per lead)
+  free_leads: 10,                 // one-time free lead credits granted when an agent is approved
+  public_pricing: false,          // show paid plans on /insurance-leads-for-agents/ (off: plans appear in the agent dashboard only)
+  bad_lead_window_days: 7,        // how long after assignment an agent can report a bad lead
+  invoice_prefix: 'INV-',
+  invoice_terms_days: 7,          // payment due for Interac e-Transfer / invoice payments
+  renewal_notice_days: 7,         // renewal invoices are issued this many days before a period ends (manual payments)
+  gst_number: '',                 // the issuer's GST/HST registration number, printed on every invoice
+  etransfer_email: '',            // where agents send Interac e-Transfers (blank hides the option)
+  payment_instructions: 'Send an Interac e-Transfer for the invoice total and put the invoice number in the message. Your plan starts as soon as the payment is confirmed.',
+  // GST/HST charged on lead plans, by the agent's billing province (place of supply). Rates as of 2026; edit in Admin → Billing → Settings.
+  tax_rates: {
+    on: { label: 'HST', rate: 13 }, ns: { label: 'HST', rate: 14 }, nb: { label: 'HST', rate: 15 }, nl: { label: 'HST', rate: 15 }, pe: { label: 'HST', rate: 15 },
+    ab: { label: 'GST', rate: 5 }, bc: { label: 'GST', rate: 5 }, mb: { label: 'GST', rate: 5 }, sk: { label: 'GST', rate: 5 }, qc: { label: 'GST', rate: 5 },
+    yt: { label: 'GST', rate: 5 }, nt: { label: 'GST', rate: 5 }, nu: { label: 'GST', rate: 5 },
+  },
   // SMS one-time codes (VoIP.ms). Enforced only when enabled AND the provider is configured.
   otp_enabled: false,
   otp_length: 6,
@@ -87,7 +104,7 @@ const PLACEHOLDER_PHONE = '1-800-000-0000';
 function phoneIsPlaceholder(v) { const d = String(v || '').replace(/\D/g, ''); return !d || d === '18000000000' || /^1?\d{3}0{7}$/.test(d); }
 
 /** Secrets are stored like any setting but never enter the cache that views receive as `s`. */
-const SECRET_KEYS = new Set(['voipms_password']);
+const SECRET_KEYS = new Set(['voipms_password', 'stripe_secret_key', 'stripe_webhook_secret']);
 
 let cache = null;
 

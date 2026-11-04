@@ -1,5 +1,7 @@
 <% var a = p.advisor; var pc = function(x){ return Math.round(x * 100) + '%'; };
-   var capText = p.cap === null || p.cap === undefined ? 'no monthly limit' : p.monthCount + ' of ' + p.cap + ' this month'; %>
+   // Pay-per-lead agents are limited by their credits, not a monthly cap.
+   var metered = a.billing === 'metered';
+   var capText = metered ? p.monthCount + ' this month' : p.cap === null || p.cap === undefined ? 'no monthly limit' : p.monthCount + ' of ' + p.cap + ' this month'; %>
 <% if (!own) { %><a href="/admin/advisors" class="font-label-md text-label-md text-on-surface-variant hover:text-secondary">← Agents</a><% } %>
 <%- include('partials-head', { h: own ? 'Welcome, ' + (a.first_name || a.name.split(' ')[0]) : a.name, sub: (own ? 'Your leads and conversions. ' : '') + 'Leads: ' + capText + ' · ' + p.open + ' open', actions: own ? '<a class="btn-primary !py-2 !px-4" href="/admin/leads"><span class="material-symbols-outlined text-[18px]">group</span>My leads</a><a class="btn-soft !py-2 !px-4" href="/admin/pipeline">Pipeline</a><a class="btn-soft !py-2 !px-4" href="/admin/profile">My profile</a>' : '<a class="btn-soft !py-2 !px-4" href="/admin/advisors/' + a.id + '">Edit agent</a><a class="btn-soft !py-2 !px-4" href="/admin/leads?advisor=' + a.id + '">Their leads</a>' }) %>
 <% if (a.status === 'pending') { %>
@@ -9,12 +11,29 @@
 <% } else if (own && !a.accepting_leads) { %>
 <div class="mb-4 rounded-xl px-4 py-3 bg-surface-container font-body-md text-body-md">You’ve paused new leads. Turn them back on in <a class="link" href="/admin/profile">My profile</a>.</div>
 <% } %>
+<% if (own && typeof bill !== 'undefined' && bill) { var bApproved = a.status === 'approved'; %>
+<section class="mb-4 rounded-2xl p-5 flex flex-col md:flex-row md:items-center gap-4 <%= bill.outOfCredits && bApproved ? 'bg-primary-container text-on-primary' : 'card' %>">
+  <div class="flex items-center gap-4 flex-1">
+    <span class="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 <%= bill.outOfCredits && bApproved ? 'bg-secondary text-on-secondary' : 'bg-secondary-container/60 text-on-secondary-container' %>"><span class="material-symbols-outlined text-[28px]">confirmation_number</span></span>
+    <div>
+      <p class="font-headline-md text-headline-md"><%= Math.max(0, bill.balance) %> lead credit<%= bill.balance === 1 ? '' : 's' %> left</p>
+      <p class="font-body-md text-body-md <%= bill.outOfCredits && bApproved ? 'text-primary-fixed-dim' : 'text-on-surface-variant' %>">
+        <% if (!bApproved) { %>Your <%= s.free_leads %> free leads start once your licence is approved.
+        <% } else if (bill.active) { %><%= bill.plan ? bill.plan.name : 'Plan' %> plan · <%= bill.periodUsed %> of <%= bill.sub.leads_per_month %> leads this period · <%= bill.sub.cancel_at_period_end ? 'ends' : 'renews' %> <%= U.fmtDate(bill.sub.current_period_end, 'short') %>
+        <% } else if (bill.outOfCredits) { %>You’ve used your <%= bill.free.granted %> free leads. Choose a plan to keep receiving leads.
+        <% } else { %>Free start: <%= bill.free.used %> of <%= bill.free.granted %> free leads used.<% } %>
+      </p>
+    </div>
+  </div>
+  <a class="<%= bill.outOfCredits && bApproved ? 'btn-primary' : 'btn-soft' %> !py-2.5 !px-5" href="/admin/plan<%= bill.outOfCredits && !bill.active ? '#plans' : '' %>"><%= bill.outOfCredits && !bill.active && bApproved ? 'Choose a plan' : 'Plan & billing' %></a>
+</section>
+<% } %>
 <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
-  <% [['Leads this month', p.thisMonth.assigned, p.cap ? 'cap ' + p.cap : 'no cap'], ['Contacted', pc(p.thisMonth.contactRate), p.thisMonth.contacted + ' of ' + p.thisMonth.assigned], ['Quoted', pc(p.thisMonth.quoteRate), p.thisMonth.quoted + ' quoted or further'], ['Won this month', p.thisMonth.won, pc(p.thisMonth.conversion) + ' conversion']].forEach(function(k){ %>
+  <% [['Leads this month', p.thisMonth.assigned, metered ? 'one credit each' : p.cap ? 'cap ' + p.cap : 'no cap'], ['Contacted', pc(p.thisMonth.contactRate), p.thisMonth.contacted + ' of ' + p.thisMonth.assigned], ['Quoted', pc(p.thisMonth.quoteRate), p.thisMonth.quoted + ' quoted or further'], ['Won this month', p.thisMonth.won, pc(p.thisMonth.conversion) + ' conversion']].forEach(function(k){ %>
   <div class="card p-4"><p class="admin-label"><%= k[0] %></p><p class="font-headline-md text-headline-md text-primary-container"><%= k[1] %></p><p class="font-body-sm text-body-sm text-on-surface-variant"><%= k[2] %></p></div>
   <% }) %>
 </div>
-<% if (p.cap) { var pct = Math.min(100, Math.round(p.monthCount / p.cap * 100)); %>
+<% if (p.cap && !metered) { var pct = Math.min(100, Math.round(p.monthCount / p.cap * 100)); %>
 <div class="card p-4 mb-4"><div class="flex justify-between font-label-md text-label-md mb-1"><span>Monthly lead cap</span><span><%= p.monthCount %> / <%= p.cap %></span></div><div class="h-2 rounded-full bg-surface-container overflow-hidden"><div class="h-full <%= pct >= 100 ? 'bg-error' : 'bg-secondary' %>" style="width: <%= pct %>%"></div></div></div>
 <% } %>
 <div class="grid grid-cols-1 xl:grid-cols-3 gap-4">

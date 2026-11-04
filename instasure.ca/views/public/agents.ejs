@@ -1,0 +1,234 @@
+<%
+  var pic = function(ph, opts){ opts = opts || {}; var set = [480, 800, 1200].map(function(w){ return ph.base + '-' + w + '.webp ' + w + 'w'; }).join(', ');
+    return '<picture><source type="image/webp" srcset="' + set + '" sizes="' + (opts.sizes || '(min-width: 1024px) 50vw, calc(100vw - 32px)') + '"><img src="' + ph.base + '.jpg" alt="' + U.escapeHtml(ph.alt) + '" width="' + ph.w + '" height="' + ph.h + '" class="' + (opts.cls || 'w-full h-auto rounded-3xl') + '" loading="' + (opts.eager ? 'eager' : 'lazy') + '" decoding="async"' + (opts.eager ? ' fetchpriority="high"' : '') + '></picture>'; };
+  var servedNames = served.map(function(p){ return p.name; });
+  var groups = {}; prods.forEach(function(p){ (groups[p.category] = groups[p.category] || []).push(p); });
+  var reg = '/admin/register';
+%>
+<!-- Hero -->
+<div class="relative w-full overflow-hidden">
+  <div class="absolute -top-40 right-1/4 w-[600px] h-[600px] rounded-full bg-secondary-container/20 blur-[130px] pointer-events-none"></div>
+  <section class="container-site pt-space-lg pb-space-xl relative" aria-labelledby="agents-h1">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-center">
+      <div class="lg:col-span-6 flex flex-col gap-space-md">
+        <div class="flex flex-wrap items-center gap-space-xs">
+          <span class="chip bg-secondary-container/40 text-on-secondary-container"><span class="material-symbols-outlined text-[15px] icon-fill">verified_user</span> For licensed agents &amp; brokers</span>
+          <span class="chip bg-surface-container text-on-surface"><span class="material-symbols-outlined text-[15px]">redeem</span> <%= free %> free leads to start</span>
+        </div>
+        <h1 id="agents-h1" class="font-display-lg-mobile text-display-lg-mobile lg:font-display-lg lg:text-display-lg text-primary-container tracking-tight text-balance">Exclusive insurance leads for agents in Canada. <span class="text-secondary">Start with <%= free %> free.</span></h1>
+        <p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">Instasure sends insurance leads to licensed agents: real Canadians who asked for an estimate or an advisor on our site, matched to your province and the lines you’re licensed for. Each lead goes to one agent only. Register free, get your first <%= free %> leads once your licence is verified, then choose a monthly plan in your dashboard.</p>
+        <div class="flex flex-col sm:flex-row gap-space-sm">
+          <a href="<%= reg %>" class="btn-primary !px-7" data-track="cta_click" data-label="agents_hero_register">Register free — get <%= free %> leads <span class="material-symbols-outlined text-[18px]">arrow_forward</span></a>
+          <a href="/admin/login?next=/admin/me" class="btn-soft" data-track="cta_click" data-label="agents_hero_login">Agent sign in</a>
+        </div>
+        <ul class="flex flex-wrap gap-x-5 gap-y-2 font-label-md text-label-md text-on-surface-variant">
+          <li class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[18px] text-secondary">check_circle</span>No credit card to register</li>
+          <li class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[18px] text-secondary">check_circle</span>Never shared or resold</li>
+          <li class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[18px] text-secondary">check_circle</span>Bad leads credited back</li>
+        </ul>
+        <p class="font-label-sm text-label-sm text-on-surface-variant">Updated <time datetime="<%= updated %>"><%= U.fmtDate(updated) %></time></p>
+      </div>
+      <div class="lg:col-span-6 relative">
+        <%- pic(A.PHOTOS.hero, { eager: true }) %>
+        <div class="hidden sm:flex absolute -bottom-6 left-6 right-6 lg:right-auto lg:w-[360px] card shadow-xl p-space-md flex-col gap-2" aria-label="Example lead (illustrative)">
+          <div class="flex items-center justify-between"><span class="eyebrow">New lead · example</span><span class="badge bg-secondary text-on-secondary">Grade A · 86</span></div>
+          <p class="font-label-lg text-label-lg text-on-surface">Term life insurance · Brampton, ON</p>
+          <p class="font-body-sm text-body-sm text-on-surface-variant">$500,000, 20-year term · age 38 · wants coverage within 30 days · prefers a call after 5 p.m.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Quick facts (answer-first, AEO) -->
+<section class="w-full bg-surface-container-lowest py-space-lg shadow-sm" aria-labelledby="facts-h">
+  <div class="container-site">
+    <h2 id="facts-h" class="sr-only">Instasure agent leads at a glance</h2>
+    <dl class="grid grid-cols-2 lg:grid-cols-4 gap-space-md">
+      <div class="flex flex-col gap-1"><dt class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Free to start</dt><dd class="font-headline-md text-headline-md text-primary-container"><%= free %> exclusive leads</dd></div>
+      <div class="flex flex-col gap-1"><dt class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Lead types</dt><dd class="font-headline-md text-headline-md text-primary-container"><%= prods.length %> products</dd></div>
+      <div class="flex flex-col gap-1"><dt class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Provinces open</dt><dd class="font-headline-md text-headline-md text-primary-container"><%= served.length %></dd></div>
+      <div class="flex flex-col gap-1"><dt class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Bad-lead window</dt><dd class="font-headline-md text-headline-md text-primary-container"><%= windowDays %> days</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- How it works -->
+<section class="container-site py-space-xl" aria-labelledby="how-h">
+  <p class="eyebrow">How it works</p>
+  <h2 id="how-h" class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container">How to get free insurance leads as an agent</h2>
+  <p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl mt-2">Four steps, and you only pay once your free leads are used and you choose a plan.</p>
+  <ol class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md mt-space-lg">
+    <% A.steps(free).forEach(function(st, i){ %>
+    <li class="card p-space-lg flex flex-col gap-2">
+      <span class="flex items-center gap-2"><span class="w-10 h-10 rounded-full bg-secondary-container/50 text-on-secondary-container flex items-center justify-center"><span class="material-symbols-outlined"><%= st.icon %></span></span><span class="font-label-sm text-label-sm text-on-surface-variant">Step <%= i + 1 %></span></span>
+      <h3 class="font-headline-sm text-headline-sm text-on-surface"><%= st.name %></h3>
+      <p class="font-body-md text-body-md text-on-surface-variant"><%= st.text %></p>
+    </li>
+    <% }) %>
+  </ol>
+</section>
+
+<!-- Where leads come from -->
+<section class="w-full bg-surface-container-lowest py-space-xl" aria-labelledby="source-h">
+  <div class="container-site grid grid-cols-1 lg:grid-cols-2 gap-space-xl items-center">
+    <div class="order-2 lg:order-1"><%- pic(A.PHOTOS.clients) %></div>
+    <div class="order-1 lg:order-2 flex flex-col gap-space-sm">
+      <p class="eyebrow">Where the leads come from</p>
+      <h2 id="source-h" class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container">Exclusive insurance leads from people who asked for help</h2>
+      <p class="font-body-lg text-body-lg text-on-surface-variant">Every lead is a person who used instasure.ca to get an instant estimate, run a calculator or request a licensed advisor, and agreed to be contacted about it. We don’t buy lists or resell old data.</p>
+      <ul class="flex flex-col gap-2 font-body-md text-body-md">
+        <li class="flex gap-2"><span class="material-symbols-outlined text-secondary">travel_explore</span><span>People find us through plain-language guides, city and province pages and free calculators across <%= prods.length %> types of coverage.</span></li>
+        <li class="flex gap-2"><span class="material-symbols-outlined text-secondary">alt_route</span><span>Each request is matched to one agent licensed for that province and product, and, where possible, to one who speaks the person’s language.</span></li>
+        <li class="flex gap-2"><span class="material-symbols-outlined text-secondary">merge</span><span>A repeat request from the same person updates their lead instead of creating a duplicate for someone else.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- What's in a lead -->
+<section class="container-site py-space-xl" aria-labelledby="inlead-h">
+  <p class="eyebrow">What you get</p>
+  <h2 id="inlead-h" class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container">What’s in every lead</h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-space-md mt-space-lg">
+    <% A.inLead.forEach(function(x){ %>
+    <div class="card p-space-lg flex gap-3"><span class="material-symbols-outlined text-secondary text-[28px]"><%= x.icon %></span><div><h3 class="font-label-lg text-label-lg text-on-surface"><%= x.title %></h3><p class="font-body-md text-body-md text-on-surface-variant mt-1"><%= x.text %></p></div></div>
+    <% }) %>
+  </div>
+  <div class="card p-space-lg mt-space-md">
+    <h3 class="font-headline-sm text-headline-sm text-primary-container">Included for every agent</h3>
+    <ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-2 mt-3"><% features.forEach(function(f){ %><li class="flex gap-2 font-body-md text-body-md"><span class="material-symbols-outlined text-[20px] text-secondary">check</span><%= f %></li><% }) %></ul>
+  </div>
+</section>
+
+<!-- Dashboard -->
+<section class="w-full bg-primary-container text-on-primary py-space-xl" aria-labelledby="dash-h">
+  <div class="container-site grid grid-cols-1 lg:grid-cols-2 gap-space-xl items-center">
+    <div class="flex flex-col gap-space-sm">
+      <p class="eyebrow !text-secondary-fixed">Your agent dashboard</p>
+      <h2 id="dash-h" class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg">A simple dashboard to work every lead</h2>
+      <p class="font-body-lg text-body-lg text-primary-fixed-dim">No extra CRM needed. Sign in and everything is on one screen: new leads, what to do next and how you’re converting.</p>
+      <ul class="grid sm:grid-cols-2 gap-space-sm mt-2">
+        <% A.dashboard.forEach(function(d){ %><li class="flex gap-3"><span class="material-symbols-outlined text-secondary-fixed"><%= d[0] %></span><span><span class="block font-label-lg text-label-lg"><%= d[1] %></span><span class="block font-body-sm text-body-sm text-primary-fixed-dim"><%= d[2] %></span></span></li><% }) %>
+      </ul>
+    </div>
+    <div><%- pic(A.PHOTOS.dashboard) %></div>
+  </div>
+</section>
+
+<!-- Lines and provinces -->
+<section class="container-site py-space-xl" aria-labelledby="lines-h">
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-space-xl">
+    <div class="lg:col-span-2">
+      <p class="eyebrow">Lead types</p>
+      <h2 id="lines-h" class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container">Life, health, P&amp;C and business insurance leads in Canada</h2>
+      <p class="font-body-md text-body-md text-on-surface-variant mt-2">You only receive the lines on your licence. Filter further by product in your dashboard.</p>
+      <div class="grid sm:grid-cols-2 gap-space-md mt-space-md">
+        <% Object.keys(groups).forEach(function(cat){ %>
+        <div><h3 class="font-label-lg text-label-lg text-on-surface mb-1"><%= CATEGORIES[cat].name %> leads</h3>
+          <ul class="flex flex-wrap gap-1.5"><% groups[cat].forEach(function(p){ %><li><a class="chip bg-surface-container-low text-on-surface hover:bg-surface-container" href="/<%= p.slug %>/"><span class="material-symbols-outlined text-[15px] text-secondary"><%= p.icon %></span><%= p.name %></a></li><% }) %></ul></div>
+        <% }) %>
+      </div>
+    </div>
+    <aside class="card p-space-lg self-start" aria-labelledby="prov-h">
+      <h2 id="prov-h" class="font-headline-sm text-headline-sm text-primary-container">Provinces open to agents</h2>
+      <ul class="flex flex-wrap gap-1.5 mt-3"><% served.forEach(function(p){ %><li><a class="chip bg-secondary-container/40 text-on-secondary-container" href="/insurance/<%= p.slug %>/"><%= p.name %></a></li><% }) %></ul>
+      <p class="font-body-sm text-body-sm text-on-surface-variant mt-3">Quebec and the territories aren’t open yet. Register anyway if you’re licensed elsewhere too: you’ll get leads in your other provinces.</p>
+    </aside>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section id="pricing" class="w-full bg-surface-container-lowest py-space-xl scroll-mt-24" aria-labelledby="price-h">
+  <div class="container-site">
+    <p class="eyebrow">Pricing</p>
+    <h2 id="price-h" class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container">Free to register. <%= free %> free leads. Then pay per lead.</h2>
+    <div class="grid grid-cols-1 <%= plans.length ? 'lg:grid-cols-' + Math.min(plans.length + 1, 4) : 'lg:grid-cols-2' %> gap-space-md mt-space-lg items-stretch">
+      <article class="relative flex flex-col rounded-3xl p-space-lg bg-primary-container text-on-primary shadow-lg">
+        <span class="absolute -top-3 left-6 badge !px-3 !py-1 bg-secondary text-on-secondary uppercase tracking-wider font-bold">Start here</span>
+        <h3 class="font-headline-md text-headline-md">Free start</h3>
+        <p class="font-body-lg text-body-lg text-primary-fixed-dim"><strong class="text-on-primary"><%= free %></strong> exclusive leads, once</p>
+        <p class="mt-4 font-display-lg-mobile text-display-lg-mobile leading-none">$0</p>
+        <p class="font-body-md text-body-md text-primary-fixed-dim mt-1">No credit card · after licence check</p>
+        <a href="<%= reg %>" class="btn-primary w-full mt-space-md" data-track="cta_click" data-label="agents_pricing_free">Register free <span class="material-symbols-outlined text-[18px]">arrow_forward</span></a>
+        <ul class="flex flex-col gap-2 mt-space-md font-body-md text-body-md"><% features.slice(0, 5).forEach(function(f){ %><li class="flex gap-2"><span class="material-symbols-outlined text-[20px] text-secondary-fixed">check</span><%= f %></li><% }) %></ul>
+      </article>
+      <% if (plans.length) { plans.forEach(function(p){ %>
+      <article class="relative flex flex-col rounded-3xl p-space-lg bg-surface-container-lowest <%= p.badge ? 'ring-2 ring-secondary shadow-lg' : 'border border-surface-container shadow-sm' %>">
+        <% if (p.badge) { %><span class="absolute -top-3 left-6 badge !px-3 !py-1 bg-secondary text-on-secondary uppercase tracking-wider font-bold"><%= p.badge %></span><% } %>
+        <h3 class="font-headline-md text-headline-md text-primary-container"><%= p.name %></h3>
+        <p class="font-body-lg text-body-lg text-on-surface-variant"><strong class="text-on-surface"><%= p.leads_per_month %></strong> exclusive leads / month</p>
+        <p class="mt-4 flex items-end gap-2"><span class="font-display-lg-mobile text-display-lg-mobile text-primary-container leading-none"><%= U.money(p.price_per_lead_cents / 100, { cents: p.price_per_lead_cents % 100 !== 0 }) %></span><span class="font-label-lg text-label-lg text-on-surface-variant pb-1">per lead</span></p>
+        <p class="font-body-md text-body-md text-on-surface-variant mt-1"><%= U.money(p.monthly_cents / 100) %>/month <%= taxNote %></p>
+        <% if (p.tagline) { %><p class="font-body-sm text-body-sm text-on-surface-variant mt-space-sm"><%= p.tagline %></p><% } %>
+        <a href="<%= reg %>" class="btn-soft w-full mt-auto pt-3" data-track="cta_click" data-label="agents_pricing_<%= p.slug %>">Start free, then choose <%= p.name %></a>
+      </article>
+      <% }) } else { %>
+      <div class="flex flex-col justify-center gap-space-sm p-space-lg rounded-3xl border border-surface-container">
+        <h3 class="font-headline-md text-headline-md text-primary-container">Monthly plans, priced per lead</h3>
+        <p class="font-body-lg text-body-lg text-on-surface-variant">When your free leads are used, choose a monthly plan in your dashboard. Every plan is priced per lead <%= taxNote %>, the more leads a month the lower the price per lead, and you see every price before you pay.</p>
+        <ul class="flex flex-col gap-2 font-body-md text-body-md">
+          <li class="flex gap-2"><span class="material-symbols-outlined text-secondary">autorenew</span>Monthly, no long-term contract: turn renewal off any time</li>
+          <li class="flex gap-2"><span class="material-symbols-outlined text-secondary">savings</span>Unused leads carry over to the next month</li>
+          <li class="flex gap-2"><span class="material-symbols-outlined text-secondary">receipt_long</span><%= stripeOn ? 'Pay by card or Interac e-Transfer' : 'Pay by Interac e-Transfer' %>, with a GST/HST invoice for every payment</li>
+        </ul>
+      </div>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<!-- Exclusive vs shared -->
+<section class="container-site py-space-xl" aria-labelledby="cmp-h">
+  <p class="eyebrow">Exclusive vs shared leads</p>
+  <h2 id="cmp-h" class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container">Exclusive insurance leads vs shared lead lists</h2>
+  <p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl mt-2">With a shared lead you’re racing several other agents to the same phone number. With an exclusive lead, you’re the one licensed professional the person hears from.</p>
+  <div class="card overflow-x-auto mt-space-lg">
+    <table class="w-full text-left">
+      <caption class="sr-only">Instasure exclusive leads compared with shared lead lists</caption>
+      <thead><tr><th scope="col" class="admin-th"></th><th scope="col" class="admin-th !text-secondary">Instasure leads</th><th scope="col" class="admin-th">Shared lead lists</th></tr></thead>
+      <tbody><% A.comparison.forEach(function(r){ %><tr><th scope="row" class="admin-td font-label-md text-label-md text-on-surface"><%= r[0] %></th><td class="admin-td font-body-md text-body-md"><%= r[1] %></td><td class="admin-td font-body-md text-body-md text-on-surface-variant"><%= r[2] %></td></tr><% }) %></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Compliance -->
+<section class="w-full bg-surface-container-lowest py-space-xl" aria-labelledby="trust-h">
+  <div class="container-site grid grid-cols-1 lg:grid-cols-3 gap-space-lg">
+    <div>
+      <p class="eyebrow">Built for a regulated business</p>
+      <h2 id="trust-h" class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container">Licensed agents only, consent on file</h2>
+    </div>
+    <ul class="lg:col-span-2 grid sm:grid-cols-2 gap-space-md">
+      <li class="card p-space-md"><h3 class="font-label-lg text-label-lg">Licence verified</h3><p class="font-body-md text-body-md text-on-surface-variant mt-1">Every agent’s licence is checked on the provincial regulator’s public register before the first lead.</p></li>
+      <li class="card p-space-md"><h3 class="font-label-lg text-label-lg">Consent recorded</h3><p class="font-body-md text-body-md text-on-surface-variant mt-1">The person asked to be contacted about their request; the wording and time are stored with the lead. For newsletters or anything beyond the request, follow CASL.</p></li>
+      <li class="card p-space-md"><h3 class="font-label-lg text-label-lg">Disclosed to consumers</h3><p class="font-body-md text-body-md text-on-surface-variant mt-1">Our <a class="link" href="/how-we-make-money/">How we make money</a> and <a class="link" href="/privacy/">privacy policy</a> tell people that licensed agents pay us per introduction.</p></li>
+      <li class="card p-space-md"><h3 class="font-label-lg text-label-lg">Your advice, your rules</h3><p class="font-body-md text-body-md text-on-surface-variant mt-1">Instasure doesn’t give advice or set prices. You advise under your own licence, agency or MGA, and your regulator’s rules.</p></li>
+    </ul>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="container-site py-space-xl" aria-labelledby="faq-h">
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-space-xl">
+    <div><p class="eyebrow">FAQ</p><h2 id="faq-h" class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container">Questions agents ask about our insurance leads</h2>
+      <p class="font-body-md text-body-md text-on-surface-variant mt-2">Something else? <a class="link" href="/contact/">Contact us</a>.</p></div>
+    <div class="lg:col-span-2 flex flex-col gap-space-sm">
+      <% faq.forEach(function(f, i){ %>
+      <details class="card p-space-md group" <%= i === 0 ? 'open' : '' %>>
+        <summary class="flex items-center justify-between gap-3 cursor-pointer"><h3 class="font-label-lg text-label-lg text-on-surface"><%= f.q %></h3><span class="material-symbols-outlined faq-chevron text-on-surface-variant">expand_more</span></summary>
+        <p class="font-body-md text-body-md text-on-surface-variant mt-2"><%= f.a %></p>
+      </details>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section class="container-site pb-space-xl">
+  <div class="rounded-3xl bg-primary-container text-on-primary p-space-lg lg:p-space-xl flex flex-col lg:flex-row lg:items-center gap-space-md">
+    <div class="flex-1"><h2 class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg">Ready for your first <%= free %> leads?</h2><p class="font-body-lg text-body-lg text-primary-fixed-dim mt-1">Register in about three minutes. We verify your licence, then your free leads start arriving.</p></div>
+    <div class="flex flex-col sm:flex-row gap-space-sm"><a href="<%= reg %>" class="btn-primary !px-7" data-track="cta_click" data-label="agents_footer_register">Register free <span class="material-symbols-outlined text-[18px]">arrow_forward</span></a><a href="/admin/login?next=/admin/me" class="btn-ghost-light">Agent sign in</a></div>
+  </div>
+  <p class="font-body-sm text-body-sm text-on-surface-variant mt-space-sm">Photos are stock images from Pexels and don’t show Instasure agents or customers. The lead card above is an illustrative example.</p>
+</section>

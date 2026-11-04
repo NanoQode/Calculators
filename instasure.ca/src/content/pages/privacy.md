@@ -1,5 +1,5 @@
 ---
-{"title": "Privacy policy", "description": "How Instasure.ca collects, uses, shares and protects personal information under PIPEDA and applicable provincial privacy laws, including Quebec’s Law 25.", "updated": "2026-10-03"}
+{"title": "Privacy policy", "description": "How Instasure.ca collects, uses, shares and protects personal information under PIPEDA and applicable provincial privacy laws, including Quebec’s Law 25.", "updated": "2026-11-04"}
 ---
 This policy explains how {legal_entity} (“{site_name}”, “we”) handles personal information. We follow the *Personal Information Protection and Electronic Documents Act* (PIPEDA) and applicable provincial laws, including Quebec’s *Act respecting the protection of personal information in the private sector* (Law 25).
 
@@ -19,9 +19,9 @@ This policy explains how {legal_entity} (“{site_name}”, “we”) handles pe
 
 ## Who we share it with
 
-- The licensed advisor or brokerage handling your request, and — if you choose to apply — the insurer(s) needed to provide quotes or coverage.
+- **One** licensed advisor or brokerage handling your request, and — if you choose to apply — the insurer(s) needed to provide quotes or coverage. Independent licensed agents pay {site_name} a flat fee for each request we send them (see [how we make money](/how-we-make-money/)). Your request goes to one agent only; it is never shared with several agents or sold to anyone else.
 - Service providers that host our systems or send email for us, under contracts requiring them to protect your information.
-- We **never sell** personal information.
+- We don’t sell personal information to data brokers, advertisers or anyone else, and we never pass your request to more than one agent.
 
 ## Retention
 

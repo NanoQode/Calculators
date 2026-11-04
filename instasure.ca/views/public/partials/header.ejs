@@ -6,8 +6,8 @@
 %>
 <header class="fixed top-0 inset-x-0 z-50 pt-safe bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(10,30,51,0.05)]">
   <div class="h-16 lg:h-20 container-site flex items-center justify-between gap-space-md">
-    <div class="flex items-center gap-space-lg min-w-0">
-      <a href="/" class="flex items-center gap-2 min-w-0" aria-label="<%= s.site_name %> home">
+    <div class="flex items-center gap-space-lg xl:gap-space-md min-w-0">
+      <a href="/" class="flex items-center gap-2 min-w-0 xl:shrink-0" aria-label="<%= s.site_name %> home">
         <img src="/img/logo-mark.svg" alt="" width="32" height="32" class="h-8 w-8">
         <span class="flex flex-col min-w-0">
           <span class="font-headline-sm text-headline-sm text-primary-container tracking-tight leading-none">Instasure<span class="text-secondary">.ca</span></span>
@@ -37,20 +37,13 @@
         </details>
         <a href="/quote/" class="px-2.5 py-2 rounded-full font-label-md text-label-md whitespace-nowrap transition-colors <%= activeNav('/quote/') ? 'bg-surface-container text-on-surface' : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low' %>">Get a Quote</a>
         <a href="/compare/" class="px-2.5 py-2 rounded-full font-label-md text-label-md whitespace-nowrap transition-colors <%= activeNav('/compare/') ? 'bg-surface-container text-on-surface' : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low' %>">Compare Plans</a>
-        <a href="/guides/" class="px-2.5 py-2 rounded-full font-label-md text-label-md whitespace-nowrap transition-colors <%= activeNav('/guides/') ? 'bg-surface-container text-on-surface' : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low' %>">Knowledge &amp; Guides</a>
+        <a href="/guides/" class="px-2.5 py-2 rounded-full font-label-md text-label-md whitespace-nowrap transition-colors <%= activeNav('/guides/') ? 'bg-surface-container text-on-surface' : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low' %>" title="Knowledge &amp; Guides">Guides</a>
         <a href="/calculators/" class="px-2.5 py-2 rounded-full font-label-md text-label-md whitespace-nowrap transition-colors <%= activeNav('/calculators/') ? 'bg-surface-container text-on-surface' : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low' %>">Calculators</a>
         <a href="/about/" class="px-2.5 py-2 rounded-full font-label-md text-label-md whitespace-nowrap transition-colors <%= activeNav('/about/') ? 'bg-surface-container text-on-surface' : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low' %>">About Us</a>
       </nav>
     </div>
     <div class="flex items-center gap-space-sm shrink-0">
-      <% if (s.phone) { %>
-      <div class="hidden lg:flex xl:hidden flex-col text-right pr-1">
-        <span class="font-label-sm text-label-sm text-on-surface-variant tracking-wider uppercase">Customer service</span>
-        <a class="font-label-md text-label-md text-on-surface hover:text-secondary" href="tel:<%= tel(s.phone) %>" data-track="phone_click" data-label="header"><%= s.phone %></a>
-      </div>
-      <div class="hidden lg:block xl:hidden h-7 w-px bg-surface-container-high"></div>
-      <a href="tel:<%= tel(s.phone) %>" class="hidden xl:inline-flex w-11 h-11 rounded-full items-center justify-center bg-surface-container-low text-primary-container hover:bg-surface-container hover:text-secondary transition-colors" title="Customer service <%= s.phone %>" aria-label="Call customer service at <%= s.phone %>" data-track="phone_click" data-label="header_icon"><span class="material-symbols-outlined text-[20px]">call</span></a>
-      <% } %>
+      <a href="/insurance-leads-for-agents/" class="hidden lg:inline-flex whitespace-nowrap btn !py-2.5 !px-4 xl:!px-4 border border-primary-container/15 text-primary-container hover:bg-surface-container-low <%= activeNav('/insurance-leads-for-agents/') ? 'bg-surface-container' : '' %>" data-track="cta_click" data-label="header_for_agents"><span class="material-symbols-outlined text-[18px] xl:hidden">badge</span>For Agents</a>
       <span class="lg:hidden inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-low"><span class="text-[11px] leading-none" aria-hidden="true">🇨🇦</span><span class="font-label-sm text-label-sm text-on-secondary-fixed-variant">Canada-wide</span></span>
       <a href="/quote/" class="hidden md:inline-flex whitespace-nowrap btn-primary !py-2.5 !px-5 shadow-[0_4px_12px_rgba(0,108,70,0.18)]" data-track="cta_click" data-label="header_get_rate">Get Instant Rate</a>
       <button type="button" class="xl:hidden w-11 h-11 rounded-full flex items-center justify-center hover:bg-surface-container" aria-label="Open menu" aria-controls="drawer" aria-expanded="false" data-drawer-open><span class="material-symbols-outlined">menu</span></button>
@@ -81,6 +74,7 @@
       <li><a class="block py-2" href="/advisors/">Licensed advisors</a></li>
       <li><a class="block py-2" href="/about/">About us</a></li>
     </ul>
+    <a href="/insurance-leads-for-agents/" class="mt-space-md card p-space-md flex items-center gap-3 bg-primary-container text-on-primary" data-track="cta_click" data-label="drawer_for_agents"><span class="material-symbols-outlined text-secondary-fixed">badge</span><span class="flex flex-col"><span class="font-label-lg text-label-lg">For insurance agents</span><span class="font-body-sm text-body-sm text-primary-fixed-dim">Register free and get <%= s.free_leads %> exclusive leads</span></span></a>
     <% if (s.phone) { %>
     <a href="tel:<%= tel(s.phone) %>" class="mt-space-md card p-space-md flex items-center gap-3" data-track="phone_click" data-label="drawer"><span class="material-symbols-outlined text-secondary">phone_in_talk</span><span class="flex flex-col"><span class="font-label-lg text-label-lg text-on-surface"><%= s.phone %></span><% if (s.phone_hours) { %><span class="font-body-sm text-body-sm text-on-surface-variant"><%= s.phone_hours %></span><% } %></span></a>
     <% } %>

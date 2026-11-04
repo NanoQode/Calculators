@@ -63,6 +63,8 @@ const COLUMNS = [
   ['leads', 'disposition', 'TEXT'],
   ['leads', 'stage_changed_at', 'TEXT'],
   ['leads', 'last_activity_at', 'TEXT'],
+  ['advisors', 'billing', "TEXT NOT NULL DEFAULT 'exempt'"],   // exempt (in-house) | metered (buys lead credits)
+  ['advisors', 'lead_prefs', "TEXT DEFAULT '{}'"],             // agent's own lead filters (provinces, lines, products, grade)
 ];
 /** Indexes on columns added by migration (schema.sql runs before the columns exist on older databases). */
 const LATE_INDEXES = [

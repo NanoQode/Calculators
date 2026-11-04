@@ -2,7 +2,8 @@
 /**
  * Lead distribution. An agent is eligible for a lead when they are approved, active, accepting
  * leads, licensed in the lead's province for its product category, under their open-lead limit
- * and under their monthly lead cap. Then, in order:
+ * and under their monthly lead cap, has a lead credit if they pay per lead (lib/billing.js) and the lead
+ * passes their own filters (province, line, product, grade). Then, in order:
  *   1. Direct rules (Admin → Lead distribution): province / category / desk → a named agent.
  *   2. Specialist desk: leads for a desk go to an eligible agent who staffs it, if there is one.
  *   3. The distribution mode:
@@ -16,6 +17,7 @@ const settings = require('./settings');
 const { deskBySlug } = require('./specialties');
 const { OPEN_SQL } = require('./stages');
 const { monthStartUtc } = require('./util');
+const billing = require('./billing');
 
 const MODES = { round_robin: 'Round-robin (even rotation)', best_match: 'Best match (language, weight, least recently assigned)', manual: 'Manual only (admins assign every lead)' };
 
@@ -38,7 +40,8 @@ function licensedFor(a, lead) {
 
 /** Agents who may receive this lead automatically right now. */
 function candidates(lead, now = new Date()) {
-  return pool().filter((a) => licensedFor(a, lead) && (!a.max_open_leads || a.open_leads < a.max_open_leads) && !atCap(a, now));
+  return pool().filter((a) => licensedFor(a, lead) && (!a.max_open_leads || a.open_leads < a.max_open_leads) && !atCap(a, now)
+    && billing.prefsAllow(a, lead) && billing.hasCredit(a));
 }
 
 const lastTs = (a) => (a.last_assigned_at ? new Date(a.last_assigned_at.replace(' ', 'T') + 'Z').getTime() : 0);
@@ -78,6 +81,9 @@ function ruleMatches(rule, lead) {
 function setAgent(lead, advisor, { userId, data = {}, rotation = true } = {}) {
   db.tx(() => {
     db.run('UPDATE leads SET advisor_id = ?, assigned_at = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP WHERE id = ?', [advisor.id, lead.id]);
+    // Pay-per-lead agents: the new agent uses a credit, a previous agent gets theirs back.
+    const credit = billing.onAssign(lead, advisor, { userId });
+    if (credit) data = { ...data, credit: credit.pool };
     // Millisecond precision, so the rotation still advances when several leads arrive in the same second.
     if (rotation) db.run("UPDATE advisors SET last_assigned_at = strftime('%Y-%m-%d %H:%M:%f', 'now') WHERE id = ?", [advisor.id]);
     const reassigned = !!lead.advisor_id && lead.advisor_id !== advisor.id;
@@ -132,6 +138,7 @@ function assignTo(lead, advisorId, { userId } = {}) {
   if (!licensedFor(a, lead)) warnings.push(`not licensed in ${String(lead.province || '?').toUpperCase()} for this product`);
   if (atCap(a)) warnings.push('already at their monthly lead cap');
   if ((a.status || 'approved') !== 'approved' || !a.active) warnings.push('not an active approved agent');
+  if (billing.isMetered(a) && billing.balance(a.id) <= 0) warnings.push('has no lead credits left (delivered free of charge)');
   setAgent(lead, a, { userId, rotation: false, data: { manual: true, warnings: warnings.length ? warnings : undefined } });
   return { advisor: a, warnings };
 }
@@ -167,6 +174,7 @@ function assignMany(leads, advisorIds, { userId } = {}) {
 }
 
 function unassign(lead, { userId } = {}) {
+  billing.onUnassign(lead, { userId });
   db.run('UPDATE leads SET advisor_id = NULL, assigned_at = NULL, updated_at = CURRENT_TIMESTAMP WHERE id = ?', [lead.id]);
   db.insert('lead_events', { lead_id: lead.id, type: 'unassigned', user_id: userId, data: { from_advisor_id: lead.advisor_id } });
 }

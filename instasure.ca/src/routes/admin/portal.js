@@ -62,7 +62,8 @@ router.get('/me', (req, res) => {
   if (!req.user.advisor_id) return res.redirect('/admin/');
   const a = db.get('SELECT * FROM advisors WHERE id = ?', [req.user.advisor_id]);
   if (!a) return res.redirect('/admin/');
-  res.admin('performance', { title: 'My portal', p: agents.performance(a.id), stages, own: true, myTasks: tasks.list({ userId: req.user.id, show: 'open' }) });
+  const billing = require('../../lib/billing');
+  res.admin('performance', { title: 'My portal', p: agents.performance(a.id), stages, own: true, myTasks: tasks.list({ userId: req.user.id, show: 'open' }), bill: billing.isMetered(a) ? billing.summary(a.id) : null });
 });
 
 router.get('/profile', (req, res) => {

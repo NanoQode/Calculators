@@ -225,7 +225,7 @@ const STATIC = [
   ['/', 1.0, 'daily'], ['/quote/', 0.9, 'weekly'], ['/compare/', 0.7, 'weekly'], ['/guides/', 0.8, 'daily'],
   ['/calculators/', 0.8, 'monthly'], ['/insurance-services/', 0.8, 'weekly'], ['/calculators/life-insurance-needs/', 0.8, 'monthly'], ['/calculators/tenant-condo-coverage/', 0.6, 'monthly'],
   ['/calculators/business-coverage/', 0.6, 'monthly'], ['/calculators/mortgage-protection/', 0.6, 'monthly'],
-  ['/advisors/', 0.7, 'weekly'], ['/insurance/', 0.7, 'monthly'], ['/glossary/', 0.5, 'monthly'],
+  ['/advisors/', 0.7, 'weekly'], ['/insurance-leads-for-agents/', 0.8, 'monthly'], ['/insurance/', 0.7, 'monthly'], ['/glossary/', 0.5, 'monthly'],
   ['/about/', 0.4, 'yearly'], ['/how-we-make-money/', 0.4, 'yearly'], ['/editorial-guidelines/', 0.4, 'yearly'],
   ['/licensing/', 0.4, 'yearly'], ['/contact/', 0.4, 'yearly'], ['/privacy/', 0.2, 'yearly'], ['/terms/', 0.2, 'yearly'],
   ['/accessibility/', 0.2, 'yearly'], ['/site-map/', 0.3, 'weekly'],
@@ -237,7 +237,9 @@ function allPages() {
   const siteDate = contentDate('/') || today;
   const latestPost = String(db.value("SELECT MAX(updated_at) FROM posts WHERE status = 'published'") || '').slice(0, 10);
   const hubDate = [siteDate, latestPost].filter(Boolean).sort().pop();
-  for (const [path, priority, changefreq] of STATIC) pages.push({ path, priority, changefreq, lastmod: ['/', '/guides/', '/site-map/'].includes(path) ? hubDate : contentDate(path) || siteDate, type: 'static', indexable: true });
+  // Pages whose copy was written after the site-wide review date carry their own date.
+  const written = { '/insurance-leads-for-agents/': require('../data/agents-page').UPDATED };
+  for (const [path, priority, changefreq] of STATIC) pages.push({ path, priority, changefreq, lastmod: ['/', '/guides/', '/site-map/'].includes(path) ? hubDate : [contentDate(path) || siteDate, written[path]].filter(Boolean).sort().pop(), type: 'static', indexable: true });
   for (const p of enabledProducts()) {
     pages.push({ path: `/${p.slug}/`, priority: 0.9, changefreq: 'weekly', lastmod: contentDate(`/${p.slug}/`) || siteDate, type: 'product', indexable: true, title: p.name });
     if (p.geo === 'none') continue;

@@ -180,6 +180,16 @@ router.get('/leads/:id', (req, res, next) => {
     campaigns: db.all('SELECT id, name FROM campaigns WHERE active = 1 ORDER BY name'),
     candidates: routing.candidates(lead).map((a) => a.id),
     STATUSES: leadsSvc.STATUSES, noteRequired,
+    // Pay-per-lead agents can report their own lead as bad within the claim window.
+    claimInfo: (() => {
+      if (!isAgent(req) || lead.advisor_id !== req.user.advisor_id) return null;
+      const me = db.get('SELECT billing FROM advisors WHERE id = ?', [req.user.advisor_id]);
+      if (!me || me.billing !== 'metered') return null;
+      const billing = require('../../lib/billing');
+      const c = billing.canClaim(lead, req.user.advisor_id);
+      return c.ok || c.claim ? c : (billing.openCharge(lead.id, req.user.advisor_id) ? c : null);
+    })(),
+    claimReasons: require('../../lib/billing').CLAIM_REASONS,
   });
 });
 

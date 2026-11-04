@@ -440,3 +440,120 @@ CREATE TABLE IF NOT EXISTS audit_log (
   user_id INTEGER, action TEXT, entity TEXT, entity_id TEXT, data TEXT,
   created_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
+
+-- ───────────────────────── Agent billing: plans, subscriptions, invoices, lead credits ─────────────────────────
+-- Self-registered agents (advisors.billing = 'metered') get a one-time grant of free lead credits when
+-- approved, then buy a monthly plan. Every lead delivered to a metered agent uses one credit; a lead
+-- moved away from them or accepted as a bad lead gives the credit back. In-house agents are 'exempt'.
+CREATE TABLE IF NOT EXISTS plans (
+  id INTEGER PRIMARY KEY,
+  slug TEXT NOT NULL UNIQUE,
+  name TEXT NOT NULL,
+  tagline TEXT,
+  leads_per_month INTEGER NOT NULL,
+  price_per_lead_cents INTEGER NOT NULL,     -- monthly price = leads_per_month × price_per_lead_cents
+  badge TEXT,                                -- e.g. "Most popular"
+  features TEXT DEFAULT '[]',                -- extra bullet points for this plan
+  sort INTEGER NOT NULL DEFAULT 0,
+  active INTEGER NOT NULL DEFAULT 1,
+  stripe_product_id TEXT,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS billing_profiles (
+  advisor_id INTEGER PRIMARY KEY REFERENCES advisors(id) ON DELETE CASCADE,
+  name TEXT, company TEXT, email TEXT,
+  address TEXT, city TEXT, province TEXT, postal_code TEXT,
+  tax_number TEXT,                           -- the agent's own GST/HST number, shown on their invoices (optional)
+  stripe_customer_id TEXT,
+  updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS subscriptions (
+  id INTEGER PRIMARY KEY,
+  advisor_id INTEGER NOT NULL REFERENCES advisors(id) ON DELETE CASCADE,
+  plan_id INTEGER REFERENCES plans(id) ON DELETE SET NULL,
+  next_plan_id INTEGER,                      -- plan change that takes effect at the next renewal
+  status TEXT NOT NULL DEFAULT 'pending',    -- pending | active | past_due | canceled
+  leads_per_month INTEGER NOT NULL DEFAULT 0,
+  price_per_lead_cents INTEGER NOT NULL DEFAULT 0,
+  provider TEXT NOT NULL DEFAULT 'manual',   -- stripe | manual (Interac e-Transfer, cheque, admin)
+  provider_sub_id TEXT,
+  current_period_start TEXT, current_period_end TEXT,
+  cancel_at_period_end INTEGER NOT NULL DEFAULT 0,
+  canceled_at TEXT,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS idx_subs_advisor ON subscriptions(advisor_id, status);
+
+CREATE TABLE IF NOT EXISTS invoices (
+  id INTEGER PRIMARY KEY,
+  number TEXT NOT NULL UNIQUE,
+  advisor_id INTEGER NOT NULL REFERENCES advisors(id) ON DELETE CASCADE,
+  subscription_id INTEGER REFERENCES subscriptions(id) ON DELETE SET NULL,
+  plan_id INTEGER REFERENCES plans(id) ON DELETE SET NULL,
+  kind TEXT NOT NULL DEFAULT 'new',          -- new | renewal | manual
+  status TEXT NOT NULL DEFAULT 'open',       -- open | paid | void | refunded
+  currency TEXT NOT NULL DEFAULT 'CAD',
+  lines TEXT NOT NULL DEFAULT '[]',          -- [{ description, quantity, unit_cents, amount_cents }]
+  subtotal_cents INTEGER NOT NULL DEFAULT 0,
+  tax_label TEXT, tax_rate REAL NOT NULL DEFAULT 0, tax_province TEXT,
+  tax_cents INTEGER NOT NULL DEFAULT 0,
+  total_cents INTEGER NOT NULL DEFAULT 0,
+  leads INTEGER NOT NULL DEFAULT 0,          -- lead credits this invoice buys
+  credits_granted INTEGER NOT NULL DEFAULT 0,
+  period_start TEXT, period_end TEXT,
+  bill_to TEXT NOT NULL DEFAULT '{}',        -- snapshot of the agent's billing details
+  seller TEXT NOT NULL DEFAULT '{}',         -- snapshot of the issuer (legal name, address, GST/HST number)
+  provider TEXT, provider_ref TEXT,          -- e.g. Stripe Checkout Session or invoice id
+  notes TEXT,
+  issued_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  due_at TEXT, paid_at TEXT, voided_at TEXT, refunded_at TEXT,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS idx_invoices_advisor ON invoices(advisor_id, issued_at);
+CREATE INDEX IF NOT EXISTS idx_invoices_status ON invoices(status);
+
+CREATE TABLE IF NOT EXISTS payments (
+  id INTEGER PRIMARY KEY,
+  invoice_id INTEGER REFERENCES invoices(id) ON DELETE SET NULL,
+  advisor_id INTEGER REFERENCES advisors(id) ON DELETE SET NULL,
+  amount_cents INTEGER NOT NULL,             -- negative for a refund
+  method TEXT NOT NULL,                      -- card | etransfer | cheque | comp | test
+  status TEXT NOT NULL DEFAULT 'succeeded',  -- succeeded | refunded
+  provider_ref TEXT,
+  note TEXT,
+  recorded_by INTEGER,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS idx_payments_created ON payments(created_at);
+
+CREATE TABLE IF NOT EXISTS lead_credits (
+  id INTEGER PRIMARY KEY,
+  advisor_id INTEGER NOT NULL REFERENCES advisors(id) ON DELETE CASCADE,
+  delta INTEGER NOT NULL,                    -- +grant, -use
+  kind TEXT NOT NULL,                        -- free_grant | plan | lead | returned | bad_lead | adjust
+  pool TEXT NOT NULL DEFAULT 'paid',         -- free | paid | comp (a lead delivered without a credit)
+  lead_id INTEGER, invoice_id INTEGER, claim_id INTEGER,
+  reversed_at TEXT,                          -- on a 'lead' row: when its credit was given back
+  note TEXT,
+  user_id INTEGER,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS idx_credits_advisor ON lead_credits(advisor_id, created_at);
+CREATE INDEX IF NOT EXISTS idx_credits_lead ON lead_credits(lead_id, advisor_id);
+
+CREATE TABLE IF NOT EXISTS lead_claims (
+  id INTEGER PRIMARY KEY,
+  lead_id INTEGER NOT NULL REFERENCES leads(id) ON DELETE CASCADE,
+  advisor_id INTEGER NOT NULL REFERENCES advisors(id) ON DELETE CASCADE,
+  reason TEXT NOT NULL,
+  details TEXT,
+  status TEXT NOT NULL DEFAULT 'open',       -- open | approved | rejected
+  decided_by INTEGER, decided_at TEXT, decision_note TEXT,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS idx_claims_status ON lead_claims(status, created_at);

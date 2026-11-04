@@ -270,6 +270,9 @@ function seed({ quiet = false } = {}) {
     if (mapped) log(`${mapped} keywords mapped to newly built pages`);
   }
 
+  const nPlans = require('../lib/billing').seedPlans();
+  if (nPlans) log(`${nPlans} agent lead plans created (Admin → Billing → Plans)`);
+
   const g = importGuides();
   if (g) log(`${g} guides imported`);
   settings.invalidate();

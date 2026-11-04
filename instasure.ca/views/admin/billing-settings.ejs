@@ -1,0 +1,45 @@
+<% var csrfField = '<input type="hidden" name="_csrf" value="' + csrf + '">'; var rates = st.tax_rates || {}; %>
+<%- include('partials-head', { h: 'Billing settings', sub: 'Free leads, invoices, payment methods and GST/HST.' }) %>
+<form method="post" action="/admin/billing/settings" class="grid grid-cols-1 xl:grid-cols-2 gap-4"><%- csrfField %>
+  <section class="card p-5 grid gap-3">
+    <h2 class="font-headline-sm text-headline-sm">Agent plans</h2>
+    <label class="flex items-start gap-2 font-body-md text-body-md"><input type="checkbox" name="billing_enabled" class="mt-1" <%= st.billing_enabled !== false ? 'checked' : '' %>> <span>New self-registered agents pay per lead (free leads, then a plan). Untick to register new agents as unbilled.</span></label>
+    <label><span class="admin-label">Free leads for each newly approved agent</span><input class="admin-input" type="number" min="0" name="free_leads" value="<%= st.free_leads %>"></label>
+    <label><span class="admin-label">Days an agent has to report a bad lead</span><input class="admin-input" type="number" min="0" name="bad_lead_window_days" value="<%= st.bad_lead_window_days %>"></label>
+    <label class="flex items-start gap-2 font-body-md text-body-md"><input type="checkbox" name="public_pricing" class="mt-1" <%= st.public_pricing ? 'checked' : '' %>> <span>Show paid plans and prices on the public <a class="link" href="/insurance-leads-for-agents/" target="_blank">agents page</a>. Off: the page offers free registration and 10 free leads, and plans appear in the agent dashboard only.</span></label>
+  </section>
+  <section class="card p-5 grid gap-3">
+    <h2 class="font-headline-sm text-headline-sm">Payments</h2>
+    <div class="rounded-xl bg-surface-container-low p-3 grid gap-2">
+      <p class="font-label-lg text-label-lg flex flex-wrap items-center gap-2">Card payments (Stripe)
+        <span class="badge <%= stripeOn ? 'bg-secondary-container text-on-secondary-container' : 'bg-error-container text-on-error-container' %>"><%= stripeOn ? (keys.test ? 'On · test mode' : 'On · live') : 'Off' %></span></p>
+      <% [['secret', 'stripe_secret_key', 'Secret key', 'sk_live_… or sk_test_… (Stripe → Developers → API keys)'], ['webhook', 'stripe_webhook_secret', 'Webhook signing secret', 'whsec_… (Stripe → Developers → Webhooks → your endpoint)']].forEach(function(k){ var info = keys[k[0]]; %>
+      <label><span class="admin-label"><%= k[2] %></span>
+        <% if (info.source === 'env') { %><input class="admin-input font-mono" value="<%= info.masked %> (set in the server environment)" disabled>
+        <% } else { %><input class="admin-input font-mono" type="password" name="<%= k[1] %>" autocomplete="new-password" spellcheck="false" placeholder="<%= info.masked ? info.masked + ' saved — leave blank to keep' : k[3] %>"><% } %></label>
+      <% }) %>
+      <% if (keys.secret.source === 'admin' || keys.webhook.source === 'admin') { %><label class="flex items-center gap-2 font-body-sm text-body-sm"><input type="checkbox" name="clear_stripe"> Remove the saved Stripe keys (turns card payments off)</label><% } %>
+      <p class="font-body-sm text-body-sm text-on-surface-variant">Saved in the site database (not encrypted there) and never shown again after saving; only admins can change them. Use test keys (sk_test_) to try checkout with card 4242 4242 4242 4242. For extra safety you can instead set STRIPE_SECRET_KEY and STRIPE_WEBHOOK_SECRET in the server environment, which take priority.</p>
+      <p class="font-body-sm text-body-sm text-on-surface-variant">Webhook endpoint: <code class="break-all"><%= webhookUrl %></code> — events <code>checkout.session.completed</code>, <code>invoice.paid</code>, <code>invoice.payment_failed</code>, <code>customer.subscription.updated</code>, <code>customer.subscription.deleted</code>.<% if (stripeOn && !keys.webhook.source) { %> <strong class="text-error">Add the webhook secret, or monthly renewals won’t be recorded.</strong><% } %></p>
+    </div>
+    <label><span class="admin-label">Interac e-Transfer email (blank hides e-Transfer when card payments are on)</span><input class="admin-input" type="email" name="etransfer_email" value="<%= st.etransfer_email %>" placeholder="billing@instasure.ca"></label>
+    <label><span class="admin-label">Payment instructions on invoices</span><textarea class="admin-input" rows="3" name="payment_instructions"><%= st.payment_instructions %></textarea></label>
+    <div class="grid grid-cols-3 gap-2">
+      <label><span class="admin-label">Invoice prefix</span><input class="admin-input font-mono" name="invoice_prefix" value="<%= st.invoice_prefix %>"></label>
+      <label><span class="admin-label">Payment terms (days)</span><input class="admin-input" type="number" min="0" name="invoice_terms_days" value="<%= st.invoice_terms_days %>"></label>
+      <label><span class="admin-label">Renewal notice (days)</span><input class="admin-input" type="number" min="0" name="renewal_notice_days" value="<%= st.renewal_notice_days %>"></label>
+    </div>
+  </section>
+  <section class="card p-5 grid gap-3 xl:col-span-2">
+    <h2 class="font-headline-sm text-headline-sm">GST/HST</h2>
+    <label class="max-w-md"><span class="admin-label">Your GST/HST registration number (printed on every invoice)</span><input class="admin-input font-mono" name="gst_number" value="<%= st.gst_number %>" placeholder="123456789 RT0001"></label>
+    <p class="font-body-sm text-body-sm text-on-surface-variant">Charged by the agent’s billing province. Defaults are the 2026 GST/HST rates; PST, RST and QST aren’t added. Have your accountant confirm what applies to lead sales before you start invoicing.<%= st.gst_number ? '' : ' Canadian invoices of $30 or more must show the issuer’s GST/HST number once you’re registered.' %></p>
+    <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
+      <% provinces.forEach(function(p){ var r = rates[p.code] || { label: 'GST', rate: 5 }; %>
+      <fieldset class="rounded-xl bg-surface-container-low p-2"><legend class="font-label-md text-label-md px-1"><%= p.abbr %></legend>
+        <div class="flex gap-1"><input class="admin-input !px-2 !py-1 w-14" name="label_<%= p.code %>" value="<%= r.label %>" aria-label="<%= p.name %> tax label"><input class="admin-input !px-2 !py-1" inputmode="decimal" name="rate_<%= p.code %>" value="<%= r.rate %>" aria-label="<%= p.name %> rate %"></div></fieldset>
+      <% }) %>
+    </div>
+  </section>
+  <div class="xl:col-span-2"><button class="btn-primary !py-2.5 !px-6">Save billing settings</button></div>
+</form>

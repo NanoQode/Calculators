@@ -53,6 +53,8 @@ module.exports = {
   // IndexNow pings are skipped unless explicitly enabled (avoid pinging from dev/staging).
   indexNowEnabled: env.INDEXNOW_ENABLED === 'true',
   pageCacheTtlMs: Number(env.PAGE_CACHE_TTL_MS || (isProd ? 5 * 60_000 : 0)),
+  // Card payments for agent plans (Stripe Checkout + webhooks). Without a key, plans are paid by e-Transfer / invoice.
+  stripe: env.STRIPE_SECRET_KEY ? { secretKey: env.STRIPE_SECRET_KEY, webhookSecret: env.STRIPE_WEBHOOK_SECRET || '' } : null,
   adminEmail: env.ADMIN_EMAIL || 'admin@instasure.ca',
   adminPassword: env.ADMIN_PASSWORD || null,
 };

@@ -1,0 +1,19 @@
+<% var csrfField = '<input type="hidden" name="_csrf" value="' + csrf + '">'; %>
+<%- include('partials-head', { h: 'Lead plans', sub: 'Monthly plans agents can buy after their free leads. Price = leads × price per lead. A price change applies to new purchases and to existing subscribers when they change plan.' }) %>
+<p class="mb-4 font-body-md text-body-md text-on-surface-variant">Every plan also lists what’s included for all agents: <%= features.join(' · ') %>. Add extra plan-specific points below, one per line.</p>
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+  <% rows.concat([{ id: '', name: '', leads_per_month: '', price_per_lead_cents: '', tagline: '', badge: '', sort: rows.length + 1, active: 1, features: [] }]).forEach(function(p){ %>
+  <form method="post" action="/admin/billing/plans" class="card p-5 grid sm:grid-cols-2 gap-3 <%= p.id ? '' : 'ring-1 ring-secondary/40' %>"><%- csrfField %><input type="hidden" name="id" value="<%= p.id %>">
+    <div class="sm:col-span-2 flex items-center justify-between"><h2 class="font-headline-sm text-headline-sm"><%= p.id ? p.name : 'Add a plan' %></h2><% if (p.id) { %><span class="font-body-sm text-body-sm text-on-surface-variant"><%= cadShort(p.monthly_cents) %>/month · <%= subsByPlan[p.id] || 0 %> subscriber<%= subsByPlan[p.id] === 1 ? '' : 's' %></span><% } %></div>
+    <label><span class="admin-label">Name</span><input class="admin-input" name="name" value="<%= p.name %>" required></label>
+    <label><span class="admin-label">Badge (optional)</span><input class="admin-input" name="badge" value="<%= p.badge || '' %>" placeholder="Most popular"></label>
+    <label><span class="admin-label">Leads per month</span><input class="admin-input" type="number" min="1" name="leads_per_month" value="<%= p.leads_per_month %>" required></label>
+    <label><span class="admin-label">Price per lead (CAD)</span><input class="admin-input" inputmode="decimal" name="price_per_lead" value="<%= p.price_per_lead_cents ? (p.price_per_lead_cents / 100).toFixed(2) : '' %>" required></label>
+    <label class="sm:col-span-2"><span class="admin-label">Tagline</span><input class="admin-input" name="tagline" value="<%= p.tagline || '' %>"></label>
+    <label class="sm:col-span-2"><span class="admin-label">Extra features (one per line)</span><textarea class="admin-input" rows="2" name="features"><%= (p.features || []).join('\n') %></textarea></label>
+    <label><span class="admin-label">Order</span><input class="admin-input" type="number" name="sort" value="<%= p.sort %>"></label>
+    <label class="flex items-center gap-2 font-body-md text-body-md self-end pb-2"><input type="checkbox" name="active" <%= p.active ? 'checked' : '' %>> Offered to agents</label>
+    <button class="btn-primary !py-2 sm:col-span-2"><%= p.id ? 'Save plan' : 'Add plan' %></button>
+  </form>
+  <% }) %>
+</div>

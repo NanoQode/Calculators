@@ -1,0 +1,45 @@
+<% var csrfField = '<input type="hidden" name="_csrf" value="' + csrf + '">'; var sub = b.sub;
+   var kindLabel = { free_grant: 'Free leads', plan: 'Plan credits', lead: 'Lead delivered', returned: 'Credit returned', bad_lead: 'Bad-lead credit', adjust: 'Adjustment' }; %>
+<a href="/admin/billing" class="font-label-md text-label-md text-on-surface-variant hover:text-secondary">← Billing</a>
+<%- include('partials-head', { h: a.name, sub: (b.metered ? 'Pays per lead' : 'Not billed (in-house agent)') + ' · ' + (a.status || 'approved'), actions: '<a class="btn-soft !py-2 !px-4" href="/admin/advisors/' + a.id + '">Agent profile</a><a class="btn-soft !py-2 !px-4" href="/admin/leads?advisor=' + a.id + '">Their leads</a>' }) %>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
+  <div class="card p-4"><p class="admin-label">Credits left</p><p class="font-headline-md text-headline-md text-primary-container"><%= b.balance %></p></div>
+  <div class="card p-4"><p class="admin-label">Free leads used</p><p class="font-headline-md text-headline-md text-primary-container"><%= b.free.used %> / <%= b.free.granted %></p></div>
+  <div class="card p-4"><p class="admin-label">Plan</p><p class="font-headline-sm text-headline-sm text-primary-container"><%= sub && b.plan ? b.plan.name + ' · ' + sub.status.replace('_', ' ') : 'None' %></p><p class="font-body-sm text-body-sm text-on-surface-variant"><%= sub && sub.current_period_end ? (sub.cancel_at_period_end ? 'ends ' : 'renews ') + U.fmtDate(sub.current_period_end, 'short') : '' %></p></div>
+  <div class="card p-4"><p class="admin-label">Leads delivered</p><p class="font-headline-md text-headline-md text-primary-container"><%= b.delivered %></p></div>
+</div>
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-4">
+  <section class="card p-5 grid gap-3">
+    <h2 class="font-headline-sm text-headline-sm">Billing mode</h2>
+    <form method="post" action="/admin/billing/agents/<%= a.id %>" class="flex gap-2 items-end"><%- csrfField %><input type="hidden" name="action" value="mode">
+      <label class="flex-1"><span class="admin-label">How this agent pays</span><select class="admin-input" name="billing"><option value="metered" <%= b.metered ? 'selected' : '' %>>Pays per lead (free leads, then a plan)</option><option value="exempt" <%= !b.metered ? 'selected' : '' %>>Not billed (in-house)</option></select></label>
+      <button class="btn-soft !py-2">Save</button></form>
+    <h2 class="font-headline-sm text-headline-sm mt-2">Adjust credits</h2>
+    <form method="post" action="/admin/billing/agents/<%= a.id %>" class="grid gap-2"><%- csrfField %><input type="hidden" name="action" value="adjust">
+      <div class="flex gap-2"><input class="admin-input !w-24" type="number" name="delta" placeholder="+5 / −2" required><input class="admin-input" name="note" placeholder="Reason (shown to the agent)" required></div>
+      <button class="btn-soft !py-2">Adjust</button></form>
+  </section>
+  <section class="card p-5 grid gap-2 xl:col-span-2">
+    <h2 class="font-headline-sm text-headline-sm">Start a plan by hand</h2>
+    <p class="font-body-sm text-body-sm text-on-surface-variant">For an agent who pays by e-Transfer or cheque, or a complimentary plan. Creates a numbered invoice; choose “paid by” to activate it now.</p>
+    <% if (sub && sub.status !== 'pending') { %><p class="font-body-md text-body-md">This agent already has a plan. Renewal invoices are issued automatically.</p><% } else { %>
+    <form method="post" action="/admin/billing/agents/<%= a.id %>" class="grid sm:grid-cols-4 gap-2 items-end"><%- csrfField %><input type="hidden" name="action" value="invoice">
+      <label><span class="admin-label">Plan</span><select class="admin-input" name="plan"><% plans.forEach(function(p){ %><option value="<%= p.slug %>"><%= p.name %> · <%= p.leads_per_month %> leads · <%= cadShort(p.monthly_cents) %></option><% }) %></select></label>
+      <label><span class="admin-label">Paid by</span><select class="admin-input" name="paid_method"><option value="">Not yet (email the invoice)</option><% ['etransfer','cheque','card','comp'].forEach(function(m){ %><option value="<%= m %>"><%= METHODS[m] %></option><% }) %></select></label>
+      <label class="sm:col-span-2"><span class="admin-label">Note on invoice</span><input class="admin-input" name="note"></label>
+      <% if (!bill.address) { %><label><span class="admin-label">Billing address</span><input class="admin-input" name="address" required></label><label><span class="admin-label">City</span><input class="admin-input" name="city" required></label><label><span class="admin-label">Province</span><select class="admin-input" name="province"><% provinces.forEach(function(p){ %><option value="<%= p.code %>" <%= bill.province === p.code ? 'selected' : '' %>><%= p.name %></option><% }) %></select></label><label><span class="admin-label">Postal code</span><input class="admin-input" name="postal_code" required></label><% } %>
+      <button class="btn-primary !py-2 sm:col-span-4">Create invoice</button>
+    </form><% } %>
+  </section>
+  <section class="card p-5 xl:col-span-2 overflow-x-auto">
+    <h2 class="font-headline-sm text-headline-sm mb-3">Invoices</h2>
+    <table class="w-full"><thead><tr><th class="admin-th">Invoice</th><th class="admin-th">Issued</th><th class="admin-th text-right">Total</th><th class="admin-th">Status</th></tr></thead>
+      <tbody><% b.invoices.forEach(function(i){ %><tr><td class="admin-td"><a class="link font-mono text-body-sm" href="/admin/plan/invoices/<%= i.id %>"><%= i.number %></a></td><td class="admin-td text-body-sm"><%= U.fmtDate(i.issued_at, 'short') %></td><td class="admin-td text-body-sm text-right"><%= cad(i.total_cents) %></td><td class="admin-td"><%- include('invoice-status', { st: i.status }) %></td></tr><% }) %>
+        <% if (!b.invoices.length) { %><tr><td class="admin-td text-on-surface-variant" colspan="4">None.</td></tr><% } %></tbody></table>
+  </section>
+  <section class="card p-5 overflow-x-auto">
+    <h2 class="font-headline-sm text-headline-sm mb-3">Credit history</h2>
+    <ul class="flex flex-col gap-1"><% b.ledger.forEach(function(c){ %><li class="flex justify-between gap-2 font-body-sm text-body-sm <%= c.reversed_at ? 'opacity-60' : '' %>"><span><%= U.fmtDate(c.created_at, 'short') %> · <%= kindLabel[c.kind] || c.kind %><%= c.ref ? ' · ' + c.ref : '' %><%= c.note && !c.ref ? ' · ' + c.note : '' %></span><span class="font-semibold"><%= c.delta > 0 ? '+' + c.delta : c.delta %></span></li><% }) %>
+      <% if (!b.ledger.length) { %><li class="font-body-sm text-body-sm text-on-surface-variant">Nothing yet.</li><% } %></ul>
+  </section>
+</div>

@@ -1,0 +1,88 @@
+<% var csrfField = '<input type="hidden" name="_csrf" value="' + csrf + '">';
+   var sel = inv.seller || {}; var to = inv.bill_to || {};
+   var prov = function(c){ var p = provinces.find(function(x){ return x.code === c; }); return p ? p.abbr : String(c || '').toUpperCase(); };
+   var isOwn = !admin || (user.advisor_id && user.advisor_id === inv.advisor_id); %>
+<div class="no-print flex flex-wrap items-center justify-between gap-2 mb-4">
+  <a href="<%= admin && !isOwn ? '/admin/billing/invoices' : '/admin/plan' %>" class="font-label-md text-label-md text-on-surface-variant hover:text-secondary">← <%= admin && !isOwn ? 'Invoices' : 'Plan & billing' %></a>
+  <div class="flex flex-wrap gap-2">
+    <% if (admin) { %><a class="btn-soft !py-2 !px-4" href="/admin/billing/agents/<%= inv.advisor_id %>">Agent billing</a><% } %>
+    <button type="button" class="btn-soft !py-2 !px-4" data-print><span class="material-symbols-outlined text-[18px]">print</span>Print or save as PDF</button>
+  </div>
+</div>
+
+<% if (inv.status === 'open' && isOwn) { %>
+<section class="no-print card p-5 mb-4 ring-1 ring-secondary/30 flex flex-col md:flex-row gap-4 md:items-center">
+  <div class="flex-1">
+    <h2 class="font-headline-sm text-headline-sm">Pay <%= cad(inv.total_cents) %> by <%= U.fmtDate(inv.due_at) %></h2>
+    <% if (s.etransfer_email) { %><p class="font-body-md text-body-md mt-1">Send an Interac e-Transfer to <strong><%= s.etransfer_email %></strong> and put <strong class="font-mono"><%= inv.number %></strong> in the message.</p><% } %>
+    <% if (s.payment_instructions) { %><p class="font-body-sm text-body-sm text-on-surface-variant mt-1"><%= s.payment_instructions %></p><% } %>
+  </div>
+  <div class="flex flex-wrap gap-2">
+    <% if (stripeOn) { %><form method="post" action="/admin/plan/invoices/<%= inv.id %>/pay"><%- csrfField %><button class="btn-primary !py-2.5"><span class="material-symbols-outlined text-[18px]">credit_card</span>Pay by card</button></form><% } %>
+    <% if (!stripeOn && !isProd) { %><form method="post" action="/admin/plan/invoices/<%= inv.id %>/pay"><%- csrfField %><input type="hidden" name="method" value="test"><button class="btn-soft !py-2.5" title="Only on development servers, while card payments are off">Simulate payment (test mode)</button></form><% } %>
+  </div>
+</section>
+<% } %>
+
+<% if (admin) { %>
+<section class="no-print card p-5 mb-4 grid gap-3 md:grid-cols-3">
+  <% if (inv.status === 'open') { %>
+  <form method="post" action="/admin/billing/invoices/<%= inv.id %>/paid" class="md:col-span-2 grid sm:grid-cols-4 gap-2 items-end"><%- csrfField %>
+    <label><span class="admin-label">Paid by</span><select class="admin-input" name="method"><% ['etransfer','cheque','card','comp'].forEach(function(m){ %><option value="<%= m %>"><%= METHODS[m] %></option><% }) %></select></label>
+    <label><span class="admin-label">Reference</span><input class="admin-input" name="ref" placeholder="e-Transfer ref #"></label>
+    <label><span class="admin-label">Note</span><input class="admin-input" name="note"></label>
+    <button class="btn-primary !py-2">Mark paid</button>
+  </form>
+  <form method="post" action="/admin/billing/invoices/<%= inv.id %>/void" data-confirm="Void <%= inv.number %>? A pending plan on it is cancelled." class="flex items-end gap-2"><%- csrfField %><input class="admin-input" name="note" placeholder="Reason (optional)"><button class="btn-soft !py-2">Void</button></form>
+  <% } else if (inv.status === 'paid') { %>
+  <form method="post" action="/admin/billing/invoices/<%= inv.id %>/refund" data-confirm="Record a refund for <%= inv.number %>? Return the money in Stripe or by e-Transfer separately." class="md:col-span-3 flex flex-wrap items-end gap-2"><%- csrfField %>
+    <label class="flex-1 min-w-[200px]"><span class="admin-label">Refund note</span><input class="admin-input" name="note" placeholder="Why, and how the money was returned"></label>
+    <label class="flex items-center gap-2 font-body-sm text-body-sm"><input type="checkbox" name="remove_credits" checked> Remove unused credits it bought</label>
+    <button class="btn-soft !py-2">Record refund</button>
+  </form>
+  <% } else { %><p class="md:col-span-3 font-body-sm text-body-sm text-on-surface-variant">This invoice is <%= inv.status %>; no actions.</p><% } %>
+</section>
+<% } %>
+
+<article class="card p-6 sm:p-10 max-w-4xl print:shadow-none print:p-0" aria-label="Invoice <%= inv.number %>">
+  <header class="flex flex-col sm:flex-row justify-between gap-6">
+    <div>
+      <div class="flex items-center gap-2"><img src="/img/logo-mark.svg" alt="" class="w-9 h-9"><span class="font-headline-md text-headline-md text-primary-container">Instasure<span class="text-secondary">.ca</span></span></div>
+      <p class="font-body-sm text-body-sm mt-3 whitespace-pre-line"><strong><%= sel.name %></strong><%= sel.trade_name ? '\nOperating as ' + sel.trade_name : '' %><%= sel.address ? '\n' + sel.address : '' %><%= sel.email ? '\n' + sel.email : '' %></p>
+      <% if (sel.tax_number) { %><p class="font-body-sm text-body-sm mt-1">GST/HST registration: <span class="font-mono"><%= sel.tax_number %></span></p><% } %>
+    </div>
+    <div class="sm:text-right">
+      <p class="font-display-lg-mobile text-display-lg-mobile text-primary-container leading-none"><%= inv.status === 'paid' ? 'Receipt' : 'Invoice' %></p>
+      <p class="font-mono font-body-md text-body-md mt-2"><%= inv.number %></p>
+      <p class="mt-2"><%- include('invoice-status', { st: inv.status }) %></p>
+      <dl class="font-body-sm text-body-sm mt-3 grid grid-cols-2 gap-x-3 gap-y-0.5 sm:justify-items-end">
+        <dt class="text-on-surface-variant">Issued</dt><dd><%= U.fmtDate(inv.issued_at) %></dd>
+        <% if (inv.status === 'open') { %><dt class="text-on-surface-variant">Due</dt><dd><%= U.fmtDate(inv.due_at) %></dd><% } %>
+        <% if (inv.paid_at) { %><dt class="text-on-surface-variant">Paid</dt><dd><%= U.fmtDate(inv.paid_at) %></dd><% } %>
+      </dl>
+    </div>
+  </header>
+  <section class="mt-8 grid sm:grid-cols-2 gap-6">
+    <div><p class="admin-label">Bill to</p><p class="font-body-md text-body-md whitespace-pre-line"><strong><%= to.name %></strong><%= to.company ? '\n' + to.company : '' %><%= '\n' + (to.address || '') %><%= '\n' + [to.city, prov(to.province), to.postal_code].filter(Boolean).join(' ') %><%= to.email ? '\n' + to.email : '' %></p><% if (to.tax_number) { %><p class="font-body-sm text-body-sm">GST/HST: <span class="font-mono"><%= to.tax_number %></span></p><% } %></div>
+    <div><p class="admin-label">Service period</p><p class="font-body-md text-body-md"><%= inv.period_start ? U.fmtDate(inv.period_start) + ' – ' + U.fmtDate(inv.period_end) : 'Starts on payment, for one month' %></p><p class="admin-label mt-3">Agent account</p><p class="font-body-md text-body-md"><%= a ? a.name : '' %></p></div>
+  </section>
+  <table class="w-full mt-8">
+    <thead><tr><th class="admin-th">Description</th><th class="admin-th text-right">Qty</th><th class="admin-th text-right">Unit price</th><th class="admin-th text-right">Amount</th></tr></thead>
+    <tbody><% inv.lines.forEach(function(l){ %><tr><td class="admin-td text-body-md"><%= l.description %></td><td class="admin-td text-body-md text-right"><%= l.quantity %></td><td class="admin-td text-body-md text-right"><%= cad(l.unit_cents) %></td><td class="admin-td text-body-md text-right"><%= cad(l.amount_cents) %></td></tr><% }) %></tbody>
+    <tfoot>
+      <tr><td colspan="3" class="px-3 pt-4 text-right font-body-md text-body-md">Subtotal</td><td class="px-3 pt-4 text-right font-body-md text-body-md"><%= cad(inv.subtotal_cents) %></td></tr>
+      <tr><td colspan="3" class="px-3 py-1 text-right font-body-md text-body-md"><%= inv.tax_label %> <%= inv.tax_rate %>%<%= inv.tax_province ? ' (' + prov(inv.tax_province) + ')' : '' %></td><td class="px-3 py-1 text-right font-body-md text-body-md"><%= cad(inv.tax_cents) %></td></tr>
+      <tr><td colspan="3" class="px-3 pt-2 text-right font-headline-sm text-headline-sm">Total (CAD)</td><td class="px-3 pt-2 text-right font-headline-sm text-headline-sm"><%= cad(inv.total_cents) %></td></tr>
+      <% if (inv.status === 'paid') { %><tr><td colspan="3" class="px-3 py-1 text-right font-body-md text-body-md text-secondary">Paid</td><td class="px-3 py-1 text-right font-body-md text-body-md text-secondary"><%= cad(inv.total_cents) %></td></tr><% } %>
+    </tfoot>
+  </table>
+  <% if (payments.length) { %>
+  <section class="mt-8"><p class="admin-label">Payments</p>
+    <ul class="font-body-sm text-body-sm"><% payments.forEach(function(p){ %><li><%= U.fmtDate(p.created_at) %> · <%= METHODS[p.method] || p.method %> · <%= cad(p.amount_cents) %><%= p.provider_ref ? ' · ref ' + p.provider_ref : '' %></li><% }) %></ul></section>
+  <% } %>
+  <footer class="mt-10 font-body-sm text-body-sm text-on-surface-variant border-t border-surface-container pt-4">
+    <p><%= inv.leads %> exclusive lead credits are added to the agent’s balance when this invoice is paid. Credits that aren’t used in the period carry over. Bad leads reported within <%= s.bad_lead_window_days %> days of delivery are reviewed and credited back if invalid.</p>
+    <% if (inv.notes) { %><p class="mt-2 whitespace-pre-line"><%= inv.notes %></p><% } %>
+    <p class="mt-2">Questions about this invoice: <%= sel.email || s.email %></p>
+  </footer>
+</article>

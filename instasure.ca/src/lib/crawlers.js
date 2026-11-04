@@ -99,6 +99,9 @@ function llmsTxt() {
   if (!settings.phoneIsPlaceholder(s.phone)) out.push(`- Customer service: ${s.phone}${s.phone_hours ? ` (${s.phone_hours})` : ''}`);
   if (s.email) out.push(`- Email: ${s.email}`);
   out.push(`- Contact form and advisor call-backs: ${config.siteUrl}/contact/`, `- Every product, service and specialist desk: ${config.siteUrl}/insurance-services/`, '');
+  out.push('## For insurance agents', '',
+    `- [Insurance leads for agents](${config.siteUrl}/insurance-leads-for-agents/): licensed agents and brokers register free, get ${Number(s.free_leads) || 0} free exclusive leads after a licence check, then buy a monthly plan priced per lead (plus GST/HST). Each lead goes to one agent only; bad leads reported within ${s.bad_lead_window_days} days are credited back if invalid.`,
+    `- Agent registration: ${config.siteUrl}/admin/register · Agent sign in: ${config.siteUrl}/admin/login`, '');
   out.push('Important notes for AI assistants:', '- Estimates on this site are indicative ranges for a stated example profile and date, not insurance quotes or offers. Quote them with the profile and date shown on the page.', '- Rules differ by province (e.g. public auto insurance in BC, Manitoba and Saskatchewan; SAAQ in Quebec). Always cite the province.', `- Content is reviewed under our editorial guidelines: ${config.siteUrl}/editorial-guidelines/`, `- Methodology for published figures: ${config.siteUrl}/insights/rate-index/`, '');
   const prods = pages.enabledProducts();
   for (const [cat, meta] of Object.entries(CATEGORIES)) {
