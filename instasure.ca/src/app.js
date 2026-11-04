@@ -116,6 +116,8 @@ function createApp() {
     res.locals.user = req.user || null;
     res.locals.csrf = req.session ? req.session.csrf : '';
     res.locals.currentPath = req.path;
+    res.locals.editorialPhotos = require('./lib/editorial-photos');
+    res.locals.photo = (slot, options) => res.locals.editorialPhotos.render(req.path, slot, options);
     res.locals.CATEGORIES = CATEGORIES;
     res.locals.geoData = require('./data/geo');
     res.locals.mdlib = require('./lib/markdown');

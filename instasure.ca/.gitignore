@@ -7,3 +7,6 @@ public/uploads/*
 !public/uploads/.gitkeep
 *.log
 .DS_Store
+# Server-managed editorial photos and their page map (see deploy/DEPLOY.md: carried forward by each deploy)
+public/img/photos/
+src/data/editorial-photos.json

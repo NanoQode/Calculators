@@ -33,7 +33,7 @@
 
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl mt-space-lg">
     <div class="lg:col-span-8 min-w-0">
-      <% if (post.featured_image) { %><img src="<%= post.featured_image %>" alt="<%= post.image_alt || '' %>" class="w-full rounded-3xl mb-space-lg object-cover max-h-[420px]" width="1200" height="630"><% } %>
+      <% if (editorialPhotos.has(currentPath, 1)) { %><%- photo(1, { eager: true, wide: true }) %><% } else if (post.featured_image) { %><img src="<%= post.featured_image %>" alt="<%= post.image_alt || '' %>" class="w-full rounded-3xl mb-space-lg object-cover max-h-[420px]" width="1200" height="630"><% } %>
       <% if (takeaways.length) { %>
       <aside class="rounded-3xl bg-primary-container text-on-primary p-space-lg mb-space-lg relative overflow-hidden" aria-label="Key takeaways">
         <div class="absolute -right-10 -bottom-10 w-48 h-48 rounded-full bg-secondary/20 blur-3xl"></div>
@@ -43,7 +43,7 @@
         </ul>
       </aside>
       <% } %>
-      <div class="article-body"><%- post.body_html %></div>
+      <div class="article-body"><%- editorialPhotos.guideBody(currentPath, post.body_html) %></div>
 
       <% if (faq.length) { %>
       <section class="mt-space-xl" aria-labelledby="gfaq">

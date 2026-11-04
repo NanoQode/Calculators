@@ -1,9 +1,9 @@
 <section class="container-site pt-space-md pb-space-lg">
-  <div class="max-w-3xl">
+  <div class="photo-heading photo-heading--third"><div class="photo-heading-copy">
     <p class="eyebrow">Licensed professionals</p>
     <h1 class="font-display-lg-mobile text-display-lg-mobile lg:font-display-lg lg:text-display-lg text-primary-container tracking-tight">Licensed insurance advisors across Canada</h1>
     <p class="mt-space-sm font-body-lg text-body-lg text-on-surface-variant">Every advisor is licensed in the provinces listed on their profile. When you request quotes, we match you by province, product and language — you’ll always know who you’re dealing with.</p>
-  </div>
+  </div><%- photo(1, { eager: true }) %></div>
   <form method="get" action="/advisors/" class="mt-space-lg card p-space-md grid sm:grid-cols-3 gap-space-sm items-end">
     <label class="flex flex-col gap-1"><span class="field-label">Province</span><select class="field" name="province"><option value="">All provinces</option><% geoData.provinces.forEach(function(p){ %><option value="<%= p.code %>" <%= prov === p.code ? 'selected' : '' %>><%= p.name %></option><% }) %></select></label>
     <label class="flex flex-col gap-1"><span class="field-label">Coverage</span><select class="field" name="category"><option value="">All coverage</option><% Object.keys(CATEGORIES).forEach(function(k){ %><option value="<%= k %>" <%= cat === k ? 'selected' : '' %>><%= CATEGORIES[k].name %></option><% }) %></select></label>

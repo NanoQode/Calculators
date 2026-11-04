@@ -40,13 +40,16 @@
 </div>
 
 <section class="w-full bg-surface-container-lowest py-space-xl shadow-sm" aria-labelledby="cost-h">
-  <div class="container-site grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
-    <div class="lg:col-span-5 flex flex-col gap-space-sm">
+  <div class="container-site photo-cost">
+    <div class="photo-cost-intro">
+      <div class="photo-cost-heading">
       <p class="eyebrow">Local estimate · <%= est.asOf %></p>
       <h2 id="cost-h" class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container">How much does <%= lc(product.name) %> cost in <%= city ? city.name : prov.name %>?</h2>
+      </div>
+      <%- photo(1) %>
       <p class="font-body-md text-body-md text-on-surface-variant">Instasure’s pricing model estimates the following range for an example profile. Your actual premium depends on your details and the insurer.</p>
     </div>
-    <div class="lg:col-span-7 bg-surface-container-low rounded-3xl p-space-lg flex flex-col gap-space-md">
+    <div class="photo-cost-figures bg-surface-container-low rounded-3xl p-space-lg flex flex-col gap-space-md">
       <div class="flex flex-wrap items-end justify-between gap-space-sm">
         <div><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Typical range</span><p class="font-price-hero-mobile text-price-hero-mobile lg:font-price-hero lg:text-price-hero text-primary-container"><%= fmt(est.low) %>–<%= fmt(est.high) %><span class="font-body-md text-body-md text-on-surface-variant"><%= est.periodLabel %></span></p></div>
         <a href="/quote/<%= product.slug %>/?province=<%= prov.code %><%= city ? '&city=' + city.slug : '' %>" class="btn-primary" data-track="quote_start" data-label="geo_cost_card">Personalise it <span class="material-symbols-outlined text-[18px]">arrow_forward</span></a>
@@ -126,7 +129,7 @@
 
 <section class="w-full bg-surface-container-lowest py-space-xl shadow-sm">
   <div class="container-site">
-    <h2 class="font-headline-md text-headline-md text-primary-container mb-space-md">Coverage options in <%= city ? city.name : prov.name %></h2>
+    <div class="photo-heading photo-heading--third"><div class="photo-heading-copy"><h2 class="font-headline-md text-headline-md text-primary-container mb-space-md">Coverage options in <%= city ? city.name : prov.name %></h2></div><%- photo(2) %></div>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-md">
       <% product.coverages.forEach(function(c){ %><div class="bg-surface-container-low rounded-2xl p-space-md"><h3 class="font-label-lg text-label-lg text-on-surface mb-1"><%= c.name %></h3><p class="font-body-sm text-body-sm text-on-surface-variant"><%= c.desc %></p></div><% }) %>
     </div>

@@ -1,7 +1,7 @@
 <article class="group card overflow-hidden flex flex-col hover:shadow-md transition-all duration-300" data-guide data-hub="<%= g.hub || '' %>" data-title="<%= (g.title || '').toLowerCase() %>">
   <a href="/guides/<%= g.slug %>/" class="flex flex-col h-full">
     <div class="relative h-40 w-full overflow-hidden bg-gradient-to-br from-primary-container via-on-primary-fixed-variant to-secondary">
-      <% if (g.featured_image) { %><img src="<%= g.featured_image %>" alt="<%= g.image_alt || '' %>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" width="400" height="160"><% } else { %>
+      <% const thumb = editorialPhotos.thumbnail('/guides/' + g.slug + '/', g, 'w-full h-full object-cover group-hover:scale-105 transition-transform duration-500'); if (thumb) { %><%- thumb %><% } else { %>
       <span class="absolute right-4 bottom-2 material-symbols-outlined text-[88px] text-surface-container-lowest/15" aria-hidden="true">menu_book</span><% } %>
       <span class="absolute top-3 left-3 bg-surface-container-lowest/90 backdrop-blur-md px-2.5 py-1 rounded-full font-label-sm text-label-sm text-on-surface"><%= g.category_name || 'Guide' %></span>
       <span class="absolute bottom-3 left-3 bg-primary-container/90 text-on-primary px-2 py-0.5 rounded-md font-label-sm text-label-sm"><%= g.reading_minutes || 5 %> min read</span>

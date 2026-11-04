@@ -27,8 +27,8 @@
 <% var prodPartners = partnersFor(product.category); if (prodPartners.length) { %><%- include('partials/partner-logos', { list: prodPartners, variant: 'band', heading: 'Licensed advisors compare ' + lc(product.short) + ' plans from these insurers' }) %><% } %>
 <section class="w-full bg-surface-container-lowest py-space-xl shadow-sm" aria-labelledby="cov-h">
   <div class="container-site">
-    <p class="eyebrow">Coverage options</p>
-    <h2 id="cov-h" class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container mb-space-lg">Types of <%= lc(product.name) %> in Canada</h2>
+    <div class="photo-heading photo-heading--half"><div class="photo-heading-copy"><p class="eyebrow">Coverage options</p>
+    <h2 id="cov-h" class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container mb-space-lg">Types of <%= lc(product.name) %> in Canada</h2></div><%- photo(1) %></div>
     <div class="grid grid-cols-1 md:grid-cols-2 <%= product.coverages.length > 4 ? 'lg:grid-cols-3' : 'lg:grid-cols-2' %> gap-space-md">
       <% product.coverages.forEach(function(c){ %>
       <div class="bg-surface-container-low rounded-2xl p-space-md flex flex-col gap-2">
@@ -56,14 +56,15 @@
 </section>
 <% } %>
 
-<section class="container-site py-space-xl grid grid-cols-1 lg:grid-cols-2 gap-space-lg" aria-label="Pricing factors">
-  <div class="card p-space-lg">
+<section class="container-site py-space-xl grid grid-cols-1 lg:grid-cols-2 gap-space-lg photo-pricing" aria-label="Pricing factors">
+  <div class="card p-space-lg photo-pricing-factors">
     <div class="flex items-center gap-2 mb-space-sm"><span class="material-symbols-outlined text-secondary">tune</span><h2 class="font-headline-md text-headline-md text-primary-container">What affects your price</h2></div>
+    <%- photo(2) %>
     <ol class="space-y-3">
       <% product.factors.forEach(function(f, i){ %><li class="flex items-start gap-3"><span class="w-7 h-7 rounded-full bg-surface-container flex items-center justify-center font-label-md text-label-md text-primary-container shrink-0"><%= i + 1 %></span><span class="font-body-md text-body-md text-on-surface pt-0.5"><%= f %></span></li><% }) %>
     </ol>
   </div>
-  <div class="card p-space-lg flex flex-col gap-space-sm">
+  <div class="card p-space-lg flex flex-col gap-space-sm photo-pricing-estimate">
     <div class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary">bolt</span><h2 class="font-headline-md text-headline-md text-primary-container">Your instant estimate</h2></div>
     <% if (from) { %>
     <p class="font-body-md text-body-md text-on-surface-variant">Estimates start from about</p>

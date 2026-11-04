@@ -31,10 +31,11 @@
 <!-- What do you need to protect? -->
 <section class="w-full bg-surface-container-lowest py-space-xl shadow-sm" aria-labelledby="products-h">
   <div class="container-site">
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-space-sm mb-space-lg">
+    <div class="photo-heading photo-heading--third"><div>    <div class="flex flex-col md:flex-row md:items-end justify-between gap-space-sm mb-space-lg">
       <div><p class="eyebrow">Find the right coverage</p><h2 id="products-h" class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container">What do you need to protect?</h2></div>
       <a href="/quote/" class="link font-label-lg text-label-lg inline-flex items-center gap-1">Start a quote <span class="material-symbols-outlined text-[18px]">chevron_right</span></a>
     </div>
+</div><%- photo(1) %></div>
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-space-sm sm:gap-space-md">
       <% productCards.forEach(function(p){ %>
       <a href="/<%= p.slug %>/" class="group card card-hover p-space-md flex flex-col gap-2">
@@ -51,10 +52,13 @@
 
 <!-- How it works / brand promise -->
 <section class="container-site py-space-xl" aria-labelledby="how-h">
-  <div class="text-center max-w-2xl mx-auto mb-space-lg flex flex-col gap-2">
-    <p class="eyebrow">The Instasure way</p>
-    <h2 id="how-h" class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container">Instant answers. Instant estimates. A licensed human when it matters.</h2>
-    <p class="font-body-md text-body-md text-on-surface-variant">We built Instasure so Canadians can understand coverage and price in minutes — and get expert help without a sales script.</p>
+  <div class="photo-heading photo-heading--half photo-heading--image-left">
+    <div class="photo-heading-copy">
+      <p class="eyebrow">The Instasure way</p>
+      <h2 id="how-h" class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container">Instant answers. Instant estimates. A licensed human when it matters.</h2>
+      <p class="font-body-md text-body-md text-on-surface-variant">We built Instasure so Canadians can understand coverage and price in minutes — and get expert help without a sales script.</p>
+    </div>
+    <%- photo(2) %>
   </div>
   <div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
     <% [
@@ -101,7 +105,7 @@
     <% latestGuides.slice(0, 2).forEach(function(g){ %>
     <a href="/guides/<%= g.slug %>/" class="group flex flex-col card overflow-hidden hover:shadow-xl transition-all">
       <div class="h-44 relative overflow-hidden bg-gradient-to-br from-primary-container to-on-primary-fixed-variant p-space-md flex flex-col justify-between">
-        <% if (g.featured_image) { %><img src="<%= g.featured_image %>" alt="<%= g.image_alt || '' %>" class="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500" loading="lazy"><% } %>
+        <%- editorialPhotos.thumbnail('/guides/' + g.slug + '/', g, 'absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500') %>
         <span class="relative chip bg-surface-container-lowest/90 text-primary-container w-fit"><span class="material-symbols-outlined text-[14px] text-secondary">menu_book</span> <%= g.category_name || 'Guide' %></span>
         <span class="relative font-label-sm text-label-sm text-primary-fixed"><%= g.reading_minutes || 5 %> min read · Updated <%= U.fmtDate(g.updated_at, 'short') %></span>
       </div>

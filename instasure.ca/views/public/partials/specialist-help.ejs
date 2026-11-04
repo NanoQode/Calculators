@@ -8,11 +8,17 @@
   var provs = d.provinces ? geoData.provinces.filter(function(p){ return d.provinces.indexOf(p.code) > -1; }) : geoData.provinces;
 %>
 <section id="specialist" class="w-full bg-surface-container-low/70 py-space-xl scroll-mt-24" aria-labelledby="desk-h">
-  <div class="container-site grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
-    <div class="lg:col-span-5 flex flex-col gap-space-md">
+  <div class="container-site">
+    <div class="photo-heading photo-heading--third">
+      <div class="photo-heading-copy">
       <span class="chip bg-secondary-container/50 text-on-secondary-container w-fit"><span class="material-symbols-outlined text-[15px]">support_agent</span> Dedicated specialist desk</span>
       <h2 id="desk-h" class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container tracking-tight"><%= d.desk %></h2>
       <p class="font-body-lg text-body-lg text-on-surface-variant"><%= d.pitch %></p>
+      </div>
+      <% if (typeof sv !== 'undefined') { %><%- photo(2) %><% } %>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start photo-specialist-details">
+      <div class="lg:col-span-5 flex flex-col gap-space-md">
       <ul class="space-y-2">
         <li class="flex gap-2 font-body-md text-body-md"><span class="tick mt-0.5"><span class="material-symbols-outlined text-[12px]">check</span></span>An advisor who handles these requests every week</li>
         <li class="flex gap-2 font-body-md text-body-md"><span class="tick mt-0.5"><span class="material-symbols-outlined text-[12px]">check</span></span>Licensed in your province<%= d.provinces ? ' (' + provs.map(function(p){ return p.name; }).join(', ') + ' only)' : '' %></li>
@@ -51,5 +57,6 @@
       <p class="sm:col-span-2 hidden" data-calc-msg></p>
       <button class="sm:col-span-2 btn-primary" data-track="cta_click" data-label="desk_<%= d.slug %>_submit">Request a specialist call <span class="material-symbols-outlined text-[18px]">phone_callback</span></button>
     </form>
+    </div>
   </div>
 </section>

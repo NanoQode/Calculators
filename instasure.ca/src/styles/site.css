@@ -89,3 +89,81 @@ details[open] .faq-chevron { transform: rotate(180deg); }
   header, nav, footer, .no-print { display: none !important; }
   main { padding-top: 0 !important; }
 }
+
+/* Shared editorial image layouts: one spacing scale and natural, uncropped images. */
+.editorial-photo{min-width:0;width:100%;margin:0 0 1.5rem}
+.editorial-photo picture,.editorial-photo img{display:block;width:100%;max-width:100%;height:auto;margin:0}
+.editorial-photo img{border-radius:1.25rem;object-fit:contain}
+.editorial-photo figcaption{margin:.5rem 0 0;font-size:.75rem;line-height:1.5;color:#53645e;text-align:left}
+.photo-heading{display:grid;grid-template-columns:minmax(0,1fr);gap:1.5rem;align-items:center;width:100%;max-width:none;margin:0 0 2rem}
+.photo-heading>*{min-width:0}
+.photo-heading>.editorial-photo{margin:0;align-self:center}
+.photo-heading-copy{display:flex;flex-direction:column;gap:.75rem;min-width:0;max-width:none;margin:0}
+.photo-heading-copy>*{margin-block:0}
+.photo-heading-copy>.chip,.photo-heading-copy>.badge{align-self:flex-start}
+.photo-heading-copy>p{max-width:65ch}
+.photo-heading-copy>div:last-child{margin-bottom:0}
+.photo-intro-prose>:first-child,.photo-static-body .article-body>:first-child{margin-top:0}
+.photo-intro-prose>:last-child{margin-bottom:0}
+.photo-heading-copy .photo-intro-prose{margin-top:.5rem}
+.photo-comparison>.photo-heading{margin-bottom:0}
+.photo-directory-heading .editorial-photo{margin-bottom:0}
+.photo-place-facts .card{height:100%}
+.photo-service-persona>.editorial-photo{margin:.75rem 0;order:0}
+.photo-specialist-details>div:first-child{padding-top:.25rem}
+.photo-cost{display:grid;grid-template-columns:minmax(0,1fr);gap:1.5rem}
+.photo-cost-intro{display:contents}
+.photo-cost-heading{display:flex;flex-direction:column;gap:.5rem}
+.photo-cost-heading>*{margin:0}
+.photo-cost .editorial-photo{margin:0}
+.article-body .editorial-photo{margin:2rem 0}
+.article-body .editorial-photo img{margin:0}
+.article-body .editorial-photo figcaption{margin:.5rem 0 0}
+.photo-about-body{display:grid;gap:1.5rem}
+.photo-about-body>.editorial-photo{margin:0;align-self:center}
+.photo-about-body h2{margin-top:0}
+.photo-about-body>div>:first-child{margin-top:0}
+.photo-about-body>div>:last-child{margin-bottom:0}
+.photo-profile-layout>div:first-child{display:contents}
+.photo-profile-layout>div:first-child>figure{margin:0}
+.photo-profile-bio>:first-child{margin-top:0}
+.photo-profile-bio>:last-child{margin-bottom:0}
+@media(min-width:768px){
+ .photo-heading{gap:2rem}
+}
+@media(min-width:1024px){
+ .photo-heading--third{grid-template-columns:minmax(0,2fr) minmax(0,1fr)}
+ .photo-heading--half{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .photo-heading--image-left>.editorial-photo{grid-column:1;grid-row:1}
+ .photo-heading--image-left>.photo-heading-copy{grid-column:2;grid-row:1}
+ .photo-heading:not(:has(>.editorial-photo)){grid-template-columns:minmax(0,1fr)}
+ .photo-service-persona>.editorial-photo{order:1;margin-top:1rem;margin-bottom:0}
+ .photo-cost{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:2rem;row-gap:1rem;align-items:start}
+ .photo-cost-heading{grid-column:1/-1;grid-row:1;margin-bottom:.5rem}
+ .photo-cost-intro>p{grid-column:1;grid-row:2}
+ .photo-cost-intro>.editorial-photo{grid-column:2;grid-row:2/4;align-self:start}
+ .photo-cost-figures{grid-column:1;grid-row:3}
+ .photo-about-body{grid-template-columns:repeat(2,minmax(0,1fr));gap:2rem;align-items:center}
+ .photo-about-first{grid-column:1/-1;grid-row:1}
+ .photo-about-middle{grid-column:1/-1;grid-row:2}
+ .photo-about-body>.editorial-photo{grid-column:1;grid-row:3}
+ .photo-about-who{grid-column:2;grid-row:3}
+ .photo-profile-layout{grid-template-columns:minmax(0,2fr) minmax(0,1fr);grid-template-rows:repeat(4,min-content) auto;column-gap:2rem;row-gap:1.5rem;align-items:start}
+ .photo-profile-layout>aside{display:contents}
+ .photo-profile-layout .photo-profile-heading{grid-column:1;grid-row:1}
+ .photo-profile-layout .photo-profile-bio{grid-column:1;grid-row:2/5}
+ .photo-profile-layout .photo-profile-guides{grid-column:1;grid-row:5}
+ .photo-profile-layout>div:first-child>.editorial-photo{grid-column:2;grid-row:2}
+ .photo-profile-layout>aside>div:nth-of-type(1){grid-column:2;grid-row:1}
+ .photo-profile-layout>aside>div:nth-of-type(2){grid-column:2;grid-row:3}
+ .photo-profile-layout .photo-profile-actions{grid-column:2;grid-row:4}
+}
+@media(max-width:767px){
+ .editorial-photo img{border-radius:1rem}
+ .photo-heading{margin-bottom:1.5rem}
+ .photo-heading-copy{gap:.75rem}
+}
+
+/* Keep pricing explanations and estimate cards compact rather than stretching empty space. */
+.photo-pricing{align-items:start}.photo-pricing-estimate>.btn-primary{margin-top:.75rem}
+@media(min-width:1024px){.photo-pricing{grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:2rem}.photo-pricing-factors{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem 1.5rem;align-items:start}.photo-pricing-factors>div:first-child{grid-column:1/-1;margin-bottom:0}.photo-pricing-factors>.editorial-photo{grid-column:1;margin-bottom:0}.photo-pricing-factors>ol{grid-column:2}}

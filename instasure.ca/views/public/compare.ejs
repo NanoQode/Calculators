@@ -1,17 +1,20 @@
 <% var fmt = function(n){ return U.money(n, { cents: n < 100 }); }; var tiers = estimate.tiers; var adv = advisors[0]; %>
 <section class="container-site pt-space-md pb-space-md">
-  <div class="card p-space-md lg:p-space-lg flex flex-col lg:flex-row lg:items-center justify-between gap-space-lg">
-    <div class="flex flex-col gap-1">
-      <span class="badge bg-secondary-container text-on-secondary-container w-fit">Independent comparison · <%= estimate.asOf %></span>
-      <h1 class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-on-surface tracking-tight"><%= t.h %></h1>
-      <p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">How the main options differ on price, underwriting speed and features — for an example profile (<%= estimate.example %>). <a class="link" href="/quote/<%= product.slug %>/">Personalise it</a>.</p>
-    </div>
+  <div class="card p-space-md lg:p-space-lg photo-comparison">
+    <div class="photo-heading photo-heading--third">
+      <div class="photo-heading-copy">
+        <span class="badge bg-secondary-container text-on-secondary-container w-fit">Independent comparison · <%= estimate.asOf %></span>
+        <h1 class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-on-surface tracking-tight"><%= t.h %></h1>
+        <p class="font-body-md text-body-md text-on-surface-variant">How the main options differ on price, underwriting speed and features — for an example profile (<%= estimate.example %>). <a class="link" href="/quote/<%= product.slug %>/">Personalise it</a>.</p>
     <% if (estimate.period === 'month') { %>
     <div class="flex items-center bg-surface-container-low p-1 rounded-lg shadow-sm self-start" role="group" aria-label="Billing">
       <button type="button" class="px-4 py-2 rounded-md font-label-md text-label-md bg-primary-container text-on-primary" data-results-billing="monthly" aria-pressed="true">Monthly</button>
       <button type="button" class="px-4 py-2 rounded-md font-label-md text-label-md text-on-surface-variant" data-results-billing="annual" aria-pressed="false">Yearly</button>
     </div>
     <% } %>
+      </div>
+      <%- photo(1, { eager: true }) %>
+    </div>
   </div>
   <nav class="flex items-center gap-2 overflow-x-auto no-scrollbar pt-space-md -mx-margin px-margin" aria-label="Compare type">
     <% Object.keys(types).forEach(function(k){ var on = k === typeKey; %>
