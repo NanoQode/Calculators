@@ -111,9 +111,9 @@ runuser -u instasure -- /opt/instasure/bin/node --disable-warning=ExperimentalWa
 systemctl restart instasure
 ```
 
-## State as of October 13, 2026: read before the first deploy with this script
+## History: the hand-made release (resolved November 4, 2026)
 
-- The live release is `/srv/instasure/releases/layout-20261005b`. It was **not** built from git: it is release `3fa6b49` plus two hand deploys on October 5 (editorial photos, then a layout update), plus later edits made directly on the server by an image process that writes `guardian-*` backups to `/var/lib/instasure/backups/` (it adds a photo for each new guide and edited `editorial-photos.js`, `home.ejs` and `guide-card.ejs` on October 12).
-- Those code changes are **not in git**: `src/lib/editorial-photos.js` (new), `src/app.js`, `src/styles/site.css`, `public/assets/site.css` and 23 templates under `views/public/`. Until they are committed, a deploy from git would remove every editorial photo from the site. The deploy script detects this and stops (`instasure-deploy --dry-run` lists the files).
-- To make git the source of truth: copy those files from the live release into the repo, review and commit them, run `npm test`, then `instasure-deploy --dry-run` (it should report no code differences other than intended ones), then `instasure-deploy --accept-drift` once to adopt the hand-made release. From then on every release records its commit and the edit check is exact.
-- Whoever runs the image process should commit code changes to git rather than editing the live release, or the next deploy will stop and list them.
+- Until November 4, 2026 the live release was `/srv/instasure/releases/layout-20261005b`, made by hand on October 5 on top of `3fa6b49` (editorial photos, then a layout update) and later edited in place by the image process.
+- With the owner's approval, its code was brought into git (`b889790`): each server copy was rebuilt from `3fa6b49` plus a diff taken on the server and checked against the live SHA-256, and three files were merged with the Lead CRM changes.
+- `b889790` was deployed with `instasure-deploy --accept-drift` (690/690 sitemap URLs at 200). The replaced server copies are in `/srv/instasure/backups/deploy-20261104T135412Z/`; the old release stays on disk.
+- From now on every release records its commit, so the edit check compares against exactly what was deployed. Whoever runs the image process should write through `/srv/instasure/current` and commit code changes to git rather than editing the live release, or the next deploy will stop and list them.
