@@ -1,0 +1,17 @@
+<%- include('partials-head', { h: 'Invoices', sub: 'Every plan purchase and renewal. Open invoices paid by e-Transfer are marked paid here, which adds the agent’s lead credits.', actions: '<a class="btn-soft !py-2 !px-4" href="/admin/billing/invoices.csv"><span class="material-symbols-outlined text-[18px]">download</span>CSV for accounting</a>' }) %>
+<form class="flex flex-wrap gap-2 mb-3 items-center" method="get">
+  <% [['', 'All'], ['open', 'Open'], ['paid', 'Paid'], ['void', 'Void'], ['refunded', 'Refunded']].forEach(function(t){ var tt = totals[t[0]]; %><a class="badge !py-1.5 !px-3 <%= (status || '') === t[0] ? 'bg-primary-container text-on-primary' : 'bg-surface-container-lowest' %>" href="/admin/billing/invoices<%= t[0] ? '?status=' + t[0] : '' %>"><%= t[1] %><%= tt ? ' · ' + tt.n : '' %></a><% }) %>
+  <input class="admin-input !w-56 ml-auto" name="q" value="<%= q %>" placeholder="Number, agent or email"><% if (status) { %><input type="hidden" name="status" value="<%= status %>"><% } %><button class="btn-soft !py-2 !px-3">Search</button>
+</form>
+<div class="card overflow-x-auto"><table class="w-full">
+  <thead><tr><th class="admin-th">Invoice</th><th class="admin-th">Agent</th><th class="admin-th">Issued</th><th class="admin-th">Due / paid</th><th class="admin-th text-right">Subtotal</th><th class="admin-th text-right">Tax</th><th class="admin-th text-right">Total</th><th class="admin-th">Status</th></tr></thead>
+  <tbody><% rows.forEach(function(i){ var late = i.status === 'open' && U.toDate(i.due_at) < new Date(); %><tr class="hover:bg-surface-container-low">
+    <td class="admin-td"><a class="link font-mono text-body-sm" href="/admin/plan/invoices/<%= i.id %>"><%= i.number %></a><div class="text-body-sm text-on-surface-variant"><%= i.kind === 'renewal' ? 'Renewal' : 'New plan' %> · <%= i.leads %> leads</div></td>
+    <td class="admin-td text-body-sm"><a class="link font-normal" href="/admin/billing/agents/<%= i.advisor_id %>"><%= i.agent %></a></td>
+    <td class="admin-td text-body-sm whitespace-nowrap"><%= U.fmtDate(i.issued_at, 'short') %></td>
+    <td class="admin-td text-body-sm whitespace-nowrap <%= late ? 'text-error font-semibold' : '' %>"><%= i.paid_at ? 'Paid ' + U.fmtDate(i.paid_at, 'short') : 'Due ' + U.fmtDate(i.due_at, 'short') %></td>
+    <td class="admin-td text-body-sm text-right"><%= cad(i.subtotal_cents) %></td>
+    <td class="admin-td text-body-sm text-right"><%= cad(i.tax_cents) %> <span class="text-on-surface-variant"><%= i.tax_label %></span></td>
+    <td class="admin-td text-body-sm text-right font-semibold"><%= cad(i.total_cents) %></td>
+    <td class="admin-td"><%- include('invoice-status', { st: i.status }) %></td></tr><% }) %>
+    <% if (!rows.length) { %><tr><td class="admin-td text-on-surface-variant" colspan="8">No invoices.</td></tr><% } %></tbody></table></div>

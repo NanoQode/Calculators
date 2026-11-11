@@ -1,0 +1,22 @@
+<%# Follow-up reminders: admin.js polls /admin/tasks/due.json and clones this template for each due task. %>
+<div data-task-popups class="fixed z-[80] bottom-4 right-4 flex flex-col gap-2 w-[min(92vw,380px)]" aria-live="polite"></div>
+<template data-task-template>
+  <div class="card p-4 shadow-2xl border-l-4 border-secondary flex flex-col gap-2" role="alertdialog" aria-label="Follow-up due">
+    <div class="flex items-start gap-2">
+      <span class="material-symbols-outlined text-secondary">notifications_active</span>
+      <div class="flex-1 min-w-0">
+        <p class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Follow-up due <span data-t-when></span></p>
+        <p class="font-label-lg text-label-lg text-on-surface" data-t-title></p>
+        <p class="font-body-sm text-body-sm text-on-surface-variant" data-t-lead></p>
+        <p class="font-body-sm text-body-sm text-on-surface-variant hidden" data-t-notes></p>
+      </div>
+      <button type="button" class="w-8 h-8 rounded-full hover:bg-surface-container flex items-center justify-center" data-t-close aria-label="Remind me in 10 minutes"><span class="material-symbols-outlined text-[18px]">close</span></button>
+    </div>
+    <div class="flex flex-wrap gap-2">
+      <a class="btn-primary !py-1.5 !px-3" data-t-open href="#">Open lead</a>
+      <button type="button" class="btn-soft !py-1.5 !px-3" data-t-done>Mark done</button>
+      <button type="button" class="btn-soft !py-1.5 !px-3" data-t-snooze="60">Snooze 1 h</button>
+      <button type="button" class="btn-soft !py-1.5 !px-3" data-t-snooze="1440">Tomorrow</button>
+    </div>
+  </div>
+</template>

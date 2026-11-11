@@ -1,0 +1,16 @@
+<%- include('partials-head', { h: 'Guides & blog', sub: 'Publishing is instant: the page goes live, the sitemap and llms.txt update, and IndexNow notifies Bing/ChatGPT search.', actions: '<a class="btn-primary !py-2 !px-4" href="/admin/posts/new"><span class="material-symbols-outlined text-[18px]">add</span>New guide</a>' }) %>
+<% if (needsReview) { %><div class="mb-4 rounded-xl px-4 py-3 bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-md text-label-md"><%= needsReview %> published guide(s) have no licensed reviewer yet. Assign a reviewer to strengthen E-E-A-T. <a class="underline" href="/admin/posts?review=needed">Show them</a></div><% } %>
+<div class="flex flex-wrap gap-2 mb-3">
+  <a class="badge !py-1.5 !px-3 <%= !q.status ? 'bg-primary-container text-on-primary' : 'bg-surface-container-lowest' %>" href="/admin/posts">All</a>
+  <% counts.forEach(function(c){ %><a class="badge !py-1.5 !px-3 <%= q.status === c.status ? 'bg-primary-container text-on-primary' : 'bg-surface-container-lowest' %>" href="/admin/posts?status=<%= c.status %>"><%= c.status %> <span class="opacity-70"><%= c.n %></span></a><% }) %>
+  <form method="get" class="ml-auto"><input class="admin-input !py-1.5" name="q" value="<%= q.q || '' %>" placeholder="Search titles & keywords"></form>
+</div>
+<div class="card overflow-x-auto"><table class="w-full">
+  <thead><tr><th class="admin-th">Title</th><th class="admin-th">Status</th><th class="admin-th">SEO</th><th class="admin-th">Words</th><th class="admin-th">Views</th><th class="admin-th">Reviewer</th><th class="admin-th">Updated</th></tr></thead>
+  <tbody><% rows.forEach(function(p){ %><tr class="hover:bg-surface-container-low">
+    <td class="admin-td"><a class="link" href="/admin/posts/<%= p.id %>"><%= p.title %></a><div class="text-body-sm text-on-surface-variant">/guides/<%= p.slug %>/ · <%= p.category || 'Uncategorised' %><%= p.focus_keyword ? ' · “' + p.focus_keyword + '”' : '' %></div></td>
+    <td class="admin-td text-body-sm"><%= p.status %><%= p.status === 'scheduled' ? '<br>' + p.scheduled_at : '' %></td>
+    <td class="admin-td"><span class="badge <%= p.seo_score >= 85 ? 'bg-secondary text-on-secondary' : p.seo_score >= 70 ? 'bg-secondary-container text-on-secondary-container' : 'bg-tertiary-fixed text-on-tertiary-fixed-variant' %>"><%= p.seo_score || 0 %></span></td>
+    <td class="admin-td text-body-sm"><%= U.num(p.word_count || 0) %></td><td class="admin-td text-body-sm"><%= U.num(p.views || 0) %></td>
+    <td class="admin-td text-body-sm"><%= p.reviewer || '—' %></td><td class="admin-td text-body-sm whitespace-nowrap"><%= U.timeAgo(p.updated_at) %></td></tr><% }) %>
+  </tbody></table></div>

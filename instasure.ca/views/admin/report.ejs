@@ -1,0 +1,23 @@
+<% var csrfField = '<input type="hidden" name="_csrf" value="' + csrf + '">'; %>
+<%- include('partials-head', { h: 'Daily lead report', sub: 'Emailed every day after ' + st.daily_report_hour + ':00 Toronto time to agent managers and anyone with “Daily lead report” ticked. ' + (st.daily_report_last ? 'Last sent for ' + st.daily_report_last + '.' : 'Not sent yet.') }) %>
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-4">
+  <section class="card p-5 xl:col-span-2">
+    <p class="admin-label">Subject</p>
+    <p class="font-label-lg text-label-lg mb-3"><%= subject %></p>
+    <div class="prose prose-sm max-w-none"><%- html %></div>
+  </section>
+  <div class="flex flex-col gap-4">
+    <section class="card p-5 flex flex-col gap-3">
+      <h2 class="font-headline-sm text-headline-sm">Recipients (<%= recipients.length %>)</h2>
+      <ul class="font-body-sm text-body-sm"><% recipients.forEach(function(r){ %><li><%= r %></li><% }) %><% if (!recipients.length) { %><li class="text-on-surface-variant">Nobody yet. Create an agent manager (Users) or tick “Daily lead report” for a user, or add addresses below.</li><% } %></ul>
+      <form method="post" action="/admin/reports/daily/send" data-confirm="Send today’s report to <%= recipients.length %> recipient(s) now?"><%- csrfField %><button class="btn-primary !py-2" <%= recipients.length ? '' : 'disabled' %>>Send now</button></form>
+      <% if (!smtpOn) { %><p class="font-body-sm text-body-sm text-error">SMTP is not configured yet, so reports are stored in the Email log instead of being delivered.</p><% } %>
+    </section>
+    <form method="post" action="/admin/reports/daily/settings" class="card p-5 flex flex-col gap-3"><%- csrfField %>
+      <h2 class="font-headline-sm text-headline-sm">Schedule</h2>
+      <label><span class="admin-label">Send after (hour, Toronto time)</span><input class="admin-input" type="number" min="0" max="23" name="daily_report_hour" value="<%= st.daily_report_hour %>"></label>
+      <label><span class="admin-label">Extra recipients (comma or one per line)</span><textarea class="admin-input" name="report_extra_emails" rows="3"><%= (st.report_extra_emails || []).join('\n') %></textarea></label>
+      <button class="btn-soft !py-2 self-start">Save</button>
+    </form>
+  </div>
+</div>

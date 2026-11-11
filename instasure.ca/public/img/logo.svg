@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 236 64" role="img" aria-label="Instasure.ca">
+  <defs>
+    <linearGradient id="b" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#73fbb8"/>
+      <stop offset="1" stop-color="#00a86b"/>
+    </linearGradient>
+  </defs>
+  <path d="M32 3.5 55 11.8v17.6c0 15.3-9.6 26.6-23 31.1C18.6 56 9 44.7 9 29.4V11.8Z" fill="#0a1e33"/>
+  <path d="M32 9.6 49.5 16v13.4c0 11.6-7 20.3-17.5 24.6Z" fill="#132c47"/>
+  <path d="M35.6 13.5 21.8 35.2h9.4l-3.4 15.3 14.6-23.4h-9.5z" fill="url(#b)"/>
+  <text x="66" y="42" font-family="Plus Jakarta Sans, Segoe UI, Arial, sans-serif" font-size="27" font-weight="800" letter-spacing="-0.6" fill="#0a1e33">Instasure<tspan fill="#006c46">.ca</tspan></text>
+</svg>

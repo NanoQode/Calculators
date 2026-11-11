@@ -1,0 +1,42 @@
+<%- include('partials-head', { h: 'SEO & AI visibility', sub: 'Everything search engines and AI assistants see: indexation, structured data, keyword coverage, crawler activity and instant re-indexing.' }) %>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
+  <div class="card p-4"><p class="admin-label">Public URLs</p><p class="font-headline-md text-headline-md"><%= U.num(totalPages) %></p><p class="font-body-sm text-body-sm text-on-surface-variant"><%= U.num(indexable) %> indexable · <%= U.num(totalPages - indexable) %> noindex (thin until enriched)</p></div>
+  <div class="card p-4"><p class="admin-label">Keyword map</p><p class="font-headline-md text-headline-md"><%= U.num(kw.total || 0) %></p><p class="font-body-sm text-body-sm text-on-surface-variant"><%= U.num(kw.unmapped || 0) %> without a target page · <%= U.compact(kw.volume || 0) %>/mo est.</p></div>
+  <div class="card p-4"><p class="admin-label">Guides</p><p class="font-headline-md text-headline-md"><%= posts.n || 0 %></p><p class="font-body-sm text-body-sm text-on-surface-variant">avg SEO score <%= posts.avg || 0 %> · <%= posts.weak || 0 %> under 70</p></div>
+  <div class="card p-4"><p class="admin-label">AI crawler fetches (30d)</p><p class="font-headline-md text-headline-md"><%= U.num(crawl.filter(function(c){ return /^ai_/.test(c.kind); }).reduce(function(s,c){ return s + c.n; }, 0)) %></p><p class="font-body-sm text-body-sm text-on-surface-variant"><a class="link font-normal" href="/admin/seo/crawlers">See which pages →</a></p></div>
+</div>
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+  <section class="card p-5">
+    <h2 class="font-headline-sm text-headline-sm mb-3">Indexation by page type</h2>
+    <table class="w-full"><thead><tr><th class="admin-th">Type</th><th class="admin-th">Total</th><th class="admin-th">Indexable</th><th class="admin-th"></th></tr></thead><tbody>
+    <% Object.keys(byType).forEach(function(t){ %><tr><td class="admin-td"><%= t %></td><td class="admin-td"><%= byType[t].total %></td><td class="admin-td"><%= byType[t].indexable %></td><td class="admin-td"><a class="link font-label-sm text-label-sm" href="/admin/seo/pages?type=<%= t %>">Manage</a></td></tr><% }) %>
+    </tbody></table>
+    <p class="font-body-sm text-body-sm text-on-surface-variant mt-3">Programmatic city pages for smaller cities stay <strong>noindex</strong> until an editor adds 300+ characters of local intro copy in <em>Pages &amp; overrides</em> — this protects the domain from Google’s scaled-content policies.</p>
+  </section>
+  <section class="card p-5">
+    <h2 class="font-headline-sm text-headline-sm mb-3">Crawler documents</h2>
+    <ul class="space-y-2 font-body-md text-body-md">
+      <li><a class="link" href="/sitemap.xml" target="_blank">/sitemap.xml</a> — index of core, geo, guides and advisors sitemaps (indexable URLs only, real lastmod)</li>
+      <li><a class="link" href="/robots.txt" target="_blank">/robots.txt</a> — AI policy: <strong><%= s.ai_bot_policy %></strong> (<a class="link" href="/admin/settings#crawlers">change</a>)</li>
+      <li><a class="link" href="/llms.txt" target="_blank">/llms.txt</a> and <a class="link" href="/llms-full.txt" target="_blank">/llms-full.txt</a> — curated Markdown index for LLMs</li>
+      <li>Every guide also has a Markdown twin at <code>/guides/&lt;slug&gt;.md</code> (noindex)</li>
+      <li>JSON-LD on every page: InsuranceAgency, WebSite, BreadcrumbList, FinancialProduct, Article + reviewedBy, Person with licence credentials, FAQPage, WebApplication, Dataset</li>
+    </ul>
+    <form method="post" action="/admin/seo/purge" class="mt-3"><input type="hidden" name="_csrf" value="<%= csrf %>"><button class="btn-soft !py-1.5 !px-3">Purge page caches</button></form>
+  </section>
+  <section class="card p-5">
+    <h2 class="font-headline-sm text-headline-sm mb-1">IndexNow (Bing, Copilot, ChatGPT search, Yandex)</h2>
+    <p class="font-body-sm text-body-sm text-on-surface-variant mb-3">Publishing a guide pings automatically. <%= indexNowEnabled ? 'Enabled.' : '<strong>Disabled</strong> — set INDEXNOW_ENABLED=true in production.' %> Key file: <a class="link" href="/<%= s.indexnow_key %>.txt" target="_blank">/<%= String(s.indexnow_key).slice(0,8) %>….txt</a></p>
+    <form method="post" action="/admin/seo/indexnow" class="flex flex-col gap-2"><input type="hidden" name="_csrf" value="<%= csrf %>"><textarea class="admin-input font-mono text-body-sm" name="paths" rows="3" placeholder="/car-insurance/ontario/brampton/&#10;/guides/…"></textarea><button class="btn-dark !py-2 self-start">Submit URLs</button></form>
+    <ul class="mt-3 space-y-1"><% indexLog.forEach(function(l){ %><li class="font-body-sm text-body-sm text-on-surface-variant"><%= String(l.created_at).slice(0,16) %> · status <%= l.status %> · <%= (db_json(l.urls, []) || []).length %> URL(s)</li><% }) %></ul>
+  </section>
+  <section class="card p-5">
+    <div class="flex items-center justify-between mb-2"><h2 class="font-headline-sm text-headline-sm">Top 404s</h2><a class="link font-label-md text-label-md" href="/admin/seo/redirects">Fix with redirects →</a></div>
+    <% if (!notFound.length) { %><p class="font-body-sm text-body-sm text-on-surface-variant">No broken URLs recorded. 🎉</p><% } %>
+    <ul class="space-y-1"><% notFound.forEach(function(n){ %><li class="flex justify-between gap-2 font-body-sm text-body-sm"><a class="truncate link font-normal" href="/admin/seo/redirects?from=<%= encodeURIComponent(n.path) %>"><%= n.path %></a><span><%= n.hits %></span></li><% }) %></ul>
+  </section>
+  <section class="card p-5 xl:col-span-2">
+    <h2 class="font-headline-sm text-headline-sm mb-2">Live robots.txt</h2>
+    <pre class="text-[12px] bg-surface-container-low rounded-lg p-3 overflow-x-auto max-h-64"><%= robots %></pre>
+  </section>
+</div>

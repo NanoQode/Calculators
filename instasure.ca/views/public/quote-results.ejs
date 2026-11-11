@@ -1,0 +1,115 @@
+<%
+  var fmt = function(n){ return U.money(n, { cents: n < 100 }); };
+  var tiers = estimate.tiers || [];
+  var waitlist = lead.status === 'waitlist';
+  var monthly = estimate.period === 'month';
+%>
+<section class="w-full bg-surface-container-low">
+  <div class="container-site py-space-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-space-sm">
+    <div class="flex items-center gap-space-md flex-wrap">
+      <span class="chip bg-surface-container-lowest shadow-sm text-on-surface-variant uppercase tracking-wider"><span class="w-2 h-2 rounded-full bg-secondary inline-block"></span> Instant estimate</span>
+      <span class="font-label-md text-label-md text-on-surface">Reference: <span class="text-secondary font-mono"><%= lead.ref %></span></span>
+      <span class="hidden sm:inline font-body-sm text-body-sm text-on-surface-variant"><%= estimate.example %></span>
+    </div>
+    <span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-secondary">schedule</span> Estimates as of <%= estimate.asOf %></span>
+  </div>
+</section>
+
+<section class="container-site pt-space-lg pb-space-md">
+  <div class="card p-space-md lg:p-space-lg flex flex-col lg:flex-row lg:items-center justify-between gap-space-lg">
+    <div class="flex flex-col gap-1">
+      <span class="badge bg-secondary-container text-on-secondary-container w-fit"><%= prov ? prov.name : 'Canada' %> · <%= product ? product.name : '' %></span>
+      <h1 class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-on-surface tracking-tight"><%= lead.first_name ? lead.first_name + ', here are your options' : 'Your instant estimate' %></h1>
+      <p class="font-body-md text-body-md text-on-surface-variant"><%= estimate.headline %> — typical range <strong class="text-on-surface"><%= fmt(estimate.low) %>–<%= fmt(estimate.high) %><%= estimate.periodLabel %></strong>.</p>
+    </div>
+    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-space-md bg-surface-container-low p-2 rounded-xl no-print">
+      <% if (monthly) { %>
+      <div class="flex items-center bg-surface-container-lowest p-1 rounded-lg shadow-sm" role="group" aria-label="Billing">
+        <button type="button" class="px-4 py-2 rounded-md font-label-md text-label-md bg-primary-container text-on-primary" data-results-billing="monthly" aria-pressed="true">Monthly</button>
+        <button type="button" class="px-4 py-2 rounded-md font-label-md text-label-md text-on-surface-variant flex items-center gap-1.5" data-results-billing="annual" aria-pressed="false">Yearly <span class="badge bg-secondary-container text-on-secondary-container">Save ~8%</span></button>
+      </div>
+      <% } %>
+      <button type="button" class="hidden md:inline-flex items-center gap-1 font-label-md text-label-md text-on-surface-variant hover:text-on-surface px-3 py-2 rounded-lg bg-surface-container-lowest shadow-sm" data-print><span class="material-symbols-outlined text-[18px]">download</span> Save as PDF</button>
+    </div>
+  </div>
+  <% if (waitlist) { %>
+  <div class="mt-space-md p-space-md rounded-2xl bg-tertiary-fixed/60 text-on-tertiary-fixed-variant flex gap-3"><span class="material-symbols-outlined">info</span><p class="font-body-md text-body-md"><%= s.waitlist_message %></p></div>
+  <% } %>
+</section>
+
+<section class="container-site py-space-md">
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-space-lg items-stretch">
+    <% tiers.forEach(function(t, i){ %>
+    <article class="relative flex flex-col justify-between bg-surface-container-lowest rounded-2xl p-space-lg transition-transform duration-300 hover:-translate-y-1 <%= t.featured ? 'shadow-xl ring-2 ring-secondary/30 mt-3 lg:mt-0' : 'shadow-sm' %>">
+      <% if (t.featured) { %><div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-secondary text-on-secondary px-4 py-1 rounded-full font-label-sm text-label-sm uppercase tracking-wider flex items-center gap-1 shadow-md whitespace-nowrap"><span class="material-symbols-outlined text-[15px]">verified</span> Advisor’s starting point</div><% } %>
+      <div class="pt-2">
+        <div class="flex items-start justify-between gap-space-xs pb-space-sm">
+          <div class="flex flex-col"><span class="font-label-sm text-label-sm <%= t.featured ? 'text-secondary' : 'text-on-surface-variant' %> uppercase tracking-wider"><%= t.label %></span><h2 class="font-headline-md text-headline-md text-on-surface"><%= t.name %></h2><span class="font-body-sm text-body-sm text-on-surface-variant"><%= t.underwriting %></span></div>
+          <span class="p-2 rounded-xl <%= t.featured ? 'bg-secondary-container text-on-secondary-container' : 'bg-surface-container text-on-surface' %>"><span class="material-symbols-outlined text-[24px]"><%= ['savings','bolt','workspace_premium'][i] || 'shield' %></span></span>
+        </div>
+        <div class="bg-surface-container-low rounded-xl p-space-md mb-space-md">
+          <div class="flex items-baseline gap-1"><span class="font-price-hero-mobile text-price-hero-mobile lg:font-price-hero lg:text-price-hero text-on-surface" data-price data-monthly="<%= t.monthly %>"><%= fmt(t.monthly) %></span><span class="font-body-sm text-body-sm text-on-surface-variant" data-period><%= estimate.periodLabel %></span></div>
+          <span class="font-label-sm text-label-sm text-on-surface-variant" data-sub><%= monthly ? 'Est. ' + fmt(t.monthly * 12 * 0.92) + '/yr if paid annually' : 'Estimated' %></span>
+        </div>
+        <ul class="space-y-3 font-body-sm text-body-sm text-on-surface mb-space-lg">
+          <% t.features.forEach(function(ft){ %><li class="flex items-start gap-2.5"><span class="material-symbols-outlined text-secondary text-[18px] mt-0.5">check_circle</span><span><%= ft %></span></li><% }) %>
+        </ul>
+      </div>
+      <a href="<%= advisor && advisor.booking_url ? advisor.booking_url : '/contact/?type=consult&product=' + (product ? product.slug : '') %>" class="<%= t.featured ? 'btn-primary' : 'btn-soft' %> w-full" data-track="booking_click" data-label="results_tier_<%= t.key %>"><%= t.featured ? 'Get real quotes for this' : 'Ask about this option' %> <span class="material-symbols-outlined text-[18px]">arrow_forward</span></a>
+    </article>
+    <% }) %>
+  </div>
+  <% (estimate.notes || []).forEach(function(n){ %><p class="mt-space-md font-body-sm text-body-sm text-on-surface-variant flex gap-2"><span class="material-symbols-outlined text-[16px] text-secondary">info</span><%= n %></p><% }) %>
+</section>
+
+<section class="container-site py-space-lg">
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md mb-space-md">
+    <div><p class="eyebrow">Side by side</p><h2 class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-on-surface tracking-tight">Feature matrix</h2></div>
+  </div>
+  <div class="card overflow-hidden"><div class="overflow-x-auto">
+    <table class="w-full text-left font-body-sm text-body-sm min-w-[640px]">
+      <thead><tr class="bg-surface-container-low text-on-surface"><th class="py-4 px-6 font-label-lg text-label-lg">Feature</th><% tiers.forEach(function(t){ %><th class="py-4 px-6 font-label-lg text-label-lg <%= t.featured ? 'bg-surface-container' : '' %>"><%= t.name %></th><% }) %></tr></thead>
+      <tbody>
+        <tr><td class="py-4 px-6 font-semibold">Estimated price</td><% tiers.forEach(function(t){ %><td class="py-4 px-6 font-bold <%= t.featured ? 'bg-surface-container/30 text-secondary' : '' %>"><span data-table-price data-monthly="<%= t.monthly %>"><%= fmt(t.monthly) %><%= estimate.periodLabel %></span></td><% }) %></tr>
+        <tr class="bg-surface-container-low/20"><td class="py-4 px-6 font-semibold">Best for</td><% tiers.forEach(function(t){ %><td class="py-4 px-6 <%= t.featured ? 'bg-surface-container/30' : '' %>"><%= t.label %></td><% }) %></tr>
+        <tr><td class="py-4 px-6 font-semibold">Underwriting</td><% tiers.forEach(function(t){ %><td class="py-4 px-6 <%= t.featured ? 'bg-surface-container/30' : '' %>"><%= t.underwriting %></td><% }) %></tr>
+        <% [0,1,2].forEach(function(r){ %><tr class="<%= r % 2 ? 'bg-surface-container-low/20' : '' %>"><td class="py-4 px-6 font-semibold">Highlight <%= r + 1 %></td><% tiers.forEach(function(t){ %><td class="py-4 px-6 <%= t.featured ? 'bg-surface-container/30' : '' %>"><%= t.features[r] || '—' %></td><% }) %></tr><% }) %>
+      </tbody>
+    </table>
+  </div></div>
+  <p class="mt-space-sm font-body-sm text-body-sm text-on-surface-variant"><%= s.quote_disclaimer %></p>
+</section>
+
+<section class="container-site pb-space-xl grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+  <div class="lg:col-span-8 card p-space-lg flex flex-col md:flex-row items-center gap-space-lg">
+    <%- include('partials/avatar', { a: advisor, size: 'w-24 h-24 md:w-28 md:h-28' }) %>
+    <div class="flex flex-col gap-space-xs flex-1 text-center md:text-left">
+      <% if (advisor) { %>
+      <div class="flex items-center justify-center md:justify-start gap-2 flex-wrap"><span class="font-headline-sm text-headline-sm text-on-surface"><%= advisor.name %></span><% if (advisor.designations) { %><span class="badge bg-surface-container text-on-surface font-mono"><%= advisor.designations %></span><% } %><span class="badge bg-secondary-container text-on-secondary-container">Your advisor</span></div>
+      <p class="font-body-md text-body-md text-on-surface-variant"><%= advisor.title || 'Licensed Insurance Advisor' %> · licensed in <%= prov ? prov.name : 'your province' %>. <%= advisor.name.split(' ')[0] %> will review your request<%= s.advisor_response_hours ? ', usually within ' + s.advisor_response_hours + ' business hours' : '' %>, and compare insurers for you.</p>
+      <% } else { %>
+      <span class="font-headline-sm text-headline-sm text-on-surface"><%= waitlist ? 'You’re on the waitlist' : 'An advisor will be in touch' %></span>
+      <p class="font-body-md text-body-md text-on-surface-variant"><%= waitlist ? 'We’ll email you as soon as a licensed advisor is available in your province.' : 'We’re matching you with an advisor licensed in your province for this product.' %></p>
+      <% } %>
+      <div class="flex flex-wrap items-center justify-center md:justify-start gap-space-sm pt-space-xs">
+        <% if (advisor && advisor.booking_url) { %><a href="<%= advisor.booking_url %>" target="_blank" rel="noopener" class="btn-dark !py-2.5" data-track="booking_click"><span class="material-symbols-outlined text-[18px]">calendar_month</span> Pick a call time</a><% } %>
+        <% if (advisor && advisor.phone) { %><a href="tel:<%= advisor.phone %>" class="btn-soft !py-2.5" data-track="phone_click"><span class="material-symbols-outlined text-[18px]">call</span> <%= U.fmtPhone(advisor.phone) %></a><% } %>
+        <% if (product) { %><a href="/quote/<%= product.slug %>/" class="btn-soft !py-2.5"><span class="material-symbols-outlined text-[18px]">tune</span> Adjust my answers</a><% } %>
+      </div>
+    </div>
+  </div>
+  <div class="lg:col-span-4 bg-surface-container-low rounded-2xl p-space-lg flex flex-col gap-space-sm">
+    <div class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-[28px]">route</span><h3 class="font-headline-sm text-headline-sm text-on-surface">What happens next</h3></div>
+    <ol class="space-y-2 font-body-sm text-body-sm text-on-surface">
+      <li class="flex gap-2"><span class="tick mt-0.5"><span class="material-symbols-outlined text-[12px]">check</span></span>Your estimate is emailed to you (ref <%= lead.ref %>).</li>
+      <li class="flex gap-2"><span class="w-4 h-4 rounded-full bg-surface-container-highest shrink-0 mt-0.5"></span>A licensed advisor confirms real insurer prices.</li>
+      <li class="flex gap-2"><span class="w-4 h-4 rounded-full bg-surface-container-highest shrink-0 mt-0.5"></span>You choose — with no obligation to buy.</li>
+      <li class="flex gap-2"><span class="w-4 h-4 rounded-full bg-surface-container-highest shrink-0 mt-0.5"></span>Apply online; many products decide in days, some in minutes.</li>
+    </ol>
+  </div>
+</section>
+
+<% if (guides.length) { %>
+<section class="container-site pb-space-xl"><h2 class="font-headline-md text-headline-md text-primary-container mb-space-md">Read while you wait</h2>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg"><% guides.forEach(function(g){ %><%- include('partials/guide-card', { g: g }) %><% }) %></div></section>
+<% } %>

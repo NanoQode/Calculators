@@ -1,0 +1,31 @@
+<% var csrfField = '<input type="hidden" name="_csrf" value="' + csrf + '">'; %>
+<a href="/admin/leads" class="font-label-md text-label-md text-on-surface-variant hover:text-secondary">← Leads</a>
+<%- include('partials-head', { h: 'Duplicate leads', sub: groups.length + ' people have more than one record (same email' + (matchPhone ? ', or same mobile number and first name' : '') + '). New submissions already update the existing lead; this merges the records created before that.' }) %>
+<% if (groups.length) { %>
+<form method="post" action="/admin/leads/duplicates/merge" class="card p-4 mb-4 flex flex-wrap items-center gap-3" data-confirm="Merge every group below into one lead per person? The earliest record of each group is kept."><%- csrfField %><input type="hidden" name="all" value="1">
+  <p class="flex-1 font-body-md text-body-md">Merging keeps the <strong>earliest record</strong> (its reference and original source), adds the others’ products as requests, keeps the furthest-along stage, their agent if it had none, the strongest consent and any unsubscribe, and moves their timeline, emails and follow-ups. Old references keep working.</p>
+  <button class="btn-primary !py-2 !px-4"><span class="material-symbols-outlined text-[18px]">merge</span>Merge all <%= groups.length %></button>
+</form>
+<% } %>
+<div class="flex flex-col gap-3">
+  <% groups.forEach(function(g){ %>
+  <form method="post" action="/admin/leads/duplicates/merge" class="card overflow-hidden"><%- csrfField %>
+    <% g.ids.forEach(function(id){ %><input type="hidden" name="ids" value="<%= id %>"><% }) %>
+    <div class="overflow-x-auto"><table class="w-full">
+      <thead><tr><th class="admin-th">Record</th><th class="admin-th">Contact</th><th class="admin-th">Product</th><th class="admin-th">Stage</th><th class="admin-th">Agent</th><th class="admin-th">Created</th></tr></thead>
+      <tbody><% g.leads.forEach(function(l, i){ %>
+        <tr class="<%= i === 0 ? 'bg-secondary-container/20' : '' %>">
+          <td class="admin-td"><a class="link" href="/admin/leads/<%= l.id %>"><%= l.ref %></a><% if (i === 0) { %> <span class="badge bg-secondary text-on-secondary">kept</span><% } %></td>
+          <td class="admin-td text-body-sm"><%= ((l.first_name || '') + ' ' + (l.last_name || '')).trim() || '—' %><div class="text-on-surface-variant"><%= l.email %><%= l.phone ? ' · ' + U.fmtPhone(l.phone) : '' %></div></td>
+          <td class="admin-td text-body-sm"><%= l.product ? (bySlug[l.product] || {}).short || l.product : '—' %> <span class="text-on-surface-variant">· <%= l.lead_type %></span></td>
+          <td class="admin-td text-body-sm"><%= stageLabel(l.status) %></td>
+          <td class="admin-td text-body-sm"><%= l.advisor_name || '—' %></td>
+          <td class="admin-td text-body-sm whitespace-nowrap"><%= U.fmtDate(l.created_at, 'short') %></td>
+        </tr>
+      <% }) %></tbody>
+    </table></div>
+    <div class="p-3 border-t border-surface-container flex justify-end"><button class="btn-soft !py-1.5 !px-3">Merge these <%= g.ids.length %></button></div>
+  </form>
+  <% }) %>
+  <% if (!groups.length) { %><div class="card p-6 text-center font-body-md text-body-md text-on-surface-variant">No duplicates: every person has a single lead record.</div><% } %>
+</div>

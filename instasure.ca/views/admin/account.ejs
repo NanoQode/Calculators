@@ -1,0 +1,20 @@
+<% var csrfField = '<input type="hidden" name="_csrf" value="' + csrf + '">'; %>
+<%- include('partials-head', { h: 'My account', sub: U.escapeHtml(u.email) + ' · ' + roleLabel(u.role) + (u.last_login_at ? ' · last sign-in ' + U.timeAgo(u.last_login_at) : '') }) %>
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+  <form method="post" action="/admin/account" class="card p-5 flex flex-col gap-3"><%- csrfField %>
+    <h2 class="font-headline-sm text-headline-sm">Change password</h2>
+    <label><span class="admin-label">Current password</span><input class="admin-input" type="password" name="current_password" autocomplete="current-password" required></label>
+    <label><span class="admin-label">New password (12+ characters)</span><input class="admin-input" type="password" name="new_password" autocomplete="new-password" minlength="12" required></label>
+    <label><span class="admin-label">Confirm new password</span><input class="admin-input" type="password" name="confirm_password" autocomplete="new-password" minlength="12" required></label>
+    <button class="btn-primary !py-2 self-start">Change password</button>
+    <p class="font-body-sm text-body-sm text-on-surface-variant">Other signed-in sessions are signed out when you change it.</p>
+  </form>
+  <% if (can('reports')) { %>
+  <form method="post" action="/admin/account" class="card p-5 flex flex-col gap-3 self-start"><%- csrfField %>
+    <h2 class="font-headline-sm text-headline-sm">Email</h2>
+    <label class="flex items-center gap-2 font-label-md text-label-md"><input type="checkbox" name="daily_report" value="1" <%= u.daily_report ? 'checked' : '' %>> Send me the daily lead report</label>
+    <a class="link font-body-sm text-body-sm" href="/admin/reports/daily">Preview today’s report</a>
+    <button class="btn-soft !py-2 self-start">Save</button>
+  </form>
+  <% } %>
+</div>

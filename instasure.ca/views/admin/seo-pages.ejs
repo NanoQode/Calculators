@@ -1,0 +1,17 @@
+<%- include('partials-head', { h: 'Pages & overrides', sub: U.num(count) + ' URL(s). Override the title, description, H1, robots, intro copy, FAQ or schema for any page — changes go live instantly.' }) %>
+<form method="get" class="card p-3 mb-4 grid grid-cols-2 md:grid-cols-5 gap-2 items-end">
+  <label class="col-span-2"><span class="admin-label">Search</span><input class="admin-input" name="q" value="<%= q.q || '' %>" placeholder="/car-insurance/ontario"></label>
+  <label><span class="admin-label">Type</span><select class="admin-input" name="type"><option value="">Any</option><% ['static','product','product-province','product-city','geo-hub','guide','category','advisor'].forEach(function(t){ %><option <%= q.type === t ? 'selected' : '' %>><%= t %></option><% }) %></select></label>
+  <label><span class="admin-label">Indexable</span><select class="admin-input" name="indexable"><option value="">Any</option><option value="1" <%= q.indexable === '1' ? 'selected' : '' %>>Yes</option><option value="0" <%= q.indexable === '0' ? 'selected' : '' %>>No (noindex)</option></select></label>
+  <button class="btn-dark !py-2">Filter</button>
+</form>
+<div class="card overflow-x-auto"><table class="w-full">
+  <thead><tr><th class="admin-th">URL</th><th class="admin-th">Type</th><th class="admin-th">Index</th><th class="admin-th">Override</th><th class="admin-th"></th></tr></thead>
+  <tbody><% list.forEach(function(p){ var o = ov[p.path]; %><tr class="hover:bg-surface-container-low">
+    <td class="admin-td text-body-sm"><a class="link font-normal" href="<%= p.path %>" target="_blank"><%= p.path %></a><div class="text-on-surface-variant"><%= p.title || '' %></div></td>
+    <td class="admin-td text-body-sm"><%= p.type %></td>
+    <td class="admin-td"><span class="badge <%= p.indexable ? 'bg-secondary-container text-on-secondary-container' : 'bg-surface-container-high text-on-surface-variant' %>"><%= p.indexable ? 'index' : 'noindex' %></span></td>
+    <td class="admin-td text-body-sm"><%= o ? [o.title && 'title', o.description && 'desc', o.h1 && 'H1', o.robots && 'robots', o.intro_md && 'intro', o.faq && 'FAQ', o.schema_json && 'schema'].filter(Boolean).join(', ') : '—' %></td>
+    <td class="admin-td"><a class="btn-soft !py-1 !px-3 text-body-sm" href="/admin/seo/page?path=<%= encodeURIComponent(p.path) %>">Edit</a></td></tr><% }) %>
+  </tbody></table></div>
+<% if (count > 500) { %><p class="mt-2 font-body-sm text-body-sm text-on-surface-variant">Showing first 500 — refine your filter.</p><% } %>

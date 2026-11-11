@@ -1,0 +1,15 @@
+<section class="container-site py-space-xl">
+  <div class="max-w-2xl mx-auto card p-space-lg lg:p-space-xl text-center flex flex-col items-center gap-space-md">
+    <span class="w-16 h-16 rounded-full bg-secondary-container/50 text-on-secondary-container flex items-center justify-center"><span class="material-symbols-outlined text-[32px] icon-fill">task_alt</span></span>
+    <h1 class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg text-primary-container"><%= lead && lead.status === 'waitlist' ? 'You’re on the list' : 'Thanks — we’ve got it' %><%= lead && lead.first_name ? ', ' + lead.first_name : '' %>.</h1>
+    <p class="font-body-lg text-body-lg text-on-surface-variant">
+      <% if (lead && lead.status === 'waitlist') { %><%= s.waitlist_message %><% } else if (advisor) { %><%= advisor.name %>, an advisor licensed in your province, will be in touch<%= s.advisor_response_hours ? ' — usually within ' + s.advisor_response_hours + ' business hours' : '' %>.<% } else { %>A licensed advisor will be in touch shortly.<% } %>
+    </p>
+    <% if (lead) { %><p class="font-label-md text-label-md text-on-surface-variant">Reference: <span class="font-mono text-secondary"><%= lead.ref %></span></p><% } %>
+    <div class="flex flex-wrap justify-center gap-space-sm">
+      <% if (advisor && advisor.booking_url) { %><a href="<%= advisor.booking_url %>" class="btn-primary" target="_blank" rel="noopener" data-track="booking_click"><span class="material-symbols-outlined text-[18px]">calendar_month</span> Pick a time now</a><% } %>
+      <a href="/guides/" class="btn-soft">Browse guides</a>
+      <a href="/calculators/" class="btn-soft">Try a calculator</a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,17 @@
+<%- include('partials-head', { h: 'Search & AI crawlers', sub: 'Server-side log of every fetch by Googlebot, Bingbot, GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, PerplexityBot and others — the pages AI assistants actually read.', actions: '<a class="btn-soft !py-2 !px-4" href="?days=7">7d</a><a class="btn-soft !py-2 !px-4" href="?days=30">30d</a><a class="btn-soft !py-2 !px-4" href="?days=90">90d</a>' }) %>
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+  <section class="card p-5"><h2 class="font-headline-sm text-headline-sm mb-3">Fetches by crawler (<%= days %>d)</h2>
+    <table class="w-full"><thead><tr><th class="admin-th">Crawler</th><th class="admin-th">Kind</th><th class="admin-th">Fetches</th><th class="admin-th">Last seen</th></tr></thead><tbody>
+    <% byBot.forEach(function(b){ %><tr><td class="admin-td text-body-sm font-semibold"><%= b.bot %></td><td class="admin-td text-body-sm"><%= b.kind.replace('_', ' ') %></td><td class="admin-td text-body-sm"><%= U.num(b.n) %></td><td class="admin-td text-body-sm"><%= U.timeAgo(b.last) %></td></tr><% }) %>
+    <% if (!byBot.length) { %><tr><td class="admin-td text-on-surface-variant" colspan="4">No crawler visits yet (they start after launch and sitemap submission).</td></tr><% } %>
+    </tbody></table></section>
+  <section class="card p-5"><h2 class="font-headline-sm text-headline-sm mb-3">Visitors referred by AI assistants</h2>
+    <% aiReferrals.forEach(function(r){ %><p class="flex justify-between font-body-sm text-body-sm"><span><%= r.referrer_host %></span><span><%= r.n %></span></p><% }) %>
+    <% if (!aiReferrals.length) { %><p class="font-body-sm text-body-sm text-on-surface-variant">No AI-referred sessions yet. Leads from AI assistants are tagged source “ai” and get a small score boost.</p><% } %></section>
+  <section class="card p-5 xl:col-span-2"><h2 class="font-headline-sm text-headline-sm mb-3">Pages AI crawlers read most</h2>
+    <table class="w-full"><thead><tr><th class="admin-th">Path</th><th class="admin-th">Fetches</th><th class="admin-th">Bots</th></tr></thead><tbody>
+    <% topPaths.forEach(function(p){ %><tr><td class="admin-td text-body-sm"><a class="link font-normal" href="<%= p.path %>" target="_blank"><%= p.path %></a></td><td class="admin-td text-body-sm"><%= p.n %></td><td class="admin-td text-body-sm text-on-surface-variant"><%= p.bots %></td></tr><% }) %>
+    </tbody></table></section>
+  <% if (errors.length) { %><section class="card p-5 xl:col-span-2"><h2 class="font-headline-sm text-headline-sm mb-3 text-error">Crawler errors</h2>
+    <table class="w-full"><tbody><% errors.forEach(function(e){ %><tr><td class="admin-td text-body-sm"><%= e.path %></td><td class="admin-td text-body-sm"><%= e.bot %></td><td class="admin-td text-body-sm"><%= e.status %></td><td class="admin-td text-body-sm"><%= e.n %>×</td></tr><% }) %></tbody></table></section><% } %>
+</div>

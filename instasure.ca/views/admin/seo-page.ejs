@@ -1,0 +1,21 @@
+<a href="/admin/seo/pages" class="font-label-md text-label-md text-on-surface-variant hover:text-secondary">← Pages</a>
+<%- include('partials-head', { h: 'SEO override', sub: '<a class="link" target="_blank" href="' + path + '">' + path + '</a> — leave any field blank to keep the automatic value.' }) %>
+<form method="post" action="/admin/seo/page" class="grid grid-cols-1 xl:grid-cols-3 gap-4">
+  <input type="hidden" name="_csrf" value="<%= csrf %>"><input type="hidden" name="path" value="<%= path %>">
+  <section class="card p-5 flex flex-col gap-3 xl:col-span-2">
+    <label><span class="admin-label flex justify-between">Title tag <span data-count="title"></span></span><input class="admin-input" name="title" value="<%= row.title || '' %>" data-audit></label>
+    <label><span class="admin-label flex justify-between">Meta description <span data-count="description"></span></span><textarea class="admin-input" name="description" rows="2" data-audit><%= row.description || '' %></textarea></label>
+    <label><span class="admin-label">H1 (product &amp; geo pages)</span><input class="admin-input" name="h1" value="<%= row.h1 || '' %>"></label>
+    <label><span class="admin-label">Local intro copy (Markdown) — unique, expert content; 300+ characters makes a thin programmatic page indexable</span><textarea class="admin-input font-mono text-body-sm min-h-[220px]" name="intro_md"><%= row.intro_md || '' %></textarea></label>
+    <label><span class="admin-label">Extra FAQ — “Q: …” then “A: …”</span><textarea class="admin-input font-mono text-body-sm" name="faq" rows="6"><%= row.faqText %></textarea></label>
+  </section>
+  <section class="card p-5 flex flex-col gap-3 self-start">
+    <label><span class="admin-label">Robots</span><select class="admin-input" name="robots"><option value="">Automatic</option><% ['index,follow','noindex,follow','noindex,nofollow'].forEach(function(r){ %><option <%= row.robots === r ? 'selected' : '' %>><%= r %></option><% }) %></select></label>
+    <label><span class="admin-label">Canonical URL</span><input class="admin-input" name="canonical" value="<%= row.canonical || '' %>" placeholder="Self-canonical"></label>
+    <label><span class="admin-label">Social image (OG)</span><input class="admin-input" name="og_image" value="<%= row.og_image || '' %>" placeholder="/uploads/…"></label>
+    <label><span class="admin-label">Extra JSON-LD node(s)</span><textarea class="admin-input font-mono text-[12px]" name="schema_json" rows="6" placeholder='{"@type":"HowTo", …}'><%= row.schema_json || '' %></textarea></label>
+    <label class="flex items-center gap-2 font-label-md text-label-md"><input type="checkbox" name="ping" value="1" checked> Ping IndexNow after saving</label>
+    <button class="btn-primary !py-2">Save override</button>
+    <% if (row.updated_at) { %><button class="font-label-md text-label-md text-error hover:underline" name="remove" value="1">Remove override</button><% } %>
+  </section>
+</form>
